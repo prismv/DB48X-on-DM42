@@ -22,7 +22,7 @@
 QT += core gui quick widgets quickcontrols2 quickwidgets
 TEMPLATE = app
 
-CONFIG += debug
+CONFIG += debug c++20
 
 # Qt support code
 SOURCES +=                                      \
@@ -104,6 +104,7 @@ debug:DEFINES += DEBUG
 # For DMCP headers
 DEFINES += __packed=
 macx:DEFINES += _WCHAR_T_DEFINED
+clang:DEFINES += _WCHAR_T_DEFINED
 
 # COnfigure Intel Decimal Floating Point Library
 DEFINES += 	DECIMAL_CALL_BY_REFERENCE                       \
@@ -124,5 +125,6 @@ freebsd: LIBS += -lthr -liconv
 macx:    LIBS += -framework CoreFoundation -framework IOKit
 macx:    QMAKE_CFLAGS += -fsanitize=address
 macx:    LIBS += -fsanitize=address
+linux:   LIBS += -no-pie
 clang:   QMAKE_CFLAGS   += -Wno-unknown-pragmas
-clang:   QMAKE_CXXFLAGS += -Wno-unknown-pragmas
+clang:   QMAKE_CXXFLAGS += -Wno-unknown-pragmas -std=c++20

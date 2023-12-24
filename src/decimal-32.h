@@ -168,10 +168,10 @@ struct decimal32 : algebraic
         return result;
     }
 
-    large as_integer() const
+    int64_t as_integer() const
     {
         bid32 fval = value();
-        large result;
+        int64_t result;
         bid32_to_int64_int(&result, &fval.value);
         return result;
     }
@@ -186,7 +186,7 @@ struct decimal32 : algebraic
     //   Class type for bid32 numbers
     // ------------------------------------------------------------------------
     //   This should really be exported in the header, since it's the result of
-    //   the bid32_class function. Lifted from Inte's source code
+    //   the bid32_class function. Lifted from Intel's source code
     {
         signalingNaN,
         quietNaN,

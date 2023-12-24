@@ -85,7 +85,7 @@ install-config:
 sim: sim/$(TARGET).mak
 	cd sim; make -f $(<F)
 sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)
-	cd sim; qmake $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT))
+	cd sim; qmake6 $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT))
 
 sim:	sim/gcc111libbid.a	\
 	recorder/config.h	\

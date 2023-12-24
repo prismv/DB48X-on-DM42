@@ -60,14 +60,14 @@ typedef unsigned BID_UINT32;
 typedef signed BID_SINT32;
 
 #ifdef __GNUC__
-#define bid__int64 long long
+#define bid__int64 int64_t
 #else
 #define bid__int64 __int64
 #endif
 
 #if defined __GNUC__ || defined LINUX || defined SUNOS
-typedef unsigned long long BID_UINT64;
-typedef signed long long BID_SINT64;
+typedef uint64_t BID_UINT64;
+typedef int64_t BID_SINT64;
 #else
 typedef unsigned bid__int64 BID_UINT64;
 typedef signed bid__int64 BID_SINT64;

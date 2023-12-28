@@ -224,7 +224,7 @@ struct setting : command
     setting(id i) : command(i) {}
     static result update(id ty)
     {
-        rt.command(fancy(ty));
+        rt.command(static_object(ty));
         ui.menu_refresh();
         return OK;
     }
@@ -249,7 +249,7 @@ struct setting : command
                 }
             }
         }
-        rt.command(fancy(type));
+        rt.command(static_object(type));
         return false;
     }
 
@@ -311,8 +311,9 @@ struct Name : setting                                                   \
     OBJECT_DECL(Name);                                                  \
     EVAL_DECL(Name)                                                     \
     {                                                                   \
-        auto value = Settings.Name();                                   \
-        if (!validate(ID_##Name, value, Low, High))                     \
+        using type = typeof(Settings.Name());                           \
+        type value = Settings.Name();                                   \
+        if (!validate(ID_##Name, value, type(Low), type(High)))         \
             return ERROR;                                               \
         Settings.Name(value);                                           \
         update(ID_##Name);                                              \

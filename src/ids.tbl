@@ -90,7 +90,7 @@
 //
 // ============================================================================
 
-ID_RANGE(is_type,          directory,      decimal128)
+ID_RANGE(is_type,          directory,      bitmap)
 #if CONFIG_FIXED_BASED_OBJECTS
 ID_RANGE(is_integer,       hex_integer,    neg_integer)
 ID_RANGE(is_based,         hex_integer,    based_integer, hex_bignum, based_bignum)
@@ -101,10 +101,15 @@ ID_RANGE(is_based,         based_integer,  based_integer, based_bignum, based_bi
 ID_RANGE(is_bignum,        based_bignum,   neg_bignum)
 #endif // CONFIG_FIXED_BASED_OBJECTS
 ID_RANGE(is_fraction,      fraction,       neg_big_fraction)
+#ifndef CONFIG_NO_DECIMAL128
 ID_RANGE(is_decimal,       decimal32,      decimal128)
 ID_RANGE(is_real,          bignum,         decimal128)
+#else
+ID_RANGE(is_decimal,       object,         object)
+ID_RANGE(is_real,          bignum,         neg_big_fraction)
+#endif // CONFIG_NO_DECIMAL128
 ID_RANGE(is_complex,       rectangular,    polar)
-ID_RANGE(is_command,       Drop,           Unimplemented)
+ID_RANGE(is_command,       Drop,           ToFraction,    ToList, Unimplemented)
 ID_RANGE(is_symbolic,      expression,     symbol,        pi, ImaginaryUnit)
 ID_RANGE(is_algebraic_fn,  add,            ToFraction,    asinh, det)
 ID_RANGE(is_immediate,     MainMenu,       SelfInsert)
@@ -168,9 +173,15 @@ ID(neg_fraction)
 ID(big_fraction)
 ID(neg_big_fraction)
 
+#ifndef CONFIG_NO_DECIMAL32
 ID(decimal32)
+#endif // CONFIG_NO_DECIMAL32
+#ifndef CONFIG_NO_DECIMAL64
 ID(decimal64)
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL128
 ID(decimal128)
+#endif // CONFIG_NO_DECIMAL128
 
 ID(comment)
 ID(grob)
@@ -218,8 +229,8 @@ NAMED(neg, "Negate")
 CMD(abs)
 ALIAS(abs, "norm")
 NAMED(inv, "x⁻¹")
-NAMED(sqrt, "√")
-NAMED(sq,  "x²")
+NAMED(sqrt, "√")                ALIAS(sqrt, "SquareRoot")
+NAMED(sq,  "x²")                ALIAS(sq,   "Square")
 NAMED(cubed, "x³")
 
 // Logical
@@ -236,7 +247,7 @@ OP(Excludes,    "excludes")
 OP(Not,         "not")
 
 // Tests
-CMD(same)                       // HP48 distinguises == and same
+CMD(same)                       // HP48 distinguishes == and same
 OP(TestSame, "==")           // Must be before =
 OP(TestLT,   "<")
 OP(TestEQ,   "=")
@@ -346,10 +357,9 @@ NAMED(lgamma, "LogGamma")
 OP(fact, "!")
 ALIAS(fact, "factorial")
 
-NAMED(cbrt, "∛")
-OP(pow, "↑")
-ALIAS(pow, "^")
-OP(hypot, "⊿")
+NAMED(cbrt, "∛")        ALIAS(cbrt, "CubeRoot")
+OP(pow, "↑")            ALIAS(pow, "Power")     ALIAS(pow, "^")
+OP(hypot, "⊿")          ALIAS(hypot, "Hypothenuse")
 OP(atan2, "∠")
 CMD(xroot)
 
@@ -432,7 +442,7 @@ CMD(PurgeAll)
 NAMED(Mem, "AvailableMemory")
 CMD(FreeMemory)
 CMD(SystemMemory)
-CMD(GarbageCollect)
+CMD(GarbageCollect)             ALIAS(GarbageCollect, "GC")
 
 // Object commands
 NAMED(Compile, "Text→")         ALIAS(Compile, "Str→")
@@ -525,6 +535,26 @@ CMD(Reduce)                             ALIAS(Reduce, "Stream")
 CMD(Filter)
 OP(Sum, "Σ")
 OP(Product, "∏")
+NAMED(GetI, "GetIteration")
+NAMED(PutI, "PutIteration")
+
+// Bitwise operations
+NAMED(RL, "RotateLeft")
+NAMED(RR, "RotateRight")
+NAMED(RLB, "RotateLeftByte")
+NAMED(RRB, "RotateRightByte")
+NAMED(SL, "ShiftLeft")
+NAMED(SR, "ShiftRight")
+NAMED(SLB, "ShiftLeftByte")
+NAMED(SRB, "ShiftRightByte")
+NAMED(ASR, "ArithmeticShiftRight")
+NAMED(ASRB, "ArithmeticShiftRightByte")
+
+NAMED(RLC, "RotateLeftCount")
+NAMED(RRC, "RotateRightCount")
+NAMED(SLC, "ShiftLeftCount")
+NAMED(SRC, "ShiftRightCount")
+NAMED(ASRC, "ArithmeticShiftRightCount")
 
 // Characters
 NAMED(CharToUnicode, "Char→Code")       ALIAS(CharToUnicode, "Codepoint")
@@ -618,6 +648,7 @@ FLAG(NumericalConstants,        SymbolicConstants)
 FLAG(NumericalResults,          SymbolicResults)
 FLAG(CarefulEvaluation,         LazyEvaluation)
 FLAG(NoAutoSimplify,            AutoSimplify)
+FLAG(ComplexResults,            RealResults)
 FLAG(ClassicExponent,           FancyExponent)
 FLAG(MixedFractions,            ImproperFractions)
 FLAG(BigFractions,              SmallFractions)
@@ -644,6 +675,11 @@ FLAG(NoPlotAxes,                DrawPlotAxes)
 FLAG(NoCurveFilling,            CurveFilling)
 FLAG(CompatibleGROBs,           PackedBitmaps)
 FLAG(ZeroPowerZeroIsUndefined,  ZeroPowerZeroIsOne)
+FLAG(OnesComplement,            TwosComplement)
+FLAG(DetailedTypes,             CompatibleTypes)
+FLAG(IndexWrapped,              IndexDidNotWrap)
+FLAG(SingleLineResult,          MultiLineResult)
+FLAG(MultiLineStack,            SingleLineStack)
 
 SETTING_ENUM(Std, "StandardDisplay",    DisplayMode)
 SETTING_ENUM(Fix, "FixedDisplay",       DisplayMode)
@@ -651,10 +687,10 @@ SETTING_ENUM(Sci, "ScientificDisplay",  DisplayMode)
 SETTING_ENUM(Eng, "EngineeringDisplay", DisplayMode)
 SETTING_ENUM(Sig, "SignificantDisplay", DisplayMode)
 SETTING_BITS(DisplayMode,       3,      ID_Std, ID_Sig,         ID_Std)
-SETTING_BITS(DisplayDigits,     6,      0U, DB48X_MAXDIGITS,    12U)
-SETTING_BITS(StandardExponent,  6,      0U, DB48X_MAXDIGITS,    9U)
-SETTING_BITS(Precision,         6,      0U, DB48X_MAXDIGITS,    DB48X_MAXDIGITS)
-SETTING_BITS(MinimumSignificantDigits,6,-1, int(DB48X_MAXDIGITS),int(0))
+SETTING(DisplayDigits,                  0, DB48X_MAXDIGITS,     (uint16_t)  12)
+SETTING(StandardExponent,               0, DB48X_MAXDIGITS,     (uint16_t)   9)
+SETTING(Precision,                      3, DB48X_MAXDIGITS,     (uint16_t)  24)
+SETTING(MinimumSignificantDigits,      -1, DB48X_MAXDIGITS,      (int16_t)   0)
 SETTING_BITS(MantissaSpacing,   4,      0, 15,                  3)
 SETTING_BITS(FractionSpacing,   4,      0, 15,                  5)
 SETTING_BITS(BasedSpacing,      4,      0, 15,                  4)
@@ -662,26 +698,26 @@ SETTING_BITS(BasedSpacing,      4,      0, 15,                  4)
 SETTING_ENUM(Deg, "Degrees",            AngleMode)
 SETTING_ENUM(Rad, "Radians",            AngleMode)
 SETTING_ENUM(Grad, "Grads",             AngleMode)
-SETTING_ENUM(PiRadians, nullptr,        AngleMode)
+SETTING_ENUM(PiRadians, "πradians",     AngleMode)
 SETTING_BITS(AngleMode, 2,      ID_Deg, ID_PiRadians,   ID_Deg)
 
-SETTING_ENUM(LowerCase,   nullptr,      CommandDisplayMode)
-SETTING_ENUM(UpperCase,   nullptr,      CommandDisplayMode)
-SETTING_ENUM(Capitalized, nullptr,      CommandDisplayMode)
-SETTING_ENUM(LongForm,    nullptr,      CommandDisplayMode)
+SETTING_ENUM(LowerCase,   "LowerCaseCommands",          CommandDisplayMode)
+SETTING_ENUM(UpperCase,   "UpperCaseCommands",          CommandDisplayMode)
+SETTING_ENUM(Capitalized, "CapitalizedCommands",        CommandDisplayMode)
+SETTING_ENUM(LongForm,    "LongFormCommands",           CommandDisplayMode)
 SETTING_BITS(CommandDisplayMode,2,  ID_LowerCase, ID_LongForm, ID_LongForm)
 
-SETTING_ENUM(LowerCaseNames,   nullptr,      NameDisplayMode)
-SETTING_ENUM(UpperCaseNames,   nullptr,      NameDisplayMode)
-SETTING_ENUM(CapitalizedNames, nullptr,      NameDisplayMode)
-SETTING_ENUM(LongFormNames,    nullptr,      NameDisplayMode)
+SETTING_ENUM(LowerCaseNames,   "LowerCaseSymbols",      NameDisplayMode)
+SETTING_ENUM(UpperCaseNames,   "UpperCaseSymbols",      NameDisplayMode)
+SETTING_ENUM(CapitalizedNames, "CapitalizedSymbols",    NameDisplayMode)
+SETTING_ENUM(LongFormNames,    "LongFormSymbols",       NameDisplayMode)
 SETTING_BITS(NameDisplayMode,2,  ID_LowerCaseNames, ID_LongFormNames, ID_LongFormNames)
 
 SETTING_VALUE(Bin, "Binary",            Base, 2)
 SETTING_VALUE(Oct, "Octal",             Base, 8)
 SETTING_VALUE(Dec, "Decimal",           Base, 10)
 SETTING_VALUE(Hex, "Hexadecimal",       Base, 16)
-SETTING_BITS(Base,              6,      1, 37,                  16)
+SETTING_BITS(Base,              6,      2, 37,                  16)
 
 SETTING_BITS(ResultFont,        4,      settings::FIRST_FONT, settings::LAST_FONT,     settings::STACK)
 SETTING_BITS(StackFont,         4,      settings::FIRST_FONT, settings::LAST_FONT,     settings::STACK)
@@ -702,15 +738,15 @@ SETTING_BITS(BasedSeparatorCommand,  2, ID_BasedSpaces,  ID_BasedUnderscore,  ID
 SETTING(WordSize,               1U, 256U * 1024U,       512U)
 ALIAS(WordSize,                 "stws")
 OP(RecallWordSize,              "rcws")
-SETTING(MaxBigNumBits,          1U, 256U * 1024U,       512U)
+SETTING(MaxNumberBits,          1U, 256U * 1024U,       512U)
 SETTING(MaxFlags,               8U, 32768U,             128U)
 SETTING(MaxRewrites,            1U, 10000U,             100U)
 SETTING(FractionIterations,     1U, 10000U,             10U)
 ALIAS(FractionIterations,       "→QIterations")
 SETTING_BITS(FractionDigits,  6,1U, DB48X_MAXDIGITS, 12U)
 ALIAS(FractionDigits,           "→QDigits")
-SETTING(SolverIterations,       1U, 10000U,             10U)
-SETTING_BITS(SolverPrecision, 6,0U, DB48X_MAXDIGITS,    DB48X_MAXDIGITS)
+SETTING(SolverIterations,       1U, 10000U,             256U)
+SETTING_BITS(SolverPrecision, 6,1U, DB48X_MAXDIGITS-2,  24U)
 SETTING(IntegrateIterations,    1U, 10000U,             10U)
 SETTING_BITS(IntegratePrecision, 6,0U, DB48X_MAXDIGITS, DB48X_MAXDIGITS)
 

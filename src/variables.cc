@@ -175,13 +175,13 @@ bool directory::store(object_g name, object_g value)
     {
     case ID_local:
         // Deal with local variables
-        return rt.local(local_p(name.Safe())->index(), value);
+        return rt.local(local_p(+name)->index(), value);
 
     case ID_text:
     {
         // Deal with storing to file
         files_g disk = files::make("data");
-        return disk->store(text_p(name.Safe()), value);
+        return disk->store(text_p(+name), value);
     }
 
     default:
@@ -237,7 +237,7 @@ bool directory::store(object_g name, object_g value)
             return false;               // Out of memory
 
         // Move memory from directory up
-        object_p start = object_p(body.Safe());
+        object_p start = object_p(+body);
         if (Settings.StoreAtEnd())
             start += dirsize;
         rt.move_globals(start + requested, start);
@@ -289,7 +289,7 @@ void directory::adjust_sizes(directory_r thisdir, int delta)
     while (directory_g dir = rt.variables(depth++))
     {
         // Start modifying only if we find this directory in path
-        if (dir.Safe() == thisdir.Safe())
+        if (+dir== thisdir.Safe())
             found = true;
         if (found)
         {
@@ -1175,6 +1175,41 @@ static byte *init_flags()
 }
 
 
+struct flag_conversion
+// ----------------------------------------------------------------------------
+//   Conversion between HP system flags and DB48X settings
+// ----------------------------------------------------------------------------
+// These are documented in section C-1 of the HP50G advanced reference manual
+{
+    int         index;
+    object::id  setting;
+};
+
+
+static flag_conversion flag_conversions[] =
+// ----------------------------------------------------------------------------
+//   Conversion between HP and DB48X values
+// ----------------------------------------------------------------------------
+{
+    {   -1,     object::ID_PrincipalSolution    },
+    {   -2,     object::ID_NumericalConstants   },
+    {   -3,     object::ID_NumericalResults     },
+    {   -4,     object::ID_CarefulEvaluation    },
+    {  -29,     object::ID_NoPlotAxes           },
+    {  -31,     object::ID_NoCurveFilling       },
+    {  -40,     object::ID_ShowTime             },
+    {  -41,     object::ID_Time24H              },
+    {  -42,     object::ID_DayBeforeMonth       },
+    {  -51,     object::ID_DecimalComma         },
+    {  -52,     object::ID_MultiLineResult      },
+    {  -55,     object::ID_NoLastArguments      },
+    {  -56,     object::ID_BeepOff              },
+    {  -64,     object::ID_IndexWrapped         },
+    {  -65,     object::ID_MultiLineStack       },
+    { -103,     object::ID_ComplexResults       },
+};
+
+
 static object::result do_flag(bool read, bool test, bool write, bool set)
 // ----------------------------------------------------------------------------
 //   RPL command for changing flag
@@ -1194,10 +1229,30 @@ static object::result do_flag(bool read, bool test, bool write, bool set)
             arg = quoted;
             aty = arg->type();
         }
+        if (int32_t index = arg->as_int32(0, false))
+        {
+            if (index < 0)
+            {
+                if (index < -128)
+                {
+                    rt.domain_error();
+                    return object::ERROR;
+                }
+                uint max = sizeof(flag_conversions) / sizeof(*flag_conversions);
+                for (uint i = 0; i < max; i++)
+                {
+                    if (flag_conversions[i].index == index)
+                    {
+                        aty = flag_conversions[i].setting;
+                        break;
+                    }
+                }
+            }
+        }
 
         if (read && Settings.flag(aty, &value))
             builtin = true;
-        if (write && Settings.flag(arg->type(), set))
+        if (write && Settings.flag(aty, set))
             builtin = true;
         if (builtin)
         {
@@ -1219,10 +1274,10 @@ static object::result do_flag(bool read, bool test, bool write, bool set)
         if (rt.error())
             return object::ERROR;
 
-        // System flags are not implemented yet (need mapping)
+        // System flags that were not recognized
         if (index < 0)
         {
-            rt.unimplemented_error();
+            rt.unsupported_flag_error();
             return object::ERROR;
         }
 

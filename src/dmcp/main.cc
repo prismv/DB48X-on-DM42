@@ -219,6 +219,7 @@ void program_init()
     byte *memory = (byte *) malloc(size);
     rt.memory(memory, size);
 
+#ifndef CONFIG_NO_DECIMAL128
     // The following is just to link the same set of functions as DM42
     if (memory == (byte *) program_init)
     {
@@ -246,6 +247,7 @@ void program_init()
         num_acos(&res, &res);
         num_atan(&res, &res);
     }
+#endif // CONFIG_NO_DECIMAL128
 
     // Check if we have a state file to load
     load_system_state();
@@ -287,7 +289,8 @@ bool power_check(bool draw_off_image)
                                 "Press the ON/EXIT key to resume");
             if (lowbat)
             {
-                rt.command("Low Battery");
+                symbol_p cmd = symbol::make("Low power");
+                rt.command(cmd);
                 rt.error("Connect to USB / change battery");
                 ui.draw_error();
                 refresh_dirty();

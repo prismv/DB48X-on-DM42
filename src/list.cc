@@ -216,7 +216,7 @@ object::result list::list_parse(id type,
                         rt.prefix_expected_error().source(s, length);
                         return ERROR;
                     }
-                    non_alg = s.Safe() - p.source.Safe();
+                    non_alg = +s- +p.source;
                     non_alg_len = length;
                 }
 
@@ -305,9 +305,9 @@ object::result list::list_parse(id type,
     if (infix || prefix)
     {
         if (infix)
-            rt.command(infix->fancy());
+            rt.command(infix);
         else if (prefix)
-            rt.command(prefix->fancy());
+            rt.command(prefix);
         rt.argument_expected_error();
         return ERROR;
     }
@@ -323,7 +323,7 @@ object::result list::list_parse(id type,
     {
         record(list_error, "Missing terminator, got %u (%c) not %u (%c) at %s",
                cp, cp, close, close, utf8(s));
-        rt.unterminated_error().source(p.source, s.Safe() - p.source.Safe());
+        rt.unterminated_error().source(p.source, +s - +p.source);
         return ERROR;
     }
 
@@ -427,7 +427,7 @@ list_p list::append(list_p a) const
 {
     text_g x = text_p(this);
     text_g y = text_p(a);
-    return list_p((x + y).Safe());
+    return list_p(+(x + y));
 }
 
 
@@ -438,7 +438,7 @@ list_p list::append(object_p o) const
 {
     text_g x = text_p(this);
     text_g y = text::make(byte_p(o), o->size());
-    return list_p((x + y).Safe());
+    return list_p(+(x + y));
 }
 
 
@@ -599,7 +599,7 @@ COMMAND_BODY(Size)
                 {
                     integer_g wo = rt.make<based_integer>(w);
                     integer_g ho = rt.make<based_integer>(h);
-                    if (wo && ho && rt.top(wo.Safe()) && rt.push(ho.Safe()))
+                    if (wo && ho && rt.top(+wo) && rt.push(+ho))
                         return OK;
                 }
             }
@@ -616,13 +616,13 @@ COMMAND_BODY(Size)
 }
 
 
-COMMAND_BODY(Get)
+static object::result get(bool increment)
 // ----------------------------------------------------------------------------
-//   Get an element in a list
+//   Get element from structure, incrementing index or not
 // ----------------------------------------------------------------------------
 {
     if (!rt.args(2))
-        return ERROR;
+        return object::ERROR;
 
     // Check we have an object at level 2
     if (object_p items = rt.stack(1))
@@ -633,27 +633,61 @@ COMMAND_BODY(Get)
             if (!items)
             {
                 rt.undefined_name_error();
-                return ERROR;
+                return object::ERROR;
             }
         }
 
         object_p item = items->at(rt.stack(0));
         if (!item)
+        {
             rt.index_error();
+        }
+        else if (increment)
+        {
+            rt.push(item);
+            object_g index = rt.stack(1);
+            bool wrap = items->next_index(&+index);
+            if (index)
+            {
+                rt.stack(1, index);
+                Settings.IndexWrapped(wrap);
+                return object::OK;
+            }
+        }
         else if (rt.pop() && rt.top(item))
-            return OK;
+        {
+            return object::OK;
+        }
     }
-    return ERROR;
+    return object::ERROR;
 }
 
 
-COMMAND_BODY(Put)
+COMMAND_BODY(Get)
 // ----------------------------------------------------------------------------
-//   Put an element in a list
+//   Get an element in a list
+// ----------------------------------------------------------------------------
+{
+    return get(false);
+}
+
+
+COMMAND_BODY(GetI)
+// ----------------------------------------------------------------------------
+//   Get an element in a list and increment the index
+// ----------------------------------------------------------------------------
+{
+    return get(true);
+}
+
+
+static object::result put(bool increment)
+// ----------------------------------------------------------------------------
+//   Put element in structure, incrementing index or not
 // ----------------------------------------------------------------------------
 {
     if (!rt.args(3))
-        return ERROR;
+        return object::ERROR;
 
     // Check that we have an object at level 2
     if (object_p items = rt.stack(2))
@@ -665,32 +699,61 @@ COMMAND_BODY(Put)
             if (!items)
             {
                 rt.undefined_name_error();
-                return ERROR;
+                return object::ERROR;
             }
         }
 
-        if (object_p result = items->at(rt.stack(1), rt.stack(0)))
+        if (object_g result = items->at(rt.stack(1), rt.top()))
         {
+            if (increment)
+            {
+                object_g index = rt.stack(1);
+                bool wrap = result->next_index(&+index);
+                if (index)
+                {
+                    rt.stack(1, +index);
+                    Settings.IndexWrapped(wrap);
+                }
+            }
             if (name)
             {
                 name = rt.stack(2)->as_quoted<symbol>();
                 if (directory::update(name, result))
                 {
-                    rt.drop(3);
-                    return OK;
+                    rt.drop(increment ? 1 : 3);
+                    return object::OK;
                 }
             }
             else
             {
-                if (rt.drop(2) && rt.top(result))
-                    return OK;
+                if (rt.drop(increment ? 1 : 2))
+                    if (rt.stack(increment ? 1 : 0, result))
+                        return object::OK;
             }
         }
 
         if(!rt.error())
             rt.index_error();
     }
-    return ERROR;
+    return object::ERROR;
+}
+
+
+COMMAND_BODY(Put)
+// ----------------------------------------------------------------------------
+//   Put an element in a list
+// ----------------------------------------------------------------------------
+{
+    return put(false);
+}
+
+
+COMMAND_BODY(PutI)
+// ----------------------------------------------------------------------------
+//   Put an element in a list, incrementing the index
+// ----------------------------------------------------------------------------
+{
+    return put(true);
 }
 
 
@@ -880,7 +943,7 @@ static object::result pair_map(object::id cmd)
             else if (init->is_integer() && last->is_integer())
             {
                 bool      prod = cmd == object::ID_Product;
-                program_g prg  = program_p(expr.Safe());
+                program_g prg  = program_p(+expr);
                 large     a    = init->as_int64();
                 large     b    = last->as_int64();
                 expr           = sum_product(name, a, b, prg, prod);
@@ -965,7 +1028,7 @@ list_p list::map(object_p prgobj) const
         if (oty == ID_array || oty == ID_list)
         {
             list_g sub = list_p(obj)->map(prg);
-            obj = sub.Safe();
+            obj = +sub;
         }
         else
         {
@@ -1052,8 +1115,8 @@ list_p list::filter(object_p prgobj) const
         bool keep = false;
         if (oty == ID_array || oty == ID_list)
         {
-            object_g sub = list_p(obj.Safe())->filter(prg);
-            obj = sub.Safe();
+            object_g sub = list_p(+obj)->filter(prg);
+            obj = +sub;
             keep = true;
         }
         else
@@ -1106,7 +1169,7 @@ list_p list::map(algebraic_fn fn) const
         if (oty == ID_array || oty == ID_list)
         {
             list_g sub = list_p(obj)->map(fn);
-            obj = sub.Safe();
+            obj = +sub;
         }
         else
         {
@@ -1120,7 +1183,7 @@ list_p list::map(algebraic_fn fn) const
             a = fn(a);
             if (!a)
                 return nullptr;
-            obj = a.Safe();
+            obj = +a;
         }
 
         if (!obj)
@@ -1148,7 +1211,7 @@ list_p list::map(arithmetic_fn fn, algebraic_r y) const
         if (oty == ID_array || oty == ID_list)
         {
             list_g sub = list_p(obj)->map(fn, y);
-            obj = sub.Safe();
+            obj = +sub;
         }
         else
         {
@@ -1162,7 +1225,7 @@ list_p list::map(arithmetic_fn fn, algebraic_r y) const
             a = fn(a, y);
             if (!a)
                 return nullptr;
-            obj = a.Safe();
+            obj = +a;
         }
 
         if (!obj)
@@ -1190,7 +1253,7 @@ list_p list::map(algebraic_r x, arithmetic_fn fn) const
         if (oty == ID_array || oty == ID_list)
         {
             list_g sub = list_p(obj)->map(x, fn);
-            obj = sub.Safe();
+            obj = +sub;
             if (!obj)
                 return nullptr;
         }
@@ -1206,7 +1269,7 @@ list_p list::map(algebraic_r x, arithmetic_fn fn) const
             a = fn(x, a);
             if (!a)
                 return nullptr;
-            obj = a.Safe();
+            obj = +a;
         }
 
         size_t objsz = obj->size();
@@ -1317,7 +1380,7 @@ static object::result do_sort(int (*compare)(object_p *x, object_p *y))
                 }
                 rt.drop(count);
                 items = list::make(oty, scr.scratch(), scr.growth());
-                if (items && rt.top(items.Safe()))
+                if (items && rt.top(+items))
                     return object::OK;
 
             err:

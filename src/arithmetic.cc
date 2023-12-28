@@ -58,7 +58,7 @@ bool arithmetic::real_promotion(algebraic_g &x, algebraic_g &y)
 //   Promote x or y to the largest of both types
 // ----------------------------------------------------------------------------
 {
-    if (!x.Safe() || !y.Safe())
+    if (!x|| !y)
         return false;
 
     id xt = x->type();
@@ -70,10 +70,20 @@ bool arithmetic::real_promotion(algebraic_g &x, algebraic_g &y)
     if (!is_real(xt) || !is_real(yt))
         return false;
 
-    uint16_t prec  = Settings.Precision();
-    id       minty = prec > BID64_MAXDIGITS ? ID_decimal128
-                   : prec > BID32_MAXDIGITS ? ID_decimal64
-                                            : ID_decimal32;
+    uint16_t prec  = Settings.Precision(); (void) prec;
+    id       minty = ID_object;
+#ifndef CONFIG_NO_DECIMAL128
+    if (prec <= BID128_MAXDIGITS)
+        minty = ID_decimal128;
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
+    if (prec <= BID64_MAXDIGITS)
+        minty = ID_decimal64;
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
+    if (prec <= BID32_MAXDIGITS)
+        minty = ID_decimal32;
+#endif // CONFIG_NO_DECIMAL32
     if (is_decimal(xt) && xt > minty)
         minty = xt;
     if (is_decimal(yt) && yt > minty)
@@ -89,7 +99,7 @@ bool arithmetic::complex_promotion(algebraic_g &x, algebraic_g &y)
 //   Return true if one type is complex and the other can be promoted
 // ----------------------------------------------------------------------------
 {
-    if (!x.Safe() || !y.Safe())
+    if (!x || !y)
         return false;
 
     id xt = x->type();
@@ -186,12 +196,12 @@ algebraic_p arithmetic::non_numeric<add>(algebraic_r x, algebraic_r y)
     {
         if (list_g yl = y->as<list>())
             return xl + yl;
-        if (list_g yl = rt.make<list>(byte_p(y.Safe()), y->size()))
+        if (list_g yl = rt.make<list>(byte_p(+y), y->size()))
             return xl + yl;
     }
     else if (list_g yl = y->as<list>())
     {
-        if (list_g xl = rt.make<list>(byte_p(x.Safe()), x->size()))
+        if (list_g xl = rt.make<list>(byte_p(+x), x->size()))
             return xl + yl;
     }
 
@@ -708,7 +718,7 @@ inline bool div::bignum_ok(bignum_g &x, bignum_g &y)
         result = bignum_p(r) != nullptr;
     if (result)
     {
-        if (r->is_zero())
+        if (is_based(type) || r->is_zero())
             x = q;                  // Integer result
         else
             x = bignum_p(fraction_p(big_fraction::make(x, y))); // Wrong-cast
@@ -879,7 +889,7 @@ algebraic_p arithmetic::non_numeric<struct pow>(algebraic_r x, algebraic_r y)
 //   Deal with non-numerical data types for multiplication
 // ----------------------------------------------------------------------------
 {
-    if (!x.Safe() || !y.Safe())
+    if (!x || !y)
         return nullptr;
 
     // Deal with the case of units
@@ -925,7 +935,7 @@ algebraic_p arithmetic::non_numeric<struct pow>(algebraic_r x, algebraic_r y)
             return expression::make(ID_pow, x, y);
 
         // Deal with X^N where N is a positive integer
-        ularge yv = integer_p(y.Safe())->value<ularge>();
+        ularge yv = integer_p(+y)->value<ularge>();
         algebraic_g r = integer::make(1);
         algebraic_g xx = x;
         while (yv)
@@ -1123,7 +1133,7 @@ algebraic_p arithmetic::non_numeric<struct atan2>(algebraic_r y, algebraic_r x)
         }
         algebraic_g s = x + y;
         algebraic_g d = x - y;
-        if (!s.Safe() || !d.Safe())
+        if (!s || !d)
             return nullptr;
         bool posdiag = d->is_zero(false);
         bool negdiag = s->is_zero(false);
@@ -1163,7 +1173,7 @@ algebraic_p arithmetic::evaluate(id          op,
 //   Shared code for all forms of evaluation, does not use the RPL stack
 // ----------------------------------------------------------------------------
 {
-    if (!xr.Safe() || !yr.Safe())
+    if (!xr || !yr)
         return nullptr;
 
     algebraic_g x = xr;
@@ -1188,12 +1198,12 @@ algebraic_p arithmetic::evaluate(id          op,
 
         if (xt == ID_tag)
         {
-            x = algebraic_p(tag_p(x.Safe())->tagged_object());
+            x = algebraic_p(tag_p(+x)->tagged_object());
             xt = x->type();
         }
         else if (yt == ID_tag)
         {
-            y = algebraic_p(tag_p(y.Safe())->tagged_object());
+            y = algebraic_p(tag_p(+y)->tagged_object());
             yt = y->type();
         }
         else
@@ -1202,20 +1212,32 @@ algebraic_p arithmetic::evaluate(id          op,
         }
     }
 
-    // Integer types%
+    // Integer types
     if (is_integer(xt) && is_integer(yt))
     {
+        bool based = is_based(xt) || is_based(yt);
+        if (based)
+        {
+            xt = algebraic::based_promotion(x);
+            yt = algebraic::based_promotion(y);
+        }
+
         if (!is_bignum(xt) && !is_bignum(yt))
         {
             // Perform conversion of integer values to the same base
-            integer_p xi = integer_p(object_p(x.Safe()));
-            integer_p yi = integer_p(object_p(y.Safe()));
-            if (xi->native() && yi->native())
+            integer_p xi = integer_p(object_p(+x));
+            integer_p yi = integer_p(object_p(+y));
+            uint      ws = Settings.WordSize();
+            if (xi->native() && yi->native() && (ws < 64 || !based))
             {
                 ularge xv = xi->value<ularge>();
                 ularge yv = yi->value<ularge>();
                 if (ops.integer_ok(xt, yt, xv, yv))
+                {
+                    if (based)
+                        xv &= (1UL << ws) - 1UL;
                     return rt.make<integer>(xt, xv);
+                }
             }
         }
 
@@ -1225,11 +1247,11 @@ algebraic_p arithmetic::evaluate(id          op,
             yt = bignum_promotion(y);
 
         // Proceed with big integers if native did not fit
-        bignum_g xg = bignum_p(x.Safe());
-        bignum_g yg = bignum_p(y.Safe());
+        bignum_g xg = bignum_p(+x);
+        bignum_g yg = bignum_p(+y);
         if (ops.bignum_ok(xg, yg))
         {
-            x = xg.Safe();
+            x = +xg;
             if (Settings.NumericalResults())
                 (void) to_decimal(x, true);
             return x;
@@ -1247,7 +1269,7 @@ algebraic_p arithmetic::evaluate(id          op,
                 if (ops.fraction_ok(xf, yf))
                 {
                     x = algebraic_p(fraction_p(xf));
-                    if (x.Safe())
+                    if (x)
                     {
                         bignum_g d = xf->denominator();
                         if (d->is(1))
@@ -1268,38 +1290,67 @@ algebraic_p arithmetic::evaluate(id          op,
         xt = x->type();
         switch(xt)
         {
+#ifndef CONFIG_NO_DECIMAL32
         case ID_decimal32:
         {
             bid32 xv = x->as<decimal32>()->value();
             bid32 yv = y->as<decimal32>()->value();
             bid32 res;
             ops.op32(&res.value, &xv.value, &yv.value);
+            int finite = false;
+            bid32_isFinite(&finite, &res.value);
+            if (!finite)
+            {
+                rt.domain_error();
+                return nullptr;
+            }
             x = rt.make<decimal32>(ID_decimal32, res);
             break;
         }
+#endif // CONFIG_NO_DECIMAL32
+#ifndef CONFIG_NO_DECIMAL64
         case ID_decimal64:
         {
             bid64 xv = x->as<decimal64>()->value();
             bid64 yv = y->as<decimal64>()->value();
             bid64 res;
             ops.op64(&res.value, &xv.value, &yv.value);
+            int finite = false;
+            bid64_isFinite(&finite, &res.value);
+            if (!finite)
+            {
+                rt.domain_error();
+                return nullptr;
+            }
             x = rt.make<decimal64>(ID_decimal64, res);
             break;
         }
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL128
         case ID_decimal128:
         {
             bid128 xv = x->as<decimal128>()->value();
             bid128 yv = y->as<decimal128>()->value();
             bid128 res;
             ops.op128(&res.value, &xv.value, &yv.value);
+            int finite = false;
+            bid128_isFinite(&finite, &res.value);
+            if (!finite)
+            {
+                rt.domain_error();
+                return nullptr;
+            }
             x = rt.make<decimal128>(ID_decimal128, res);
             break;
         }
+#endif // CONFIG_NO_DECIMAL128
         default:
             break;
         }
+#ifndef CONFIG_NO_DECIMAL128
         if (op == ID_atan2)
-            function::adjust_to_angle(x);
+            decimal128::adjust_to_angle(x);
+#endif // CONFIG_NO_DECIMAL128
         return x;
     }
 
@@ -1312,7 +1363,7 @@ algebraic_p arithmetic::evaluate(id          op,
             return xc;
     }
 
-    if (!x.Safe() || !y.Safe())
+    if (!x || !y)
         return nullptr;
 
     if (x->is_symbolic_arg() && y->is_symbolic_arg())
@@ -1376,6 +1427,7 @@ object::result arithmetic::evaluate(id op, ops_t ops)
 //   So we need to stub out some bid64 and bid42 functions and compute them
 //   using bid128
 
+#ifndef CONFIG_NO_DECIMAL64
 void bid64_pow(BID_UINT64 *pres, BID_UINT64 *px, BID_UINT64 *py)
 // ----------------------------------------------------------------------------
 //   Perform the computation with bid128 code
@@ -1386,19 +1438,6 @@ void bid64_pow(BID_UINT64 *pres, BID_UINT64 *px, BID_UINT64 *py)
     bid64_to_bid128(&y128, py);
     bid128_pow(&res128, &x128, &y128);
     bid128_to_bid64(pres, &res128);
-}
-
-
-void bid32_pow(BID_UINT32 *pres, BID_UINT32 *px, BID_UINT32 *py)
-// ----------------------------------------------------------------------------
-//   Perform the computation with bid128 code
-// ----------------------------------------------------------------------------
-{
-    BID_UINT128 x128, y128, res128;
-    bid32_to_bid128(&x128, px);
-    bid32_to_bid128(&y128, py);
-    bid128_pow(&res128, &x128, &y128);
-    bid128_to_bid32(pres, &res128);
 }
 
 
@@ -1415,19 +1454,6 @@ void bid64_hypot(BID_UINT64 *pres, BID_UINT64 *px, BID_UINT64 *py)
 }
 
 
-void bid32_hypot(BID_UINT32 *pres, BID_UINT32 *px, BID_UINT32 *py)
-// ----------------------------------------------------------------------------
-//   Perform the computation with bid128 code
-// ----------------------------------------------------------------------------
-{
-    BID_UINT128 x128, y128, res128;
-    bid32_to_bid128(&x128, px);
-    bid32_to_bid128(&y128, py);
-    bid128_hypot(&res128, &x128, &y128);
-    bid128_to_bid32(pres, &res128);
-}
-
-
 void bid64_atan2(BID_UINT64 *pres, BID_UINT64 *px, BID_UINT64 *py)
 // ----------------------------------------------------------------------------
 //   Perform the computation with bid128 code
@@ -1438,6 +1464,34 @@ void bid64_atan2(BID_UINT64 *pres, BID_UINT64 *px, BID_UINT64 *py)
     bid64_to_bid128(&y128, py);
     bid128_atan2(&res128, &x128, &y128);
     bid128_to_bid64(pres, &res128);
+}
+#endif // CONFIG_NO_DECIMAL64
+
+
+#ifndef CONFIG_NO_DECIMAL32
+void bid32_pow(BID_UINT32 *pres, BID_UINT32 *px, BID_UINT32 *py)
+// ----------------------------------------------------------------------------
+//   Perform the computation with bid128 code
+// ----------------------------------------------------------------------------
+{
+    BID_UINT128 x128, y128, res128;
+    bid32_to_bid128(&x128, px);
+    bid32_to_bid128(&y128, py);
+    bid128_pow(&res128, &x128, &y128);
+    bid128_to_bid32(pres, &res128);
+}
+
+
+void bid32_hypot(BID_UINT32 *pres, BID_UINT32 *px, BID_UINT32 *py)
+// ----------------------------------------------------------------------------
+//   Perform the computation with bid128 code
+// ----------------------------------------------------------------------------
+{
+    BID_UINT128 x128, y128, res128;
+    bid32_to_bid128(&x128, px);
+    bid32_to_bid128(&y128, py);
+    bid128_hypot(&res128, &x128, &y128);
+    bid128_to_bid32(pres, &res128);
 }
 
 
@@ -1452,6 +1506,7 @@ void bid32_atan2(BID_UINT32 *pres, BID_UINT32 *px, BID_UINT32 *py)
     bid128_atan2(&res128, &x128, &y128);
     bid128_to_bid32(pres, &res128);
 }
+#endif // CONFIG_NO_DECIMAL32
 
 
 
@@ -1487,9 +1542,15 @@ arithmetic::ops_t arithmetic::Ops()
 {
     static const ops result =
     {
+#ifndef CONFIG_NO_DECIMAL128
         Op::bid128_op,
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
         Op::bid64_op,
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
         Op::bid32_op,
+#endif // CONFIG_NO_DECIMAL32
         Op::integer_ok,
         Op::bignum_ok,
         Op::fraction_ok,
@@ -1701,7 +1762,7 @@ static algebraic_p min_max(algebraic_r x, algebraic_r y, int sign)
                 xo = min_max(xo, yo, sign);
                 if (!xo)
                     return nullptr;
-                ra = ra->append(xo.Safe());
+                ra = ra->append(+xo);
             }
             if (xi != xe || yi != ye)
             {

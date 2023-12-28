@@ -59,6 +59,9 @@ struct algebraic : command
     // Promotion of integer to bignum
     static id   bignum_promotion(algebraic_g &x);
 
+    // Promotion to based numbers
+    static id   based_promotion(algebraic_g &x);
+
     // Convert to a fraction
     static bool decimal_to_fraction(algebraic_g &x);
 
@@ -86,9 +89,15 @@ struct algebraic : command
     algebraic_p evaluate() const;
 
     // Function pointers used by generic evaluation code
+#ifndef CONFIG_NO_DECIMAL128
     typedef void (*bid128_fn)(BID_UINT128 *res, BID_UINT128 *x);
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     typedef void (*bid64_fn) (BID_UINT64  *res, BID_UINT64  *x);
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     typedef void (*bid32_fn) (BID_UINT32  *res, BID_UINT32  *x);
+#endif // CONFIG_NO_DECIMAL32
 
     INSERT_DECL(algebraic);
 };

@@ -83,6 +83,71 @@ RECORDER(object_errors,  16, "Runtime errors on objects");
 RECORDER(assert_error,   16, "Assertion failures");
 
 
+const object::spelling object::spellings[] =
+// ----------------------------------------------------------------------------
+//   Table of all the possible spellings for a given type
+// ----------------------------------------------------------------------------
+{
+#define ALIAS(ty, name)         { ID_##ty, name },
+#define ID(ty)                  ALIAS(ty, #ty)
+#define NAMED(ty, name)         ALIAS(ty, name) ALIAS(ty, #ty)
+#include "ids.tbl"
+};
+
+const size_t object::spelling_count  = sizeof(spellings) / sizeof(*spellings);
+
+
+utf8 object::alias(id t, uint index)
+// ----------------------------------------------------------------------------
+//   Return the name of the object at given index
+// ----------------------------------------------------------------------------
+{
+    for (size_t i = 0; i < spelling_count; i++)
+        if (t == spellings[i].type)
+            if (cstring name = spellings[i].name)
+                if (index-- == 0)
+                    return utf8(name);
+    return nullptr;
+}
+
+
+utf8 object::fancy(id t)
+// ----------------------------------------------------------------------------
+//   Return the fancy name for the given index
+// ----------------------------------------------------------------------------
+{
+    return alias(t, 0);
+}
+
+
+utf8 object::name(id t)
+// ----------------------------------------------------------------------------
+//   Return the name for a given ID with current style
+// ------------------------------------------------------------------------
+{
+    bool compat = Settings.CommandDisplayMode() != ID_LongForm;
+    cstring result = nullptr;
+    for (size_t i = 0; i < spelling_count; i++)
+    {
+        if (t == spellings[i].type)
+        {
+            if (cstring name = spellings[i].name)
+            {
+                result = name;
+                if (!compat)
+                    break;
+            }
+        }
+        else if (result)
+        {
+            break;
+        }
+    }
+    return utf8(result);
+}
+
+
+
 const object::dispatch object::handler[NUM_IDS] =
 // ----------------------------------------------------------------------------
 //   Table of handlers for each object type
@@ -92,8 +157,6 @@ const object::dispatch object::handler[NUM_IDS] =
 #define CMD(id)         ID(id)
 #define NAMED(id, label)                                     \
     [ID_##id] = {                                            \
-        .name         = #id,                                 \
-        .fancy        = label ? label : #id,                 \
         .size         = (size_fn) id::do_size,               \
         .parse        = (parse_fn) id::do_parse,             \
         .help         = (help_fn) id::do_help,               \
@@ -289,12 +352,18 @@ uint32_t object::as_uint32(uint32_t def, bool err) const
         if (err)
             rt.value_error();
         return def;
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL32
 
     case ID_fraction:
         return fraction_p(this)->as_unsigned();
@@ -340,12 +409,18 @@ int32_t object::as_int32 (int32_t  def, bool err)  const
     case ID_neg_bignum:
         return -bignum_p(this)->value<uint32_t>();
 
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL32
 
     case ID_fraction:
         return fraction_p(this)->as_unsigned();
@@ -400,12 +475,18 @@ uint64_t object::as_uint64(uint64_t def, bool err) const
         if (err)
             rt.value_error();
         return def;
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->as_unsigned();
+#endif // CONFIG_NO_DECIMAL32
 
     case ID_fraction:
         return fraction_p(this)->as_unsigned();
@@ -451,12 +532,18 @@ int64_t object::as_int64 (int64_t  def, bool err)  const
     case ID_neg_bignum:
         return -bignum_p(this)->value<uint64_t>();
 
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->as_integer();
+#endif // CONFIG_NO_DECIMAL32
 
     case ID_fraction:
         return fraction_p(this)->as_unsigned();
@@ -573,14 +660,14 @@ object_p object::at(object_p index, object_p value) const
 
         // For a list, copy bytes before, value bytes, and bytes after
         size_t   size  = 0;
-        object_g items = list_p(ref.Safe())->objects(&size);
+        object_g items = list_p(+ref)->objects(&size);
         size_t   fsize = first->size();
-        object_g next  = first.Safe() + fsize;
-        size_t   hsize = first.Safe() - items.Safe();
-        size_t   tsize = size - (next.Safe() - items.Safe());
-        list_g   head  = rt.make<list>(ty, byte_p(items.Safe()), hsize);
-        list_g   mid   = rt.make<list>(ty, byte_p(item.Safe()), item->size());
-        list_g   tail  = rt.make<list>(ty, byte_p(next.Safe()), tsize);
+        object_g next  = +first + fsize;
+        size_t   hsize = +first - +items;
+        size_t   tsize = size - (+next - +items);
+        list_g   head  = rt.make<list>(ty, byte_p(+items), hsize);
+        list_g   mid   = rt.make<list>(ty, byte_p(+item), item->size());
+        list_g   tail  = rt.make<list>(ty, byte_p(+next), tsize);
         return head + mid + tail;
     }
 
@@ -612,6 +699,47 @@ object_p object::at(object_p index, object_p value) const
 
     rt.type_error();
     return nullptr;
+}
+
+
+bool object::next_index(object_p *indexp) const
+// ----------------------------------------------------------------------------
+//  Find the next index on this object, returns true if we wrap
+// ----------------------------------------------------------------------------
+{
+    bool wrap = false;
+    object_g index = *indexp;
+    if (list_g idxlist = index->as<list>())
+    {
+        object_g obj     = this;
+        object_g idxhead = idxlist->head();
+        list_p   idxtail = idxlist->tail();
+        if (idxtail->length())
+        {
+            object_g itobj   = idxtail;
+            object_g child   = obj->at(+idxhead);
+            if (child->next_index(&+itobj))
+                wrap = obj->next_index(&+idxhead);
+            idxlist = list::make(idxhead);
+            idxlist = idxlist + list_g(list_p(+itobj));
+            *indexp = +idxlist;
+            return wrap;
+        }
+        wrap = obj->next_index(&+idxhead);
+        idxlist = list::make(idxhead);
+        *indexp = +idxlist;
+        return wrap;
+    }
+
+    size_t idx = index->as_uint32(1, true);
+    if (!idx)
+        rt.index_error();
+    if (rt.error())
+        return false;
+    wrap = at(idx, false) == nullptr;
+    idx = wrap ? 1 : idx + 1;
+    *indexp = integer::make(idx);
+    return wrap;
 }
 
 
@@ -829,9 +957,15 @@ int object::as_truth(bool error) const
     case ID_neg_fraction:
     case ID_big_fraction:
     case ID_neg_big_fraction:
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
+#endif // CONFIG_NO_DECIMAL32
     case ID_polar:
     case ID_rectangular:
         return !is_zero(error);
@@ -881,12 +1015,18 @@ bool object::is_zero(bool error) const
     case ID_big_fraction:
     case ID_neg_big_fraction:
         return big_fraction_p(this)->numerator()->is_zero();
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->is_zero();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->is_zero();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->is_zero();
+#endif // CONFIG_NO_DECIMAL32
     case ID_polar:
         return polar_p(this)->is_zero();
     case ID_rectangular:
@@ -927,12 +1067,18 @@ bool object::is_one(bool error) const
         return bignum_p(this)->is_one();
     case ID_fraction:
         return fraction_p(this)->is_one();
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->is_one();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->is_one();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->is_one();
+#endif // CONFIG_NO_DECIMAL32
     case ID_polar:
         return polar_p(this)->is_one();
     case ID_rectangular:
@@ -981,12 +1127,18 @@ bool object::is_negative(bool error) const
     case ID_neg_fraction:
     case ID_neg_big_fraction:
         return !fraction_p(this)->is_zero();
+#ifndef CONFIG_NO_DECIMAL128
     case ID_decimal128:
         return decimal128_p(this)->is_negative();
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
     case ID_decimal64:
         return decimal64_p(this)->is_negative();
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
     case ID_decimal32:
         return decimal32_p(this)->is_negative();
+#endif // CONFIG_NO_DECIMAL32
 
     default:
         if (error)

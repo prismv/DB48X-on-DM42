@@ -210,9 +210,15 @@ COMMAND_BODY(ToolsMenu)
             case ID_neg_integer:
             case ID_bignum:
             case ID_neg_bignum:
-            case ID_decimal128:
-            case ID_decimal64:
+#ifndef CONFIG_NO_DECIMAL128
+            case ID_decimal128:         menu = ID_RealMenu; break;
+#endif // CONFIG_NO_DECIMAL128
+#ifndef CONFIG_NO_DECIMAL64
+            case ID_decimal64:          menu = ID_RealMenu; break;
+#endif // CONFIG_NO_DECIMAL64
+#ifndef CONFIG_NO_DECIMAL32
             case ID_decimal32:          menu = ID_RealMenu; break;
+#endif // CONFIG_NO_DECIMAL32
             case ID_fraction:
             case ID_neg_fraction:
             case ID_big_fraction:
@@ -580,18 +586,41 @@ MENU(BasesMenu,
      ID_Implies,
      ID_Excludes,
 
-     "ShL",     ID_Unimplemented,
-     "ShR",     ID_Unimplemented,
-     "AShR",    ID_Unimplemented,
-     "RoL",     ID_Unimplemented,
-     "RoR",     ID_Unimplemented,
+     "SL",      ID_SL,
+     "SR",      ID_SR,
+     "ASR",     ID_ASR,
+     "RL",      ID_RL,
+     "RR",      ID_RR,
 
-     "2Comp",   ID_Unimplemented,
-     "1Comp",   ID_Unimplemented,
-     "Unsgnd",  ID_Unimplemented,
+     "SLB",     ID_SLB,
+     "SRB",     ID_SRB,
+     "ASRB",    ID_ASRB,
+     "RLB",     ID_RLB,
+     "RRB",     ID_RRB,
+
+     "SLC",     ID_SLC,
+     "SRC",     ID_SRC,
+     "ASRC",    ID_ASRC,
+     "RLC",     ID_RLC,
+     "RRC",     ID_RRC,
+
+     "#",       ID_SelfInsert,
      "R→B",     ID_RealToBinary,
-     "B→R",     ID_BinaryToReal
-    );
+     "B→R",     ID_BinaryToReal,
+     Base::label, ID_Base,
+     WordSize::label,  ID_WordSize,
+
+     ID_And,
+     ID_Or,
+     ID_Xor,
+     ID_Not,
+     "neg",     ID_neg,
+
+     "FstSet",  ID_Unimplemented,
+     "LstSet",  ID_Unimplemented,
+     "PopCnt",  ID_Unimplemented,
+     "1-comp",  ID_OnesComplement,
+     "2-comp",  ID_TwosComplement);
 
 
 MENU(ProbabilitiesMenu,
@@ -896,8 +925,8 @@ MENU(ListMenu,
      "Sort",    ID_Sort,
      "QSort",   ID_QuickSort,
      "Reverse", ID_ReverseList,
-     "GetI",    ID_Unimplemented,
-     "PutI",    ID_Unimplemented,
+     "GetI",    ID_GetI,
+     "PutI",    ID_PutI,
      "Put",     ID_Put,
 
      "RSort",   ID_ReverseSort,
@@ -1359,7 +1388,7 @@ MENU(MathModesMenu,
 
      "0^0=1",                                   ID_ZeroPowerZeroIsOne,
      "0^0=?",                                   ID_ZeroPowerZeroIsUndefined,
-     MaxBigNumBits::label,                      ID_MaxBigNumBits,
+     MaxNumberBits::label,                      ID_MaxNumberBits,
      MaxRewrites::label,                        ID_MaxRewrites,
      FractionIterations::label,                 ID_FractionIterations,
      FractionDigits::label,                     ID_FractionDigits,

@@ -359,33 +359,65 @@ unintentional differences, since the implementation is completely new.
   `ROOT`.
 
 
-### Representation of objects
+### Numbers
 
-* Internally, the calculator deals with various representations for
-  numbers. Notably, it keeps integer values and fractions in exact form for
+* DB48X has several separate representations for numbers: integers, fractions
+  and decimal. Notably, it keeps integer values and fractions in exact form for
   as long as possible to optimize both performance and memory usage.
-  This is somewhat similar to what the HP49 and HP50 implemented, where there is
-  a difference between `2` (where `TYPE` returns 28) and `2.` (where `TYPE`
-  return 0).
+  This is closer to the HP50G in exact mode than to the HP48. Like
+  the HP50G, DB48X will distinguish `1` (an integer) from `1.` (a decimal
+  value), and the `TYPE` command will return distinct values.
 
-* The calculator features at least 3 floating-point precisions using 32-bit,
-  64-bit and 128-bit respectively, provided by the DMCP's existing Intel Binary
-  Decimal Floating-Point library. The 128-bit format gives the calculator 34
-  significant digits of precision, like the DM42. DB48X may support other
-  formats in the future, like the arbitrary-precision floating-point found in
-  newRPL. The `Precision` command (in the `DisplayModesMenu`) can be used to
-  select the precision for arithmetic operations.
+* Integer and fraction arithmetic can be performed with arbitrary
+  precision, similar to the HP50G. The `MaxNumberBits` setting controls how much
+  memory can be used for integer arithmetic.
+
+* DB48X has true fractions. From a user's perspective, this is somewhat similar
+  to fractions on the HP50G, except that fractions are first-class numbers,
+  whereas the HP50G treats them like expressions. On the HP50G, `1 3 / TYPE`
+  returns `9.`, like for `'A + B'`. On DB48X, the `TYPE` for fractions is
+  different than for expressions. Fractions can be shown either as
+  `MixedFractions` or `ImproperFractions`.
+
+* On HP50G, decimal numbers often outperform integers or fractions, and
+  benchmark code will contain `1.` instead of `1` for that reason. On DB48X,
+  arithmetic on integers and fractions is generally faster.
+
+* Like the HP Prime, DB48X displays a leading zero for decimal values, whereas
+  HP RPL calculators do not. For example, it will display `0.5` and not `.5`.
+
+* DB48X has two distinct representations for complex numbers, polar and
+  rectangular, and transparently converts between the two formats as needed.
+  The polar representation internally uses fractions of pi for the
+  angle, which allows exact computations. By contrast, HP RPL implementations
+  always represent complex numbers in rectangular form internally, possibly
+  converting it to polar form at display time.
+
+* DB48X features at least 3 floating-point precisions using 32-bit, 64-bit and
+  128-bit respectively, provided by the DMCP's existing [Intel Binary Decimal
+  Floating-Point library](#intel-decimal-floating-point-math). The 128-bit
+  format gives the calculator 34 significant digits of precision, like the
+  DM42. DB48X may support other formats in the future, like the
+  arbitrary-precision floating-point found in newRPL. The `Precision` command
+  (in the `DisplayModesMenu`) can be used to select the precision for arithmetic
+  operations.
 
 * Based numbers with an explicit base, like `#123h` keep their base, which makes
   it possible to show on stack binary and decimal numbers side by side. Mixed
   operations convert to the base in stack level X, so that `#10d #A0h +`
   evaluates as `#AAh`. Based numbers without an explicit base change base
-  depending on the `Base` setting, much like based numbers on the HP48.
+  depending on the [Base](#base) setting, much like based numbers on the HP48,
+  but with the option to any base between 2 and 36. In addition to the
+  HP-compatible trailing letter syntax (e.g. `#1Ah`), the base can be given
+  before the number (e.g. `16#1A`), which works for all supported bases.
+
+### Representation of objects
 
 * The storage of data in memory uses a denser format than on the HP48.
   Therefore, objects will almost always use less space on DB48X. Notably, the
   most frequently used functions and data types consume only one byte on DB48X,
-  as opposed to 5 nibbles (2.5 bytes) on the HP48.
+  as opposed to 5 nibbles (2.5 bytes) on the HP48. A number like `123` consumes
+  2 bytes on DB48X vs. 7 on the HP50 and 10.5 on the HP48.
 
 * Numerical equality can be tested with `=`,  whereas object equality is tested
   using `==`. For example, `0=0.0` is true, but `0==0.0` is false, because `0`
@@ -395,6 +427,11 @@ unintentional differences, since the implementation is completely new.
   computations to mimic the HP50G behaviour with limited benefit, `Size` returns
   1 for integers, algebraic expressions and unit objects.
 
+* The `Type` command returns HP-compatible values that are sometimes imprecise
+  (e.g. it cannot distinguish between polar and rectangular complex values).
+  The `TypeName` command is an extension that returns more precise textual
+  information, and should be preferred both for readability and future
+  compatibility.
 
 ### Alignment with SwissMicros calculators
 
@@ -417,8 +454,10 @@ unintentional differences, since the implementation is completely new.
 * The whole banking and flash access storage mechanism of the HP48 will be
   replaced with a system that works well with FAT USB storage. It should be
   possible to directly use a part of the flash storage to store RPL programs,
-  either in source or compiled form.
-
+  either in source or compiled form. As an example, using a text argument to
+  `STO` and `RCL` accesses files on the USB disk, e.g. `1 "FOO.TXT" STO` stores
+  the text representation of `1` in a file named `DATA/FOO.TXT` on the USB
+  flash storage.
 
 ### List operation differences
 
@@ -650,7 +689,7 @@ largely because of that community.
 ### HP Museum
 
 The [HP Museum](https://www.hpmuseum.org) not only extensively documents the
-history of RPN and RPL calcuators, it also provides a
+history of RPN and RPL calculators, it also provides a
 [very active forum](https://www.hpmuseum.org/forum/) for calculator enthusiasts
 all over the world.
 
@@ -1579,9 +1618,18 @@ The [Bases Menu](#bases-menu) list operations on based numbers.
 
 Like integers, based numbers can be [arbitrary large](#big-integers).
 However, operations on based numbers can be truncated to a specific number of
-bits using the [STWS](#stws) command. This makes it possible to perform
+bits using the [WordSize](#wordsize) setting. This makes it possible to perform
 computations simulating a 16-bit or 256-bit processor.
 
+
+## Boolean values
+
+DB48X has two boolean values, `True` and `False`. These values are typically
+returned by operations such as tests that return a truth value.
+
+In addition, numerical values are interpreted as being `False` if the value is
+0, and `True` otherwise. This applies to conditional tests, conditional loops,
+and other operations that consume a truth value.
 
 ## Complex numbers
 
@@ -1745,6 +1793,155 @@ the corresponding unit in the units file, for example:
 "in",   "25.4_mm"
 ```
 # Release notes
+
+## Release 0.6.0 "Christmas": Introducing variable precision
+
+This release was a bit longer in coming than earlier ones, because we are about
+to reach the limits of what can fit on a DM42. This release uses 711228 bytes
+out of the 716800 (99.2%).
+
+Without the Intel Decimal Library code, we use only 282980 bytes. This means
+that the Intel Decimal Library code uses 60.2% of the total code space. Being
+able to move further requires a rather radical rethinking of the project, where
+we replace the Intel Decimal Library with size-optimized decimal code.
+
+As a result, release 0.6.0 introduces a new table-free and variable-precision
+implementation of decimal computations. In this release, most operations are
+implemented, but some features are still missing (e.g. Gamma function). This
+release will be simultaneous with 0.5.2, which is functionally equivalent but
+still uses the Intel Decimal library. The new implementation is much more
+compact, allowing us to return to normal optimizations for the DM42 and regain
+some of the lost performance. On the other hand, having to switch to a table
+free implementation means that it's significantly slower than the Intel Decimal
+Library. The upside of course is that you can compute with decimal numbers that
+have up to 9999 digits, and a decimal exponent that can be up to 2^60
+(1 152 921 504 606 846 976).
+
+
+### New features
+
+### Bug fixes
+
+### Improvements
+
+
+
+## Release 0.5.2 "Christmas Eve": Reaching hard limits on the DM42
+
+This release was a bit longer in coming than earlier ones, because we are about
+to reach the limits of what can fit on a DM42. This release uses 711228 bytes
+out of the 716800 (99.2%).
+
+Without the Intel Decimal Library code, we use only 282980 bytes. This means
+that the Intel Decimal Library code uses 60.2% of the total code space. Being
+able to move further requires a rather radical rethinking of the project, where
+we replace the Intel Decimal Library with size-optimized decimal code.
+
+As a result, release 0.5.2 will be the last one using the Intel Decimal Library,
+and is release in parallel with 0.6.0, which switches to a table-free and
+variable-precisions implementation of decimal code that uses much less code
+space. The two releases should otherwise be functionally identical
+
+### New features
+
+* Shift and rotate instructions (#622)
+* Add `CompatibleTypes` and `DetsailedTypes` setting to control `Type` results
+* Recognize HP-compatible negative values for flags, e.g. `-64 SF` (#625)
+* Add settings to control multiline result and stack display (#634)
+
+### Bug fixes
+
+* Truncate to `WordSize` the small results of binary operations (#624)
+* Fix day-of-week shortcut in simulator
+* Avoid double-evaluation of immediate commands when there is no help
+* Generate an error when selecting base 1 (#628)
+* Avoid `Number too big` error on based nunbers
+* Correctly garbage-collect menu entries (#630)
+* Select default settings that allow solver to find solutions (#627)
+* Fix display of decimal numbers (broken by multi-line display)
+* Fix rendering of menu entries for `Fix`, `Std`, etc
+* Detect non-finite results in arithmetic, e.g. `(-8)^0.3`m (#635, #639)
+* Fix range-checking for `Dig` to allow `-1` value
+* Accept large values for `Fix`, `Sci` and `Eng` (for variable precision)
+* Restore missing last entry in built-in units menu (#638)
+* Accept `Hz` and non-primary units as input for `ConvertToUnitPrefix` (#640)
+* Fix LEB128 encoding for signed value 64 and similar (#642)
+* Do not parse `IfThenElse` as a command
+* Do not consider `E` as a digit in decimal numbers (#643)
+* Do not parse `min` as a function in units, but as minute (#644)
+
+### Improvements
+
+* Add `OnesComplement` flag for binary operation (not used yet)
+* Add `ComplexResults` (-103) flag (not used yet)
+* Accept negative values for `B→R` (according to `WordSize`)
+* Add documentation for `STO` and `RCL` accessing flash storage
+* Mention `True` and `False` in documentation
+* Rename `MaxBigNumBits` to `MaxNumberBits`
+* Return HP-compatible values from `Type` function
+* Minor optimization of flags implementation
+* Catalog auto-completion now suggests all possible spellings (#626)
+* Add aliases for `CubeRoot` and `Hypothenuse`
+* Align based number promotion rules to HP calculators (#629)
+* Expand the range of garbage collector integrity check on simulator
+* Show command according to preferences in error messages (#633)
+* Avoid crash in `debug_printf` if used before font initialization
+* Update performance data in documentation
+* Add ability to disable any reference to Intel Decimal Floating-point library
+* Simplify C++ notations for safe pointers (`+x` and `operartor bool()`)
+* Fix link to old `db48x` project in `README.md`
+
+
+## Release 0.5.1 "Talents": More RPL commands
+
+This release focuses on rounding up various useful RPL commands
+and bringing RPL a bit closer to feature-complete.
+
+### New features
+
+* Portable bit pattern generation commands, `gray` and `rgb` (#617)
+* Add support for packed bitmaps (#555)
+* Implement RPL `case` statement, extended with `case when` (#374)
+* `Beep` command (#50)
+* `List→` command (#573)
+* `Size` command (#588)
+* `Str→` command (#590)
+* `Obj→` command (#596)
+* Add flag to control if `0^0` returns `1` or undefined behaviour (#598)
+* Unicode-based `Num` and `Chr` commands, `Text→Code` and `Code→Text` (#597)
+* `IP` and `FP` commands (#601)
+* Percentage operations `%`, `%CH` and `%T` (#602)
+* `Min` and `Max` operations (#603)
+* `Floor` and `Ceil` operations (#605)
+* `Get` with a name argument (#609)
+* `Put` command (#610)
+* `Head` and `Tail` commands (#614)
+* `Map`, `Reduce` and `Filter` commands (#613)
+
+### Bug fixes
+
+* Ensure rounded rectangles stay within their boundaries (#618)
+* Prevent auto-power-off for long-running programs (#587)
+* Fix old-style RPL shortcuts for `FS?C` and the like
+* Add `FF` shortcut for `FlipFlag`
+* Fix rendering of `<`, `>`, etc in old-style RPL compatibility mode (#595)
+* Update various menus
+* Evaluate program arguments in `IFT` and `IFTE` (#592)
+* Evaluate algebraic expressions in `if`, `while` and `case` (#593)
+* Load variables from state file in correct order (#591)
+* Avoid truncation of state file when ASCII conversions occur (#589)
+* Clear debugging state more completely after `kill` (#600)
+* `Wait` no longer makes it harder to stop a program (#619)
+* `mod` no longer gives wrong result for negative fractions and bignums (#606)
+* No longer strip tags in non-numeric arithmetic operations (#607)
+
+### Improvements
+
+* Small updates to demo file
+* A long `Wait` command allows the calculator to switch off (#620)
+* Centering of variable names in `VariablesMenu` (#610)
+* Makefile `check-ids` target to check if commands are in help or menus (#615)
+
 
 ## Release 0.5.0: Statistics and flags
 
@@ -1966,6 +2163,8 @@ The following is a list of the HP50 RPL commands which are implemented in DB48X.
 * [ARG](#arg)
 * [ASINH](#asinh)
 * [ASIN](#asin)
+* [ASR](#asr)
+* [ASRC](#asr)
 * [ATANH](#atanh)
 * [ATAN](#atan)
 * [AXES](#axes)
@@ -2071,10 +2270,16 @@ The following is a list of the HP50 RPL commands which are implemented in DB48X.
 * [RECT](#rect) (Different meaning: draws a rectangle)
 * [REPEAT](#repeat)
 * [REWRITE](#rewrite) (Different meaning: performs a rewrite)
+* [RL](#rl)
+* [RLB](#rlb)
+* [RLC](#rlc)
 * [ROLLD](#rolld)
 * [ROLL](#roll)
 * [ROOT](#root)
 * [ROT](#rot)
+* [RR](#rr)
+* [RRB](#rrb)
+* [RRC](#rrb)
 * [R→B](#realtobinary)
 * [R→C](#realtocomplex)
 * [SAME](#same)
@@ -2083,6 +2288,9 @@ The following is a list of the HP50 RPL commands which are implemented in DB48X.
 * [SIGN](#sign)
 * [SINH](#sinh)
 * [SIN](#sin)
+* [SL](#sl)
+* [SLB](#slb)
+* [SLC](#slb)
 * [SQ](#sq)
 * [SST](#stepover)
 * [SST↓](#singlestep)
@@ -2162,7 +2370,6 @@ commands.
 * ASIN2C
 * ASIN2T
 * ASN
-* ASR
 * ASSUME
 * ATAN2S
 * ATICK
@@ -2548,8 +2755,6 @@ commands.
 * RKF
 * RKFERR
 * RKFSTEP
-* RL
-* RLB
 * RND
 * RNRM
 * ROMUPLOAD
@@ -2558,8 +2763,6 @@ commands.
 * ROW→
 * →ROW
 * RPL>
-* RR
-* RRB
 * rref
 * RREF
 * RREFMOD
@@ -2597,8 +2800,6 @@ commands.
 * SINCOS
 * SINV
 * SIZE
-* SL
-* SLB
 * SLOPEFIELD
 * SNEG
 * SNRM
@@ -2834,7 +3035,7 @@ Hewlett-Packard RPL implementation.
 * [MathMenu](#mathmenu)
 * [MathModesMenu](#mathmodesmenu)
 * [MatrixMenu](#matrixmenu)
-* [MaxBigNumBits](#maxbignumbits): Maximum number of bits for a big integer
+* [MaxNumberBits](#maxnumberbits): Maximum number of bits used by a number
 * [MaxRewrites](#maxrewrites): Maximum number of equation rewrites
 * [MemMenu](#memmenu)
 * [MenuFirstPage](#menufirstpage)
@@ -2920,7 +3121,6 @@ Hewlett-Packard RPL implementation.
 
 This sections tracks some performance measurements across releases.
 
-
 ## NQueens (DM42)
 
 Performance recording for various releases on DM42 with `small` option (which is
@@ -2930,6 +3130,8 @@ all times in milliseconds, best of 5 runs, on USB power, with presumably no GC.
 
 | Version | Time    | PGM Size  | QSPI Size | Note                    |
 |---------|---------|-----------|-----------|-------------------------|
+| 0.5.2   | 1310    | 711228    | 1548076   |                         |
+| 0.5.1   |         |           |           |                         |
 | 0.4.10+ | 1205    | 651108    |           | RPL stack runloop       |
 | 0.4.10  | 1070    | 650116    |           | Focused optimizations   |
 | 0.4.9+  | 1175    |           |           | Range-based type checks |
@@ -2965,6 +3167,9 @@ is not there.
 
 | Version | Time    | PGM Size  | QSPI Size | Note                    |
 |---------|---------|-----------|-----------|-------------------------|
+| 0.5.2   | 1752    |           |           |
+| 0.5.1   | 1746    |           |           |
+| 0.5.0   | 1723    |           |           |
 | 0.4.10+ | 1804    | 761252    |           | RPL stack runloop       |
 | 0.4.10  | 1803    | 731052    |           | Focused optimizations   |
 | 0.4.9   | 2156    | 772732    | 1534316   | No LastArg in progs     |
@@ -2994,6 +3199,19 @@ Timing on 0.4.10 are:
 * HP50G: 397.438s
 * DM32: 28.507s (14x faster)
 * DM42: 15.769s (25x faster)
+
+| Version | DM32 ms | DM42 ms |
+|---------|---------|---------|
+| 0.5.2   | 26733   |  15695  |
+| 0.4.10  | 28507   |  15769  |
+
+
+
+## SumTest (decimal performance)
+
+| Version | DM32 ms | DM42 ms |
+|---------|---------|---------|
+| 0.5.2   | 215421  |  143412 |
 # Menus
 
 Menus display at the bottom of the screen, and can be activated using the keys
@@ -3448,69 +3666,174 @@ Mapped to the _ 1/X _ key
 `X` ▶ `1/X`
 # Bitwise operations
 
-## STWS
-Store current word size in bits (0-63)
+Bitwise operations represent bit-manipulation operations such as rotations and
+shifts. They operate on [based numbers](#based-numbers),
+[integers](#integers) or [big integers](#big-integers). When operating on based
+numbers, the operation happens on the number of bits defined by the
+[WordSize](#wordsize) setting. For integer values, the maximum number of bits is
+defined by the [MaxNumberBits](#maxnumberbits) setting.
+
+## ShiftLeft (SL)
+
+Shift the value left by one bit.
+
+`Value` ▶ `Value*2`
+
+## ShiftLeftByte (SLB)
+
+Shift the value left by one byte (8 bits).
+
+`Value` ▶ `Value*256`
+
+## ShiftLeftCount (SLC)
+
+Shift the value left by a given number of bits.
+
+`Value` `Shift` ▶ `Value*2^Shift`
+
+## ShiftRight (SR)
+
+Shift the value right by one bit.
+
+`Value` ▶ `Value/2`
+
+## ShiftRightByte (SRB)
+
+Shift the value right by one byte (8 bits).
+
+`Value` ▶ `Value/256`
+
+## ShiftRightCount (SRC)
+
+Shift the value right by a given number of bits.
+
+`Value` `Shift` ▶ `Value/2^Shift`
+
+## ArithmeticShiftRight (ASR)
+
+Shift the value right by one bit, preserving the sign bit.
+
+`Value` ▶ `Signed(Value)/2`
+
+## ArithmeticShiftRightByte (ASRB)
+
+Shift the value right by one byte (8 bits), preserving the sign bit.
+
+`Value` ▶ `Signed(Value)/256`
+
+## ArithmeticShiftRightCount (ASRC)
+
+Shift the value right by a given number of bits, preserving the sign bit.
+
+`Value` `Shift` ▶ `Signed(Value)/2^Shift`
+
+## RotateLeft (RL)
+
+Rotate the value left by one bit.
+
+`Value`  ▶ `RLC(Value, 1)`
 
 
-## RCWS
-Recall the currnent word size in bits
+## RotateLeftByte (RLB)
+
+Rotate the value left by one byte (8 bits).
+
+`Value`  ▶ `RL(Value, 8)`
+
+## RotateLeftCount (RLC)
+
+Rotate the value left by a given number of bits.
+
+`Value`  `Shift` ▶ `RLC(Value, Shift)`
 
 
-## BOR
-Bitwise OR operation
+## RotateRight (RR)
+
+Rotate the value right by one bit.
+
+`Value`  ▶ `RRC(Value, 1)`
+
+## RotateRightByte (RRB)
+
+Rotate the value right by one byte (8 bits).
+
+`Value`  ▶ `RRC(Value, 8)`
+
+## RotateRightCount (RRC)
+
+Rotate the value right by a given number of bits.
+
+`Value` `Shift` ▶ `RRC(Value, Shift)`
+
+# Logical operations
+
+Logical operations operate on [truth values](#boolean-values).
+They can either operate on numbers, where a non-zero value represent `True` and
+a zero value represents `False`. On [based numbers](#based-numbers), they
+operate bitwise on the number of bits defined by the [WordSize](#wordsize)
+setting.
+
+## Or
+
+Logical inclusive "or" operation: the result is true if either input is true.
+
+`Y` `X` ▶ `Y or X`
 
 
-## BAND
-Bitwise AND operator
+## And
+
+Logical "and" operation: the result is true if both inputs are true.
+
+`Y` `X` ▶ `Y and X`
+
+## Xor
+
+Logical exclusive "or" operation: the result is true if exactly one input is
+true.
+
+`Y` `X` ▶ `Y xor X`
 
 
-## BXOR
-Bitwise XOR operation
+## Not
+
+Logical "not" operation: the result is true if the input is false.
+
+`X` ▶ `not X`
 
 
-## BLSL
-Bitwise logical shift left
+## NAnd
+
+Logical "not and" operation: the result is true unless both inputs are true.
+
+`Y` `X` ▶ `Y nand X`
 
 
-## BLSR
-Bitwise logical shift right
+## NOr
 
+Logical "not or" operation: the result is true unless either input is true.
 
-## BASR
-Bitwise arithmetic shift right
+`Y` `X` ▶ `Y nor X`
 
+## Implies
 
-## BRL
-Bitwise rotate left
+Logical implication operation: the result is true if the first input is false or
+the second input is true.
 
+`Y` `X` ▶ `Y implies X`
 
-## BRR
-Bitwise rotate right
+## Equiv
 
+Logical equivalence operation: the result is true if both inputs are true or
+both inputs are false.
 
-## BNOT
-Bitwise inversion of bits
+`Y` `X` ▶ `Y equiv X`
 
+## Excludes
 
-## BADD
-Bitwise addition with overflow
+Logical exclusion operation: the result is true if the first input is true or
+the second input is false.
 
-
-## BSUB
-Bitwise subtraction with overflow
-
-
-## BMUL
-Bitwise multiplication
-
-
-## BDIV
-Bitwise integer division
-
-
-## BNEG
-Bitwise negation
-
+`Y` `X` ▶ `Y excludes X`
 # Bitmaps
 
 ## TOSYSBITMAP
@@ -5381,13 +5704,24 @@ Selects base 16
 
 Select an arbitrary base for computations
 
-## StoreWordSize (STWS)
+## WordSize (STWS)
 
-Store the word size for binary computations
+Store the current [word size](#wordsize) in bits. The word size is used for
+operations on based numbers. The value must be greater than 1, and the number of
+bits is limited only by memory and performance.
 
-## WordSize (RCWS)
+## RecallWordSize (RCWS)
 
-Recall the word size for binary computations
+Return the current [word size](#wordsize) in bits.
+
+## STWS
+
+`STWS` is a compatibility spelling for the [WordSize](#wordsize) command.
+
+## RCWS
+
+`RCWS` is a compatibility spelling for the [RecallWordSize](#recallwordsize)
+command.
 
 ## MaxRewrites
 
@@ -5397,15 +5731,21 @@ Defines the maximum number of rewrites in an equation.
 'B+A' rewrite` can never end, since it keeps rewriting terms. This setting
 indicates how many attempts at rewriting will be done before erroring out.
 
-## MaxBigNumBits
+## MaxNumberBits
 
-Define the maxmimum number of bits for a large integer.
+Define the maxmimum number of bits for numbers.
 
 Large integer operations can take a very long time, notably when displaying them
 on the stack. With the default value of 1024 bits, you can compute `100!` but
 computing `200!` will result in an error, `Number is too big`. You can however
-compute it seting a higher value for `MaxBigNumBits`, for example
-`2048 MaxBigNumBits`.
+compute it seting a higher value for `MaxNumberBits`, for example
+`2048 MaxNumberBits`.
+
+This setting applies to integer components in a number. In other words, it
+applies separately for the numerator and denominator in a fraction, or for the
+real and imaginary part in a complex number. A complex number made of two
+fractions can therefore take up to four times the number of bits specified by
+this setting.
 
 ## ToFractionIterations (→QIterations, →FracIterations)
 
@@ -5473,6 +5813,49 @@ When this setting is active, statistics functions that return sums, such as
 `ΣXY` or `ΣX²`, will adjust their input according to the current fitting model
 in special variable `ΣParameters`, in the same way as required for
 `LinearRegression`.
+
+## DetailedTypes
+
+The `Type` command returns detailed DB48X type values, which can distinguish
+between all DB48X object types, e.g. distinguish between polar and rectangular
+objects, or the three internal representations for decimal numbers. Returned
+values are all negative, which distinguishes them from RPL standard values, and
+makes it possible to write code that accepts both the compatible and detailed
+values.
+
+This is the opposite of [CompatibleTypes](#compatibletypes).
+
+## CompatibleTypes
+
+The `Type` command returns values as close to possible to the values documented
+on page 3-262 of the HP50G advanced reference manual. This is the opposite of
+[NativeTypes](#nativetypes).
+
+
+## MultiLineResult
+
+Show the result (level 1 of the stack) using multiple lines.
+This is the opposite of [SingleLineResult](#singlelineresult).
+Other levels of the stack are controled by [MultiLineStack](#multilinestack)
+
+## SingleLineResult
+
+Show the result (level 1 of the stack) on a single line.
+This is the opposite of [MultiLineResult](#multilineresult).
+Other levels of the stack are controled by [SingleLineStack](#singlelinestack)
+
+## MultiLineStack
+
+Show the levels of the stack after the first one using multiple lines.
+This is the opposite of [SingleLineStack](#singlelinestack).
+Other levels of the stack are controled by [MultiLineResult](#multilineresult)
+
+## SingleLineStack
+
+Show the levels of the stack after the first one on a single line
+This is the opposite of [MultiLineStack](#multilinestack).
+Other levels of the stack are controled by [SingleLineResult](#singlelineresult)
+
 
 # States
 
@@ -5807,7 +6190,6 @@ The equations for these transformations are:
 where b is the intercept and m is the slope. The logarithmic model requires
 positive x-values (XCOL), the exponential model requires positive y-values
 (YCOL), and the power model requires positive x- and y-values.
-CMD(LinearRegression) ALIAS(LinearRegression, "LR")
 
 ## Intercept
 
@@ -6130,11 +6512,23 @@ value of the integer, and `xx` represents the integer type, as returned by the
 
 Return the type of the object as a numerical value. The value is not guaranteed
 to be portable across versions of DB48X (and pretty much is guarantteed to _not_
-be portable), nor to ever match the value returned by the `TYPE` command on the
-HP48.
+be portable at the current stage of development).
+
+If the `CompatibleTypes` setting is active, the returned value roughly matches
+the value returned by the HP50G. It always returns `29` for arrays, not `3`
+(real array) nor `4` (complex array). It returns `1` for both polar and
+rectangular complex numbers, irrespective of their precision. 128-bit decimal
+values return `21` (extended real), 32-bit and 64-bit return `0` (real number).
+The separation between `18` (built-in function) and `19` (built-in command) may
+not be accurate.
+
+If the `DetailedTypes` setting is active, the return value is negative, and
+matches the internal representation precisely. For example, distinct values will
+be returned for fractions and expressions.
 
 *Note* The [TypeName](#typename) command returns the type as text, and
-this is less likely to change from one release to the next.
+this is less likely to change from one release to the next. DB48X-only code
+should favor the use of `TypeName`, both for portability and readability.
 
 ## TypeName
 

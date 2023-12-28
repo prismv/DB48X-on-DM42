@@ -717,8 +717,8 @@ void user_interface::update_mode()
                 }
 
                 isnum = ((code >= '0' && code <= '9')
-                         || (code >= 'A' && code <= 'Z')
-                         || (code >= 'a' && code <= 'z')
+                         || (hnum && ((code >= 'A' && code <= 'Z')
+                                      || (code >= 'a' && code <= 'z')))
                          || code == '+'
                          || code == '-'
                          || code == '#'
@@ -2135,9 +2135,11 @@ bool user_interface::draw_error()
         r.inset(2);
 
         Screen.clip(r);
-        if (utf8 cmd = rt.command())
+        if (text_p cmd = rt.command())
         {
-            coord x = Screen.text(r.x1, r.y1, cmd, ErrorFont);
+            size_t sz = 0;
+            utf8 cmdt = cmd->value(&sz);
+            coord x = Screen.text(r.x1, r.y1, cmdt, sz, ErrorFont);
             Screen.text(x, r.y1, utf8(" error:"), ErrorFont);
         }
         else
@@ -2941,7 +2943,6 @@ bool user_interface::handle_help(int &key)
     if (!showing_help())
     {
         // Exit if we are editing or entering digits
-        bool editing  = rt.editing();
         if (last == KEY_SHIFT)
             return false;
 
@@ -2964,7 +2965,7 @@ bool user_interface::handle_help(int &key)
                     dirtyCommand = true;
                     if (longpress)
                     {
-                        rt.command("Help");
+                        rt.command(command::static_object(object::ID_Help));
                         load_help(htopic);
                         if (rt.error())
                         {
@@ -2979,8 +2980,7 @@ bool user_interface::handle_help(int &key)
                     return true;
                 }
             }
-            if (!editing)
-                key = 0;
+            key = 0;
         }
         else
         {
@@ -4368,7 +4368,7 @@ bool user_interface::editor_replace()
 //   Perform a search replacement
 // ----------------------------------------------------------------------------
 {
-    if (~searching && ~select && cursor != select && clipboard.Safe())
+    if (~searching && ~select && cursor != select && clipboard)
     {
         uint start = cursor;
         uint end = select;
@@ -4514,15 +4514,18 @@ void debug_printf(int row, cstring format, ...)
 //   Debug printf on the given row
 // ----------------------------------------------------------------------------
 {
-    char buffer[256];
-    va_list va;
-    va_start(va, format);
-    vsnprintf(buffer, sizeof(buffer), format, va);
-    va_end(va);
-    size  h = HelpFont->height();
-    coord y = row * h;
-    Screen.text(0, y, utf8(buffer), HelpFont, pattern::white, pattern::black);
-    ui.draw_dirty(0, y, LCD_W, y + h - 1);
+    if (HelpFont)
+    {
+        char buffer[256];
+        va_list va;
+        va_start(va, format);
+        vsnprintf(buffer, sizeof(buffer), format, va);
+        va_end(va);
+        size  h = HelpFont->height();
+        coord y = row * h;
+        Screen.text(0, y, utf8(buffer), HelpFont, pattern::white, pattern::black);
+        ui.draw_dirty(0, y, LCD_W, y + h - 1);
+    }
 }
 
 

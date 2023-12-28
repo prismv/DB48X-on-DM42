@@ -190,20 +190,31 @@ struct object
     //   Operations that can be run on an object
     // ------------------------------------------------------------------------
     {
-        cstring         name;            // Basic (compatibility) name
-        cstring         fancy;           // Fancy name
-        size_fn         size;            // Compute object size in bytes
-        parse_fn        parse;           // Parse an object
-        help_fn         help;            // Return help topic
-        evaluate_fn     evaluate;        // Evaluate the object
-        render_fn       render;          // Render the object as text
-        graph_fn        graph;           // Render the object as a grob
-        insert_fn       insert;          // Insert object in editor
-        menu_fn         menu;            // Build menu entries
-        menu_marker_fn  menu_marker;     // Show marker
-        uint            arity;           // Number of input arguments
-        uint            precedence;      // Precedence in equations
+        size_fn         size;           // Compute object size in bytes
+        parse_fn        parse;          // Parse an object
+        help_fn         help;           // Return help topic
+        evaluate_fn     evaluate;       // Evaluate the object
+        render_fn       render;         // Render the object as text
+        graph_fn        graph;          // Render the object as a grob
+        insert_fn       insert;         // Insert object in editor
+        menu_fn         menu;           // Build menu entries
+        menu_marker_fn  menu_marker;    // Show marker
+        uint            arity;          // Number of input arguments
+        uint            precedence;     // Precedence in equations
     };
+
+
+    struct spelling
+    // ------------------------------------------------------------------------
+    //   One of the possible spellings for a commands
+    // ------------------------------------------------------------------------
+    {
+        id              type;           // Type of the command
+        cstring         name;           // Name for the command
+    };
+    static const spelling spellings[];
+    static const size_t   spelling_count;
+
 
 
     // ========================================================================
@@ -306,7 +317,7 @@ struct object
     //  Evaluate an object by calling the handler
     // ------------------------------------------------------------------------
     {
-        record(eval, "Evaluating %+s %p", name(), this);
+        record(eval, "Evaluating %t", this);
         return ops().evaluate(this);
     }
 
@@ -323,7 +334,7 @@ struct object
     //   Render the object into an existing renderer
     // ------------------------------------------------------------------------
     {
-        record(render, "Rendering %+s %p into %p", name(), this, &r);
+        record(render, "Rendering %p into %p", this, &r);
         return ops().render(this, r);
     }
 
@@ -415,6 +426,12 @@ struct object
     // ------------------------------------------------------------------------
 
 
+    bool next_index(object_p *index) const;
+    // ------------------------------------------------------------------------
+    //   Find the next index for the current object, returns true if wraps
+    // ------------------------------------------------------------------------
+
+
     result insert(user_interface &i) const
     // ------------------------------------------------------------------------
     //   Insert in the editor at cursor position, with possible offset
@@ -458,22 +475,28 @@ struct object
     }
 
 
-    static utf8 name(id i)
+    static utf8 alias(id i, uint index);
     // ------------------------------------------------------------------------
-    //   Return the name for a given ID
+    //   Return the nth alias for a given ID
     // ------------------------------------------------------------------------
-    {
-        return utf8(i < NUM_IDS ? handler[i].name : "<invalid ID>");
-    }
 
 
-    static utf8 fancy(id i)
+    static utf8 name(id i);
+    // ------------------------------------------------------------------------
+    //   Return the name for a given ID with current style
+    // ------------------------------------------------------------------------
+
+
+    static utf8 fancy(id i);
     // ------------------------------------------------------------------------
     //   Return the fancy name for a given ID
     // ------------------------------------------------------------------------
-    {
-        return utf8(i < NUM_IDS ? handler[i].fancy : "<Invalid ID>");
-    }
+
+
+    static utf8 old_name(id i);
+    // ------------------------------------------------------------------------
+    //   Return the fancy name for a given ID
+    // ------------------------------------------------------------------------
 
 
     utf8 name() const

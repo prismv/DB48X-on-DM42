@@ -307,6 +307,15 @@ int setting_value<int>(object_p obj, int init)
     return int(obj->as_int32(init, true));
 }
 
+template <>
+int16_t setting_value<int16_t>(object_p obj, int16_t init)
+// ----------------------------------------------------------------------------
+//   Specialization for signed integer values
+// ----------------------------------------------------------------------------
+{
+    return int16_t(obj->as_int32(init, true));
+}
+
 template<>
 object::id setting_value<object::id>(object_p obj, object::id UNUSED init)
 // ----------------------------------------------------------------------------
@@ -328,8 +337,9 @@ EVAL_BODY(value_setting)
 
     if (ty >= ID_Fix && ty <= ID_Sig)
     {
-        uint digits = Settings.DisplayDigits();
-        if (!validate(ty, digits, 0U, DB48X_MAXDIGITS))
+        using type = typeof(Settings.DisplayDigits());
+        type digits = Settings.DisplayDigits();
+        if (!validate(ty, digits, type(0), type(DB48X_MAXDIGITS)))
             return ERROR;
         Settings.DisplayDigits(digits);
     }
@@ -527,6 +537,23 @@ cstring setting::printf(cstring format, ...)
 }
 
 
+static cstring disp_name(object::id ty)
+// ----------------------------------------------------------------------------
+//   Avoid capitalizing the Std/Fix/Sig differently in menu
+// ----------------------------------------------------------------------------
+{
+    switch(ty)
+    {
+    default:
+    case object::ID_Std:        return "Std";
+    case object::ID_Sig:        return "Sig";
+    case object::ID_Fix:        return "Fix";
+    case object::ID_Sci:        return "Sci";
+    case object::ID_Eng:        return "Eng";
+    }
+}
+
+
 cstring setting::label(object::id ty)
 // ----------------------------------------------------------------------------
 //   Render the label for the given type
@@ -537,18 +564,18 @@ cstring setting::label(object::id ty)
     {
     case ID_Sig:
         if (s.DisplayMode() == ID_Std)
-            return printf("%s %u", name(ty), s.DisplayDigits());
+            return printf("%s %u", disp_name(ty), s.DisplayDigits());
     case ID_Fix:
     case ID_Sci:
     case ID_Eng:
         if (ty == s.DisplayMode())
-            return printf("%s %u", name(ty), s.DisplayDigits());
-        return cstring(name(ty));
+            return printf("%s %u", disp_name(ty), s.DisplayDigits());
+        return disp_name(ty);
 
     case ID_Base:
         return printf("Base %u", s.Base());
     case ID_WordSize:
-        return printf("WSize %u", s.WordSize());
+        return printf("%u bits", s.WordSize());
     case ID_FractionIterations:
         return printf("→QIter %u", s.FractionIterations());
     case ID_FractionDigits:
@@ -575,8 +602,8 @@ cstring setting::label(object::id ty)
         return printf("MLEd %u", s.MultilineEditorFont());
     case ID_CursorBlinkRate:
         return printf("Blink %u", s.CursorBlinkRate());
-    case ID_MaxBigNumBits:
-        return printf("Bits %u", s.MaxBigNumBits());
+    case ID_MaxNumberBits:
+        return printf("Bits %u", s.MaxNumberBits());
     case ID_MaxRewrites:
         return printf("Rwr %u", s.MaxRewrites());
 

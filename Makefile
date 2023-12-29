@@ -82,10 +82,18 @@ install-config:
 	mkdir -p $(MOUNTPOINT)config/
 	$(COPY) config/*.csv $(MOUNTPOINT)config/
 
+QMAKE6 := $(shell command -v qmake6 2> /dev/null)
+ifndef QMAKE
+	ifdef QMAKE6
+		QMAKE = $(QMAKE6)
+	else
+		QMAKE = qmake
+	endif
+endif
 sim: sim/$(TARGET).mak
 	cd sim; make -f $(<F)
 sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)
-	cd sim; qmake6 $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT))
+	cd sim; $(QMAKE) $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT))
 
 sim:	sim/gcc111libbid.a	\
 	recorder/config.h	\

@@ -103,7 +103,6 @@ debug:DEFINES += DEBUG
 
 # For DMCP headers
 DEFINES += __packed=
-macx:DEFINES += _WCHAR_T_DEFINED
 clang:DEFINES += _WCHAR_T_DEFINED
 
 # COnfigure Intel Decimal Floating Point Library

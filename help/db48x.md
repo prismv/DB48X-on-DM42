@@ -6427,11 +6427,11 @@ if 'r < L/10' then
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
 ```
+Verify relative difference under condition `5_cm << 3_m` with the example of ([E Field Infinite Line](#E Field Infinite Line))
 ```rpl
-@ Verify relative difference under condition `5_cm << 3_m`.
 Er0 Er %Ch
 @ Expecting [ -5.55093 02084 6⁳⁻² ]
-@ % of relative difference with the example of [E Field Infinite Line](#E Field Infinite Line)
+@ % of relative difference 
 ```
 
 ### E Field Infinite Plate
@@ -6616,8 +6616,10 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 * To calculate `[I_A]` (Current) from 5 known variables:
 ```rpl
 Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
-@ Failing [ I=0.00722 56513 67 A ]
-@ NOT OK. exp(-t*R/L) in error: BASE to be applied to the mixed units argument
+@ Expecting [ I=-2.⁳⁻²³ A ]
+@ Failing [ I=7.22565 13671 4⁳⁻³ A ]
+@ C#1 NOT OK. MSOLVER gives wrong value BUT algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A 
+'ROOT([(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))];[I];[1_A])'
 'ROOT(ⒺRL Transient;[I];[1_A])'
 ```
 
@@ -6627,7 +6629,7 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
 @ Failing [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
-@ NOT OK. radians missing in ω0 ; Error: "Inconsistent units" but units are ok
+@ C#2 NOT OK. MSOLVER & SOLVER Error: "Inconsistent units" but units are OK and it computes algebraically
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
 
@@ -6637,10 +6639,10 @@ L=500_mH  C=8_μF  R=10_Ω
 
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
-C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
-@ Failing [ d=8.00418 57871 19⁳⁻⁹ cm σ=750 000. μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ N/C ΔV=3. V ]
-@ C#1 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Inconsistent units" BUT strangely
-@ if I give "1" as a trial value for d, it works then it will also work seperately for Ein & ΔV
+C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC 
+@ Failing [ d=8.00418 57871 2⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ V/m ΔV=3. V ]
+@ C#3 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Bad argument type" BUT strangely
+@ if I give "1" as a trial value for σ, it works then it will also work seperately for Ein & ΔV BUT indicating SOLVE Error: "Sign Reversal"
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -6705,7 +6707,7 @@ I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/
 @ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
 
-@ C#2 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic"
+@ C#4 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT it should work !
 I=1_A  n=8.5e28_(m^-3) r=0.1_cm A='Ⓒπ*r^2' ρ='Ⓒqe*n' σ='Ⓒqe*n*40_(cm^2/(V*s))'
 @ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
@@ -6779,16 +6781,16 @@ These equations represent the streamlined flow of an incompressible fluid.
 * To calculate `[A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in]` (Various hydrodynamic parameters) from 7 known variables:
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
+@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#5 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
 Alternate présentation adding one more known value: `v2`
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s v2=122.421311569_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
+@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#5 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -6813,10 +6815,9 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 
 * To calculate `[ΔP_Psi;Δy_ft;A_in^2;n_ft^2/s;Q_ft^3/min;M_lb/min;W_hp;Reynolds]` (Various hydrodynamic parameters) from 7 known variables:
 ```rpl
-ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft
-μ=0.00002_lbf*s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
+ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft  μ=0.00002_lbf*s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
 @ Failing [ ΔP=-5. psi Δy=40. ft A=113.0973 in↑2 n=1.0312 ft^2/s Q=376.991 ft↑3/min M=23 524.2358 lb/min W=25.8897 hp Reynolds=775 780.5 ]
-@ C#4 NOT OK. Fanning function not implemented yet !!! Msolver: "EquationSolver error: Inconsistent units"
+@ C#6 NOT OK. MSOLVER: "EquationSolver error: Inconsistent units". This uses the new DANNING function.
 'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Reynolds];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
 ```
 
@@ -6878,8 +6879,7 @@ t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
 * To calculate `[τ_ft*lbf;Ki_ft*lbf;W_ft*lbf;Kf_ft*lbf;at_ft/s^2;Ni_rpm;ωf_r/min;t_min;Nf_rpm;Pavg_hp]` (Various dynamical variables) from 5 known variables:
 ```rpl
 I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
-@ Failing [τ=1.10168 29849 6e-3 ft·lbf  Ki=0 ft*lbf  W=6.92207 83442 7e-3 ft·lbf  Kf=6.92207 83442 7⁳⁻³ ft·lbf  at=8.50694 44444 4e-4 ft/s↑2  Ni=0 rpm   ωf=11.48681 38076 r/min  t=1.09398 22673 9 min  Nf=0.29096 43928 16 rpm  Pavg=1.91739 80792 8⁳⁻⁷ hp]
-@ C#5 NOT OK. MSOLVER: "Inconsistent units", SOLVE individually for r works but gives "Sign reversal" error. Then Ki & W failed due to radians errors, then SOLVE calculates Kf but failed for at "Inconsistent units" that we calculate algebraically. I corrected many radians errors, therefore to be checked. Now eqns are OK.
+@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=0.29096 43928 17 rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
 'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
 ```
 
@@ -6945,11 +6945,13 @@ m=9.1E-31_kg
 
 ## Gases
 
-The 36 variables in the Gases section are:
-zzz
+The 38 variables in the Gases section are:
+
 * `λ`: Mean free path (dim.: length)
 * `ρ`: Flow density (dim.: mass/volume, in SI: kg/m^3)
-* `ρr, ρri, ρrf`: Initial and final reduced state factors
+* `ρr`: Reduced state factor
+* `ρri`: Initial reduced state factor
+* `ρrf`: Final reduced state factor
 * `ρ0`: Stagnation density (dim.: mass/volume, in SI: kg/m^3)
 * `A`: Flow area
 * `At`: Throat area
@@ -6958,27 +6960,35 @@ zzz
 * `M`: Mach number
 * `m`: Mass
 * `MW`: Molecular weight (dim.: mass/mole, in SI: g/gmol)
-* `n`: Number of moles, or Polytropic constant (Polytropic Processes)
-* `P`: Pressure, or Flow pressure (Isentropic Flow) (dim.: force/area, in SI: pascal, Pa)
+* `n`: Number of moles, or Polytropic constant ([Polytropic Processes](#Polytropic Processes))
+* `P`: Pressure, or Flow pressure ([Isentropic Flow](#Isentropic Flow)) (dim.: force/area, in SI: pascal, Pa)
 * `P0`: Stagnation pressure (dim.: force/area, in SI: pascal, Pa)
 * `Pc`: Pseudocritical pressure (dim.: force/area, in SI: pascal, Pa)
-* `Pi`
-* `Pf`: Initial and final pressure (dim.: force/area, in SI: pascal, Pa)
-* `Pr, Pri, Prf`: Initial and final Reduced Pressures
-* `T`: Temperature, or Flow temperature (Isentropic Flow)
+* `Pi`: Initial pressure (dim.: force/area, in SI: pascal, Pa)
+* `Pf`: Final pressure (dim.: force/area, in SI: pascal, Pa)
+* `Pr`: Reduced pressure
+* `Pri`: Initial reduced ressure
+* `Prf`: Final reduced pressure
+* `T`: Temperature, or Flow temperature ([Isentropic Flow](#Isentropic Flow))
 * `T0`: Stagnation temperature
 * `Tc`: Pseudocritical temperature
-* `Tr, Tri, trf`: Initial and final reduced temperatures
-* `Ti, Tf`: Initial and final temperatures
-* `V, Vi, Vf`: Initial and final volumes
+* `Tr`: Reduced temperature
+* `Tri`: Initial reduced temperature
+* `trf`: Final reduced temperature
+* `Ti`: Initial temperature
+* `Tf`: Final temperature
+* `V`: Volume
+* `Vi`: Initial volume
+* `Vf`: Final volume
 * `vrms`: Root-mean-square (rms) velocity
 * `W`: Work (dim.: force·length, in SI: joule, J)
-* `Z, Zi, Zf`: Initial and final gas compressibility correction factors
+* `Z`: Gas compressibility correction factor
+* `Zi`: Initial gas compressibility correction factor
+* `Zf`: Final gas compressibility correction factor
 
 ### Ideal Gas
 
-* To calculate `[n_mol;m_kg]` (Number of moles, mass) from 4 known variables:
-
+* To calculate `[n_mol;m_kg]` (Number of moles; Mass) from 4 known variables:
 ```rpl
 T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
 @ Expecting [ n=1.05056 26661 23⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
@@ -6988,7 +6998,6 @@ T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
 ### Ideal Gas Law Change
 
 * To calculate `[Vf_l]` (Volume final) from 5 known variables:
-
 ```rpl
 Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=100_°C  Tf=373.15_K
 @ Expecting [ Vf=2. l ]
@@ -6999,8 +7008,7 @@ Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=100_°C  Tf=373.15_K
 
 These equations apply to an ideal gas.
 
-* To calculate `[m_kg;W_J]` (Mass, work) from 5 known variables:
-
+* To calculate `[m_kg;W_J]` (Mass; Work) from 5 known variables:
 ```rpl
 Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
 @ Expecting [ m=1.6⁳⁻² kg W=4 926.49415 89 J ]
@@ -7011,8 +7019,7 @@ Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
 
 These equations describe a reversible pressure-volume change of an ideal gas such that `P·Vn` is constant. Special cases include isothermal processes (`n = 1`), isentropic processes (`n = k`, the specific heat ratio), and constant-pressure processes (`n = 0`).
 
-* To calculate `[n_1;Tf_°F]` (Polytropic number, final temperature) from 5 known variables:
-
+* To calculate `[n_1;Tf_°F]` (Polytropic number; Final temperature) from 5 known variables:
 ```rpl
 Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
 @ Expecting [ n=1.22239 24213 4 Tf=346.54537 037 K ]
@@ -7025,8 +7032,7 @@ Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
 
 The calculation differs at velocities below and above Mach 1. The Mach number is based on the speed of sound in the compressible fluid.
 
-* To calculate `[P_kPa;ρ_kg/m^3;At_cm^2]` (Flow pressure, flow density, throat area) from 7 known variables:
-
+* To calculate `[P_kPa;ρ_kg/m^3;At_cm^2]` (Flow pressure; Flow density; Throat area) from 7 known variables:
 ```rpl
 k=2  M=0.9  T0=26.85_°C  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
 @ Expecting [ P=154.71213 6111 kPa ρ=124.38333 3333 kg/m↑3 At=0.99280 71853 34 cm↑2 ]
@@ -7037,58 +7043,60 @@ k=2  M=0.9  T0=26.85_°C  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
 
 These equations adapt the ideal gas law to emulate real-gas behavior.
 
-* To calculate `[n_mol;m_kg;Z_1]` (Number of mole, mass, gas compressibility correction factor) from 7 known variables:
-
+* To calculate `[Z_1;n_mol;m_kg]` (Gas compressibility correction factor; Number of mole; Mass) from 7 known variables:
 ```rpl
 Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
-@ Failing [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.99977 57972 690 ]
-@ C#6 NOT OK. MSOLVER: "Inconsistent units", MSOLVE works only if we provide the right initial value for Z ... NOT ANYMORE ! I thinh it worked with Z value in v0.8.1, but I am not sure.
-'ROOT(ⒺReal Gas Law;[n;m;Z];[1_mol;1_kg;1])'
+@ Failing [ Z=0.99977 57972 690 n=1.72768 40576 1⁳⁻² mol m=1.10571 77968 7⁳⁻³ kg ]
+@ C#7 NOT OK. MSOLVER: "Inconsistent units". SOLVE for Z alone doesn't work (see below). If I substitute the Z value, SOLVE works for n & m
+'ROOT(ⒺReal Gas Law;[Z,n;m];[1;1_mol;1_kg])'
 ```
-
-Notes about the current error:
+```rpl
+@ Let me examine the computation of Z alone in its own implicit expression
+Pc=48_atm  Tc=298_K  P=5_kPa  T=348.15_K
+@ Failing [ Z=0.99977 57972 69 ]
+@ Doesn't work. MSOLVER : "Inconsistent units". Very strange because if I substitute P,T,Pc & Tc values, it works, see next trial 
+'ROOT([Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)];[Z];[1])'
 ```
-@ SOLUTIONS with an individual ROOT call. Since it works the Z function (in equation.cc) will be rewritten in closed form
-@ 'ROOT(-Z+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2);Z;1)'
-@ Z=0.99977 57972 690
+```rpl
+@ Here it works if I substitute the P,T,Pc & Tc values explicitely. Why this substitution seems to be requires ?
+@ Expecting [ Z=0.99977 57972 69 ]
+'ROOT([Z=1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)];[Z];[1])'
 ```
 
 ### Real Gas State Change
 
 This equation adapts the ideal gas state-change equation to emulate real-gas behavior.
 
-* To calculate `[Vf_l;Zi_1;Zf_1]` (Final volume, initial & final gas compressibility correction factor) from 7 known variables:
-
+* To calculate `[Zi_1;Zf_1;Vf_l]` (Initial & final gas compressibility correction factor; Final volume) from 7 known variables:
 ```rpl
 Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
 @ Failing [ Vf=30.17028 92973 l Zi=0.99550 62096 36 Zf=0.99938 68303 14 ]
-@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below) the Vf calculated is wrong
-'ROOT(ⒺReal Gas State Change;[Vf;Zi;Zf];[Vf_l;1;1])'
+@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below)SOLVE for Vf : "Inconsistent units"
+'ROOT(ⒺReal Gas State Change;[Zi;Zf;Vf];[1;1;Vf_l])'
 ```
 
-Notes about the current error:
-```
+Same comment as "Real Gas Law" apply here, In the following I substitute all the required values, otherwise this doesn't work
+```RPL
 @ SOLUTIONS with individual ROOT calls. Since it works the Zi & Zf function (in equation.cc) will be rewritten in closed form
-@ 'ROOT(-Zi+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2);Zi;1)'
-@ => Zi=0.99550 62096 36
-@ 'ROOT(-Zf+1+(0.31506237-1.04670990/((523.15_K)/(298_K))-0.57832729/((523.15_K)/(298_K))^3)*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))+(0.53530771-0.61232032/((523.15_K)/(298_K)))*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^5/((523.15_K)/(298_K))+0.68157001*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2/((523.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2);Zf;1)'
-@ => Zf=0.99938 68303 14
-@ => Zi/Zf=0.99611 69983 83  which is the required answer
+@ Expecting [ Zi=0.99550 62096 36 ]
+'ROOT([Zi=1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)];[Zi];[1])'
+
+@ Expecting [ Zf=0.99938 68303 14 ]
+'ROOT([Zf=1+(0.31506237-1.04670990/((523.15_K)/(298_K))-0.57832729/((523.15_K)/(298_K))^3)*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))+(0.53530771-0.61232032/((523.15_K)/(298_K)))*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^5/((523.15_K)/(298_K))+0.68157001*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2/((523.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)];[Zf];[1])'
+@ => Zi/Zf=0.99611 69983 83  which is the required answer if I deduce it from the HP50g results
 ```
 
 ### Kinetic Theory
 
-
 These equations describe properties of an ideal gas.
 
-* To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity, number of mole, mean free path) from 7 known variables:
-
+* To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity; Number of mole; Mean free path) from 7 known variables:
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
 @ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
 @ Expecting [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 7⁳⁻³ kg λ=1 nm ]
 @ C#8 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
-@ MSOLVER calculates wrong values : [ vrms=1 388.08583 078 m/s n=0.0173 mol m=0.00031 14 kg λ=1 nm ]
+@ MSOLVER calculates wrong values everuwhere : [ vrms=1 388.08583 078 m/s n=0.0173 mol m=0.00031 14 kg λ=1 nm ]
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
 ```
 
@@ -7099,7 +7107,8 @@ The 31 variables in the Heat Transfer section are:
 
 * `α`: Expansion coefficient (dim.: 1/temperature, in SI: K^-1)
 * `δ`: Elongation (dim.: length)
-* `λ1, λ2`: Lower and upper wavelength limits (dim.: length)
+* `λ1`: Lower wavelength limits (dim.: length)
+* `λ2`: Upper wavelength limits (dim.: length)
 * `λmax`: Wavelength of maximum emissive power (dim.: length)
 * `ΔT`: Temperature difference
 * `A`: Area
@@ -7107,36 +7116,41 @@ The 31 variables in the Heat Transfer section are:
 * `eb12`: Emissive power in the range λ1 to λ2 (dim.: power/area, in SI: W/m^2)
 * `eb`: Total emissive power (dim.: power/area, in SI: W/m^2)
 * `f`: Fraction of emissive power in the range λ1 to λ2
-* `h, h1, h3`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
-* `k, k1, k2, k3`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
-* `L, L1, L2, L3`: Length
+* `h`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `h1`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `h3`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `k`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k1`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k2`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k3`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `L`: Length
+* `L1`: Length
+* `L2`: Length
+* `L3`: Length
 * `m`: Mass
 * `Q`: Heat capacity (dim.: energy, in SI: joule, J)
 * `qr`: Heat transfer rate (dim.: power=energy/time, in SI: watt, W)
 * `T`: Temperature
-* `Tc`: Cold surface temperature (Conduction), or Cold fluid temperature (Convection)
-* `Th`: Hot surface temperature, or Hot fluid temperature (Conduction + Convection)
-* `Ti, Tf`: Initial and final temperatures
+* `Tc`: Cold surface temperature ([Conduction^](#Conduction)), or Cold fluid temperature ([Convection](1Convection))
+* `Th`: Hot surface temperature, or Hot fluid temperature ([Conduction + Convection](#Conduction + Convection))
+* `Ti`: Initial temperature
+* `Tf`: Final temperature
 * `U`: Overall heat transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
 
 ### Heat Capacity
 
-* To calculate `[c_kJ/(kg*K);Tf_°C]` (Specific heat, final temperature) from 4 known variables:
-
+* To calculate `[Tf_°C;c_kJ/(kg*K)]` (Final temperature; Specific heat) from 4 known variables:
 ```rpl
 ΔT=15_°C  Ti=0_°C  m=10_kg  Q=25_kJ
-@ Expecting [ c=0.01 kJ/(kg·K) Tf=15. °C ]
-@ Failing [ c=0.16666 66666 67 kJ/(kg·K) Tf=15 °C ]
-@ C#9 NOT OK. MSOLVER: calculates BUT hallucinates to a wrong value of c ... why ? Works if solved seperately.
-'ROOT(ⒺHeat Capacity;[c;Tf];[1_kJ/(kg*K);1_°C])'
+@ Expecting [ Tf=15. °C c=0.16666 66666 67 kJ/(kg·K) ]
+'ROOT(ⒺHeat Capacity;[Tf;c];[1_°C;1_kJ/(kg*K)])'
 ```
 
 ### Thermal Expansion
 
 ![Thermal Expansion](img/ThermalExpansion.bmp)
 
-* To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient, initial temperature) from 4 known variables:
-
+* To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient; Initial temperature) from 4 known variables:
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
 @ Expecting [ α=9.⁳⁻⁴ K⁻¹ Ti=10. °C ]
@@ -7147,8 +7161,7 @@ The 31 variables in the Heat Transfer section are:
 
 ![Conduction](img/Conduction.bmp)
 
-* To calculate `[qr_W;ΔT_°C]` (Heat transfer rate, temperature difference) from 5 known variables:
-
+* To calculate `[qr_W;ΔT_°C]` (Heat transfer rate; Temperature difference) from 5 known variables:
 ```rpl
 Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 @ Expecting [ qr=5000 W ΔT=50_°C ]
@@ -7159,14 +7172,11 @@ Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 
 ![Convection](img/Convection.bmp)
 
-* To calculate `[ΔT_°C;Th_°C]` (Temperature difference, hot surface temperature) from 4 known variables:
-
+* To calculate `[Th_°C;ΔT_°C]` (Hot surface temperature; Temperature difference) from 4 known variables:
 ```rpl
 Tc=26.85_°C  A=200_m^2  h=0.005_W/(m^2*K)  qr=10_W
-@ Expecting [ ΔT=48.15 °C Th=36.85 °C ]
-@ Failing [ ΔT=10. °C Th=36.85 °C ]
-@ C#10 NOT OK MSOLVER hallucinates a wrong value for ΔT
-'ROOT(ⒺConvection;[ΔT;Th];[1_°C;1_°C])'
+@ Expecting [ Th=36.85 °C ΔT=10. °C ]
+'ROOT(ⒺConvection;[Th;ΔT];[1_°C;1_°C])'
 ```
 
 ### Conduction & Convection
@@ -7175,14 +7185,11 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ![Conduction + Convection](img/Conduction+Convection.bmp)
 
-* To calculate `[qr_W;Tc_°C;U_W/(m^2*K)]` (Heat transfer rate, cold surface temperature, overall heat transfer coefficient) from 11 known variables:
-
+* To calculate `[Tc_°C;qr_W;U_W/(m^2*K)]` (Cold surface temperature; Heat transfer rate; Overall heat transfer coefficient) from 11 known variables:
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ qr=6.91646 19164 6 W Tc=300. °C U=-2.82304 56801 9⁳⁻³ W/(m↑2·K) ]
-@ Failing [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
-@ C#11 NOT OK: MSOLVER hallucinates all the values
-'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
+@ Expecting [ Tc=20. °C qr=8.59950 85995 1 W U=0.02457 00245 7 W/(m↑2·K) ]
+'ROOT(ⒺConduction & Convection;[Tc;qr;U];[1_°C;1_W;1_W/(m^2*K)])'
 ```
 
 ### Black Body Radiation
@@ -7191,22 +7198,31 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 
 ![Black Body Radiation](img/BlackBodyRadiation.bmp)
 
-* To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission, total emissive power, fraction of emissive power between λ1 & λ2, emissive power between λ1 & λ2, heat transfer rate) from 4 known variables:
-
+* To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission; Total emissive power; Fraction of emissive power between λ1 & λ2; Emissive power between λ1 & λ2; Heat transfer rate) from 4 known variables:
 ```rpl
-T=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
-@ Failing [ λmax=2276.0523_nm eb=148984.2703_W/m^2 f=0.0036 eb12=537.7264_W/m^2 q=14.8984_W ]
-@ C#12 NOT OK: MSOLVER: "Invalid function" after a long time probably due to the integration not functionning, see ISSUE#1307
+T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
+@ Failing [ λmax=2 276.05231 12 nm eb=148 984.27029 5 W/m↑2 f=3.60929 06376 4e-3 eb12=537.72753 1933 W/m↑2 q=14.89842 70295 W ]
+@ C#9 NOT OK: MSOLVER: "Invalid function" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
+The following integral doesn't work:
+T=1273,15_K  λ1=1000_nm  λ2=600_nm
+'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));X^3/expm1(X);X)'
+But if I calculate the value of the integration limits and apply BASE, I obtain pure number and the integral works:
+'Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))'=1.88347 62339 3⁳⁻⁸ m/nm and if I apply BASE I obtain 18.83476 23393
+'Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))'=1.13008 57403 6⁳⁻⁸ m/nm and if I apply BASE I obtain 11.30085 74036
+Then the integral computes
+'f=15/Ⓒπ^4*∫(11.30085 74036;18.83476 23393;X^3/expm1(X);X)'=3.60929 06376 4e-3
 
 
 ## Magnetism
 
 The 28 variables in the Magnetism section are:
 
-* `α1, α2`: Subtended internal angles relative to the top ends of the solenoid
-* `θ1, θ2`: Subtended angles relative to the ends of the wire
+* `α1`: Subtended internal left angle relative to the top ends of the solenoid
+* `α2`: Subtended internal right angle relative to the top ends of the solenoid
+* `θ1`: Subtended left angle relative to the top ends of the solenoid
+* `θ2`: Subtended right angle relative to the ends of the wire
 * `θ`: Angle between the line of the magnetic field and the speed of the moving charge
 * `μr`: Relative permeability
 * `B`: Magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
@@ -7214,15 +7230,18 @@ The 28 variables in the Magnetism section are:
 * `Dpitch`: Pitch of the helicoidal motion (dim.: length)
 * `Fba`: Force
 * `fc`: Cyclotron frequency (dim.: time^-1, in SI: hertx, Hz)
-* `I, Ia, Ib`: Current (dim.: charge/time, in SI: ampere, A)
+* `I`: Current (dim.: charge/time, in SI: ampere, A)
+* `Ia`: Current (dim.: charge/time, in SI: ampere, A)
+* `Ib`: Current (dim.: charge/time, in SI: ampere, A)
 * `L`: Length
 * `m`: Mass
 * `N`: Total number of turns
 * `nl`: Number of turns per unit length (dim.: length^-1)
 * `q`: Charge of the moving charge (dim.: charge, in SI: coulomb, C)
 * `r`: Distance from center of wire
-* `Rc`: Radius of the circular part of the movement
-* `ri, ro`: Inside and outside radii of toroid
+* `Rc`: Radius of the circular part of the motion
+* `ri`: Inside radius of toroid
+* `ro`: Outside radius of toroid
 * `rw`: Radius of wire
 * `uB`: Volumic density of magnetic energy (dim.: energy/volume, in SI: J/m^3)
 * `v`: Speed of the moving charge
@@ -7237,7 +7256,6 @@ The magnetic field expression differs depending upon whether the point at `r` is
 ![Straight Wire Infinite](img/StraightWireInfinite.bmp)
 
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 3 known variables:
-
 ```rpl
 μr=1  rw=0.25_cm  r=0.2_cm  I=25_A
 @ Expecting [ B=0.0016 T ]
@@ -7245,14 +7263,13 @@ The magnetic field expression differs depending upon whether the point at `r` is
 ```
 
 * **Example 2.** Outside the wire, to calculate `[B_T]` (Magnetic field) from 3 known variables:
-
 ```rpl
 μr=1  rw=0.25_cm  r=5_cm  I=25_A
 @ Expecting [ B=1.⁳⁻⁴ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 ```
 
-The code below saves the reference value for comparison with the example 2 in `[B Field Finite Wire]`:
+The code below saves the reference value for comparison with the example 2 in ([B Field Finite Wire](#B Field Finite Wire)):
 ```rpl
 @ Save the reference value for comparison below
 B0=B
@@ -7265,7 +7282,6 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 ![B Field From Finite Wire](img/B Field From Finite Wire.bmp)
 
 * **Example 1.** To calculate `[B_T]` (Magnetic field) from 6 known variables:
-
 ```rpl
 μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ1=30_°  θ2=150_°
 @ Expecting [ 8.66025 40378 7⁳⁻⁵ T ]
@@ -7273,7 +7289,6 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 ```
 
 * **Example 2.** When 'r << L' which means 'r < L/10', we can verify that the value of B for a infinite wire approximates the exact value calculated for a finite wire of length 'L'.
-
 ```rpl
 L=3_m  μr=1  rw=0.25_cm  r=5_cm  I=25_A  θ1='atan(r/L/2)'  θ2='180_°-θ1'
 if 'r < L/10' then
@@ -7281,12 +7296,11 @@ if 'r < L/10' then
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
 end
 ```
-
+Verify relative difference under condition `5_cm << 3_m` with the example 2 of [Straight Wire Infinite](#Straight Wire Infinite)
 ```rpl
-@ Verify relative difference under condition `5_cm << 3_m`.
 B0 B %Ch
-@ Expecting [ -3.47204 10629⁳⁻³ ]
-@ % of relative difference with the example 2 of [Straight Wire Infinite](#Straight Wire Infinite)
+@ Expecting [ -3.47204 10629⁳⁻³ ] 
+@ % of relative difference 
 ```
 
 #### Force Between Wires
@@ -7296,7 +7310,6 @@ The force between wires is positive for an attractive force (for currents having
 ![Force Between Wires](img/ForceBetweenWires.bmp)
 
 * To calculate `[Fba_N]` (Magnetic force) from 4 known variables:
-
 ```rpl
 Ia=10_A  Ib=20_A  μr=1  L=50_cm  d=1_cm
 @ Expecting [ Fba=2.00000 00000 1⁳⁻³ N ]
@@ -7310,13 +7323,12 @@ The expression for the magnetic field in the center is approximately valid if th
 ![B Field In Infinite Solenoid](img/BFieldInInfiniteSolenoid.bmp)
 
 * To calculate `[B_T]` (Magnetic field) from 3 known variables:
-
 ```rpl
 μr=10  nl=5000_m^-1  I=1.25_A
 @ Expecting [ B=0.07853 98163 4 T ]
 'ROOT(ⒺB Field In Infinite Solenoid;[B];[1_T])'
 ```
-The code below saves the reference value for comparison with the example 2 in `[B Field Finite Solenoid]`:
+The code below saves the reference value for comparison with the example 2 in ([B Field Finite Solenoid](#B Field Finite Solenoid)):
 ```rpl
 @ Save the reference value for comparison below
 B0=B
@@ -7329,7 +7341,6 @@ The expression for the magnetic field in the center depends on the subtended int
 ![B Field In Finite Solenoid](img/B Field In Finite Solenoid.bmp)
 
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 5 known variables:
-
 ```rpl
 μr=10  nl=5_mm^-1  I=1.25_A  α1=150_°  α2=30_°
 @ Expecting [ B=6.80174 76159⁳⁻² T ]
@@ -7337,20 +7348,18 @@ The expression for the magnetic field in the center depends on the subtended int
 ```
 
 * **Example 2.** When `r << L` which means `r < L/10`, we can verify that the value of `B` for a infinite solenoid approximates the exact value calculated for a finite solenoid of length `L`.
-
-```rpl
-L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'
-if 'r < L/10' then
+   ```rpl
+L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'  
+if 'r < L/10' then   
 @ Expecting [ B=7.85289 10304 2⁳⁻² T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 end
 ```
-
+Verify relative difference under condition 10_cm << 3_m with the example of ([B Field In Infinite Solenoid](#B Field In Infinite Solenoid))
 ```rpl
 B0 B %Ch
-@ Verify relative difference under condition 10_cm << 3_m.
 @ Expecting [ -1.38859 9604⁳⁻² ]
-@ % of relative difference with the example of [B Field In Infinite Solenoid](#B Field In Infinite Solenoid)
+@ % of relative difference 
 ```
 
 #### B Field In Toroid
@@ -7360,7 +7369,6 @@ The magnetic field `B` is calculated in the center of the torroid. The right-han
 ![B Field In Toroid](img/BFieldInToroid.bmp)
 
 * To calculate `[B_T]` (Magnetic field) from 5 known variables:
-
 ```rpl
 μr=10  N=50  ri=5_cm  ro=7_cm  I=10_A
 @ Expecting [ B=0.01666 66666 67 T ]
@@ -7374,7 +7382,6 @@ When a conductor carrying a current (to the right) is suddenly plunged into a pe
 ![Hall Effect](img/Hall Effect VH.bmp)
 
 * To calculate `[VH_V]` (Hall tension) from 5 known variables:
-
 ```rpl
 n=5e28_(1/m^3)  B=0.641_T  q=1.60217 6634e-19_C  L=2_mm  I=10_A
 @ Expecting [ VH=4.00080 73167 3⁳⁻⁷ V ]
@@ -7387,10 +7394,8 @@ n=5e28_(1/m^3)  B=0.641_T  q=1.60217 6634e-19_C  L=2_mm  I=10_A
 Under the perpendicular magnetic field, the moving charge has a circular trajectory and turns at the cyclotron frequency with the rotation period `T`.
 
 ![Cyclotron Motion](img/Cyclotron_BW.bmp)
-)
 
-* To calculate `[Rc_m;fc_Hz;T_s]` (Radius of the circular path, cyclotron frequency, period) from 4 known variables:
-
+* To calculate `[Rc_m;fc_Hz;T_s]` (Radius of the circular path; Cyclotron frequency; Period) from 4 known variables:
 ```rpl
 m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s
 @ Expecting [ Rc=0.60028 18834 15 m fc=12 196 149.1501 Hz T=8.19930 93696 5⁳⁻⁸ s ]
@@ -7403,8 +7408,7 @@ Under the magnetic field lines (at angle `θ` with the speed vector), the moving
 
 ![Helicoidal Motion](img/Helicoidal Motion BW.bmp)
 
-* To calculate `[Rc_m;T_s;Dpitch_m]` (Radius of the circular path, period, pitch of the helicoidal motion) from 4 known variables:
-
+* To calculate `[Rc_m;T_s;Dpitch_m]` (Radius of the circular path; Period, pitch of the helicoidal motion) from 4 known variables:
 ```rpl
 m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=30_°
 @ Expecting [ Rc=0.30014 09417 08 m T=8.19930 93696 5⁳⁻⁸ s Dpitch=3.26637 26955 m ]
@@ -7414,7 +7418,6 @@ m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=3
 #### Volumic Density Magnetic Energy
 
 * To calculate `[uB_(J/m^3)]` (Volumic density of magnetic energy) from 2 known variables:
-
 ```rpl
 μr=3.0  B=0.8_T
 @ Expecting [ uB=84 882.63631 54 J/m↑3 ]
@@ -7427,48 +7430,47 @@ m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=3
 The 38 variables in the Motion section are:
 
 * `α`: Angular acceleration (dim.: angle/time^2, in SI: r/s^2)
-* `ω`: Angular velocity (Circular Motion), or Angular velocity at t (Angular Motion) (dim.: angle/time, in SI: r/s)
+* `ω`: Angular velocity ([Circular Motion](#Circular Motion)), or Angular velocity at `t` ([Angular Motion](#Angular Motion)) (dim.: angle/time, in SI: r/s)
 * `ω0`: Initial angular velocity (dim.: angle/time, in SI: r/s)
 * `ρ`: Fluid density (dim.: mass/volume, in SI: kg/m^3)
-* `θ`: Angular position at t (dim.: angle)
-* `θ0`: Initial angular position (Angular Motion), or Initial vertical angle (Projectile Motion)
+* `θ`: Angular position at `t` (dim.: angle)
+* `θ0`: Initial angular position ([Angular Motion](#Angular Motion)), or Initial vertical angle ([Projectile Motion](#Projectile Motion))
 * `φ`: Latitude (dim.: angle)
 * `a`: Acceleration
 * `Ah`: Projected horizontal area
-* `ar`: Centripetal acceleration at r
+* `ar`: Centripetal acceleration at `r`
 * `Cd`: Drag coefficient
 * `fr`: Fraction of the terminal velocity `vt`
 * `gloc`: local gravitational acceleration of a planet or star (dim.: length/time^2)
 * `gearth`: local gravitational acceleration on Earth (dim.: length/time^2)
 * `h`: altitude (dim.: length)
-* `hmax`: maximum height (Projectile Motion)
+* `hmax`: maximum height of the projectile Motion
 * `m`: Mass
 * `Mp`: Planet or star mass
 * `N`: Rotational speed (dim.: time^-1, in SI: hertz, Hz)
-* `R`: Horizontal range (Projectile Motion), or Planet or Star radius (Object in Free Fall and Escape Velocity)
-* `r`: Planet radius
+* `R`: Horizontal range ([Projectile Motion](#Projectile Motion)), or Planet or Star radius ([Object in Free Fall](#Object in Free Fall)) & ([Escape and Orbital Velocities](#Escape and Orbital Velocities))
+* `r`: Radius
 * `rc`: Radius of circular motion
 * `t`: Time
 * `tf`: Time of flight of a projectile
 * `tfr`: time required to reach the fraction `fr` of the terminal velocity
-* `v`: Velocity at t (linear Motion), or Tangential velocity at r (Circular Motion), or Falling velocity at time t (Terminal Velocity)
+* `v`: Velocity at `t` ([linear Motion](#linear Motion)), or Tangential velocity at `r` [Circular Motion¸](#Circular Motion)), or Falling velocity at time `t` [Terminal Velocity](#Terminal Velocity)) & ([Buoyancy & Terminal Velocity](#Buoyancy & Terminal Velocity))
 * `v0`: Initial velocity
 * `ve`: Escape velocity in a gravitational field
-* `vcx`: Horizontal (component x) of velocity at t
-* `vcy`: Vertical (component y) of velocity at t
+* `vcx`: Horizontal (component x) of velocity at `t`
+* `vcy`: Vertical (component y) of velocity at `t`
 * `vo`: Orbital velocity in a gravitational field
 * `Vol`: Volume of the moving object
 * `vt`: Terminal velocity reached in a vertical fall
-* `x`: Horizontal position at t
+* `x`: Horizontal position at `t`
 * `x0`: Initial horizontal position
 * `xfr`: Displacement during `tfr`
-* `y`: Vertical position at t
+* `y`: Vertical position at `t`
 * `y0`: Initial vertical position
 
 #### Linear Motion
 
-* To calculate `[a_m/s^2;v_m/s]` (Acceleration, velocity at time `t`) from 4 known variables:
-
+* To calculate `[a_m/s^2;v_m/s]` (Acceleration; Velocity at time `t`) from 4 known variables:
 ```rpl
 x0=0_m  x=100_m  t=10_s  v0=1_m/s
 @ Expecting [ a=1.8 m/s↑2 v=19. m/s ]
@@ -7479,13 +7481,11 @@ x0=0_m  x=100_m  t=10_s  v0=1_m/s
 
 By definition, an object in free fall only experiences local gravitational acceleration `gloc`. This depends on the mass of the star or planet and the distance `r` center to center (where we assume that the position is greater than the radius of the mass). For the Earth, we can calculate an approximate value `gearth` of the acceleration of gravity as a function of latitude `φ` and for an altitude `h` low compared to the Earth's radius (typically: a few thousand meters, valid in commercial aviation).
 
-* To calculate `[v_m/s;t_s;r_m;gearth_m/s^2]` (Velocity at time `t`, time, planet radius, acceleration of gravity at latitude `φ` & altitude `h`) from 7 known variables:
-
+* To calculate `[t_s;v_ft/s;r_m;gearth_m/s^2]` (Time; Velocity at time `t`; Radius; Acceleration of gravity at latitude `φ` & altitude `h`) from 7 known variables:
 ```rpl
 y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.9722e24_kg
-@ Failing [ v=-253.66926 7182 ft/s  t=7.88428 18533 5 s  r=6 374 616.37381 m  gearth=9.80321 00310 8 m/s↑2 ]
-@ C#13  MSOLVER: "Inconsistent units". Units have been corrected in gearth eqn ... so, to be checked.
-'ROOT(ⒺObject In Free Fall;[v;t;r;gearth];[1_m/s;1_s;1_m;1_m/s^2])'
+@ Expecting [ t=7.88428 18533 5 s v=-253.66926 7182 ft/s r=6 374 488.95425 m gearth=9.80321 00310 8 m/s↑2 ]
+'ROOT(ⒺObject In Free Fall;[t;v;r;gearth];[1_s;1_ft/s;1_m;1_m/s^2])'
 ```
 
 #### Projectile Motion
@@ -7494,34 +7494,28 @@ During the time of flight `tf`, the motion of a projectile follows a symetric pa
 
 ![Projectile Motion](img/Projectile_BW.bmp)
 
-* To calculate `[R_ft;vcx_ft/s;vcy_ft/s;x_ft;y_ft;hmax_ft;tf_s]` (Range, `x` & `y` components of velocity at time `t`, `x` & `y` positions at time `t`, maximum height, time of flight) from 5 known variables:
-
+* To calculate `[R_ft;vcx_ft/s;vcy_ft/s;x_ft;y_ft;hmax_ft;tf_s]` (Range, Components `x` & `y` of velocity at time `t`; Positions `x` & `y` at time `t`; Maximum height; Time of flight) from 5 known variables:
 ```rpl
-x0=0_ft  y0=0_ft  Θ0=45_°  v0=200_ft/s  t=10_s
-@ Failing [ R=1 243.23800 686 ft  vcx=141.42135 6237 ft/s  vcy=-180.31912 9327 ft/s  x=1 414.21356 237 ft  y=-194.48886 5448 ft  hmax=310.80950 1716 ft  tf=8.79102 02528 1 s ]
-@ C#14 MSOLVER: "Unable to solve for all variables"
+x0=0_ft  y0=0_ft  θ0=45_°  v0=200_ft/s  t=10_s
+@ Expecting [ R=1 243.23800 686 ft vcx=141.42135 6237 ft/s vcy=-180.31912 9327 ft/s x=1 414.21356 237 ft y=-194.48886 5448 ft hmax=310.80950 1716 ft tf=8.79102 02528 1 s ]
 'ROOT(ⒺProjectile Motion;[R;vcx;vcy;x;y;hmax;tf];[1_ft;1_ft/s;1_ft/s;1_ft;1_ft;1_ft;1_s])'
 ```
 
 #### Angular Motion
 
-* To calculate `[Θ_°;ω_r/min]` (Angular position & velocity at time `t`) from 4 known variables:
-
+* To calculate `[ω_r/min;Θ_°]` (Angular velocity at time `t`; Angular position at time `t`) from 4 known variables:
 ```rpl
-Θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
-@ Failing [ Θ=10.74295 86587 °  ω=0.75 r/min ]
-@ C#15 MSOLVER: "Inconsistent units" I rewrote the angular units of ω & α in all the 4 eqns, therefore, to be checked
-'ROOT(ⒺAngular Motion;[Θ;ω];[1_°;1_r/min])'
+θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
+@ Expecting [ ω=0.75 r/min θ=10.74295 86587 ° ]
+'ROOT(ⒺAngular Motion;[ω;θ];[1_r/min;1_°])'
 ```
 
 #### Uniform Circular Motion
 
-* To calculate `[ω_r/min;ar_ft/s^2;N_rpm]` (Angular velocity, centripetal acceleration at `r`, rotational speed) from 2 known variables:
-
+* To calculate `[ω_r/min;ar_ft/s^2;N_rpm]` (Angular velocity; Centripetal acceleration at `r`; Rotational speed) from 2 known variables:
 ```rpl
 rc=25_in  v=2500_ft/s
-@ Failing [ ω=72 000. r/min  ar=3 000 000 ft/s↑2  N=11 459.15590 26 rpm ]
-@ C#16 MSOLVER: "Inconsistent units" I rewrote the angular units in eqns (1) & (3), therefore, to be checked
+@ Expecting [ ω=72 000. r/min ar=3 000 000. ft/s↑2 N=11 459.15590 26 rpm ]
 'ROOT(ⒺUniform Circular Motion;[ω;ar;N];[1_r/min;1_ft/s^2;1_rpm])'
 ```
 
@@ -7529,52 +7523,59 @@ rc=25_in  v=2500_ft/s
 
 Terminal velocity is the maximum speed attainable by an object as it falls through a fluid like air for instance. It is reached when the sum of the increasing drag force is equal to the downward force of gravity acting on the object (neglecting buoyancy), leading to a zero net force at the resulting terminal velocity.
 
-* **Example 1**. For a falling big mass, to calculate `[vt_ft/s;v_ft/s;tfr_s;xfr_ft]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 6 known variables:
+* **Example 1**. For a falling big mass, to calculate `[vt_ft/s;v_ft/s;tfr_s;xfr_ft]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 6 known variables:
 //  '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' is the working integral for xfr
 
 ```rpl
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
+@ Expecting [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=0.21337 88142 9 s xfr=1 ft ]
 @ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#17 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314 : "Undefined name"
+@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below). BUT integration with units seems to work here ISSUE #1314 but gives 
+@ wrong value
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
 ```
 
-* **Example 2**. For a human skydiving head first, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 6 known variables:
+* **Example 2**. For a human skydiving head first, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 6 known variables:
 //  '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)' is the working integral for xfr
 
 ```rpl
 Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
 @ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
-@ C#17 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314 "Undefined name"
+@ C#10 MSOLVER: works fine for vt, v & tfr (see second ROOT call below).BUT integration with units seems to work here ISSUE #1314 but gives
+@ wrong value
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
 #### Buoyancy & Terminal Velocity
 
 Terminal velocity is the maximum speed attainable by an object as it falls through a fluid like air for instance. It is reached when the sum of the increasing drag force plus the buoyancy is equal to the downward force of gravity acting on the object, leading to a zero net force at the resulting terminal velocity. If the terminal velocity is found to be negative, the motion is upward because buoyancy dominates gravity.
 
-* **Example 1**. For a golf ball falling in water, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 8 known variables:
+* **Example 1**. For a golf ball falling in water, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 8 known variables:
 //  '(0.29459 06011 51 m/s)*∫(0;5.50264 78343 1e-2;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)' is the working integral for xfr
 
 ```rpl
 //input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
 Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
 @ Failing [ vt=0.29459 06011 51 m/s  v=0.22419 40616 41 m/s  tfr=5.50264 78343 1e-2 s  xfr=0.01030 03495 63 m ]
-@ C#18 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
-@ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
+@ C#10 MSOLVE works fine for vt, v & tfr (see second ROOT call below). BUT integration with units seems to work here ISSUE #1314 but gives
+@ wrong value AND when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
-* **Example 2**. For a CO2 bubble in a glass of champagne, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 8 known variables:
+* **Example 2**. For a CO2 bubble in a glass of champagne, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 8 known variables:
 //  '(-1.14234 81034 5_m/s)*∫(0;0.21337 88142 91;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)' is the working integral for xfr
 
 ```rpl
 //input data: Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=0.1_s  fr=0.95
 Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
 @ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-0.15488 56277 53 m ]
-@ C#18 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
-@ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
+@ C#10 MSOLVE works fine for vt, v & tfr (see second ROOT call below). BUT integration with units seems to work here ISSUE #1314 but gives
+@ wrong value AND when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
 #### Escape and Orbital Velocities
@@ -7583,7 +7584,6 @@ The escape velocity is the speed required to completely free oneself from the gr
 
 * To calculate `[ve_m/s;vo_m/s]` (Escape velocity, orbital velocity) from 2 known variables:
     "Escape & Orbital Velocity",  "{ "
-
 ```rpl
 Mp=1.5E23_lb  R=5000_mi
 @ Expecting [ ve=3 485.10855 649 ft/s vo=2 464.34389 346 ft/s ]
@@ -7600,7 +7600,7 @@ The 40 variables in the Optics section are:
 * `Δyint`: Distance between bright fringes on the interference screen
 * `Δydiff`: Width of the central maximum of diffraction
 * `λ`: Light wavelength
-* `θ`: Angle between initial light polarisation direction and polarizer transmission axis, or Angle subtended by two points separated by y on the screen and the middle of one or two slits
+* `θ`: Angle between initial light polarisation direction and polarizer transmission axis ([Malus Law](#Malus Law)), or Angle subtended by two points separated by y on the screen and the middle of one slit ([2 Slits Young Interference](#2 Slits Young Interference)), or two slits ([One Slit Diffraction](#One Slit Diffraction))
 * `θ0`: Acceptance angle to enter an optical fiber in the outer medium of refraction index `n0f`
 * `θ1`: Angle of incidence in the medium of refraction index n1
 * `θ2`: Angle of refraction in the medium of refraction index n2
@@ -7618,14 +7618,19 @@ The 40 variables in the Optics section are:
 * `Ix`: Transmitted irradiance or polarized X rays radiance flux (dim.: power/area, in SI: W/m^2)
 * `Ix0`: Incident irradiance or polarized X rayx radiance flux (dim.: power/area, in SI: W/m^2)
 * `m`: Magnification
-* `n, n1, n2`: Index of refraction
+* `n`: Index of refraction
+* `n1`: Index of refraction of medium 1
+* `n2`: Index of refraction of medium 2
 * `nf0`: Index of refraction of the outer medium at the entry of an optic fiber
 * `nf1`: Index of refraction of the core medum of an optic fiber
 * `nf2`: Index of refraction of the cladding medium of an optic fiber
-* `r, r1, r2`: Radius of curvature
+* `r`: Radius of curvature
+* `r1`: Radius of curvature
+* `r2`: Radius of curvature
 * `u`: Distance to object
 * `v`: Distance to image
-* `v1, v2`: Speed of light in media of refraction index n1, n2
+* `v1`: Speed of light in medium of refraction index n1
+* `v2`: Speed of light in medium of refraction index n2
 * `vn`: Speed of light in medium of refraction index n
 * `L`: distance to the observation screen or to the light detector
 * `NA`: Numerical aperture of the optic fiber
@@ -7637,22 +7642,18 @@ For reflection and refraction problems, the focal length and radius of curvature
 
 ![Refraction Law](img/RefractionLaw.bmp)
 
-* To calculate `[θ1_°;v1_m/s;v2_m/s]` (Refraction angle, speed of light in media of refraction index `n1`, `n2`) from 3 known variables:
-
+* To calculate `[θ2_°;v1_m/s;v2_m/s]` (Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 3 known variables:
 ```rpl
 n1=1  n2=1.333  θ1=45_°
-@ Expecting [ θ1=1.33305 25886 2 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
-@ Failing [ θ1=32.03672 30399 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
-@ C#19 MSOLVER gives a wrong value for θ1 only
-'ROOT(ⒺRefraction Law;[θ1;v1;v2];[1_°;1_m/s;1_m/s])'
+@ Expecting [ θ2=32.03672 30399 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
+'ROOT(ⒺRefraction Law;[θ2;v1;v2];[1_°;1_m/s;1_m/s])'
 ```
 
 #### Critical Angle
 
 ![Critical Angle](img/CriticalAngle.bmp)
 
-* To calculate `[θc_°;v1_m/s;v2_m/s]` (Critical angle, speed of light in media of refraction index `n1`, `n2`) from 2 known variables:
-
+* To calculate `[θc_°;v1_m/s;v2_m/s]` (Critical angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
 @ Expecting [ θc=41.81031 48958 ° v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
@@ -7663,14 +7664,11 @@ n1=1  n2=1.5
 
 ![Fiber Optic](img/Fiber Optic BW.bmp)
 
-* To calculate `[θ0_°;vf0_m/s;vf1_m/s;vf2_m/s;NA]` (Acceptance angle, speed of light in media of refraction index `n1f`, `n2f`, numerical aperture) from 3 known variables:
-
+* To calculate `[vf0_m/s;vf1_m/s;vf2_m/s;NA;θ0_°]` (Speed of light in media of refraction index `n1f` & `n2f`; Numerical aperture; Acceptance angle) from 3 known variables:
 ```rpl
-n0f=1.2  n1=1.5  n2=1.45
-@ Failing [ θ0=18.66581 19909 ° vf0=249 827 048.333 m/s vf1=199 861 638.667 m/s vff2=206 753 419.31 m/s NA=0.32004 77394 95 ]
-@ C#20 NOT OK MSOLVER: "Unable to solve for all variables"
-'ROOT(ⒺFiber Optic;[θ0;vf0;vf1;vf2;NA];[1_°;1_m/s;1_m/s;1_m/s;1])'
-```
+nf0=1.2  nf1=1.5  nf2=1.45
+@ Expecting [ vf0=249 827 048.333 m/s vf1=199 861 638.66 m/s vf2=206 753 419.294 m/s NA=0.32004 77394 95 θ0=18.66581 19909 ° ]
+'ROOT(ⒺFiber Optic;[vf0;vf1;vf2;NA;θ0];[1_m/s;1_m/s;1_m/s;1;1_°])'
 
 #### Brewster’s Law
 
@@ -7678,26 +7676,22 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 
 ![Brewster’s Law](img/Brewster’sLaw.bmp)
 
-* To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle, refraction angle, speed of light in media of refraction index `n1`, `n2`) from 2 known variables:
-
+* To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle; Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
-@ Faiing [ θB=56.30993 2474 ° θB=33.69006 7526 ° v1=299 792 458 m/s v2=199 861 638.667 m/s ]
-@ C#21 NOT OK MSOLVER: "Inconsistent units"
-'ROOT(ⒺBrewster’s Law;[θB;θ2;v1;v2];[1_°;1_°;1_m/s;1_m/s])'
+@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θB=33.69006 7526 ° ]
+@ C#11 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails.
+'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
 #### Spherical Reflection
 
 ![Spherical Reflection](img/SphericalReflection.bmp)
 
-* To calculate `[m;f_cm]` (Magnification, focal distance) from 3 known variables:
-
+* To calculate `[m;f_cm]` (Magnification; Focal distance) from 3 known variables:
 ```rpl
 u=10_cm  v=300_cm  r=19.35_cm
-@ Faiing [ m=-30. f=9.67741 93548 4 cm ]
-@ C#22 NOT OK MSOLVER ok for f BUT eqn for m was missing. I just add it, them to be checked.
-'ROOT(ⒺSpherical Reflection;[f];[1_cm])'
+@ Expecting [ m=-30. f=9.67741 93548 4 cm ]
 'ROOT(ⒺSpherical Reflection;[m;f];[1;1_cm])'
 ```
 
@@ -7706,7 +7700,6 @@ u=10_cm  v=300_cm  r=19.35_cm
 ![Spherical Refraction](img/SphericalRefraction.bmp)
 
 * To calculate `[n2;v1_m/s;v2_m/s]` (Refraction index in medium 2, speed of light in media of refraction index `n1`, `n2`) from 4 known variables:
-
 ```rpl
 u=8_cm  v=12_cm  r=2_cm  n1=1
 @ Expecting [ n2=1.5 v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
@@ -7718,7 +7711,6 @@ u=8_cm  v=12_cm  r=2_cm  n1=1
 ![Thin Lens](img/ThinLens.bmp)
 
 * To calculate `[f_cm;v_cm;m;vn_m/s]` (Focal distance, distance to image, magnification, speed of light in media of refraction index `n`) from 4 known variables:
-
 ```rpl
 r1=5_cm  r2=20_cm  n=1.5  u=50_cm
 @ Expecting [ f=13.33333 33333 cm v=18.18181 81818 cm m=-0.36363 63636 36 vn=199 861 638.66 m/s ]
@@ -7729,12 +7721,11 @@ r1=5_cm  r2=20_cm  n=1.5  u=50_cm
 
 ![Rayleigh’s Criterion](img/Rayleigh's Criterion_BW.bmp)
 
-* To calculate `[θr_°;y_m]` (Rayleigh’s criterion angle, distance between two point source) from 3 known variables:
-
+* To calculate `[θr_°;y_m]` (Rayleigh’s criterion angle; Distance between two point source) from 3 known variables:
 ```rpl
 λ=550_nm  d=9_mm  L=18.7_km
-@ Failing [ θr=4.27056 28265⁳⁻³ °  y=1.39381 16503 9 m ]
-@ c#23 NOT OK MSOLVER: "Inconsistent units"
+@ Failing [ θr=4.27056 28265e-3 °  y=1.39381 16503 9 m ]
+@ c#12 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θr & y alone fails: "Inconsistent units"
 'ROOT(ⒺRayleigh’s Criterion;[θr;y];[1_°;1_m])'
 ```
 
@@ -7744,19 +7735,17 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 
 ![Malus Law](img/Malus Law BW.bmp)
 
-* To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux, polarized radiance flux of emitted Xrays, electric field) from 5 known variables:
-
+* To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
 @ Failing [ I=7.5 W/m↑2  Ix=0.06751 63889 34 W/m↑2   E0=86.80210 98203 V/m ]
-@ c#24 NOT OK MSOLVER: "Inconsistent units"
+@ c#13 NOT OK MSOLVER: "Inconsistent units". Expression of Ex needs to be corrected. But if I try with the correct expression 'I0x_(W/m^2)*((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))*(COS(θ_°))^2' I get "Internal error, please report".
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
 #### 2 Slits Young Interference
 
-* To calculate `[Δφ_r;I_(W/m^2);y_m;Δyint_m]` (Phase difference between two rays of light seperated by an angle θ, irradiance of emitted light, distance between two image points on the observation screen, distance between bright fringes) from 5 known variables:
-
+* To calculate `[Δφ_r;I_(W/m^2);y_m;Δyint_m]` (Phase difference between two rays of light seperated by an angle θ; Irradiance of emitted light; Distance between two image points on the observation screen, Distance between bright fringes) from 5 known variables:
 ```rpl
 L=2_m  d=800._μm  λ=600_nm  θ='ASIN(0.6*(λ_nm)/(d_μm))'  Imax=10_(W/m^2)
 @ Expecting [ Δφ=3.76991 11843 1 r I=6.54508 49718 7 W/m↑2 y=9.00000 09112 5⁳⁻⁴ m Δyint=1.5⁳⁻³ m ]
@@ -7765,14 +7754,13 @@ L=2_m  d=800._μm  λ=600_nm  θ='ASIN(0.6*(λ_nm)/(d_μm))'  Imax=10_(W/m^2)
 
 #### One Slit Diffraction
 
-* To calculate `[Δα_r;I_(W/m^2);y_m;Δydiff_m]` (Phase difference between top and bottom rays of light, irradiance of emitted light, distance between two image points on the observation screen, width of the central maximum) from 5 known variables:
-
+* To calculate `[Δα_r;I_(W/m^2);y_m;Δydiff_m]` (Phase difference between top and bottom rays of light; Irradiance of emitted light; Distance between two image points on the observation screen; Width of the central maximum) from 5 known variables:
 ```rpl
 L=3_m  a=1000._μm  λ=600_nm  θ='ASIN(0.3*(λ_nm)/(a_μm))'  Imax=10_(W/m^2)
-@ Failing [ Δα=1.88495 55921 5_r I=7.36839 72932 3 W/m↑2 y=5.40000 00874 8⁳⁻⁴ m Δydiff=0.0036 m ]
-@ c#25 NOT OK MSOLVER: "Inconsistent units". I explicitely impose radians to Δα_r in eqn (1), therefore to be checked
+@ Expecting [ Δα=1.88495 55921 5 r I=7.36839 72932 2 W/m↑2 y=5.40000 00874 8⁳⁻⁴ m Δydiff=3.6⁳⁻³ m ]
 'ROOT(ⒺOne Slit Diffraction;[Δα;I;y;Δydiff];[1_r;1_(W/m^2);1_m;1_m])'
 ```
+
 
 ## Oscillations
 
@@ -7784,7 +7772,7 @@ The 25 variables in the Oscillations section are:
 * `γ`: Reduced damping coefficient (dim.: angle/time, in SI: r/s)
 * `φ`: Phase angle
 * `θ`: Cone angle
-* `a`: Acceleration at t
+* `a`: Acceleration at `t`
 * `E`: Total energy (kinetic plus potential)
 * `f`: Frequency (dim.: time^-1; in SI: hertz, Hz)
 * `G`: Shear modulus of elasticity (dim.: pressure, in SI: pascal, Pa)
@@ -7798,8 +7786,8 @@ The 25 variables in the Oscillations section are:
 * `t`: Time
 * `T`: Period, Period dor small amplitude (Simple Pendulum)
 * `Treal`: Real period for large amplitude (Simple Pendulum)
-* `v`: Velocity at t
-* `x`: Displacement at t
+* `v`: Velocity at `t`
+* `x`: Displacement at `t`
 * `xm`: Displacement amplitude
 * `xh`: Displacement amplitude of harmonic motion
 * `xp`: Resulting displacement amplitude of driven & damped oscillations
@@ -7808,8 +7796,7 @@ The 25 variables in the Oscillations section are:
 
 ![Mass-Spring System](img/Mass-SpringSystem.bmp)
 
-* To calculate `[ω_(r/s);T_s;f_Hz]` (Angular frequency, oscillation period, frequency) from 2 known variables:
-
+* To calculate `[ω_(r/s);T_s;f_Hz]` (Angular frequency; Oscillation period; Frequency) from 2 known variables:
 ```rpl
 k=20_N/m  m=5_kg
 @ Expecting [ ω=2. r/s T=3.14159 26535 9 s f=0.31830 98861 84 Hz ]
@@ -7820,16 +7807,17 @@ k=20_N/m  m=5_kg
 
 ![Simple Pendulum](img/SimplePendulum.bmp)
 
-* To calculate `[ω_(r/s);Treal_s;T_s;f_Hz]` (Angular frequency, period for small amplitude, real period for large amplitude, frequency) from 2 known variables:
-
+* To calculate `[ω_(r/s);Treal_s;T_s;f_Hz]` (Angular frequency; Real period for large amplitude; Period for small amplitude; Frequency) from 2 known variables:
 ```rpl
 L=15_cm  θmax=80_°
 @ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
-@ c#26 NOT OK MSOLVER: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following:
-@ Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
+@ c#14 NOT OK MSOLVER & SOLVE: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following 
+@ sum: Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
 'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
-
+```
+```rpl
 @ Without Treal, MSOLVER works fine for the remaining 3 unknowns:
+L=15_cm  θmax=80_°
 @ Expecting [ ω=8.08564 57173 6 r/s T=0.77707 89775 87 s f=1.28687 04840 1 Hz ]
 'ROOT(ⒺSimple Pendulum;[ω;T;f];[1_(r/s);1_s;1_Hz])'
 ```
@@ -7838,8 +7826,7 @@ L=15_cm  θmax=80_°
 
 ![Conical Pendulum](img/ConicalPendulum.bmp)
 
-* To calculate `[θ_°;ω_r/s;T_s;f_Hz]` (Cone angle, angular frequency, oscillation period, frequency) from 2 known variables:
-
+* To calculate `[θ_°;ω_r/s;T_s;f_Hz]` (Cone angle; Angular frequency; Oscillation period; Frequency) from 2 known variables:
 ```rpl
 L=25_cm  h=20_cm
 @ Expecting [ θ=36.86989 76458 ° ω=7.00237 45972 3 r/s T=0.89729 35137 83 s f=1.11446 25305 3 Hz ]
@@ -7850,8 +7837,7 @@ L=25_cm  h=20_cm
 
 ![Torsional Pendulum](img/TorsionalPendulum.bmp)
 
-* To calculate `[ω_r/s;T_s;f_Hz]` (Angular frequency, oscillation period, frequency) from 4 known variables:
-
+* To calculate `[ω_r/s;T_s;f_Hz]` (Angular frequency; Oscillation period; Frequency) from 4 known variables:
 ```rpl
 G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 @ Expecting [ ω=1.14354 37497 9⁳⁻³ r/s T=5 494.48616 051 s f=1.82000 64042 2⁳⁻⁴ Hz ]
@@ -7860,12 +7846,16 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 
 #### Simple Harmonic
 
-* To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement, velocity & acceleration at `t`, mass, total energy) from 5 known variables:
-
+* To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
+    "'(x_cm)=(xm_cm)*COS((ω0_(r/s))*(t_s)+(φ_°))' "
+    "'(v_(m/s))=-(ω0_(r/s))/(1_r)*(xm_m)*SIN((ω0_(r/s))*(t_s)+(φ_°))' "
+    "'(a_(m/s^2))=-(ω0_(r/s))^2/(1_r)^2*(xm_m)*COS((ω0_(r/s))*(t_s)+(φ_°))' "
+    "'(ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg))' "
+    "'(E_J)=(1/2)*(m_kg)*((ω0_(r/s))/(1_r)*(xm_m))^2' "
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
 @ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-2 038.83579 33 cm/s↑2  m=4.44444 44444 4⁳⁻² kg  E=1.125 J ]
-@ C#27 NOT OK MSOLVER: "No solution?"
+@ C#15 NOT OK MSOLVER: "No solution?" Solve shows on sreen an error of sign in the acceleration eqn see ISSUE #1353
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
@@ -7873,12 +7863,11 @@ xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
 
 We are considering here a damped mass-spring oscillator having the natural angular frequency `ω0`. The corresponding differential equation : `−k*x − b*dx/dt = m*d^2x/dt^2` describes the underdamped oscillations.
 
-* To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass, reduced damping coefficient, underdamped angular frequency, displacement, velocity & acceleration at `t`, mass, total energy at `t`, quality factor) from 6 known variables:
-
+* To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
 @ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2 r/s  ωu=14.99966 6663 r/s  x=9.06146 97962 2 cm  v=-64.34829 19812 cm/s  a=-2 026.14705 038_cm/s↑2  E=0.24809 02514 79 J  Q=75.  ]
-@ C#28 NOT OK MSOLVER: "No solution?" I changed many eqns for radians units, therefore to be checked.
+@ C#16 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, howevwr algebraic expressions work and can be computed.
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
@@ -7892,18 +7881,18 @@ E0=E
 
 We are considering here a damped mass-spring oscillator where the external driving force is of the form `Fdriving = Fd*cos(ω*t)` acting at the angular frequency `ω`. The corresponding differential equation : `−k*x − b*dx/dt + Fd*cos(ω*t) = m*d^2x/dt^2` describes the driven damped oscillations. When the driving frequency `ω` comes close to the natural frequency `ω0` this is the onset of resonance with amplitude increase and the total energy accumulates up to a possible catastrophy when the structure is overcome (see fig)
 
-![Driven Damped Oscillations](img/Driven Damped Oscillations_BW.bmp)
+![Driven Damped Oscillations](img/Driven Damped Oscillations2_BW.bmp)
 
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Phase angle; Resulting amplitude; Displacement; Velocity & Acceleration at `t`; Total energy at `t`; Quality factor) from 9 known variables which correspond to the values of the previous section:
 ```rpl
 ω=14.9_r/s  ω0=15_r/s  θ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
 @ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2_r/s  ωu=14.99966 6663 r/s  φ=-44.90402 72598 °  xp=4.79694 88212 1 m  x=348.95077 8802 cm  v=4 979.30583 593 cm/s  a=-774.84786 538 m/s↑2  E=115.97995 9919 J  Q=75.  ]
-@ C#29 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 2) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
+@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 2) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
+Verify relative difference with the total energy of the case ([Underdamped Oscillations](#Underdamped Oscillations))
 ```rpl
-@ Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)
 E0 E %Ch
 @ Expecting [ 46 649.10006 64 ]
 @ % of relative augmentation which illustrates the huge energy gain due to the driving force acting very near the resonance frequency.
@@ -7917,11 +7906,12 @@ The 21 variables in the Plane Geometry section are:
 * `β`: Central angle of polygon
 * `θ`: Vertex angle of polygon
 * `A`: Area
-* `b`: Base length (Rectangle, Triangle), or Length of semiaxis in x direction (Ellipse)
+* `b`: Base length ([Rectangle](#Rectangle)) & ([Triangle](#Triangle)), or Length of semiaxis in x direction ([Ellipse](#Ellipse))
 * `C`: Circumference
 * `d`: Distance to rotation axis in y direction
 * `h`: Height (Rectangle, Triangle), or Length of semiaxis in y direction (Ellipse)
-* `I, Ix`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `I`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `Ix`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
 * `Id`: Moment of inertia in x direction at distance d (dim.: mass·area, in SI: kg·m^2)
 * `Iy`: Moment of inertia about y axis (dim.: mass·area, in SI: kg·m^2)
 * `J`: Polar moment of inertia at centroid (dim.: mass·area, in SI: kg·m^2)
@@ -7929,7 +7919,8 @@ The 21 variables in the Plane Geometry section are:
 * `n`: Number of sides
 * `P`: Perimeter
 * `r`: Radius
-* `ri, ro`: Inside and outside radii
+* `ri`: Inside radius
+* `ro`: Outside radius
 * `rs`: Distance to side of polygon
 * `rv`: Distance to vertex of polygon
 * `v`: Horizontal distance to vertex
@@ -7938,8 +7929,7 @@ The 21 variables in the Plane Geometry section are:
 
 ![Circle](img/Circle.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 2 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 2 known variables:
 ```rpl
 r=5_cm  d=1.5_cm
 @ Expecting [ C=31.41592 65359 cm A=78.53981 63397 cm↑2 I=4 908 738.52123 mm↑4 J=9 817 477.04247 mm↑4 Id=6 675 884.38888 mm↑4 ]
@@ -7950,8 +7940,7 @@ r=5_cm  d=1.5_cm
 
 ![Ellipse](img/Ellipse.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 b=17.85_μm  h=78.9725_μin  d=.00000012_ft
 @ Expecting [ C=7.98046 33593 6⁳⁻³ cm A=1.12485 79868⁳⁻⁶ cm↑2 I=1.13150 61302 6⁳⁻¹⁰ mm↑4 J=9.07327 72104 7⁳⁻⁹ mm↑4 Id=1.13301 09695 2⁳⁻¹⁰ mm↑4 ]
@@ -7962,8 +7951,7 @@ b=17.85_μm  h=78.9725_μin  d=.00000012_ft
 
 ![Rectangle](img/Rectangle.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_km^4;J_km^4;Id_km^4]` (Perimeter, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_km^4;J_km^4;Id_km^4]` (Perimeter; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 b=4_chain  h=7_rd  d=39.26_in
 @ Expecting [ P=23 134.32 cm A=28 327 994.9568 cm↑2 I=2.92569 11916 2⁳⁻⁷ km↑4 J=1.82109 34968 2⁳⁻⁶ km↑4 Id=2.95386 09978 8⁳⁻⁷ km↑4 ]
@@ -7974,8 +7962,7 @@ b=4_chain  h=7_rd  d=39.26_in
 
 ![Regular Polygon](img/RegularPolygon.bmp)
 
-* To calculate `[P_cm;A_cm^2;rs_cm;rv_cm;θ_°;β_°]` (Perimeter, area, distance to side, distance to vertex of polygon, vertex and central angles of polygon) from 2 known variables:
-
+* To calculate `[P_cm;A_cm^2;rs_cm;rv_cm;θ_°;β_°]` (Perimeter; Area; Distance to side; Distance to vertex of polygon; Vertex and central angles of polygon) from 2 known variables:
 ```rpl
 n=8  L=0.5_yd
 @ Expecting [ P=365.76 cm A=10 092.95006 19 cm↑2 rs=55.18892 20358 cm rv=59.73605 87541 cm θ=135. ° β=45. ° ]
@@ -7986,8 +7973,7 @@ n=8  L=0.5_yd
 
 ![Circular Ring](img/CircularRing.bmp)
 
-* To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 ro=4_μm  ri=25_Å  d=0.1_mil
 @ Expecting [ A=5.02654 62822 5e-7 cm↑2 I=2.01061 92983e-10 mm↑4 J=4.02123 85965 9e-10 mm↑4 Id=5.25354 58977 5e-10 mm↑4 ]
@@ -7998,14 +7984,12 @@ ro=4_μm  ri=25_Å  d=0.1_mil
 #### Triangle
 
 ![Triangle](img/Triangle.bmp)
-'(Ix_(cm^4))+(A_(in^2))*(d_cm)^2'
-* To calculate `[b_in;A_in^2;Ix_in^4;Iy_in^4;J_in^4;Id_in^4]` (Base length, area, moment of inertia about `x` and `y` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 4 known variables:
 
+* To calculate `[b_in;A_in^2;Ix_in^4;Iy_in^4;J_in^4;Id_in^4]` (Base length; Area; Moment of inertia about `x` and `y` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 h=4.33012781892_in  v=2.5_in  P=15_in  d=2_in
-@ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=43.30127 01892 in↑4 ]
-@ Failing [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
-@ C#30 NOT OK for the Id value only because of an error in eqn (6), now corrected, therefore to be verified. MSOLVER: OK. Now in version 0.8.4 MSOLVE doesn't calculate anymore "Inconsistent units"
+@ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
+MSOLVE doesn't calculate anymore "Inconsistent units"
 'ROOT(ⒺTriangle;[b;A;Ix;Iy;J;Id];[1_in;1_in^2;1_in^4;1_in^4;1_in^4;1_in^4])'
 ```
 
@@ -8016,8 +8000,9 @@ The 12 variables in the Solid Geometry section are:
 * `A`: Total surface area
 * `b`: Base length
 * `d`: Distance to rotation axis in z direction
-* `h`: Height in z direction (Cone, Cylinder), or Height in y direction (Parallelepiped)
-* `I, Ixx`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `h`: Height in z direction ([Cone](#Cone)) & ([Cylinder](#Cylinder)), or Height in y direction ([Parallelepiped](#Parallelepiped))
+* `I`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `Ixx`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
 * `Id`: Moment of inertia in x direction at distance d (dim.: mass·area, in SI: kg·m^2)
 * `Izz`: Moment of inertia about z axis (dim.: mass·area, in SI: kg·m^2)
 * `m`: Mass
@@ -8029,8 +8014,7 @@ The 12 variables in the Solid Geometry section are:
 
 ![Cone](img/Cone.bmp)
 
-* To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume; Area; Moment of inertia about `x` axis & `z` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
 @ Expecting [ V=641.40850 0108 cm↑3 A=468.99530 2857 cm↑2 Ixx=0.01618 14843 75 kg·m↑2 Izz=1.80075⁳⁻² kg·m↑2 Id=3.11877 34375⁳⁻² kg·m↑2 ]
@@ -8041,8 +8025,7 @@ r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
 
 ![Cylinder](img/Cylinder.bmp)
 
-* To calculate `[V_in^3;A_in^2;Ixx_lb*in^2;Izz_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_in^3;A_in^2;Ixx_lb*in^2;Izz_lb*in^2;Id_lb*in^2]` (Volume; Area; Moment of inertia about `x` axis & `z` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 r=8.5_in  h=65_in  m=12000_lb  d=2.5_in
 @ Expecting [ V=14 753.70449 94 in↑3 A=3 925.42002 066 in↑2 Ixx=4 441 750. lb·in↑2 Izz=433 500. lb·in↑2 Id=4 516 750. lb·in↑2 ]
@@ -8053,8 +8036,7 @@ r=8.5_in  h=65_in  m=12000_lb  d=2.5_in
 
 ![Parallelepiped](img/Parallelepiped.bmp)
 
-* To calculate `[V_in^3;A_in^2;I_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_in^3;A_in^2;I_lb*in^2;Id_lb*in^2]` (Volume; Area; Moment of inertia about `x` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
 @ Expecting [ V=31 104. in↑3 A=7 776. in↑2 I=36 852. lb·in↑2 Id=40 919. lb·in↑2 ]
@@ -8065,8 +8047,7 @@ b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
 
 ![Sphere](img/Sphere.bmp)
 
-* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
-
+* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis; Radius; Volume; Area) from 3 known variables:
 ```rpl
 d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
 @ Expecting [ I=6.88691 91393 3⁳⁻² kg·m↑2 r=8.43593 34656 2 in V=41 208.72679 31 cm↑3 A=5 769.57188 64 cm↑2 ]
@@ -8075,7 +8056,7 @@ d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
 
 
 ## Solid State Devices
-The 53 variables in the Solid State Devices section are:
+The 54 variables in the Solid State Devices section are:
 
 * `αF`: Forward common-base current gain
 * `αR`: Reverse common-base current gain
@@ -8083,8 +8064,8 @@ The 53 variables in the Solid State Devices section are:
 * `λ`: Modulation parameter (dim.: charge/energy, in SI: V^-1)
 * `μn`: Electron mobility (dim.: speed/(electric field), in SI: m^2/(V·s))
 * `φp`: Fermi potential (dim.: energy/charge, in SI: volt, V)
-* `ΔL`: Length adjustment (PN Step Junctions), or Channel encroachment (NMOS Transistors) (dim.: length)
-* `ΔW`: Width adjustment (PN Step Junctions), or Width contraction (NMOS Transistors)
+* `ΔL`: Length adjustment ([PN Step Junctions](#PN Step Junctions)), or Channel encroachment ([NMOS Transistors](#NMOS Transistors)) (dim.: length)
+* `ΔW`: Width adjustment ([PN Step Junctions](#PN Step Junctions)), or Width contraction ([NMOS Transistors](#NMOS Transistors))
 * `a`: Channel thickness
 * `Aj`: Effective junction area
 * `BV`: Breakdown voltage (dim.: energy/charge, in SI: volt, V)
@@ -8107,10 +8088,11 @@ The 53 variables in the Solid State Devices section are:
 * `IS`: Transistor saturation current (dim.: charge/time, in SI: ampere, A)
 * `J`: Current density (dim.: current/area, in SI: A/m^2)
 * `Js`: Saturation current density (dim.: current/area, in SI: A/m^2)
-* `L`: Drawn mask length (PN Step Junctions), or Drawn gate length (NMOS Transistors), or Channel length (JFETs)
+* `L`: Drawn mask length ([PN Step Junctions](#PN Step Junctions)), or Drawn gate length ([NMOS Transistors](#NMOS Transistors)), or Channel length ([JFETs](#JFETs))
 * `Le`: Effectives gate length
-* `NA`: P-side doping (PN Step Junctions), or Substrate doping (NMOS Transistors) (dim.: 1/volume, in SI: m^-3)
-* `ND`: N-side doping (PN Step Junctions), or N-channel doping (JFETs) (dim.: 1/volume, in SI: m^-3)
+* `NA`: P-side doping ([PN Step Junctions](#PN Step Junctions)), or Substrate doping ([NMOS Transistors](#NMOS Transistors)) (dim.: 1/volume, in SI: m^-3)
+* `ND`: N-side doping ([PN Step Junctions](#PN Step Junctions)), or N-channel doping ([JFETs](#JFETs)) (dim.: 1/volume, in SI: m^-3)
+* `ni`: Silicon density (dim.: 1/volume, in SI: m^-3)
 * `T`: Temperature
 * `tox`: Gate silicon dioxide thickness
 * `Va`: Applied voltage (dim.: energy/charge, in SI: volt, V)
@@ -8124,7 +8106,7 @@ The 53 variables in the Solid State Devices section are:
 * `VGS`: Applied gate voltage (dim.: energy/charge, in SI: volt, V)
 * `Vt`: Threshold voltage (dim.: energy/charge, in SI: volt, V)
 * `Vt0`: Threshold voltage (at zero substrate voltage) (dim.: energy/charge, in SI: volt, V)
-* `W`: Drawn mask width (PN Step Junctions), or Drawn width (NMOS Transistors), or Channel width (JFETs)
+* `W`: Drawn mask width ([PN Step Junctions](#PN Step Junctions)), or Drawn width ([NMOS Transistors](#NMOS Transistors)), or Channel width ([JFETs](#JFETs))
 * `We`: Effective width
 * `xd`: Depletion-region width
 * `xdmax`: Depletion-layer width
@@ -8136,15 +8118,44 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 
 ![PN Step Junctions](img/PNStepJunctions.bmp)
 
-* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
+* To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
+```rpl
+ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
+@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_m^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
+```
 
 #### NMOS Transistor
 
 These equations for a silicon NMOS transistor use a two-port network model. They include linear and nonlinear regions in the device characteristics and are based on a gradual-channel approximation (the electric fields in the direction of current flow are small compared to those perpendicular to the flow). The drain current and transconductance calculations differ depending on whether the transistor is in the linear, saturated, or cutoff region. The equations assume the physical geometry of the device is a rectangle, second-order length-parameter effects are negligible, shot-channel, hot-carrier, and velocity-saturation effects are negligible, and subthreshold currents are negligible.
 
+![NMOS Transistor](img/NMOSTransistor.bmp)
+
+* To calculate `[ni_(cm^-3);We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Silicon density; Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
+```rpl
+"'(γ_(V^(1/2)))='√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
+tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
+@ Failing [ ni=1.03628 29628⁳²⁶ (m↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47498 38 pF/cm↑2 γ=0.37247 98153 35 V↑(¹/₂) φp=-0.29855 54642 25 V
+@ Vt=0.75 V VDsat=4.25 V IDS=IDS=2.97832 74271 5 mA gds=0.00014 89163 71 S gm=1.42391 28564 6 mA/V ]
+@ C#17 NOT OK MSOLVE: "Error: constant ?". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute.
+'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_m^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
+
+```
 #### Bipolar Transistors
 
 These equations for an NPN silicon bipolar transistor are based on large-signal models developed by J.J. Ebers and J.L. Moll. The offset-voltage calculation differs depending on whether the transistor is saturated or not. The equations also include the special conditions when the emitter-base or collector-base junction is open, which are convenient for measuring transistor parameters.
+
+![Bipolar Transistors](img/BipolarTransistors.bmp)
+
+* To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IC_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total collector current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
+```rpl
+'((Ⓒk*(T_K)))/Ⓒqe*LN(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))'
+IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
+Failing [ VBE=0.65531 72748 12 V IS=0.00000 98 nA ICO=0.00001 0396 nA ICEO=0.00051 98 nA IE=-1.02040 81632 5 mA IB=0.02040 81632 55 mA VCEsat=0.02962 86227 01 V VCE=...]
+@ C#18 NOT OK MSOLVER: "Inconsistent units". Algebraic conforms to HP50g. SOLVE alone works but for IC=1. mA "Sign reversal".
+@ Then SOLVE fails surprisingly for the IB (simple eqn). And fails again for VCEsat "Argument outside domain" which doesn't compute
+'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
+```
 
 #### JFETs
 
@@ -8153,6 +8164,19 @@ approximation, which assumes the gates are heavily doped compared to the channel
 calculation differs depending on whether the gate-junction depletion-layer thickness is less than or greater
 than the channel thickness. The equations assume the channel is uniformly doped and end effects (such as contact,
 drain, and source resistances) are negligible.
+
+![JFETs](img/JFETs.bmp)
+
+* To calculate `[ni_(cm^-3);Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Silicon density; Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
+```rpl
+'(ID_mA)='(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))'
+ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
+@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=0.35808 22815 91 V xdmax=1.04848 1973 μ G0=0.00059 98549 32 S ... ]
+@ C#19 NOT OK MSOLVER: "No solution ?" idem if SOLVE for ni. SOLVE separately works for Vbi;xdmax;G0 but failed for ID. Algebraic calculation
+@ also fails "Inconsistent units", cannot go further.
+'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
+```
+
 
 ## Stress Analysis
 The 28 variables in the Stress Analysis section are:
@@ -8186,19 +8210,60 @@ The 28 variables in the Stress Analysis section are:
 * `r`: Radius
 * `T`: Torque (dim.: force·length, in SI: N·m)
 
-#### Stress Analysis
+#### Normal Stress
+
+![Normal Stress](img/NormalStress.bmp)
+
+* To calculate `[δ_in;ε;σ_psi]` (Elongation; Normal strain; Normal stress) from 4 known variables:
+```rpl
+P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
+@ Failing [ σ=12 732.39544 73 psi δ=0.00127 32395 45 ft 45 ε=0.00127 32395 45 ] 
+@ C#20 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σ but indicate for δ "Inconsistent units" for ε "Sign reversal" NOTE: HP50g_AUR has an error in the calculated value of δ
+'ROOT(ⒺNormal Stress;[σ;δ;ε];[1_psi;1_in;1])'
+```
 
 #### Shear Stress
+
+![Shear Stress](img/ShearStress.bmp)
+
+* To calculate `[T_ft*lbf;γ_°;φ_°]` (Torque; Shear strain; Angle of twist) from 5 known variables:
+```rpl
+    "Shear Stress",  "{ "
+L=6_ft  r=2_in  J=10.4003897419_in^4  G=12000000_psi  τ=12000_psi
+@ Failing [ T=5 200.19487 095 ft·lbf γ=0.05729 57795 13 ° φ=2.06264 80624 7 ° ] 
+@ C#21 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for T, but angle have to be in radians: corrections of eqns to be checked
+'ROOT(ⒺShear Stress;[T;γ;φ];[1_ft*lbf;1_°;1_°])'
+```
 
 #### Stress On An Element
 
 Stresses and strains are positive in the directions shown in the picture.
 
+![Stress On An Element](img/StressOnAnElement.bmp)
+
+* To calculate `[σx1_kPa;σy1_kPa;τx1y1_kPa]` (Normal stress in rotated-`x` direction; Normal stress in rotated-`y` direction; Rotated shear stress) from 4 known variables:
+```rpl
+    "Shear Stress",  "{ "
+σx=15000_kPa  σy=4755_kPa  τxy=7500_kPa  θ=30_°
+@ Failing [ σx1=18 933.94052 84 kPa σy=4 755 kPa τx1y1=-686.21513 0886 kPa ] 
+@ C#22 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σx1;σy1 but correction to eqn (3) to be checked
+'ROOT(ⒺStress On An Element;[σx1;σy1;τx1y1];[1_kPa;1_kPa;1_kPa])'
+```
+
 #### Mohr’s Circle
+
+![Mohr’s Circle](img/Mohr’sCircle.bmp)
+
+* To calculate `[σ1_psi;σ2_psi;θp1_°;θp2_°;τmax_psi;θs_°;σavg_psi]` (Maximum principal normal stress; Minimum principal normal stress; Angle to plane of maximum principal normal stress; Angle to plane of minimum principal normal stress; Maximum shear stress; Angle to plane of maximum shear stress; Normal stress on place of maximum shear stress) from 3 known variables:
+```rpl
+σx=-5600_psi  σy=-18400_psi  τxy=4800_psi
+@ Expecting [ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ][ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ] 
+'ROOT(ⒺMohr’s Circle;[σ1;σ2;θp1;θp2;τmax;θs;σavg];[1_psi;1_psi;1_°;1_°;1_psi;1_°;1_psi])'
+```
 
 
 ## Waves
-The 33 variables in the Waves section are:
+The 39 variables in the Waves section are:
 
 * `β`: Sound intensity level (dim.: intensity in logarithmic scale, in SI: decibel, dB)
 * `Δp`: Sound pressure variafion around atmospheric pressure (dim.: force/area, in SI: pascal, Pa)
@@ -8208,10 +8273,10 @@ The 33 variables in the Waves section are:
 * `ρ`: Volumic density of medium (dim.: mass/volume, in SI: kg/m^3)
 * `θcone`: Angle at the tip of the cone formed by the supersonic shockwave
 * `μ`: Linear density of a string (dim.: mass/length, in SI: kg/m)
-* `as`: Acceleration at x and t of vibrating particles (Longitudinal Waves), or Acceleration at x and t of air particles (Sound Waves)
-* `ay`: Acceleration at x and t of vibrating particles (transversal waves)
-* `B`: Bulk modulus of elasticity (Sound Waves) (dim.: pressure, in SI: Pa), or Magnetic field (Electromagnetic Waves) (dim.: mass/(time^2·current), in SI: T)
-* `E`: Electric field at x and t of an electromagnetic wave (dim.: force/charge, in SI: N/C=V/m)
+* `as`: Acceleration at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Acceleration at x and t of air particles ([Sound Waves](#Sound Waves))
+* `ay`: Acceleration at `x` and `t` of vibrating particles for transversal waves
+* `B`: Bulk modulus of elasticity ([Sound Waves](#Sound Waves)) (dim.: pressure, in SI: Pa), or Magnetic field ([Electromagnetic Waves](#Electromagnetic Waves)) (dim.: mass/(time^2·current), in SI: T)
+* `E`: Electric field at `x` and `t` of an electromagnetic wave (dim.: force/charge, in SI: N/C=V/m)
 * `Em`: Electric Field amplitude (dim.: force/charge, in SI: N/C=V/m)
 * `f`: Frequency (dim.: 1/time; in SI: hertz, Hz)
 * `favg`: Frequency average (dim.: 1/time; in SI: hertz, Hz)
@@ -8223,44 +8288,150 @@ The 33 variables in the Waves section are:
 * `fopen-close`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
 * `I`: Sound intensity (dim.: energy/(area·time), in SI: W/m^2)
 * `k`: Angular wave number (dim.: agle/length, in SI: r/m)
+* `M`: Mach number
 * `ninteger`: Harmonics number being an integer number
 * `nodd`: Harmonics number being an odd number
 * `Ps`: Power of the source (dim.: energy/time, in SI: watt, W)
-* `s`: Longitudinal displacement at x and t of vibrating particles (Longitudinal Waves), or Longitudinal displacement at x and t of air particles (Sound Waves)
-* `sm`: Longitudinal displacement amplitude of vibrating particles (Longitudinal Waves), or Longitudinal displacement amplitude of air particles (Sound Waves)
+* `s`: Longitudinal displacement at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
+* `sm`: Longitudinal displacement amplitude of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement amplitude of air particles ([Sound Waves](#Sound Waves))
 * `t`: Time
-* `u`: Mass or flow velocity (Mach Number)
-* `v`: Velocity of the propagating sound in medium (Sound Waves), or Wave speed (Transverse Waves, Longitudinal Waves)
-* `vs`: Velocity at x and t of vibrating particles (Longitudinal Waves), or Velocity at x and t of air particles (Sound Waves)
+* `T`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), (^[Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
+* `u`: Mass or flow velocity ([Mach Number](#Mach Number))
+* `v`: Velocity of the propagating sound in medium ([Sound Waves](#Sound Waves)), or Wave speed ([Transverse Waves](#Transverse Waves)) & ([Longitudinal Waves](#Longitudinal Waves))
+* `vr`: Speed of the receiver relative to the medium
+* `vs`: Velocity at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Velocity at `x` and `t` of air particles ([Sound Waves](#Sound Waves)), or Speed of the source relative to the medium ([Doppler Effect](Doppler Effect))
 * `vsair`: Velocity of the propagating sound in the ait as a function of temperature
+* `vy`: Velocity at `x` and `t` of vibrating particles for transversal waves
+* `x`: Position
+* `y`: Transverse displacement at `x` and `t` 
 
 #### Transverse Waves
 
+* To calculate `[f_Hz;λ_cm;v_cm/s;y_cm;vy_cm/s;ay_cm/s^2]` (Frequency; Wavelength; Transverse displacement at x and t; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
+```rpl
+ym=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
+@ Expecting [ f=1 114.08460 164 Hz λ=0.19567 69015 cm v=218.00062 2859 cm/s y=2.87199 87256 6 cm vy=-39 800.72414 76 cm/s ay=312 130 000. cm/s↑2 ] 
+'ROOT(ⒺTransverse Waves;[f;λ;v;y;vy;ay];[1_Hz;1_cm;1_cm/s;1_cm;1_cm/s;1_cm/s^2])'
+```
+
 #### Longitudinal Waves
+
+* To calculate `[s_cm;λ_cm;f_Hz;v_m/s;vs_cm/s;as_cm/s^2]` (Frequency; Wavelength; Transverse displacement at x and t; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
+```rpl
+sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
+@ Expecting [ s=5.68581 77353 7 cm λ=0.19567 69015 cm f=1 114.08460 164 Hz v=2.18000 62285 9 m/s vs=20 103.99107 96 cm/s as=278 605 069.033 cm/s↑2 ] 
+'ROOT(ⒺLongitudinal Waves;[s;λ;f;v;vs;as];[1_cm;1_cm;1_Hz;1_m/s;1_cm/s;1_cm/s^2])'
+```
 
 #### Sound Waves
 
+* **Example 1**. To calculate for an unknomn substance `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
+```rpl
+sm=10_cm  ω=6000_r/s  B=12500_kPa  ρ=65_kg/m^3   x=2_cm   t=0_s  r=10_m   k=13.6821_r/m  φ=2_r
+@ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W ]
+@ Failing [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
+@ C#23 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
+@ Eqn of β was in error and is now corrected, to be checked.
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
+```
+
+* **Example 2**. For a sound wave propagating in air at a pressure of 1 atm and temperature of 20°C, to calculate `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
+```rpl
+sm=1e-5_m  ω=2 513.27412 287_r/s  B=141_kPa  ρ=1.29_kg/m^3   x=2_cm   t=0_s  r=5_m   k=7.59297 31808 8_r/m  φ=2_r
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W ]
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
+@ C#23 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
+@ Eqn of β was in error and is now corrected, to be checked.
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
+```
+
 #### Doppler Effect
 
-In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air `vr` is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air `va` is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
+In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air `vr` is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air `vs` is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
+
+* **Example 1**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are behind him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
+```rpl
+T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
+@ Failing [ vsair=343.23616 5602 m/s f0=1 302.30661 671 HZ ]
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
+```
+
+* **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
+```rpl
+T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
+@ Failing [ vsair=343.23616 5602 m/s f0=1 123.70996 713 HZ ]
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
+```
 
 #### Mach Number
 
-For an object moving at a supersonic speed, the shockwave describes a cone having the angle `θcone` at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object.
+For an object moving at a supersonic speed, the shockwave describes a cone having the angle `θcone` at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object. The Mach number `M` is the speed ratio to the speed of sound.
+
+* To calculate `[vsair_(m/s);M;θcone_°]` (Propagation speed of sound waves; Mach number; Angle at the tip of the cone formed by the supersonic shockwave) from 2 known variables:
+```rpl
+T=-20_°C  u=2200_km/h  
+@ Failing [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
+@ C#25 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for M & θcone: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
+```
 
 #### String Standing Waves
 
 A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string. A string being fixed (or free) at both ends admits all integer harmonics. A string being being fixed at one end and free at the other end admits only all odd integer harmonics.
 
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixed-fixed_Hz;ffixed-free_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
+```rpl
+λ=1,2_m f=112_Hz μ=1,8_(g/m) L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s ym=2_cm
+@ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=0.99999 99999 99 cm ffixed-fixed=531.60102 2863 Hz
+ffixed-free=398.70076 7147 Hz ]
+@ C#26 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units". Algebraic are OK
+'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixed-fixed;ffixed-free];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
+```
+
 #### Sound Wave Harmonics
 
 A tube being open or closed at its ends admits only discrete harmonics as standing waves of the sound in the air within the tube. A tube being open (or closed) at both ends admits all integer harmonics. A tube being being open at one end and closed at the other end admits only all odd integer harmonics.
+
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
+```rpl
+λ=3_m f=110_Hz L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
+@ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=-2.17345 88932 4 °C s=0.00000 04158 23 m fopenopen=550. Hz
+fopenclose=412.5 Hz ]
+@ C#26 NOT OK MSOLVER: "Bad argument type". SOLVE works for all unknowns except for s "Inconsistent units". Algebraic are OK.
+'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
+```
 
 #### Beat Acoustics
 
 In acoustics, a beat is an interference pattern between two sounds of slightly different frequencies, perceived as a periodic variation in amplitude whose rate is the difference of the two frequencies. The sum of two unit-amplitude sine waves can be expressed as a carrier wave of frequency `favg` whose amplitude is modulated by an envelope wave of frequency `fbeat`.
 
+* To calculate `[favg_Hz;fbeat_Hz;s_m]` (Frequency average; Beat frequency; Longitudinal displacement) from 4 known variables:
+```rpl
+f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
+@ Expecting [ favg=401. Hz fbeat=2. Hz s=0.00000 2 m ]
+'ROOT(ⒺBeat Acoustics;[favg;fbeat;s];[1_Hz;1_Hz;1_m])'
+```
+
 #### Electromagnetic Waves
+
+* To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 4 known variables:
+    "'(E_(N/C))=(Em_(N/C))*SIN((k_(r/m))*(x_m)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(E_(N/C))/(B_T)=Ⓒc' "
+    "'Ⓒc=(λ_m)*(f_Hz)' "
+    "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
+    "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+```rpl
+λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
+@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
+@ C#27 NOT OK MSOLVER: "Numerical presision lost". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
+@ But algebraics are OK and the unknown can be computed.
+'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
+```
+
 
 ## Relativity
 The 107 variables in the Relativity section are:

@@ -10254,20 +10254,16 @@ void tests::check_help_examples()
                         itest(LENGTHY(20000), RUNSTOP).noerror();
                     if (!ref.empty())
                         want(ref.c_str());
-                    if (failures.size() > nfailures)
+                    bool fails = failures.size() > nfailures;
+                    if (fails || skiptest)
                     {
                         std::string grep = "grep -inr '^##*";
                         grep += topic;
                         grep += "' doc";
-                        passfail(skiptest ? -1 : 0);
-                        fprintf(stderr, "Running: %s\n", grep.c_str());
+                        passfail(!skiptest ? 0 : fails ? 1 : -1);
                         system(grep.c_str());
-                        ok = -1;
-                    }
-                    else if (skiptest)
-                    {
-                        explain("Test '", ref.c_str(), "'now passes");
-                        fail();
+                        if (skiptest && fails)
+                            ok = -1;
                     }
                     ref      = "";
                     skiptest = false;

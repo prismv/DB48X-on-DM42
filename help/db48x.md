@@ -6305,8 +6305,8 @@ end
 Verify relative difference under condition `5_cm << 3_m` with the example of ([E Field Infinite Line](#E Field Infinite Line))
 ```rpl
 Er0 Er %Ch
-@ Expecting [ -5.55093 02084 6⁳⁻² ]
-@ % of relative difference 
+@ Expecting -5.55093 02084 6⁳⁻²
+@ % of relative difference
 ```
 
 ### E Field Infinite Plate
@@ -6491,9 +6491,8 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 * To calculate `[I_A]` (Current) from 5 known variables:
 ```rpl
 Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
-@ Expecting [ I=-2.⁳⁻²³ A ]
-@ Failing [ I=7.22565 13671 4⁳⁻³ A ]
-@ C#1 NOT OK. MSOLVER gives wrong value BUT algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A 
+@ Expecting [ I=7.22565 13671 4⁳⁻³ A ]
+@ C#1 NOT OK. MSOLVER gives wrong value BUT algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A
 'ROOT([(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))];[I];[1_A])'
 'ROOT(ⒺRL Transient;[I];[1_A])'
 ```
@@ -6514,7 +6513,7 @@ L=500_mH  C=8_μF  R=10_Ω
 
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
-C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC 
+C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 @ Failing [ d=8.00418 57871 2⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ V/m ΔV=3. V ]
 @ C#3 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Bad argument type" BUT strangely
 @ if I give "1" as a trial value for σ, it works then it will also work seperately for Ein & ΔV BUT indicating SOLVE Error: "Sign Reversal"
@@ -6581,7 +6580,9 @@ t=3.2_s  Imax=10_A  ω=636_r/s  φ=30_°
 I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/m↑3 σ=54 474 005.556_S/m
 @ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
+```
 
+```rpl
 @ C#4 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT it should work !
 I=1_A  n=8.5e28_(m^-3) r=0.1_cm A='Ⓒπ*r^2' ρ='Ⓒqe*n' σ='Ⓒqe*n*40_(cm^2/(V*s))'
 @ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
@@ -6595,7 +6596,7 @@ In accordance with microscopic Ohm's law, the current density is proportional to
 * To calculate `[μe_(cm^2/(V*s));μe_(cm^2/(V*s));J_(A/m^2);Je_(A/m^2);Jh_(A/m^2);σ_(S/m)]` (Electron & hole mobilities; Current densities; Conductivity) from 5 known variables:
 ```rpl
 τc=4.09365 36801 40e-15_s meeff=1.09312 60456 68e-31 kg mheff=4.55469 18569 5e-31 kg nh=6.0e18_(m^-3) ne=1.04e19_(m^-3) E=6.0e-9_V/m
-@ Expecting [ μe=60. cm↑2/(V·s) μh=14.4 cm↑2/(V·s) Je=5.99854 93176 9⁳⁻¹¹ A/m↑2 Jh=8.30568 36706 4⁳⁻¹² A/m↑2 J=6.82911 76847 6⁳⁻¹¹ A/m↑2 σ=1.13818 62807 9⁳⁻² S/m ]
+@ Expecting [ μe=60. cm↑2/(V·s) μh=14.4 cm↑2/(V·s) Je=5.99854 93176 9⁳⁻¹¹ A/m↑2 Jh=8.30568 36706 3⁳⁻¹² A/m↑2 J=6.82911 76847 6⁳⁻¹¹ A/m↑2 σ=0.01138 18628 08 S/m ]
 'ROOT(ⒺElectron & Hole Mobilities;[μe;μh;Je;Jh;J;σ];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
 ```
 
@@ -6866,7 +6867,7 @@ The 38 variables in the Gases section are:
 * To calculate `[n_mol;m_kg]` (Number of moles; Mass) from 4 known variables:
 ```rpl
 T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
-@ Expecting [ n=1.05056 26661 23⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
+@ Expecting [ n=1.05056 26661 2 mol m=0.03782 02559 8 kg ]] instead, [3⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
 'ROOT(ⒺIdeal Gas;[n;m];[1_mol;1_kg])'
 ```
 
@@ -6886,7 +6887,7 @@ These equations apply to an ideal gas.
 * To calculate `[m_kg;W_J]` (Mass; Work) from 5 known variables:
 ```rpl
 Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
-@ Expecting [ m=1.6⁳⁻² kg W=4 926.49415 89 J ]
+@ Expecting [ m=0.016 kg W=4 926.49415 89 J ]
 'ROOT(ⒺIsothermal Expansion;[m;W];[1_kg;1_J])'
 ```
 
@@ -6929,7 +6930,7 @@ Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
 @ Let me examine the computation of Z alone in its own implicit expression
 Pc=48_atm  Tc=298_K  P=5_kPa  T=348.15_K
 @ Failing [ Z=0.99977 57972 69 ]
-@ Doesn't work. MSOLVER : "Inconsistent units". Very strange because if I substitute P,T,Pc & Tc values, it works, see next trial 
+@ Doesn't work. MSOLVER : "Inconsistent units". Very strange because if I substitute P,T,Pc & Tc values, it works, see next trial
 'ROOT([Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)];[Z];[1])'
 ```
 ```rpl
@@ -6969,7 +6970,7 @@ These equations describe properties of an ideal gas.
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
 @ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
-@ Expecting [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 7⁳⁻³ kg λ=1 nm ]
+@ Expecting [ vrms=644.76778 7657 m/s n=8.01811 13098 3⁳⁻² mol m=1.44326 00357 7⁳⁻³ kg λ=1 nm ]
 @ C#8 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
 @ MSOLVER calculates wrong values everuwhere : [ vrms=1 388.08583 078 m/s n=0.0173 mol m=0.00031 14 kg λ=1 nm ]
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
@@ -7028,7 +7029,7 @@ The 31 variables in the Heat Transfer section are:
 * To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient; Initial temperature) from 4 known variables:
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
-@ Expecting [ α=9.⁳⁻⁴ K⁻¹ Ti=10. °C ]
+@ Expecting [ α=4.⁳⁻⁵ K⁻¹ Ti=10. °C ]
 'ROOT(ⒺThermal Expansion;[α;Ti];[1_K^-1;1_°C])'
 ```
 
@@ -7039,7 +7040,7 @@ The 31 variables in the Heat Transfer section are:
 * To calculate `[qr_W;ΔT_°C]` (Heat transfer rate; Temperature difference) from 5 known variables:
 ```rpl
 Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
-@ Expecting [ qr=5000 W ΔT=50_°C ]
+@ Expecting [ qr=5 000. W ΔT=50. °C ]
 'ROOT(ⒺConduction;[qr;ΔT];[1_W;1_°C])'
 ```
 
@@ -7174,8 +7175,8 @@ end
 Verify relative difference under condition `5_cm << 3_m` with the example 2 of [Straight Wire Infinite](#Straight Wire Infinite)
 ```rpl
 B0 B %Ch
-@ Expecting [ -3.47204 10629⁳⁻³ ] 
-@ % of relative difference 
+@ Expecting [ -3.47204 10629⁳⁻³ ]
+@ % of relative difference
 ```
 
 #### Force Between Wires
@@ -7224,8 +7225,8 @@ The expression for the magnetic field in the center depends on the subtended int
 
 * **Example 2.** When `r << L` which means `r < L/10`, we can verify that the value of `B` for a infinite solenoid approximates the exact value calculated for a finite solenoid of length `L`.
    ```rpl
-L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'  
-if 'r < L/10' then   
+L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'
+if 'r < L/10' then
 @ Expecting [ B=7.85289 10304 2⁳⁻² T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 end
@@ -7234,7 +7235,7 @@ Verify relative difference under condition 10_cm << 3_m with the example of ([B�
 ```rpl
 B0 B %Ch
 @ Expecting [ -1.38859 9604⁳⁻² ]
-@ % of relative difference 
+@ % of relative difference
 ```
 
 #### B Field In Toroid
@@ -7405,7 +7406,7 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 @ Expecting [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=0.21337 88142 9 s xfr=1 ft ]
 @ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below). BUT integration with units seems to work here ISSUE #1314 but gives 
+@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below). BUT integration with units seems to work here ISSUE #1314 but gives
 @ wrong value
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
@@ -7686,7 +7687,7 @@ k=20_N/m  m=5_kg
 ```rpl
 L=15_cm  θmax=80_°
 @ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
-@ c#14 NOT OK MSOLVER & SOLVE: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following 
+@ c#14 NOT OK MSOLVER & SOLVE: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following
 @ sum: Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
 'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
 ```
@@ -8092,7 +8093,7 @@ The 28 variables in the Stress Analysis section are:
 * To calculate `[δ_in;ε;σ_psi]` (Elongation; Normal strain; Normal stress) from 4 known variables:
 ```rpl
 P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
-@ Failing [ σ=12 732.39544 73 psi δ=0.00127 32395 45 ft 45 ε=0.00127 32395 45 ] 
+@ Failing [ σ=12 732.39544 73 psi δ=0.00127 32395 45 ft 45 ε=0.00127 32395 45 ]
 @ C#20 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σ but indicate for δ "Inconsistent units" for ε "Sign reversal" NOTE: HP50g_AUR has an error in the calculated value of δ
 'ROOT(ⒺNormal Stress;[σ;δ;ε];[1_psi;1_in;1])'
 ```
@@ -8105,7 +8106,7 @@ P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
 ```rpl
     "Shear Stress",  "{ "
 L=6_ft  r=2_in  J=10.4003897419_in^4  G=12000000_psi  τ=12000_psi
-@ Failing [ T=5 200.19487 095 ft·lbf γ=0.05729 57795 13 ° φ=2.06264 80624 7 ° ] 
+@ Failing [ T=5 200.19487 095 ft·lbf γ=0.05729 57795 13 ° φ=2.06264 80624 7 ° ]
 @ C#21 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for T, but angle have to be in radians: corrections of eqns to be checked
 'ROOT(ⒺShear Stress;[T;γ;φ];[1_ft*lbf;1_°;1_°])'
 ```
@@ -8120,7 +8121,7 @@ Stresses and strains are positive in the directions shown in the picture.
 ```rpl
     "Shear Stress",  "{ "
 σx=15000_kPa  σy=4755_kPa  τxy=7500_kPa  θ=30_°
-@ Failing [ σx1=18 933.94052 84 kPa σy=4 755 kPa τx1y1=-686.21513 0886 kPa ] 
+@ Failing [ σx1=18 933.94052 84 kPa σy=4 755 kPa τx1y1=-686.21513 0886 kPa ]
 @ C#22 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σx1;σy1 but correction to eqn (3) to be checked
 'ROOT(ⒺStress On An Element;[σx1;σy1;τx1y1];[1_kPa;1_kPa;1_kPa])'
 ```
@@ -8132,7 +8133,7 @@ Stresses and strains are positive in the directions shown in the picture.
 * To calculate `[σ1_psi;σ2_psi;θp1_°;θp2_°;τmax_psi;θs_°;σavg_psi]` (Maximum principal normal stress; Minimum principal normal stress; Angle to plane of maximum principal normal stress; Angle to plane of minimum principal normal stress; Maximum shear stress; Angle to plane of maximum shear stress; Normal stress on place of maximum shear stress) from 3 known variables:
 ```rpl
 σx=-5600_psi  σy=-18400_psi  τxy=4800_psi
-@ Expecting [ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ][ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ] 
+@ Expecting [ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ][ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ]
 'ROOT(ⒺMohr’s Circle;[σ1;σ2;θp1;θp2;τmax;θs;σavg];[1_psi;1_psi;1_°;1_°;1_psi;1_°;1_psi])'
 ```
 
@@ -8178,14 +8179,14 @@ The 39 variables in the Waves section are:
 * `vsair`: Velocity of the propagating sound in the ait as a function of temperature
 * `vy`: Velocity at `x` and `t` of vibrating particles for transversal waves
 * `x`: Position
-* `y`: Transverse displacement at `x` and `t` 
+* `y`: Transverse displacement at `x` and `t`
 
 #### Transverse Waves
 
 * To calculate `[f_Hz;λ_cm;v_cm/s;y_cm;vy_cm/s;ay_cm/s^2]` (Frequency; Wavelength; Transverse displacement at x and t; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
 ```rpl
 ym=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
-@ Expecting [ f=1 114.08460 164 Hz λ=0.19567 69015 cm v=218.00062 2859 cm/s y=2.87199 87256 6 cm vy=-39 800.72414 76 cm/s ay=312 130 000. cm/s↑2 ] 
+@ Expecting [ f=1 114.08460 164 Hz λ=0.19567 69015 cm v=218.00062 2859 cm/s y=2.87199 87256 6 cm vy=-39 800.72414 76 cm/s ay=312 130 000. cm/s↑2 ]
 'ROOT(ⒺTransverse Waves;[f;λ;v;y;vy;ay];[1_Hz;1_cm;1_cm/s;1_cm;1_cm/s;1_cm/s^2])'
 ```
 
@@ -8194,7 +8195,7 @@ ym=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
 * To calculate `[s_cm;λ_cm;f_Hz;v_m/s;vs_cm/s;as_cm/s^2]` (Frequency; Wavelength; Transverse displacement at x and t; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
 ```rpl
 sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
-@ Expecting [ s=5.68581 77353 7 cm λ=0.19567 69015 cm f=1 114.08460 164 Hz v=2.18000 62285 9 m/s vs=20 103.99107 96 cm/s as=278 605 069.033 cm/s↑2 ] 
+@ Expecting [ s=5.68581 77353 7 cm λ=0.19567 69015 cm f=1 114.08460 164 Hz v=2.18000 62285 9 m/s vs=20 103.99107 96 cm/s as=278 605 069.033 cm/s↑2 ]
 'ROOT(ⒺLongitudinal Waves;[s;λ;f;v;vs;as];[1_cm;1_cm;1_Hz;1_m/s;1_cm/s;1_cm/s^2])'
 ```
 
@@ -8230,7 +8231,7 @@ In the classical Doppler effect it is assumed that the speed of the observer and
 ```rpl
 T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
 @ Failing [ vsair=343.23616 5602 m/s f0=1 302.30661 671 HZ ]
-@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked.
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -8238,7 +8239,7 @@ T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
 ```rpl
 T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
 @ Failing [ vsair=343.23616 5602 m/s f0=1 123.70996 713 HZ ]
-@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked.
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -8248,9 +8249,9 @@ For an object moving at a supersonic speed, the shockwave describes a cone havin
 
 * To calculate `[vsair_(m/s);M;θcone_°]` (Propagation speed of sound waves; Mach number; Angle at the tip of the cone formed by the supersonic shockwave) from 2 known variables:
 ```rpl
-T=-20_°C  u=2200_km/h  
+T=-20_°C  u=2200_km/h
 @ Failing [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
-@ C#25 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for M & θcone: "Inconsistent units". Equ 1 was corrected, to be checked. 
+@ C#25 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for M & θcone: "Inconsistent units". Equ 1 was corrected, to be checked.
 'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
 ```
 

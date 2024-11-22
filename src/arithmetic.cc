@@ -117,9 +117,9 @@ algebraic_p arithmetic::optimize<add>(algebraic_r x, algebraic_r y)
     // Deal with basic auto-simplifications rules
     if (Settings.AutoSimplify() && x->is_algebraic() && y->is_algebraic())
     {
-        if (x->is_zero(false))                  // 0 + X = X
+        if (x->is_zero(false) && !x->is_based()) // 0 + X = X
             return y;
-        if (y->is_zero(false))                  // X + 0 = X
+        if (y->is_zero(false) && !y->is_based()) // X + 0 = X
             return x;
     }
     return nullptr;
@@ -299,11 +299,11 @@ algebraic_p arithmetic::optimize<sub>(algebraic_r x, algebraic_r y)
 {
     if (Settings.AutoSimplify() && x->is_algebraic() && y->is_algebraic())
     {
-        if (y->is_zero(false))                  // X - 0 = X
+        if (y->is_zero(false) && !y->is_based())                  // X - 0 = X
             return x;
         if (x->is_same_as(y))                   // X - X = 0
             return integer::make(0);
-        if (x->is_zero(false) && y->is_symbolic())
+        if (x->is_zero(false) && !x->is_based() && y->is_symbolic())
             return neg::run(y);                 // 0 - X = -X
     }
 
@@ -443,13 +443,13 @@ algebraic_p arithmetic::optimize<mul>(algebraic_r x, algebraic_r y)
     // Deal with basic auto-simplifications rules
     if (Settings.AutoSimplify() && x->is_algebraic() && y->is_algebraic())
     {
-        if (x->is_zero(false))                  // 0 * X = 0
+        if (x->is_zero(false) && !x->is_based()) // 0 * X = 0
             return x;
-        if (y->is_zero(false))                  // X * 0 = Y
+        if (y->is_zero(false) && !y->is_based()) // X * 0 = Y
             return y;
-        if (x->is_one(false))                   // 1 * X = X
+        if (x->is_one(false) && !x->is_based()) // 1 * X = X
             return y;
-        if (y->is_one(false))                   // X * 1 = X
+        if (y->is_one(false) && !y->is_based()) // X * 1 = X
             return x;
         if (x->is_symbolic() && x->is_same_as(y))
         {
@@ -613,9 +613,9 @@ algebraic_p arithmetic::optimize<struct div>(algebraic_r x, algebraic_r y)
     // Deal with basic auto-simplifications rules
     if (Settings.AutoSimplify() && x->is_algebraic() && y->is_algebraic())
     {
-        if (x->is_zero(false))                  // 0 / X = 0
+        if (x->is_zero(false) && !x->is_based()) // 0 / X = 0
             return x;
-        if (y->is_one(false))                   // X / 1 = X
+        if (y->is_one(false) && !y->is_based()) // X / 1 = X
             return x;
         if (x->is_one(false) && y->is_symbolic())
             return inv::run(y);                 // 1 / X = X⁻¹
@@ -1294,29 +1294,10 @@ algebraic_p arithmetic::evaluate(id          op,
     id yt = y->type();
 
     // All non-numeric cases, e.g. string concatenation
-    // Must come first, e.g. for optimization of X^3 or list + tagged object
-    while(true)
-    {
-        if (algebraic_p result = ops.non_numeric(x, y))
-            return result;
-        if (rt.error() != err)
-            return nullptr;
-
-        if (xt == ID_tag)
-        {
-            x = algebraic_p(tag_p(+x)->tagged_object());
-            xt = x->type();
-        }
-        else if (yt == ID_tag)
-        {
-            y = algebraic_p(tag_p(+y)->tagged_object());
-            yt = y->type();
-        }
-        else
-        {
-            break;
-        }
-    }
+    if (algebraic_p result = ops.non_numeric(x, y))
+        return result;
+    if (rt.error() != err)
+        return nullptr;
 
     // Integer types
     if (is_integer(xt) && is_integer(yt))
@@ -1539,12 +1520,17 @@ object::result arithmetic::evaluate(id op, ops_t ops)
     // Fetch arguments from the stack
     // Possibly wrong type, i.e. it migth not be an algebraic on the stack,
     // but since we tend to do extensive type checking later, don't overdo it
-    algebraic_g y = algebraic_p(rt.stack(1));
-    if (!y)
+    object_p yo = strip(rt.stack(1));
+    object_p xo = strip(rt.stack(0));
+    if (!xo || !yo)
         return ERROR;
-    algebraic_g x = algebraic_p(rt.stack(0));
-    if (!x)
+    algebraic_g y = yo->as_extended_algebraic();
+    algebraic_g x = xo->as_extended_algebraic();
+    if (!x || !y)
+    {
+        rt.type_error();
         return ERROR;
+    }
 
     // Evaluate the operation
     cleaner     purge;

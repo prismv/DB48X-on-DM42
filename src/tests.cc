@@ -6151,6 +6151,10 @@ void tests::matrix_functions()
     step("Divide fails")
         .test(CLEAR, "[[1 1][1 1]]", ENTER, ENTER, DIV)
         .error("Divide by zero");
+
+    step("Tagged array operations")
+        .test(CLEAR, ":A:[1 2] :B:[3 4] +", ENTER)
+        .want("[ 4 6 ]");
 }
 
 

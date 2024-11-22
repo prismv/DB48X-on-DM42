@@ -10259,7 +10259,7 @@ void tests::check_help_examples()
                     {
                         std::string grep = "grep -inr '^##*";
                         grep += topic;
-                        grep += "' doc";
+                        grep += "$' doc";
                         passfail(!skiptest ? 0 : fails ? 1 : -1);
                         system(grep.c_str());
                         if (skiptest && fails)

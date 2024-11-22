@@ -976,3 +976,26 @@ Use the VAR key to access Demos.
 ▼      Demos are in this directory"
 
 VariablesMenu
+
+«
+ « { 25 25 } RANM SIN » TEVAL 2 DISP GC 1 DISP
+ « { 25 25 } RANM SIN » TEVAL 4 DISP GC 3 DISP
+ « * » TEVAL DUP 6 DISP
+»
+'STUFF' STO
+
+[a b][c d]
+[[a b][c d]][e f]
+[[a b][c d]] [[e f][g h]]
+[[a b c][d e f]] [[x y][z t][u v]]
+
+[
+ [[ 1 2 ][3 4]]
+ [[ 1 2 ][3 4]]
+]
+[
+ [[ 1 2 ][3 4]]
+ [[ 1 2 ][3 4]]
+]
+
+[ [1 2] [3 4] ]

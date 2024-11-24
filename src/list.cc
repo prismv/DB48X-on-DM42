@@ -1939,20 +1939,19 @@ list_p list::names(bool units, id type) const
 //   - For same size, alphabetic order
 {
     size_t   depth = rt.depth();
-    scribble scr;
-
-    if (!names_enumerate(depth, units))
-        goto error;
-
-    // Copy the items to the list
-    while (rt.depth() > depth)
+    if (names_enumerate(depth, units))
     {
-        object_g obj = rt.pop();
-        if (!rt.append(obj))
-            goto error;
-    }
+        // Copy the items to the list
+        scribble scr;
+        while (rt.depth() > depth)
+        {
+            object_g obj = rt.pop();
+            if (!rt.append(obj))
+                goto error;
+        }
 
-    return list::make(type, scr.scratch(), scr.growth());
+        return list::make(type, scr.scratch(), scr.growth());
+    }
 
 error:
     if (size_t now = rt.depth())

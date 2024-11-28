@@ -11266,7 +11266,7 @@ The following information is stored in state files:
 Numerical integration (adaptive Simpson)
 
 
-## ROOT
+## Root
 
 Find the root of an equation or of a system of equations.
 

@@ -135,8 +135,13 @@ struct list : text
     }
 
     list_p      names(bool units = false, id type = ID_list) const;
-    bool        names_enumerate(size_t depth, bool with_units) const;
-    static bool names_insert(size_t depth, symbol_p sym, unit_p unit);
+    bool        names_enumerate(size_t depth,
+                                bool with_units,
+                                list_g &forbidden) const;
+    static bool names_insert(size_t   depth,
+                             symbol_p sym,
+                             unit_p   unit,
+                             list_g  &forbidden);
 
 
     // Iterator, built in a way that is robust to garbage collection in loops

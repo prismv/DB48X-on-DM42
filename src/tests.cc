@@ -179,7 +179,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            expression_operations();
+            text_functions();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -5607,6 +5607,16 @@ void tests::text_functions()
               RSHIFT, KEY4, SHIFT, F2)
         .type(ID_text).expect("\"èéêëπ√∫\"");
 
+    step("Head of text")
+        .test(CLEAR, "\"Hello\" HEAD", ENTER)
+        .expect("\"H\"")
+        .test(CLEAR, "\"À demain\" HEAD", ENTER)
+            .expect("\"À\"");
+    step("Tail of text")
+        .test(CLEAR, "\"Hello\" TAIL", ENTER)
+        .expect("\"ello\"")
+        .test(CLEAR, "\"À demain\" TAIL", ENTER)
+        .expect("\" demain\"");
 
     step("Ensure we can parse integer numbers with separators in them")
         .test(CLEAR, "100000", ENTER).expect("100 000")
@@ -12215,6 +12225,7 @@ tests &tests::itest(cstring txt)
 #define NEXT        itest(ID_ToolsMenu); k = RESERVED2; break
 
         case L'à': itest(ID_CharactersMenu, F1, F1); NEXT;
+        case L'À': itest(ID_CharactersMenu, F1, LSHIFT, F1); NEXT;
 
         case L'ℂ': itest(ID_CharactersMenu, F4, RSHIFT, F3); NEXT;
         case L'ℚ': itest(ID_CharactersMenu, F4, RSHIFT, F4); NEXT;

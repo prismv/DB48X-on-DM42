@@ -1203,6 +1203,15 @@ COMMAND_BODY(Head)
             rt.dimension_error();
         }
     }
+    else if (text_p tobj = obj->as<text>())
+    {
+        size_t len = 0;
+        gcutf8 txt = tobj->value(&len);
+        if (len)
+            tobj = text::make(txt, utf8_size(txt, len));
+        if (tobj && rt.top(tobj))
+            return OK;
+    }
     else
     {
         rt.type_error();
@@ -1230,6 +1239,18 @@ COMMAND_BODY(Tail)
             // rt.dimension_error();
             return OK;
         }
+    }
+    else if (text_p tobj = obj->as<text>())
+    {
+        size_t len = 0;
+        gcutf8 txt = tobj->value(&len);
+        if (len)
+        {
+            size_t sz = utf8_size(txt, len);
+            tobj = text::make(txt + sz, len > sz ? len - sz : 0);
+        }
+        if (tobj && rt.top(tobj))
+            return OK;
     }
     else
     {

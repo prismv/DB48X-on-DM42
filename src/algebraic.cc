@@ -559,19 +559,24 @@ bool algebraic::to_decimal(algebraic_g &x, bool weak)
     case ID_neg_decimal:
         return decimal_promotion(x);
     case ID_constant:
+    case ID_xlib:
         x = constant_p(+x)->value();
-        return true;
+        if (x)
+        {
+            if (expression_p expr = x->as<expression>())
+            {
+                settings::SaveNumericalResults save(true);
+                x = expr->evaluate();
+            }
+        }
+        return x && !rt.error();
     case ID_expression:
         if (!unit::mode)
         {
             expression_p eq = expression_p(+x);
             settings::SaveNumericalResults save(true);
-            result r = eq->run();
-            if (r == OK)
-                if (object_p obj = rt.pop())
-                    if (algebraic_p alg = obj->as_algebraic())
-                        x = alg;
-            return !rt.error();
+            x = eq->evaluate();
+            return x && !rt.error();
         }
         // fallthrough
     default:

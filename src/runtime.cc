@@ -1929,6 +1929,8 @@ object_p cleaner::adjust(object_p temp)
         memmove((void *) temporaries, temp, sz);
         if (size_t scsz = rt.Editing + rt.Scratch)
             rt.move(temporaries + sz, rt.Temporaries, scsz, 1, 1);
+        if (rt.command() >= temp)
+            rt.command(nullptr);
         temp = temporaries;
         rt.Temporaries = temp + sz;
     }

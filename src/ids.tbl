@@ -766,6 +766,9 @@ NAMED(XLib, "LibraryItem")
 CMD(XlibName)
 CMD(XlibValue)
 CMD(Constants)
+CMD(Attach)
+CMD(Detach)
+NAMED(Libs, "Libraries")
 
 // Last things and stack
 NAMED(LastArg, "LastArguments")

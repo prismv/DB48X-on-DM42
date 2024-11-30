@@ -179,7 +179,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            text_functions();
+            library();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -10214,6 +10214,10 @@ void tests::library()
 {
     BEGIN(library);
 
+    step("Clear attached libraries")
+        .test(CLEAR, ID_FilesMenu, ID_Libs, ID_Detach, ID_Libs)
+        .expect("{ }");
+
     step("Secrets: Dedicace")
         .test(CLEAR, RSHIFT, H, F1, F1)
         .expect("\"À tous ceux qui se souviennent de Maubert électronique\"");
@@ -10221,9 +10225,40 @@ void tests::library()
         .test(CLEAR, F2)
         .expect("\"To modify the library, edit the config/library.csv file\"");
 
+    step("Check that libraries were attached")
+        .test(CLEAR, ID_FilesMenu, ID_Libs)
+        .expect("{ Dedicace LibraryHelp }");
+    step("Detach library by number")
+        .test(CLEAR, "0", ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ LibraryHelp }");
+
     step("Physics: Relativistic and classical kinetic energy")
         .test(CLEAR, RSHIFT, H, F2, F1)
         .image("lib-kinetic", 2000);
+
+    step("Check that libraries were attached")
+        .test(CLEAR, ID_FilesMenu, ID_Libs)
+        .expect("{ LibraryHelp KineticEnergy }");
+    step("Detach library by library entry")
+        .test(CLEAR, "'ⓁLibraryHelp'",
+              ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ KineticEnergy }");
+    step("Attach library by library entry")
+        .test(CLEAR, "'ⓁLibraryHelp'",
+              ID_FilesMenu, ID_Attach, ID_Libs)
+        .expect("{ LibraryHelp KineticEnergy }");
+    step("Attach library by library ID")
+        .test(CLEAR, "{ 0 5 }",
+              ID_FilesMenu, ID_Attach, ID_Libs)
+        .expect("{ Dedicace LibraryHelp KineticEnergy CollatzBenchmark }");
+    step("Detach library by library name")
+        .test(CLEAR, "\"LibraryHelp\"",
+              ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ Dedicace KineticEnergy CollatzBenchmark }");
+    step("Attach library by library name")
+        .test(CLEAR, "{ \"LibraryHelp\" \"KineticEnergy\" }",
+              ID_FilesMenu, ID_Attach, ID_Libs)
+        .expect("{ Dedicace LibraryHelp KineticEnergy CollatzBenchmark }");
 
     step("Math: Collatz conjecture benchmark")
         .test(CLEAR, RSHIFT, H, F3, LENGTHY(5000), F1, ENTER, SWAP)
@@ -10237,6 +10272,32 @@ void tests::library()
     step("Math: Triangle equations")
         .test(CLEAR, F4)
         .image_noheader("lib-triangle");
+
+    step("Check attached libraries")
+        .test(CLEAR, ID_FilesMenu, ID_Libs)
+        .expect("{ "
+                "Dedicace LibraryHelp KineticEnergy "
+                "CollatzBenchmark CollatzConjecture CountPrimes "
+                "TriangleEquations "
+                "}");
+
+    step("Detach libraries")
+        .test(CLEAR, "{ ⓁTriangleEquations ⓁCollatzConjecture }",
+              ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ Dedicace LibraryHelp KineticEnergy CollatzBenchmark "
+                "CountPrimes }");
+
+    step("Detach libraries by number")
+        .test(CLEAR, "{ 0 { 1 2 }}",
+              ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ CollatzBenchmark CountPrimes }");
+
+    step("Detach libraries by name")
+        .test(CLEAR, "{ \"CollatzBenchmark\" { CountPrimes }}",
+              ID_FilesMenu, ID_Detach, ID_Libs)
+        .expect("{ }");
+
+
 }
 
 
@@ -12241,7 +12302,7 @@ tests &tests::itest(cstring txt)
         case L'∠': itest(ID_CharactersMenu, F4, F6, F6, F6, F6, F6, F3); NEXT;
         case L'Ⓒ': itest(ID_CharactersMenu, F2, RSHIFT, F1); NEXT;
         case L'Ⓔ': itest(ID_CharactersMenu, F2, RSHIFT, F2); NEXT;
-        case L'Ⓛ': itest(ID_CharactersMenu, F2, LSHIFT, F3); NEXT;
+        case L'Ⓛ': itest(ID_CharactersMenu, F2, RSHIFT, F3); NEXT;
         case L'Ⓓ': itest(ID_CharactersMenu, F2, F6, F6, F1); NEXT;
         case L'ⓧ': itest(ID_CharactersMenu, F2, F6, F6, F2); NEXT;
         case L'°': itest(ID_CharactersMenu, F2, F6, SHIFT, F3); NEXT;

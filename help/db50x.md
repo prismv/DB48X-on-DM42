@@ -2474,9 +2474,13 @@ being set, such operations will generate an `Undefined operation` error.
 The `Library` is a catalog of frequently used and rarely modified objects that
 are stored on disk in the `config/library.csv` file.
 
-You can edit it by recalling its content on the stack using
+You can edit the library content by recalling its content on the stack using
 `"config:library.csv" RCL`, editing the values, and then storing the content
 back to disk using `"config:library.csv" STO`.
+
+Library entries are cached in memory for efficiency.
+See [library management](#library-management) for operations to use when you
+update the library content.
 
 
 ## Equations Library
@@ -9551,84 +9555,84 @@ calculator operations.
 « TIME " " PATH TAIL TOTEXT + + "
 " + DATE + " Mem: " + MEM + » HEADER
 ```
-# Arbitrary data containers
+# Library Management
 
-## MKBINDATA
-Create binary data container object
+DB48x features a [library](#library) that can contain arbitary RPL code,
+which is made readily available for use in your programs.
 
+References to library functions are efficient both in terms of memory usage and
+execution speed.  Typically, a reference to a library item takes 2 or 3 bytes,
+and evaluating it is as fast as if it was on the stack, and faster than if
+storedin a global variable.
 
-## BINPUTB
-Store bytes into binary data object
+Library items are also shared across DB48x states.
 
+A key aspect of the execution speed for library items is that they are loaded
+from disk only once, and then cached in compiled form in memory. This is how the
+next uses of that library item can be as fast as if it was on the stack.
 
-## BINGETB
-Extract binary data as list of bytes
+ Library items that are currently loaded in memory can be identified using
+`Libs`. The `Attach` commadn can be used to load items ahead of time. The
+`Detach` command can be used to evacuate library elements that are no longer
+used.
 
+When you modify the content of the library, you can use the following sequence
+to make sure that the new version of thelibrary items are reloaded from disk:
 
-## BINPUTW
-Store 32-bit words into binary data object
-
-
-## BINGETW
-Extract data from a binary data object as a list of 32-bit words
-
-
-## BINPUTOBJ
-Store an entire object into a binary data container
-
-
-## BINGETOBJ
-Extract an entire object from a binary data container
-
-
-## BINMOVB
-Copy binary data block into a binary data object
+```rpl
+LIBS DUP DETACH ATTACH
+```
 
 
-## BINMOVW
-Copy 32-bit words between binary data objects
+## Attach
 
-# User Libraries
+Load one or more library items from disk, ensuring that they are ready for use.
+This command is not strictly necessary, since library items are loaded on
+demand, but it can be used to "preload" library items for performance.
 
-## CRLIB
-Create a library from current directory
+The libraries to attach can be identified by one of:
+* A library index, e.g. `0`
+* A library name, given as a text object or a symbol
+* A library object
+* A list or array of valid arguments to `attach`
 
+For example, to preload the `Dedicace` library item, you can use one of:
 
-## ATTACH
-Install a library
-
-
-## DETACH
-Uninstall a library
-
-
-## LIBMENU
-Show a menu within a library
-
-
-## LIBMENUOTHR
-Show library menu in the other menu
+```rpl
+'Dedicace' Attach
+Libs
+@ Expecting { Dedicace }
+```
 
 
-## LIBMENULST
-Show library menu in the last used menu
+## Detach
 
+Unload one or more library items from disk, freeing the memory they used.
 
-## LIBSTO
-Store private library data
+The libraries to attach can be identified by one of:
+* A library index, e.g. `0`
+* A library name, given as a text object or a symbol
+* A library object
+* A list or array of valid arguments to `detach`
 
+For example, to unload the `Dedicace` and `KineticEnergy` library item, you can use one of:
 
-## LIBRCL
-Recall private library data
+```rpl
+{ Dedicace "KineticEnergy" } Detach
+Libs
+@ Expecting { }
+```
 
+## Libs
 
-## LIBDEFRCL
-Recall private data with default value
+Returns a list containing the currently attached libraries.
 
+A typical sequence to reload the library items after changing the source files
+on disk is:
 
-## LIBCLEAR
-Purge all private data for a specific library
-
+```rpl
+Libs Duplicate Detach Attach
+```
 # Operations with data
 
 Data in RPL is generally represented using lists, such as `{ {1 2 } 3 "A"}`.

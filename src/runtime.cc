@@ -1427,7 +1427,7 @@ bool runtime::updir(size_t count)
 
 bool runtime::attach(size_t nentries)
 // ----------------------------------------------------------------------------
-//   Change the number of xlibs to the given number, then zero them
+//   Change the number of xlibs to the given number, then zero the new ones
 // ----------------------------------------------------------------------------
 {
     size_t existing = xlibs();
@@ -1439,6 +1439,8 @@ bool runtime::attach(size_t nentries)
             return false;
         for (object_p *ptr = Stack; ptr < CallStack; ptr++)
             ptr[-count] = ptr[0];
+        for (object_p *ptr = CallStack - count; ptr < CallStack; ptr++)
+            *ptr = nullptr;
     }
     else if (nentries < existing)
     {
@@ -1451,9 +1453,6 @@ bool runtime::attach(size_t nentries)
     Locals      -= count;
     Directories -= count;
     XLibs       -= count;
-
-    for (object_p *ptr = XLibs; ptr < CallStack; ptr++)
-        *ptr = nullptr;
 
     return true;
 }

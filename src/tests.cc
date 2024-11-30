@@ -179,7 +179,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            regression_checks();
+            check_help_examples();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)

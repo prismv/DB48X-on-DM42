@@ -1772,13 +1772,13 @@ void runtime::call_stack_drop()
 //
 // ============================================================================
 
-text_p runtime::command() const
+object_p runtime::command() const
 // ----------------------------------------------------------------------------
 //   Return the name associated with the command
 // ----------------------------------------------------------------------------
 {
     if (ErrorCommand)
-        return ErrorCommand->as_text();
+        return ErrorCommand;
     return nullptr;
 }
 

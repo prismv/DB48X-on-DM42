@@ -2799,11 +2799,12 @@ bool user_interface::draw_error()
 
         Screen.clip(r);
         pattern fg = Settings.ErrorForeground();
-        if (text_p cmd = rt.command())
+        if (object_p cmd = rt.command())
         {
-            size_t sz = 0;
-            utf8 cmdt = cmd->value(&sz);
-            coord x = Screen.text(r.x1, r.y1, cmdt, sz, ErrorFont, fg);
+            text_p cmdr = cmd->as_text();
+            size_t sz   = 0;
+            utf8   cmdt = cmdr->value(&sz);
+            coord  x    = Screen.text(r.x1, r.y1, cmdt, sz, ErrorFont, fg);
             Screen.text(x, r.y1, utf8(" error:"), ErrorFont);
         }
         else

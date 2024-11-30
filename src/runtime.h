@@ -950,9 +950,9 @@ struct runtime
     // ------------------------------------------------------------------------
 
 
-    text_p command() const;
+    object_p command() const;
     // ------------------------------------------------------------------------
-    //   Get the faulting command name
+    //   Get the faulting command
     // ------------------------------------------------------------------------
 
 
@@ -1188,10 +1188,10 @@ struct error_save
 {
     error_save();
     ~error_save();
-    gcutf8    errmsg;
-    gcutf8    source;
-    size_t    srclen;
-    gcp<text> command;
+    gcutf8      errmsg;
+    gcutf8      source;
+    size_t      srclen;
+    gcp<object> command;
 };
 
 

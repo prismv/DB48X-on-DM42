@@ -12984,18 +12984,17 @@ tests &tests::command(cstring ref, uint extrawait)
 //   Check that the command result matches expectations
 // ----------------------------------------------------------------------------
 {
-    text_p cmdo = nullptr;
-    size_t sz   = 0;
     utf8   cmd  = nullptr;
-
     nokeys(extrawait);
 
     uint start     = sys_current_ms();
     uint wait_time = image_wait_time + extrawait;
     while (sys_current_ms() - start < wait_time)
     {
-        cmdo = rt.command();
-        cmd  = cmdo->value(&sz);
+        size_t   sz   = 0;
+        if (object_p cmdo = rt.command())
+            if (text_p cmdt = cmdo->as_text())
+                cmd = cmdt->value(&sz);
         if (!ref == !cmd && (!ref || strcmp(ref, cstring(cmd)) == 0))
             return *this;
 

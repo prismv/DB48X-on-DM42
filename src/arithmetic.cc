@@ -212,8 +212,14 @@ algebraic_p arithmetic::non_numeric<add>(algebraic_r x, algebraic_r y)
             if (algebraic_p daf = days_after(y, x, false))
                 return daf;
 
-        rt.inconsistent_units_error();
-        return nullptr;
+        save<bool> sumode(unit::mode, true);
+        algebraic_g ubased = y->evaluate();
+        if (!ubased || ubased->type() == ID_unit)
+        {
+            rt.inconsistent_units_error();
+            return nullptr;
+        }
+        return add::evaluate(x, ubased);
     }
 
     return optimize<add>(x, y);
@@ -357,8 +363,14 @@ algebraic_p arithmetic::non_numeric<sub>(algebraic_r x, algebraic_r y)
     }
     else if (y->type() == ID_unit)
     {
-        rt.inconsistent_units_error();
-        return nullptr;
+        save<bool> sumode(unit::mode, true);
+        algebraic_g ubased = y->evaluate();
+        if (!ubased || ubased->type() == ID_unit)
+        {
+            rt.inconsistent_units_error();
+            return nullptr;
+        }
+        return sub::evaluate(x, ubased);
     }
     return optimize<sub>(x, y);
 }

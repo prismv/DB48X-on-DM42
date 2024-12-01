@@ -495,14 +495,10 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 * To calculate `[ω0;Qs;Qp;f0]` (Resonant pulsation; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
-@ Failing [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
-@ C#2 NOT OK. MSOLVER & SOLVER Error: "Inconsistent units" but units are OK and it computes algebraically
+@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
-    "  'Qs=1/(R_Ω)*UBASE(√((L_mH)/(C_μF)))' "
-    "  'Qp=(R_Ω)* UBASE(√((C_μF)/(L_mH)))' "
-    "  '(ω0_(r/s))=2*(Ⓒπ_r)*(f0_Hz)' "
-    "  '(ω0_(r/s))=(1_r)/√((L_mH)*(C_μF))' "
+
 ### Plate Capacitor
 
 ![Plate Capacitor](img/PlateCapacitor.bmp)

@@ -55,6 +55,32 @@ RECORDER(gc_errors,     16, "Garbage collection errors");
 RECORDER(gc_details,   256, "Details about garbage collection (noisy)");
 
 
+
+// ============================================================================
+//
+//   Runtime invariants check
+//
+// ============================================================================
+
+#ifdef SIMULATOR
+void runtime_invariants::check_invariants()
+// ----------------------------------------------------------------------------
+//  Check runtime invariants on entry and return from runtime code
+// ----------------------------------------------------------------------------
+{
+    ASSERT(rt.Returns <= rt.HighMem);
+    ASSERT(rt.CallStack <= rt.Returns);
+    ASSERT(rt.XLibs <= rt.CallStack);
+    ASSERT(rt.Directories <= rt.XLibs);
+    ASSERT(rt.Locals <= rt.Directories);
+    ASSERT(rt.Undo <= rt.Locals);
+    ASSERT(rt.Args <= rt.Undo);
+    ASSERT(rt.Stack <= rt.Args);
+};
+#endif // SIMULATOR
+
+
+
 // ============================================================================
 //
 //   Initialization
@@ -95,6 +121,7 @@ runtime::runtime(byte *mem, size_t size)
 {
     if (mem)
         memory(mem, size);
+    runtime_invariants check;
 }
 
 
@@ -127,6 +154,7 @@ void runtime::memory(byte *memory, size_t size)
 
     record(runtime, "Memory %p-%p size %u (%uK)",
            LowMem, HighMem, size, size>>10);
+    runtime_invariants check;
 }
 
 
@@ -136,6 +164,7 @@ void runtime::reset()
 // ----------------------------------------------------------------------------
 {
     memory((byte *) LowMem, (byte_p) HighMem - (byte_p) LowMem);
+    runtime_invariants check;
 }
 
 
@@ -963,6 +992,7 @@ bool runtime::push(object_g obj)
 //   Push an object on top of RPL stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     ASSERT(obj && "Pushing a NULL object");
 
     // This may cause garbage collection, hence the need to adjust
@@ -978,6 +1008,7 @@ object_p runtime::top()
 //   Return the top of the runtime stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (Stack >= Args)
     {
         missing_argument_error();
@@ -992,6 +1023,7 @@ bool runtime::top(object_p obj)
 //   Set the top of the runtime stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     ASSERT(obj && "Putting a NULL object on top of stack");
 
     if (Stack >= Args)
@@ -1009,6 +1041,7 @@ object_p runtime::pop()
 //   Pop the top-level object from the stack, or return NULL
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (Stack >= Args)
     {
         missing_argument_error();
@@ -1037,6 +1070,7 @@ bool runtime::stack(uint idx, object_p obj)
 //    Get the object at a given position in the stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (idx >= depth())
     {
         missing_argument_error();
@@ -1052,6 +1086,7 @@ bool runtime::roll(uint idx)
 //    Move the object at a given position in the stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (idx)
     {
         idx--;
@@ -1073,6 +1108,7 @@ bool runtime::rolld(uint idx)
 //    Get the object at a given position in the stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (idx)
     {
         idx--;
@@ -1094,6 +1130,7 @@ bool runtime::drop(uint count)
 //   Pop the top-level object from the stack, or return NULL
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (count > depth())
     {
         missing_argument_error();
@@ -1116,6 +1153,7 @@ bool runtime::args(uint count)
 //   Add 'count' stack objects to the saved arguments
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t nstk = depth();
     if (count > nstk)
     {
@@ -1147,6 +1185,7 @@ bool runtime::last()
 //   Push back the last arguments on the stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t nargs = args();
     size_t sz = nargs * sizeof(object_p);
     if (available(sz) < sz)
@@ -1163,6 +1202,7 @@ bool runtime::last(uint index)
 //   Push back the last argument on the stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t nargs = args();
     if (index >= nargs)
     {
@@ -1183,6 +1223,7 @@ bool runtime::save()
 //   Save the stack in the undo area
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t scount = depth();
     size_t ucount = saved();
     if (scount > ucount)
@@ -1210,6 +1251,7 @@ bool runtime::undo()
 //   Revert the stack to what it was before
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t ucount = saved();
     size_t scount = depth();
     if (ucount > scount)
@@ -1231,6 +1273,7 @@ runtime &runtime::command(object_p cmd)
 //   Set the command name and initialize the undo setup
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     ErrorCommand = cmd;
     return *this;
 }
@@ -1248,6 +1291,7 @@ object_p runtime::local(uint index)
 //   Fetch local at given index
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t count = Directories - Locals;
     if (index >= count)
     {
@@ -1263,6 +1307,8 @@ object_p runtime::local(uint index, object_p obj)
 //   Set a local in the local stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check
+;
     size_t count = Directories - Locals;
     if (index >= count || !obj)
     {
@@ -1279,6 +1325,8 @@ bool runtime::locals(size_t count)
 //   Allocate the given number of locals from stack
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check
+;
     // We need that many arguments
     if (count > depth())
     {
@@ -1313,6 +1361,7 @@ bool runtime::unlocals(size_t count)
 //    Free the given number of locals
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     if (count)
     {
         // Sanity check on what we remove
@@ -1363,6 +1412,8 @@ bool runtime::enter(directory_p dir)
 //   Enter a given directory
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
+
     // Check if this is a directory up
     size_t depth = (object_p *) XLibs - Directories;
     for (size_t i = 0; i < depth; i++)
@@ -1396,6 +1447,7 @@ bool runtime::updir(size_t count)
 //   Move one directory up
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t depth = XLibs - Directories;
     if (count >= depth - 1)
         count = depth - 1;
@@ -1430,6 +1482,7 @@ bool runtime::attach(size_t nentries)
 //   Change the number of xlibs to the given number, then zero the new ones
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t existing = xlibs();
     size_t count    = nentries - existing;
     if (nentries > existing)
@@ -1516,10 +1569,7 @@ bool runtime::run_select(bool condition)
         Returns[2] = Returns[0];
     }
 
-    Returns += 2;
-    if ((HighMem - Returns) % CALLS_BLOCK == 0)
-        call_stack_drop();
-
+    call_stack_drop(2);
     return true;
 }
 
@@ -1541,11 +1591,8 @@ bool runtime::run_select_while(bool condition)
         return false;
     }
 
-    size_t sz = condition ? 0 : 4;
-    if (sz && size_t(HighMem - Returns) % CALLS_BLOCK <= sz)
-        call_stack_drop();
-    Returns += sz;
-
+    if (!condition)
+        call_stack_drop(4);
     return true;
 }
 
@@ -1616,9 +1663,7 @@ bool runtime::run_select_start_step(bool for_loop, bool has_step)
 
     if (finished)
     {
-        if ((HighMem - Returns) % CALLS_BLOCK <= 4)
-            call_stack_drop();
-        Returns += 4;
+        call_stack_drop(4);
     }
     else
     {
@@ -1660,9 +1705,7 @@ bool runtime::run_select_list(bool for_loop)
     bool finished = +cur >= +last;
     if (finished)
     {
-        if ((HighMem - Returns) % CALLS_BLOCK <= 4)
-            call_stack_drop();
-        Returns += 4;
+        call_stack_drop(4);
     }
     else
     {
@@ -1688,6 +1731,7 @@ bool runtime::run_select_case(bool condition)
 //   If the condition is true, we put an ID_case_skip_conditional in level 2
 //
 {
+    runtime_invariants check;
     if (Returns + 4 > HighMem)
     {
         record(runtime_error,
@@ -1708,9 +1752,7 @@ bool runtime::run_select_case(bool condition)
     }
     else
     {
-        if (size_t(HighMem - Returns) % CALLS_BLOCK <= 4)
-            call_stack_drop();
-        Returns += 4;
+        call_stack_drop(4);
     }
 
     return true;
@@ -1722,6 +1764,7 @@ bool runtime::call_stack_grow(object_p &next, object_p &end)
 //   Grow the call stack by a block
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     size_t   block = sizeof(object_p) * CALLS_BLOCK ;
     object_g nextg = next;
     object_g endg  = end;
@@ -1750,6 +1793,7 @@ void runtime::call_stack_drop()
 //   Drop the outermost block
 // ----------------------------------------------------------------------------
 {
+    runtime_invariants check;
     Stack += CALLS_BLOCK;
     Args += CALLS_BLOCK;
     Undo += CALLS_BLOCK;

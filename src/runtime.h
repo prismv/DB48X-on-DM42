@@ -105,6 +105,34 @@ struct runtime;
 extern runtime rt;
 
 
+// ============================================================================
+//
+//   Runtime invariants check
+//
+// ============================================================================
+
+struct runtime_invariants
+// ----------------------------------------------------------------------------
+//  Check runtime invariants on entry and return from runtime code
+// ----------------------------------------------------------------------------
+{
+#ifdef SIMULATOR
+    runtime_invariants()
+    {
+        check_invariants();
+    }
+    ~runtime_invariants()
+    {
+        check_invariants();
+    }
+    void check_invariants();
+#else // !SIMULATOR
+    runtime_invariants()        {}
+    ~runtime_invariants()       {}
+#endif // SIMULATOR
+};
+
+
 
 struct runtime
 // ----------------------------------------------------------------------------
@@ -504,7 +532,8 @@ struct runtime
     //   Push an object to call on the RPL stack
     // ------------------------------------------------------------------------
     {
-        if ((HighMem - Returns) % CALLS_BLOCK == 0)
+        runtime_invariants check;
+        if (Returns <= CallStack)
             if (!call_stack_grow(next, end))
                 return false;
         *(--Returns) = end;
@@ -517,6 +546,7 @@ struct runtime
     //   Push an object to call on the RPL stack
     // ------------------------------------------------------------------------
     {
+        runtime_invariants check;
         if (next < end || !next)    // Can be nullptr for conditionals
         {
             end = object_p(byte_p(end) - 1);
@@ -533,6 +563,7 @@ struct runtime
     //   that requires the definition of object::skip()
 #ifdef OBJECT_H
     {
+        runtime_invariants check;
         object_p *high = HighMem - depth;
         while (Returns < high)
         {
@@ -545,19 +576,15 @@ struct runtime
                     object_p nnext = next->skip();
                     Returns[0] = nnext;
                     if (nnext >= end)
-                    {
-                        Returns += 2;
-                        if ((HighMem - Returns) % CALLS_BLOCK == 0)
-                            call_stack_drop();
-                    }
+                        // Note that call_stack_drop() cannot and MUST NOT GC
+                        // so that the value of next cannot change
+                        call_stack_drop(2);
                     return next;
                 }
                 unlocals(size_t(end) - 1);
             }
 
-            Returns += 2;
-            if ((HighMem - Returns) % CALLS_BLOCK == 0)
-                call_stack_drop();
+            call_stack_drop(2);
         }
         return nullptr;
     }
@@ -575,6 +602,7 @@ struct runtime
     //   Return the next instruction for single-stepping
     // ------------------------------------------------------------------------
     {
+        runtime_invariants check;
         if (Returns < HighMem)
             return Returns[0];
         return nullptr;
@@ -614,9 +642,15 @@ struct runtime
 
     bool call_stack_grow(object_p &next, object_p &end);
     void call_stack_drop();
+    void call_stack_drop(uint n)
     // ------------------------------------------------------------------------
     //  Manage the call stack in blocks
     // ------------------------------------------------------------------------
+    {
+        Returns += n;
+        if (Returns >= CallStack + CALLS_BLOCK)
+            call_stack_drop();
+    }
 
 
     size_t call_depth() const
@@ -624,6 +658,7 @@ struct runtime
     //   Return calldepth
     // ------------------------------------------------------------------------
     {
+        runtime_invariants check;
         return HighMem - Returns;
     }
 
@@ -1029,6 +1064,7 @@ protected:
 
     friend struct GarbageCollectorStatistics;
     friend struct cleaner;
+    friend struct runtime_invariants;
 };
 
 template<typename T>

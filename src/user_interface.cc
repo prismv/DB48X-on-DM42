@@ -1302,7 +1302,7 @@ void user_interface::menu(uint id, symbol_p label, object_p fn)
 }
 
 
-bool user_interface::menu_refresh()
+bool user_interface::menu_refresh(bool page0)
 // ----------------------------------------------------------------------------
 //   Udpate current menu
 // ----------------------------------------------------------------------------
@@ -1310,13 +1310,15 @@ bool user_interface::menu_refresh()
     if (menuStack[0])
     {
         menu_p m = menu_p(menu::static_object(menuStack[0]));
+        if (page0)
+            menuPage = 0;
         return m->update(menuPage) == object::OK;
     }
     return false;
 }
 
 
-bool user_interface::menu_refresh(object::id menu)
+bool user_interface::menu_refresh(object::id menu, bool page0)
 // ----------------------------------------------------------------------------
 //   Request a refresh of a menu
 // ----------------------------------------------------------------------------
@@ -1324,7 +1326,7 @@ bool user_interface::menu_refresh(object::id menu)
     if (menuStack[0] == menu ||
         (menu == object::ID_VariablesMenu &&
          menuStack[0] == object::ID_SolvingMenu))
-        return menu_refresh();
+        return menu_refresh(page0);
     return false;
 }
 

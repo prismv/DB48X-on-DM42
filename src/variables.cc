@@ -185,7 +185,7 @@ object::result directory::enter() const
         if (menu_p m = ui.menu())
             if (m->type() == ID_CustomMenu)
                 run<VariablesMenu>();
-        ui.menu_refresh(ID_VariablesMenu);
+        ui.menu_refresh(ID_VariablesMenu, true);
         return OK;
     }
     return ERROR;
@@ -1068,7 +1068,7 @@ COMMAND_BODY(Home)
 // ----------------------------------------------------------------------------
 {
     rt.updir(~0U);
-    ui.menu_refresh(ID_VariablesMenu);
+    ui.menu_refresh(ID_VariablesMenu, true);
     return OK;
 }
 
@@ -1180,7 +1180,7 @@ COMMAND_BODY(UpDir)
 // ----------------------------------------------------------------------------
 {
     rt.updir();
-    ui.menu_refresh(ID_VariablesMenu);
+    ui.menu_refresh(ID_VariablesMenu, true);
     return OK;
 }
 

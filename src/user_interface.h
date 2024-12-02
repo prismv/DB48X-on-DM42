@@ -109,8 +109,8 @@ struct user_interface
     void        menu(uint index, cstring label, object_p function);
     void        menu(uint index, symbol_p label, object_p function);
     void        marker(uint index, unicode mark, bool alignLeft = false);
-    bool        menu_refresh();
-    bool        menu_refresh(object::id menu);
+    bool        menu_refresh(bool page0 = false);
+    bool        menu_refresh(object::id menu, bool page0 = false);
     void        menu_auto_complete()    { autoComplete = true; }
     symbol_p    label(uint index);
     cstring     label_text(uint index);

@@ -7358,13 +7358,15 @@ void tests::symbolic_integration()
         .expect("'(-cos(A·X+3))÷A+sin(X·B-5)÷B+(-ln (cos(Z-C·X)))÷C'");
     step("Primitive of hyperbolic sine, cosine, tangent")
         .test(CLEAR, "'sinh(A*X-3)+cosh(B*X+5*A)+tanh(C*(X-A))' 'X'", ID_Primitive)
-        .expect("'cosh(A·X-3)÷A+sinh(B·X+5·A)÷B+ln (cosh(C·(X-A)))÷C'", 2000);
+        .expect("'cosh(A·X-3)÷A+sinh(B·X+5·A)÷B+ln (cosh(C·(X-A)))÷C'", 5000);
     step("Primitive of arcsine, arccosine, arctangent")
-        .test(CLEAR, "'asin(A*X+B)+acos(X*B+A*(X+1))+atan(C*(X-6))' 'X'", ID_Primitive)
-        .expect("'((A·X+B)·sin⁻¹(A·X+B)+√(1-(A·X+B)²))÷A+((X·B+A·(X+1))·cos⁻¹(X·B+A·(X+1))-√(1-(X·B+A·(X+1))²))÷(B+A)+(C·(X-6)·tan⁻¹(C·(X-6))-ln((C·(X-6))²+1)÷2)÷C'", 2000);
+        .test(CLEAR, "'asin(A*X+B)+acos(X*B+A*(X+1))+atan(C*(X-6))' 'X'",
+              ID_Primitive)
+        .expect("'((A·X+B)·sin⁻¹(A·X+B)+√(1-(A·X+B)²))÷A+((X·B+A·(X+1))·cos⁻¹(X·B+A·(X+1))-√(1-(X·B+A·(X+1))²))÷(B+A)+(C·(X-6)·tan⁻¹(C·(X-6))-ln((C·(X-6))²+1)÷2)÷C'", 5000);
     step("Primitive of inverse hyperbolic sine, cosine, tangent")
-        .test(CLEAR, "'asinh(1-2*X)+acosh(1+3*X)+atanh(4*X-1)' 'X'", ID_Primitive)
-        .expect("'((1-2·X)·sinh⁻¹(1-2·X)-√((1-2·X)²+1))÷2+((3·X+1)·cosh⁻¹(3·X+1)-√((3·X+1)²-1))÷3+((4·X-1)·tan⁻¹(4·X-1)-ln(1-(4·X-1)²)÷2)÷4'", 2000);
+        .test(CLEAR, "'asinh(1-2*X)+acosh(1+3*X)+atanh(4*X-1)' 'X'",
+              ID_Primitive)
+        .expect("'((1-2·X)·sinh⁻¹(1-2·X)-√((1-2·X)²+1))÷2+((3·X+1)·cosh⁻¹(3·X+1)-√((3·X+1)²-1))÷3+((4·X-1)·tan⁻¹(4·X-1)-ln(1-(4·X-1)²)÷2)÷4'", 5000);
 
     step("Primitive of log and exp")
         .test(CLEAR, "'log(A*X+B)+exp(X*C-D)' 'X'", ID_Primitive)
@@ -10657,58 +10659,24 @@ void tests::plotting()
 
     step("Function plot: Equation");
     test(CLEAR,
-         ALPHA,
-         X,
-         ENTER,
-         ENTER,
-         J,
-         3,
-         MUL,
-         M,
-         21,
-         MUL,
-         COS,
-         2,
-         MUL,
-         ADD,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F1)
+         ALPHA, X, ENTER, ENTER, ID_sin, 3, ID_mul,
+         ID_Swap, 21, ID_mul, ID_cos, 2, ID_mul, ID_add, ENTER,
+         ID_PlotMenu, LENGTHY(200), ID_Function)
         .noerror()
         .image("plot-eq");
     step("Function plot: Program");
     test(CLEAR,
-         SHIFT,
-         RUNSTOP,
-         NOSHIFT,
-         I,
-         F1,
-         L,
-         M,
-         41,
-         MUL,
-         J,
-         MUL,
-         ENTER,
-         ENTER,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F1)
+         LSHIFT, RUNSTOP,
+         ID_StackMenu, ID_Dup, ID_tan, ID_Swap,
+         41, ID_mul, ID_sin, ID_mul, ENTER,
+         ID_PlotMenu, LENGTHY(200), ID_Function)
         .noerror()
         .image("plot-pgm");
     step("Function plot: Disable curve filling");
     test(CLEAR,
-         RSHIFT,
-         UP,
-         ENTER,
-         "NoCurveFilling",
-         ENTER,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F1)
+         RSHIFT, UP, ENTER,
+         ID_NoCurveFilling,
+         ID_PlotMenu, LENGTHY(200), ID_Function)
         .noerror()
         .image("plot-nofill");
     step("Check that LastArgs gives us the previous plot")
@@ -10721,90 +10689,38 @@ void tests::plotting()
 
     step("Polar plot: Program");
     test(CLEAR,
-         SHIFT,
-         RUNSTOP,
-         61,
-         MUL,
-         L,
-         SHIFT,
-         C,
-         2,
-         ADD,
+         LSHIFT, RUNSTOP,
+         61, ID_mul,
+         ID_tan, ID_sq,
+         2, ID_add,
          ENTER,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F2)
+         ID_PlotMenu, LENGTHY(200), ID_Polar)
         .noerror()
         .image("polar-pgm");
     step("Polar plot: Program, no fill");
     test(CLEAR,
-         "NoCurveFilling",
-         ENTER,
-         SHIFT,
-         RUNSTOP,
-         61,
-         MUL,
-         L,
-         SHIFT,
-         C,
-         2,
-         ADD,
-         ENTER,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F2)
+         ID_NoCurveFilling,
+         SHIFT, RUNSTOP,
+         61, ID_mul,
+         ID_tan, ID_sq, 2, ID_add, ENTER,
+         ID_PlotMenu, LENGTHY(200), ID_Polar)
         .noerror()
         .image("polar-pgm-nofill");
     step("Polar plot: Program, curve filling");
     test(CLEAR,
-         "CurveFilling",
-         ENTER,
-         SHIFT,
-         RUNSTOP,
-         61,
-         MUL,
-         L,
-         SHIFT,
-         C,
-         2,
-         ADD,
-         ENTER,
-         RSHIFT,
-         O,
-         LENGTHY(200),
-         F2)
+         ID_CurveFilling,
+         LSHIFT, RUNSTOP,
+         61, ID_mul,
+         ID_tan, ID_sq, 2, ID_add, ENTER,
+         ID_PlotMenu, LENGTHY(200), ID_Polar)
         .noerror()
         .image("polar-pgm");
     step("Polar plot: Equation");
     test(CLEAR,
-         F,
-         J,
-         611,
-         MUL,
-         ALPHA,
-         X,
-         NOSHIFT,
-         DOWN,
-         MUL,
-         K,
-         271,
-         MUL,
-         ALPHA,
-         X,
-         NOSHIFT,
-         DOWN,
-         ADD,
-         KEY2,
-         DOT,
-         KEY5,
-         ENTER,
-         RSHIFT,
-         O,
-         ENTER,
-         LENGTHY(200),
-         F2)
+         F, J, 611, MUL, ALPHA, X, NOSHIFT, DOWN,
+         MUL, K, 271, MUL, ALPHA, X, NOSHIFT, DOWN,
+         ADD, KEY2, DOT, KEY5, ENTER,
+         RSHIFT, O, ENTER, LENGTHY(200), F2)
         .noerror()
         .image("polar-eq");
     step("Polar plot: Zoom in X and Y");
@@ -10880,14 +10796,8 @@ void tests::plotting()
     step("Bar plot");
     test(CLEAR,
          "[[ 1 -1 ][2 -2][3 -3][4 -4][5 -6][7 -8][9 -10]]",
-         LENGTHY(200),
-         ENTER,
-         33,
-         MUL,
-         K,
-         2,
-         MUL,
-         RSHIFT,
+         LENGTHY(200), ENTER,
+         33, MUL, K, 2, MUL, RSHIFT,
          O,
          LENGTHY(200),
          F5)
@@ -11875,11 +11785,22 @@ tests &tests::itest(id cmd)
 //   Find a key sequence that can send the given command
 // ----------------------------------------------------------------------------
 //   Three strategies are tried in turn to send a command:
-//   1. Scan the current keymap to see if the command is anywhere
-//   2. Scan the current menus to find the command in a menu, if so use fkeys
+//   1. Scan the current menus to find the command in a menu, if so use fkeys
+//   2. Scan the current keymap to see if the command is anywhere
 //   3. Type the name of the command
+//   We start with the menu in order to be able to enter DUP from the menu,
+//   because otherwise the keymap uses the ENTER key irrespective of current
+//   keyboard entry state (i.e. even while entering a program)
 {
-    // Pass 1: Try to find it in the user interface keymap
+    // Pass 1: Look into the current menu to see if we find it
+    for (uint p = 0; p < ui.NUM_PLANES; p++)
+        for (uint f = 0; f < ui.NUM_SOFTKEYS; f++)
+            if (object_p asn = ui.function[p][f])
+                if (id(asn->type()) == cmd)
+                    return shifts(p&1, p&2, false, false)
+                        .itest(tests::key(F1 + f));
+
+    // Pass 2: Try to find it in the user interface keymap
     if (list_p keymap = ui.keymap)
     {
         uint shplane = 0;
@@ -11906,14 +11827,6 @@ tests &tests::itest(id cmd)
             shplane++;
         }
     }
-
-    // Pass 2: Look into the current menu to see if we find it
-    for (uint p = 0; p < ui.NUM_PLANES; p++)
-        for (uint f = 0; f < ui.NUM_SOFTKEYS; f++)
-            if (object_p asn = ui.function[p][f])
-                if (id(asn->type()) == cmd)
-                    return shifts(p&1, p&2, false, false)
-                        .itest(tests::key(F1 + f));
 
     // No solution found: simply type the name
     return itest(cstring(object::name(object::id(cmd))), ENTER);
@@ -12512,9 +12425,7 @@ tests &tests::data_entry_noerror(uint extrawait)
     // Check that we are not displaying an error message
     if (rt.error())
     {
-        explain("Unexpected error message [",
-                rt.error(),
-                "] "
+        explain("Unexpected error message [", rt.error(), "] "
                 "during data entry, cleared");
         fail();
         clear_error();

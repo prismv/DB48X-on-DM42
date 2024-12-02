@@ -83,6 +83,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#if SIMULATOR
+#include <mutex>
+#endif
+
 
 struct object;                  // RPL object
 struct directory;               // Directory (storing global variables)
@@ -155,6 +159,19 @@ struct runtime
     // Amount of space we want to keep between stack top and temporaries
     const uint redzone = 2*sizeof(object_p);;
 
+#if SIMULATOR
+    struct lock : std::lock_guard<std::mutex>
+    {
+        lock() : std::lock_guard<std::mutex>(rt.mutex) {}
+    };
+    std::mutex mutex;
+#else // !SIMULATOR
+    struct lock
+    {
+        lock() {}
+        ~lock() {}
+    };
+#endif // SIMULATOR
 
 
     // ========================================================================
@@ -343,12 +360,16 @@ struct runtime
     //   Protect a pointer against garbage collection
     // ------------------------------------------------------------------------
     {
-        gcptr(byte *ptr = nullptr) : safe(ptr), next(rt.GCSafe)
+        gcptr(byte *ptr = nullptr) : safe(ptr)
         {
+            lock it;
+            next = rt.GCSafe;
             rt.GCSafe = this;
         }
-        gcptr(const gcptr &o): safe(o.safe), next(rt.GCSafe)
+        gcptr(const gcptr &o): safe(o.safe)
         {
+            lock it;
+            next = rt.GCSafe;
             rt.GCSafe = this;
         }
         ~gcptr();

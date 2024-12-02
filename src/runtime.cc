@@ -44,7 +44,7 @@
 
 // The one and only runtime
 runtime rt(nullptr, 0);
-runtime::gcptr *runtime::GCSafe = nullptr;
+runtime::gcptr *runtime::GCSafe;
 
 RECORDER(runtime,       16, "RPL runtime");
 RECORDER(runtime_error, 16, "RPL runtime error (anomalous behaviors)");
@@ -339,6 +339,7 @@ runtime::gcptr::~gcptr()
 //   Destructor for a garbage-collected pointer
 // ----------------------------------------------------------------------------
 {
+    lock it;
     gcptr *last = nullptr;
     if (this == rt.GCSafe)
     {
@@ -366,6 +367,7 @@ size_t runtime::gc()
 //   Objects in the global area are copied there, so they need no recycling
 //   This algorithm is linear in number of objects and moves only live data
 {
+    lock     it;
     uint     now      = sys_current_ms();
     size_t   recycled = 0;
     object_p first    = (object_p) Globals;

@@ -34,6 +34,7 @@
 #include "sysmenu.h"
 #include "tests.h"
 #include "variables.h"
+#include "util.h"
 
 RECORDER(program, 16, "Program evaluation");
 
@@ -221,6 +222,12 @@ bool program::interrupted()
         return halted;
 
     count_interrupted = 0;
+    if (!usb_powered() && get_lowbat_state())
+    {
+        ST(STAT_PGM_END);
+        power_check(false);
+        return false;
+    }
     reset_auto_off();
     uint now = sys_current_ms();
     if (now - last_interrupted >= Settings.BusyIndicatorRefresh())

@@ -750,7 +750,7 @@ Beeps
 
 RPL directory {
 
-SetHeader
+PathHeader
 «
 « TIME " " PATH TAIL TOTEXT + + "
 " + DATE + " Mem: " + MEM + »

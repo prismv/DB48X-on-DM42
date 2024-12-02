@@ -278,7 +278,7 @@ bool power_check(bool draw_off_image)
     {
         if (!ST(STAT_SUSPENDED))
         {
-            bool lowbat = read_power_voltage() < BATTERY_VOFF;
+            bool lowbat = get_lowbat_state();
 
             // Going to off mode
             lcd_set_buf_cleared(0); // Mark no buffer change region

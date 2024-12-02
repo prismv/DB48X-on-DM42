@@ -214,9 +214,9 @@ uint compatible_key_plane(uint keyid);
 //
 // ============================================================================
 
-#define BATTERY_VMIN    2500    // Min battery on display
-#define BATTERY_VMAX    2930    // Max battery on display
-#define BATTERY_VLOW    2600    // Battery level where graying out
-#define BATTERY_VOFF    2550    // Battery level where going off
+#define BATTERY_VMIN    2000    // Min battery on display
+#define BATTERY_VMAX    3000    // Max battery on display
+#define BATTERY_VLOW    2500    // Battery level where graying out
+#define BATTERY_VOFF    2050    // Battery level where going off
 
 #endif // TARGET_DM42_H

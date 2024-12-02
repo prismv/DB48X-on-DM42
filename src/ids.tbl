@@ -1132,6 +1132,9 @@ OP(EvalEq,                 "EvaluateEquation")
 NAMED(Off, "PowerOff")
 CMD(SaveState)
 CMD(SystemSetup)
+CMD(BatteryVoltage)
+CMD(USBPowered)
+CMD(LowBattery)
 
 CMD(Unimplemented)              // Last command in catalog
 

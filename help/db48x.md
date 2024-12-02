@@ -12415,6 +12415,19 @@ upgrade.
 ## ScreenCapture
 
 Capture the current state of the screen in a dated file stored on the flash storage under the `SCREENS/` directory. This is activated by *holding* 🟨 and _O_ simultaneously. Pressing the keys one after another activates the [DisplayMenu](#displaymenu).
+
+
+## BatteryVoltage
+
+Return the current battery voltage as a decimal value.
+
+## USBPowered
+
+Returns `True` if the calculator is connected to USB power.
+
+## LowBattery
+
+Returns `True` if the calculator is running low on battery.
 # Tagged objects
 
 Tagged objects are a way to indicate what a value represents, using a *tag*

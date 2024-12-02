@@ -55,6 +55,10 @@
 #include "util.h"
 #include "version.h"
 
+#ifdef SIMULATOR
+#include "sim-dmcp.h"
+#endif // SIMULATOR
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -818,6 +822,45 @@ COMMAND_BODY(SaveState)
 {
     save_system_state();
     return OK;
+}
+
+
+COMMAND_BODY(BatteryVoltage)
+// ----------------------------------------------------------------------------
+//   Return the current battery voltage, e.g. for custom headers
+// ----------------------------------------------------------------------------
+{
+    int vdd = read_power_voltage();
+    if (decimal_p value = decimal::make(vdd, -3))
+        if (rt.push(value))
+            return OK;
+    return ERROR;
+}
+
+
+COMMAND_BODY(USBPowered)
+// ----------------------------------------------------------------------------
+//   Return True if the calculator is on USB power
+// ----------------------------------------------------------------------------
+{
+    bool low = usb_powered();
+    if (object_p value = object::static_object(low ? ID_True : ID_False))
+        if (rt.push(value))
+            return OK;
+    return ERROR;
+}
+
+
+COMMAND_BODY(LowBattery)
+// ----------------------------------------------------------------------------
+//   Return True if the battery is low
+// ----------------------------------------------------------------------------
+{
+    bool low = get_lowbat_state();
+    if (object_p value = object::static_object(low ? ID_True : ID_False))
+        if (rt.push(value))
+            return OK;
+    return ERROR;
 }
 
 

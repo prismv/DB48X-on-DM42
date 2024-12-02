@@ -758,6 +758,21 @@ HEADER
 10000 CustomHeaderRefresh
 »
 
+BatteryStatsHeader
+«
+10000 CustomHeaderRefresh
+
+@ We want the statistics to persist to disk even in case of low-bat crash
+"BATTERY.48S" 'ΣData' STO
+
+« TIME UVAL →Num BatteryVoltage DUP2
+  2 →Arry Σ+
+  ΣSize " " + Swap + " " + Swap 5 Round + " " + LowBattery + »
+HEADER
+
+»
+
+
 
 @@ ---------------------------------------------------------------------------
 @@

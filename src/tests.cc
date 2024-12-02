@@ -179,7 +179,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            regression_checks();
+            matrix_functions();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -6142,6 +6142,16 @@ void tests::matrix_functions()
     step("Divide fails")
         .test(CLEAR, "[[1 1][1 1]]", ENTER, ENTER, DIV)
         .error("Divide by zero");
+
+    step("Do not leave garbage on the stack (#1363)")
+        .test(CLEAR, "[[1 2 3][4 5 6]][[1 2][3 4][5 6]] DOT", ENTER)
+        .error("Invalid dimension")
+        .test(EXIT)
+        .want("[[ 1 2 ] [ 3 4 ] [ 5 6 ]]")
+        .test(BSP)
+        .want("[[ 1 2 3 ] [ 4 5 6 ]]")
+        .test(BSP).noerror()
+        .test(BSP).error("Too few arguments");
 
     step("Tagged array operations")
         .test(CLEAR, ":A:[1 2] :B:[3 4] +", ENTER)

@@ -179,7 +179,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            library();
+            regression_checks();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -10608,6 +10608,19 @@ void tests::regression_checks()
         .test(CLEAR, ID_ConstantsMenu, F4, F3, F4,
               ID_mul, ID_sqrt, ID_inv, ID_ToDecimal)
         .expect("299 792 458. m/(F↑(¹/₂)·H↑(¹/₂))");
+
+    step("Checking parsing of unary -")
+        .test(CLEAR, "'-X'", ENTER).expect("'-X'")
+        .test(CLEAR, "'-X^2'", ENTER).expect("'-(X↑2)'")
+        .test(CLEAR, "'-(X)^2'", ENTER).expect("'-(X↑2)'")
+        .test(CLEAR, "'-(((X)))^2'", ENTER).expect("'-(X↑2)'")
+        .test(CLEAR, "'-(((X))^2)'", ENTER).expect("'-(X↑2)'")
+        .test(CLEAR, "'-X-Y'", ENTER).expect("'-X-Y'")
+        .test(CLEAR, "'-X*3-Y'", ENTER).expect("'-(X·3)-Y'")
+        .test(CLEAR, "'-X^2*3-Y'", ENTER).expect("'-(X↑2·3)-Y'")
+        .test(CLEAR, "'-X²'", ENTER).expect("'-X²'")
+        .test(CLEAR, "'-X²-Y'", ENTER).expect("'-X²-Y'")
+        .test(CLEAR, "'-X²-3*-Y'", ENTER).expect("'-X²-3·(-Y)'");
 }
 
 

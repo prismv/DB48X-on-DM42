@@ -32,9 +32,12 @@
 #include "parser.h"
 #include "settings.h"
 #include "sysmenu.h"
+#include "tag.h"
 #include "tests.h"
-#include "variables.h"
+#include "unit.h"
 #include "util.h"
+#include "variables.h"
+
 
 RECORDER(program, 16, "Program evaluation");
 
@@ -168,7 +171,8 @@ object::result program::run_loop(size_t depth)
         : Settings.ProgramLastArguments();
 
     save<bool> save_running(running, true);
-    object_g obj;
+    object_g   obj;
+
     while ((obj = rt.run_next(depth)))
     {
         if (interrupted())
@@ -211,6 +215,7 @@ object::result program::run_loop(size_t depth)
 
 
 static uint last_interrupted = 0;
+static uint last_power_check = 0;
 static uint count_interrupted = 0;
 
 bool program::interrupted()
@@ -222,14 +227,16 @@ bool program::interrupted()
         return halted;
 
     count_interrupted = 0;
-    if (!usb_powered() && get_lowbat_state())
-    {
-        ST(STAT_PGM_END);
-        power_check(false);
-        return false;
-    }
     reset_auto_off();
     uint now = sys_current_ms();
+    if (now - last_power_check >= Settings.BatteryRefresh())
+    {
+        if (low_battery())
+        {
+            power_off();
+            power_check(true);
+        }
+    }
     if (now - last_interrupted >= Settings.BusyIndicatorRefresh())
     {
         ui.draw_busy();
@@ -257,6 +264,28 @@ bool program::interrupted()
     return halted;
 }
 
+
+bool program::battery_low = false;
+uint program::battery_voltage = 3000;
+
+bool program::low_battery()
+// ----------------------------------------------------------------------------
+//    Return true if we are running low on battery
+// ----------------------------------------------------------------------------
+//    Experimentatlly get_lowbat_state() is not reliable
+//    Offer an adjustable "low battery" threshold
+{
+    uint now = sys_current_ms();
+    if (now - last_power_check >= Settings.BatteryRefresh())
+    {
+        on_usb  = usb_powered();
+        battery_low = get_lowbat_state();
+        battery_voltage = read_power_voltage();
+        last_power_check = now;
+    }
+    return !on_usb &&
+        (battery_low || battery_voltage < Settings.MinimumBatteryVoltage());
+}
 
 
 
@@ -291,9 +320,10 @@ EVAL_BODY(block)
 //
 // ============================================================================
 
-bool program::running = false;
-bool program::halted = false;
-uint program::stepping = 0;
+bool   program::running       = false;
+bool   program::halted        = false;
+bool   program::on_usb        = true;
+uint   program::stepping      = 0;
 
 
 COMMAND_BODY(Halt)
@@ -413,4 +443,59 @@ COMMAND_BODY(Kill)
     program::halted = false;
     program::stepping = 0;
     return OK;
+}
+
+
+
+
+// ============================================================================
+//
+//   Program statistics
+//
+// ============================================================================
+
+ularge program::active_time   = 0;
+ularge program::sleeping_time = 0;
+ularge program::run_cycles    = 0;
+
+COMMAND_BODY(RuntimeStatistics)
+// ----------------------------------------------------------------------------
+//   Return runtime statistics
+// ----------------------------------------------------------------------------
+{
+    algebraic_g ms = +symbol::make("ms");
+    tag_g running =
+        tag::make("Running",
+                  unit::make(integer::make(program::active_time), ms));
+    tag_g sleeping =
+        tag::make("Sleeping",
+                  unit::make(integer::make(program::sleeping_time), ms));
+    tag_g runcycles = tag::make("Runs", integer::make(program::run_cycles));
+
+    if (running && sleeping && runcycles)
+    {
+        scribble scr;
+        if (rt.append(running)   &&
+            rt.append(sleeping)  &&
+            rt.append(runcycles))
+        {
+            size_t sz = scr.growth();
+            gcbytes data = scr.scratch();
+            if (array_p a = rt.make<array>(ID_array, data, sz))
+            {
+                if (rt.push(a))
+                {
+                    if (Settings.RunStatsClearAfterRead())
+                    {
+                        program::active_time   = 0;
+                        program::sleeping_time = 0;
+                        program::run_cycles    = 0;
+                    }
+                    return OK;
+                }
+            }
+        }
+    }
+
+    return  ERROR;
 }

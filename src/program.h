@@ -43,19 +43,26 @@ struct program : list
 {
     program(id type, gcbytes bytes, size_t len): list(type, bytes, len) {}
 
-
-    result run(bool synchronous = true) const;
-    INLINE result run_program() const               { return run(false); }
-    static result run(object_p obj, bool sync = true);
-    static result run(algebraic_p alg, bool sync = true);
+    result               run(bool synchronous = true) const;
+    INLINE result        run_program() const { return run(false); }
+    static result        run(object_p obj, bool sync = true);
+    static result        run(algebraic_p alg, bool sync = true);
     INLINE static result run_program(object_p obj)  { return run(obj, false); }
-    static result run_loop(size_t depth);
 
-    static bool      interrupted(); // Program interrupted e.g. by EXIT key
-    static program_p parse(utf8 source, size_t size);
+    static result        run_loop(size_t depth);
 
-    static bool running, halted;
-    static uint stepping;
+    static program_p     parse(utf8 source, size_t size);
+
+    static bool          interrupted(); // Program interrupted e.g. by EXIT key
+    static bool          low_battery();
+
+    static bool          running, halted, on_usb, battery_low;
+    static uint          stepping;
+
+    static uint          battery_voltage;
+    static ularge        active_time;
+    static ularge        sleeping_time;
+    static ularge        run_cycles;
 
   public:
     OBJECT_DECL(program);
@@ -88,5 +95,6 @@ COMMAND_DECLARE(StepOut,-1);
 COMMAND_DECLARE(MultipleSteps,1);
 COMMAND_DECLARE(Continue,-1);
 COMMAND_DECLARE(Kill,-1);
+COMMAND_DECLARE(RuntimeStatistics,0);
 
 #endif // PROGRAM_H

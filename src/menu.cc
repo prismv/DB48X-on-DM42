@@ -1489,9 +1489,10 @@ MENU(UserInterfaceModesMenu,
      "Libs",                                    ID_ShowBuiltinLibrary,
      "Chars",                                   ID_ShowBuiltinCharacters,
 
+     MinimumBatteryVoltage::label,              ID_MinimumBatteryVoltage,
      "AllVars",                                 ID_AllEquationVariables,
      CustomHeaderRefresh::label,                ID_CustomHeaderRefresh,
-     "SIPfx",                                   ID_UnitsSIPrefixCycle);
+     "SIPfx",                                   ID_UnitsSIPrefixCycle );
 
 MENU(UserModeMenu,
 // ----------------------------------------------------------------------------
@@ -1546,9 +1547,14 @@ MENU(IOMenu,
 // ----------------------------------------------------------------------------
 //   I/O operations
 // ----------------------------------------------------------------------------
-     "Save",    ID_Unimplemented,
-     "Load",    ID_Unimplemented,
-     "Print",   ID_Unimplemented);
+     "Save",                            ID_Unimplemented,
+     "Load",                            ID_Unimplemented,
+     "Print",                           ID_Unimplemented,
+     "Voltage",                         ID_BatteryVoltage,
+     "USB?",                            ID_USBPowered,
+     "Low?",                            ID_LowBattery,
+     "Save",                            ID_Unimplemented,
+     MinimumBatteryVoltage::label,      ID_MinimumBatteryVoltage);
 
 MENU(FilesMenu,
 // ----------------------------------------------------------------------------
@@ -1560,6 +1566,8 @@ MENU(FilesMenu,
      "Voltage", ID_BatteryVoltage,
      "USB?",    ID_USBPowered,
      "Low?",    ID_LowBattery,
+     "Save",    ID_Unimplemented,
+     "Load",    ID_Unimplemented,
      "Open",    ID_Unimplemented,
      "Close",   ID_Unimplemented,
      "Read",    ID_Unimplemented,
@@ -1637,7 +1645,7 @@ MENU(MemoryMenu,
      "Free",    ID_FreeMemory,
      "System",  ID_SystemMemory,
      "PgAll",   ID_PurgeAll,
-     "GCStats", ID_GarbageCollectorStatistics,
+     "GCStats", ID_RuntimeStatistics,
      "Clone",   ID_Clone,
 
      "Store",   ID_Sto,

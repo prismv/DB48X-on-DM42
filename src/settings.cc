@@ -675,6 +675,8 @@ cstring setting::label(object::id ty)
         return printf("Header %u", s.CustomHeaderRefresh());
     case ID_BusyIndicatorRefresh:
         return printf("Busy %u", s.BusyIndicatorRefresh());
+    case ID_MinimumBatteryVoltage:
+        return printf("%u mV", s.MinimumBatteryVoltage());
     default:
         break;
     }

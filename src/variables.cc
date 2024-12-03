@@ -1001,7 +1001,7 @@ COMMAND_BODY(GarbageCollectorStatistics)
     tag_g lduration = tag::make("LastDuration", integer::make(rt.GCLDuration));
     tag_g cleared   = tag::make("Cleared",      integer::make(rt.GCCleared));
 
-    if (cycles && purged && duration && lpurged && lduration)
+    if (cycles && purged && duration && lpurged && lduration && cleared)
     {
         scribble scr;
         if (rt.append(cycles)    &&
@@ -1019,12 +1019,12 @@ COMMAND_BODY(GarbageCollectorStatistics)
                 {
                     if (Settings.GCStatsClearAfterRead())
                     {
-                        rt.GCCycles    = 0;
-                        rt.GCPurged    = 0;
-                        rt.GCDuration  = 0;
-                        rt.GCLPurged   = 0;
-                        rt.GCLDuration = 0;
-                        rt.GCCleared   = 0;
+                        rt.GCCycles            = 0;
+                        rt.GCPurged            = 0;
+                        rt.GCDuration          = 0;
+                        rt.GCLPurged           = 0;
+                        rt.GCLDuration         = 0;
+                        rt.GCCleared           = 0;
                     }
                     return OK;
                 }

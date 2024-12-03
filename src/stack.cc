@@ -89,7 +89,7 @@ uint stack::draw_stack()
     size   lineHeight = font->height();
     size   idxHeight  = idxfont->height();
     size   idxOffset  = (lineHeight - idxHeight) / 2 - 2;
-    coord  top        = ui.stack_screen_top() + 1;
+    coord  top        = ui.stack_screen_top();
     coord  bottom     = ui.stack_screen_bottom();
     uint   depth      = rt.depth();
     uint   digits     = countDigits(depth);

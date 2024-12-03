@@ -520,6 +520,7 @@ CMD(Clone)                      ALIAS(Clone, "NewObject")
                                 ALIAS(Clone, "NewObj")
                                 ALIAS(Clone, "NewOb")
 CMD(GarbageCollectorStatistics) ALIAS(GarbageCollectorStatistics, "GCStats")
+CMD(RuntimeStatistics)          ALIAS(RuntimeStatistics, "RunStats")
 
 // Object commands
 NAMED(Compile, "Text→")         ALIAS(Compile, "Str→")
@@ -928,7 +929,8 @@ FLAG(ListAsProgram,             ListAsData)
 FLAG(DebugOnError,              KillOnError)
 FLAG(AllEquationVariables,      CurrentEquationVariables)
 FLAG(PushEvaluatedAssignment,   PushOriginalAssignment)
-FLAG(GCStatsKeepAfterRead,      GCStatsClearAfterRead)
+FLAG(GCStatsClearAfterRead,     GCStatsKeepAfterRead)
+FLAG(RunStatsClearAfterRead,    RunStatsKeepAfterRead)
 FLAG(GCTemporariesCleanup,      AutomaticTemporariesCleanup)
 
 ALIAS(HardwareFloatingPoint,    "HFP")
@@ -1079,9 +1081,11 @@ SETTING(BatteryLevelForeground, ularge(0), ~ularge(0), WHITE( 64, 192,  64))
 SETTING(HalfBatteryForeground,  ularge(0), ~ularge(0), GRAY75(192,  64,  64))
 SETTING(LowBatteryForeground,   ularge(0), ~ularge(0), GRAY25(255, 255, 255))
 SETTING(ChargingForeground,     ularge(0), ~ularge(0), GRAY50(128, 192, 255))
-SETTING(BatteryRefresh,         uint(100),  uint(3600000), uint(3000))
 SETTING(CustomHeaderRefresh,    uint(100),  uint(3600000), uint(1000))
 SETTING(BusyIndicatorRefresh,   uint(5),    uint(3600000), uint(50))
+SETTING(BatteryRefresh,         uint(100),  uint(3600000), uint(5000))
+SETTING(MinimumBatteryVoltage,  uint(2000), uint(3000),    uint(2600))
+
 
 SETTING_ENUM(DateSlash,         nullptr,        DateSeparatorCommand)
 SETTING_ENUM(DateDash,          nullptr,        DateSeparatorCommand)
@@ -1134,6 +1138,7 @@ CMD(SaveState)
 CMD(SystemSetup)
 CMD(BatteryVoltage)
 CMD(USBPowered)
+CMD(DMCPLowBattery)
 CMD(LowBattery)
 
 CMD(Unimplemented)              // Last command in catalog

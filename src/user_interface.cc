@@ -1524,7 +1524,7 @@ bool user_interface::draw_menus()
     static uint animate = 0;
     uint        time    = sys_current_ms();
     int         shplane = shift_plane();
-    uint        period  = usb_powered() ? 200 : 850;
+    uint        period  = 200;
 
     bool animating = animate && (time - lastt > period);
     bool redraw = dirtyMenu || shplane != lastp || animating;
@@ -1782,7 +1782,7 @@ bool user_interface::draw_menus()
         Screen.fill(0, my, LCD_W-1, my, sel);
     }
 
-    if (animate)
+    if (animate && program::on_usb)
         draw_refresh(period);
     if (!animating)
         draw_dirty(0, LCD_H - 1 - menuHeight, LCD_W, LCD_H-1);
@@ -1811,112 +1811,123 @@ bool user_interface::draw_header()
     static uint dow = 0;
     bool changed = force;
 
-    if (!changed || !day)
+    if (!day || Settings.ShowDate() || Settings.ShowTime())
     {
         dt_t dt;
         tm_t tm;
         rtc_wakeup_delay();
         rtc_read(&tm, &dt);
 
-        if (day != dt.day || month != dt.month || year != dt.year)
+        if (Settings.ShowDate())
         {
-            day = dt.day;
-            month = dt.month;
-            year = dt.year;
-            changed = true;
+            if (day != dt.day || month != dt.month || year != dt.year)
+            {
+                day = dt.day;
+                month = dt.month;
+                year = dt.year;
+                changed = true;
+            }
+            if (dow != tm.dow)
+            {
+                dow = tm.dow;
+                changed = true;
+            }
         }
-        if (hour != tm.hour || minute != tm.min || second != tm.sec)
+        if (Settings.ShowTime())
         {
-            hour = tm.hour;
-            minute = tm.min;
-            second = tm.sec;
-            changed = true;
-        }
-        if (dow != tm.dow)
-        {
-            dow = tm.dow;
-            changed = true;
+            if (hour != tm.hour || minute != tm.min || second != tm.sec)
+            {
+                hour = tm.hour;
+                minute = tm.min;
+                second = tm.sec;
+                changed = true;
+            }
         }
     }
 
+    program_g pgm;
+    if (object_p cstname = object::static_object(object::ID_Header))
+    {
+        if (object_p cst = directory::recall_all(cstname, false))
+        {
+            pgm = cst->as_program();
+
+            static uint lastt     = 0;
+            uint        time      = sys_current_ms();
+            uint        period    = Settings.CustomHeaderRefresh();
+            uint        remaining = period;
+            record(user_interface,
+                   "Header %s%s last=%u time=%u d=%u period=%u\n",
+                   force ? "force " : "",
+                   changed ? "redraw" : "keep",
+                   lastt, time, time - lastt, period);
+            changed = !rt.editing() && time - lastt > period;
+            if (changed)
+                lastt = time;
+            if (program::on_usb && time - last < remaining)
+                remaining -= time - last;
+            draw_refresh(remaining);
+        }
+    }
+    if (!pgm && Settings.ShowTime())
+        draw_refresh(Settings.ShowSeconds() ? 1000 : 1000 * (60 - second));
+
     if (changed)
     {
-        if (object_p cstname = object::static_object(object::ID_Header))
-        {
-            if (object_p cst = directory::recall_all(cstname, false))
-            {
-                if (program_p pgm = cst->as_program())
-                {
-                    static uint lastt   = 0;
-                    uint        time    = sys_current_ms();
-                    uint        period  = Settings.CustomHeaderRefresh();
-                    bool        redraw = force || time - lastt > period;
-                    record(user_interface,
-                           "Header %s%s last=%u time=%u d=%u period=%u\n",
-                           force ? "force " : "",
-                           redraw ? "redraw" : "keep",
-                           lastt, time, time-lastt, period);
-                    if (!redraw)
-                    {
-                        draw_refresh(lastt + period - time);
-                        return false;
-                    }
-
-                    bool fh = freezeHeader;
-                    freezeHeader = true;
-                    if (object_p eval = pgm->evaluate())
-                    {
-                        auto    fid = Settings.HeaderFont();
-                        grapher g(LCD_W, LCD_H / 2, fid,
-                                  grob::pattern::black, grob::pattern::white,
-                                  true, true, true);
-                        if (grob_p gr = eval->graph(g))
-                        {
-                            pattern       fg = Settings.HeaderForeground();
-                            pattern       bg = Settings.HeaderBackground();
-                            grob::surface s  = gr->pixels();
-                            size          w  = gr->width();
-                            size          h  = gr->height();
-                            Screen.fill(0, 0, LCD_W, h+1, bg);
-                            Screen.draw(s, 0, 0, fg);
-                            Screen.draw_background(s, 0, 0, bg);
-                            bool sf = force;
-                            force = true;
-                            freezeHeader = fh;
-                            draw_battery();
-                            draw_annunciators();
-                            force = sf;
-                            draw_dirty(0, 0, w, h);
-                            draw_refresh(Settings.CustomHeaderRefresh());
-                            if (h != size(stackTop))
-                            {
-                                stackTop = h;
-                                dirtyStack = true;
-                            }
-                            lastt = time;
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
         const font_p hdr_font   = Settings.header_font();
         const size   h          = hdr_font->height() + 1;
-        const coord  hdr_bottom = stackTop > coord(h) ? stackTop : coord(h);
         const coord  hdr_right  = header_width - 1;
-        if (h != size(stackTop))
-        {
-            stackTop = h;
-            dirtyStack = true;
-        }
-
+        const coord  hdr_bottom = h - 1;
         rect         clip       = Screen.clip();
         rect         header     = rect(0, 0, hdr_right, hdr_bottom);
-        Screen.clip(header);
-        Screen.fill(header, pattern(Settings.HeaderBackground()));
-        coord  x  = 1;
 
+        // Case of a custom header
+        if (pgm)
+        {
+            stack_depth_restore sdr;
+            error_save errs;
+            bool fh = freezeHeader;
+            freezeHeader = true;
+            object_p eval = pgm->evaluate();
+            if (!eval && rt.error())
+                eval = text::make(rt.error());
+            if (eval)
+            {
+                auto    fid = Settings.HeaderFont();
+                grapher g(LCD_W, LCD_H / 2, fid,
+                          grob::pattern::black, grob::pattern::white,
+                          true, true, true);
+                if (grob_p gr = eval->graph(g))
+                {
+                    pattern       fg = Settings.HeaderForeground();
+                    pattern       bg = Settings.HeaderBackground();
+                    grob::surface s  = gr->pixels();
+                    size          h  = gr->height()+1;
+                    if (h != size(stackTop))
+                    {
+                        stackTop = h;
+                        dirtyStack = true;
+                    }
+
+                    Screen.fill(0, 0, LCD_W-1, h-1, bg);
+                    Screen.draw(s, 0, 0, fg);
+                    Screen.draw_background(s, 0, 0, bg);
+
+                    bool sf = force;
+                    force = true;
+                    freezeHeader = fh;
+                    draw_battery();
+                    draw_annunciators();
+                    force = sf;
+                    draw_dirty(0, 0, LCD_W-1, h-1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        coord  x  = 1;
+        Screen.fill(header, pattern(Settings.HeaderBackground()));
 
         // Read the real-time clock
         if (Settings.ShowDate())
@@ -1966,6 +1977,7 @@ bool user_interface::draw_header()
         r.printf("%s", state_name());
 
         pattern namecol = Settings.StateNameForeground();
+        Screen.clip(header);
         x = Screen.text(x, 0, r.text(), r.size(), hdr_font, namecol);
         Screen.clip(clip);
         draw_dirty(header);
@@ -1973,9 +1985,13 @@ bool user_interface::draw_header()
         if (x > coord(header_width))
             x = header_width;
         busy_left = x;
+
+        if (h != size(stackTop))
+        {
+            stackTop = h;
+            dirtyStack = true;
+        }
     }
-    if (Settings.ShowTime() || Settings.ShowDate())
-        draw_refresh(Settings.ShowSeconds() ? 1000 : 1000 * (60 - second));
     return changed;
 }
 
@@ -1996,42 +2012,50 @@ bool user_interface::draw_battery()
     uint        time       = sys_current_ms();
 
     font_p      hdr_font   = Settings.header_font();
-    size        h          = hdr_font->height();
+    size        h          = hdr_font->height() + 1;
     coord       ann_y      = (h - ann_height) / 2;
 
     // Print battery voltage
-    static int  vdd = 3000;
     static bool low = false;
-    static bool usb = false;
 
-    uint delay = time - last;
-    uint refresh = Settings.BatteryRefresh();
+    uint        vdd        = program::battery_voltage;
+    bool        usb        = program::on_usb;
+    uint        delay      = time - last;
+    uint        refresh    = Settings.BatteryRefresh();
     if (delay > refresh)
     {
-        vdd  = (int) read_power_voltage();
-        low  = get_lowbat_state();
-        usb  = usb_powered();
+        low = program::low_battery();
+        vdd = program::battery_voltage;
+        usb = program::on_usb;
     }
-    else if (!force)
+    else if (!force && !low)
     {
-        delay = refresh - delay;
-        if (delay < 20)
-            delay = 20;
-        draw_refresh(delay);
+        if (usb)
+            refresh -= delay;
+        draw_refresh(refresh);
         return false;
     }
 
     // Experimentally, battery voltage below 2.6V cause calculator flakiness
-    const int vmax     = BATTERY_VMAX;
-    const int vmin     = BATTERY_VMIN;
-    const int vhalf    = (BATTERY_VMAX + BATTERY_VMIN) / 2;
+    const uint vmax  = BATTERY_VMAX;
+    const uint vmin  = Settings.MinimumBatteryVoltage();
+    const uint vlow  = (vmax + 3 * vmin) / 4;
+    const uint vhalf = (vmax + vmin) / 4;
 
-    pattern   vpat     = usb          ? Settings.ChargingForeground()
-                       : low          ? Settings.LowBatteryForeground()
-                       : vdd <= vhalf ? Settings.HalfBatteryForeground()
-                                      : Settings.BatteryLevelForeground();
-    pattern   bg       = Settings.HeaderBackground();
-    coord     x        = LCD_W - 1;
+    pattern    vpat  = usb          ? Settings.ChargingForeground()
+                     : vdd <= vlow  ? Settings.LowBatteryForeground()
+                     : vdd <= vhalf ? Settings.HalfBatteryForeground()
+                                    : Settings.BatteryLevelForeground();
+    pattern    bg    = Settings.HeaderBackground();
+    coord      x     = LCD_W - 1;
+
+    bool       blink = false;
+    if (vdd <= vlow)
+    {
+        low = true;
+        draw_refresh(500);
+        blink = (time / 500) & 1;
+    }
 
     if (Settings.ShowVoltage())
     {
@@ -2043,10 +2067,10 @@ bool user_interface::draw_battery()
         size w = hdr_font->width(utf8(buffer));
         x -= w;
 
-        rect bgr(x-4, 0, LCD_W-1, h);
+        rect bgr(x-4, 0, LCD_W-1, h-1);
         Screen.fill(bgr, bg);
-        Screen.text(x, 0, utf8(buffer), hdr_font, vcol);
-
+        Screen.text(x, 0, utf8(buffer), hdr_font,
+                    blink ? Settings.BatteryLevelForeground() : vcol);
         x -= 4;
     }
 
@@ -2055,7 +2079,7 @@ bool user_interface::draw_battery()
 
     x -= bat_width;
 
-    rect  bat_bgr(x, 0, x + bat_width, h);
+    rect  bat_bgr(x, 0, x + bat_width, h-1);
     Screen.fill(bat_bgr, bg);
 
     rect  bat_body(x + bat_tipw, ann_y,
@@ -2064,23 +2088,28 @@ bool user_interface::draw_battery()
     pattern bbg = Settings.BatteryBackground();
 
     rect bat_tip(x, ann_y + 3, x + 4, ann_y + ann_height - 3);
-    Screen.fill(bat_tip, bfg);
 
-    Screen.fill(bat_body, bfg);
-    bat_body.inset(1,1);
-    Screen.fill(bat_body, bbg);
-    bat_body.inset(1,1);
+    if (!blink)
+    {
+        Screen.fill(bat_tip, bfg);
+
+        Screen.fill(bat_body, bfg);
+        bat_body.inset(1,1);
+        Screen.fill(bat_body, bbg);
+        bat_body.inset(1,1);
+    }
 
     size batw = bat_body.width();
-    size w = (vdd - vmin) * batw / (vmax - vmin);
+    size w = int(vdd - vmin) * batw / (vmax - vmin);
     if (w > batw)
         w = batw;
     else if (w < 1)
         w = 1;
     bat_body.x1 = bat_body.x2 - w;
-    Screen.fill(bat_body, vpat);
+    if (!blink)
+        Screen.fill(bat_body, vpat);
 
-    if (!usb)
+    if (!usb && !blink)
     {
         bat_body.x2 += 1;
         while (bat_body.x2 > x + 8)
@@ -2092,13 +2121,16 @@ bool user_interface::draw_battery()
     }
 
     battery_left = x;
-    draw_dirty(x, 0, LCD_W-1, h);
+    draw_dirty(x, 0, LCD_W-1, h-1);
     draw_refresh(refresh);
     last = time;
 
     // Power off if battery power is really low
-    if (vdd < BATTERY_VOFF)
+    if (program::low_battery())
+    {
         power_off();
+        power_check(true);
+    }
 
     return true;
 }
@@ -2146,7 +2178,7 @@ bool user_interface::draw_annunciators()
 
     pattern bg       = Settings.HeaderBackground();
     font_p  hdr_font = Settings.header_font();
-    size    h        = hdr_font->height();
+    size    h        = hdr_font->height() + 1;
     size    alpha_w  = alpha_width;
     coord   alpha_x  = battery_left - alpha_w;
     coord   ann_x    = alpha_x - ann_width;
@@ -2159,7 +2191,7 @@ bool user_interface::draw_annunciators()
     busy_right = battery_left - 1;
     if (adraw)
     {
-        rect r = rect(alpha_x, 0, battery_left - 1, h);
+        rect r = rect(alpha_x, 0, battery_left - 1, h - 1);
         Screen.fill(r, bg);
 
         if (alpha || user)
@@ -2186,7 +2218,7 @@ bool user_interface::draw_annunciators()
     if (sdraw)
     {
         coord       ann_y  = (h - ann_height) / 2;
-        rect        ann(ann_x, 0, alpha_x - 1, h);
+        rect        ann(ann_x, 0, alpha_x - 1, h - 1);
         Screen.fill(ann, bg);
         const byte *source = xshift ? ann_right : shift ? ann_left : nullptr;
         if (source)
@@ -2208,7 +2240,7 @@ bool user_interface::draw_annunciators()
     if (shift || xshift)
         busy_right = ann_x - 1;
 
-    rect dirty(busy_right, 0, battery_left, h);
+    rect dirty(busy_right, 0, battery_left, h - 1);
     draw_dirty(dirty);
     return true;
 }
@@ -2225,7 +2257,7 @@ rect user_interface::draw_busy_background()
     const font_p hdr_font   = Settings.header_font();
     const size   h          = hdr_font->height() + 1;
     pattern bg = Settings.HeaderBackground();
-    rect busy(busy_left, 0, busy_right, h);
+    rect busy(busy_left, 0, busy_right, h - 1);
     Screen.fill(busy, bg);
     return busy;
 }
@@ -2463,7 +2495,7 @@ reposition:
     int   bottom          = LCD_H-1 - menuHeight;
     int   top             = (Stack.interactive
                              ? bottom - lineHeight - 1
-                             : stackTop + errorHeight + 1);
+                             : stackTop + errorHeight);
     int   availableHeight = (bottom - top);
     int   fullRows        = availableHeight / lineHeight;
     int   clippedRows     = (availableHeight + lineHeight - 1) / lineHeight;

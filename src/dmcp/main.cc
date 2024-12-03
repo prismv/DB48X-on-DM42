@@ -146,7 +146,7 @@ static void redraw_periodics()
 
     // Slow things down if inactive for long enough
     uint period = ui.draw_refresh();
-    if (dawdle_time > 180000)           // If inactive for 3 minutes
+    if (dawdle_time > 180000)      // If inactive for 3 minutes
         period = 60000;                 // Only upate screen every minute
     else if (dawdle_time > 60000)       // If inactive for 1 minute
         period = 10000;                 // Onlyi update screen every 10s
@@ -254,9 +254,9 @@ void program_init()
 }
 
 
-bool power_check(bool draw_off_image)
+void power_check(bool running)
 // ----------------------------------------------------------------------------
-//   Check power state, returns true if we need to keep looping
+//   Check power state, keep looping until it's safe to run
 // ----------------------------------------------------------------------------
 // Status flags:
 // ST(STAT_PGM_END)   - Program should go to off state (set by auto off timer)
@@ -264,58 +264,64 @@ bool power_check(bool draw_off_image)
 // ST(STAT_OFF)       - Program in off state (only [EXIT] key can wake it up)
 // ST(STAT_RUNNING)   - OS doesn't sleep in this mode
 {
-    // Already in off mode and suspended
-    if ((ST(STAT_PGM_END) && ST(STAT_SUSPENDED)) ||
-        // Go to sleep if no keys available
-        (!ST(STAT_PGM_END) && key_empty()))
+    while (true)
     {
-        CLR_ST(STAT_RUNNING);
-        sys_sleep();
-    }
-
-    // Wakeup in off state or going to sleep
-    if (ST(STAT_PGM_END) || ST(STAT_SUSPENDED))
-    {
-        if (!ST(STAT_SUSPENDED))
+        // Already in off mode and suspended
+        if ((ST(STAT_PGM_END) && ST(STAT_SUSPENDED)) ||
+            // Go to sleep if no keys available
+            (!ST(STAT_PGM_END) && key_empty()))
         {
-            bool lowbat = get_lowbat_state();
-
-            // Going to off mode
-            lcd_set_buf_cleared(0); // Mark no buffer change region
-            if (draw_off_image)
-                draw_power_off_image(0);
-            else
-                ui.draw_message("Switched off to conserve battery",
-                                "Press the ON/EXIT key to resume");
-            if (lowbat)
-            {
-                symbol_p cmd = symbol::make("Low power");
-                rt.command(cmd);
-                rt.error("Connect to USB / change battery");
-                ui.draw_error();
-                refresh_dirty();
-            }
-
-            sys_critical_start();
-            SET_ST(STAT_SUSPENDED);
-            LCD_power_off(0);
-            SET_ST(STAT_OFF);
-            sys_critical_end();
+            CLR_ST(STAT_RUNNING);
+            static uint last_awake = 0;
+            uint now = sys_current_ms();
+            if (last_awake)
+                program::active_time += now - last_awake;
+            sys_sleep();
+            uint then = sys_current_ms();
+            last_awake = then;
+            program::sleeping_time += then - now;
+            program::run_cycles++;
         }
-        // Already in OFF -> just continue to sleep above
-        return true;
-    }
+        if (ST(STAT_PGM_END) || ST(STAT_SUSPENDED))
+        {
+            // Wakeup in off state or going to sleep
+            program::on_usb = usb_powered();
+            if (!ST(STAT_SUSPENDED))
+            {
+                bool lowbat = !program::on_usb && program::low_battery();
 
-    // Check power change or wakeup
-    if (ST(STAT_CLK_WKUP_FLAG))
-    {
-        CLR_ST(STAT_CLK_WKUP_FLAG);
-        return true;
-    }
-    if (ST(STAT_POWER_CHANGE))
-    {
-        CLR_ST(STAT_POWER_CHANGE);
-        return true;
+                if (lowbat)
+                    ui.draw_message("Switched off due to low power",
+                                    "Connect to USB to avoid losing memory",
+                                    "Replace the battery as soon as possible");
+                else if (running)
+                    ui.draw_message("Switched off to conserve battery",
+                                    "Press the ON/EXIT key to resume");
+                else
+                    draw_power_off_image(0);
+
+                sys_critical_start();
+                SET_ST(STAT_SUSPENDED);
+                LCD_power_off(0);
+                SET_ST(STAT_OFF);
+                sys_critical_end();
+            }
+            // Already in OFF -> just continue to sleep above
+        }
+
+        // Check power change or wakeup
+        else if (ST(STAT_CLK_WKUP_FLAG))
+        {
+            CLR_ST(STAT_CLK_WKUP_FLAG);
+        }
+        else if (ST(STAT_POWER_CHANGE))
+        {
+            CLR_ST(STAT_POWER_CHANGE);
+        }
+        else
+        {
+            break;
+        }
     }
 
     // Well, we are woken-up
@@ -332,16 +338,14 @@ bool power_check(bool draw_off_image)
         CLR_ST(STAT_OFF);
 
         // Check if we need to redraw
-        if (lcd_get_buf_cleared())
-            redraw_lcd(true);
+        if (ui.showing_graphics())
+            ui.draw_graphics(true);
         else
-            lcd_forced_refresh();
+            redraw_lcd(true);
     }
 
     // We definitely reached active state, clear suspended flag
     CLR_ST(STAT_SUSPENDED);
-
-    return false;
 }
 
 #ifndef SIMULATOR
@@ -380,8 +384,7 @@ extern "C" void program_main()
     while (true)
     {
         // Check power state, and switch off if necessary
-        if (power_check(true))
-            continue;
+        power_check(false);
 
         // Key is ready -> clear auto off timer
         bool hadKey = false;
@@ -474,7 +477,6 @@ extern "C" void program_main()
         if (tests::running && test_command && key_empty())
             process_test_commands();
 #endif // SIMULATOR && !WASM
-
     }
 }
 

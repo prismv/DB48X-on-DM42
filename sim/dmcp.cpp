@@ -128,12 +128,15 @@ void LCD_power_on()
 
 uint32_t read_power_voltage()
 {
-    return ui_battery() * (BATTERY_VMAX - BATTERY_VMIN) / 1000 + BATTERY_VMIN;
+    const uint vmax = 3000;
+    const uint vmin = 2600;
+    return ui_battery() * (vmax - vmin) / 1000 + vmin;
 }
 
 int get_lowbat_state()
 {
-    return read_power_voltage() < BATTERY_VLOW;
+    const uint vlow = 2450;
+    return read_power_voltage() < vlow;
 }
 
 int usb_powered()

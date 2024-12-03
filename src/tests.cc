@@ -1967,7 +1967,7 @@ void tests::global_variables()
               RSHIFT, F1, RSHIFT, F2, RSHIFT, F3, RSHIFT, F4, RSHIFT, F5,
               ENTER)
         .expect("{ FreeMemory SystemMemory PurgeAll "
-                "GarbageCollectorStatistics Clone }")
+                "RuntimeStatistics Clone }")
         .test(F6,
               RSHIFT, RUNSTOP,
               F1, F2, F3, F4, F5,

@@ -1291,7 +1291,7 @@ static const cstring basic_equations[] =
     "'vmax_m/s=√((2*Kmax_J)/Ⓒme)' "    
     "}",
     // All eqns modified INPUT: λp_nm;θ_° OUTPUT: K_J;γ;β;v_m/s;p_(kg*m/s);φ_°
-    "Compton Effect",  "{ "
+    "Compton Scattering",  "{ "
     "'(λp_nm)-(λ_nm)=Ⓒλc*(1-COS(θ_°))' "
     "'K_eV=Ⓒh*Ⓒc/(λ_nm)-Ⓒh*Ⓒc/(λp_nm)' "
     "'K_eV=((γ-1))*Ⓒme*Ⓒc^2' "

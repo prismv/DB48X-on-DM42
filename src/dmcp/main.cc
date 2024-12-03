@@ -440,7 +440,9 @@ extern "C" void program_main()
             }
 
         }
-        bool repeating = sys_timer_timeout(TIMER0);
+        bool repeating = key > 0
+            && sys_timer_active(TIMER0)
+            && sys_timer_timeout(TIMER0);
         if (repeating)
         {
             hadKey = true;
@@ -472,6 +474,8 @@ extern "C" void program_main()
             // Blink the cursor
             if (sys_timer_timeout(TIMER1))
                 redraw_periodics();
+            if (!key)
+                sys_timer_disable(TIMER0);
         }
 #if SIMULATOR && !WASM
         if (tests::running && test_command && key_empty())

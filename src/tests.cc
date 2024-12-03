@@ -1496,6 +1496,9 @@ void tests::stack_operations()
     step("NDupN in program")
         .test(CLEAR, "13 17 25 42 3 NDUPN", ENTER)
         .got("3", "42", "42", "42", "25", "17", "13");
+    step("NDupN with short stack")
+        .test(CLEAR, "2 5 NDUPN", ENTER)
+        .got("5", "2", "2", "2", "2", "2");
     step("DupDup in program")
         .test(CLEAR, "13 17 42 DUPDUP", ENTER).expect("42")
         .test(BSP).expect("42")
@@ -1583,6 +1586,9 @@ void tests::stack_operations()
     step("NDupN in stack menu")
         .test(CLEAR, "13 17 25 42 3", F6, LSHIFT, F1, F6)
         .got("3", "42", "42", "42", "25", "17", "13");
+    step("NDupN with short stack")
+        .test(CLEAR, "2 5", F6, LSHIFT, F1, F6)
+        .got("5", "2", "2", "2", "2", "2");
     step("DupDup in stack menu")
         .test(CLEAR, "13 17 42", F6, LSHIFT, F2, F6).expect("42")
         .test(BSP).expect("42")

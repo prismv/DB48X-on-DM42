@@ -345,7 +345,7 @@ static const cstring basic_constants[] =
     "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      //*Magnetic flux quantum
     "F",        "'CONVERT(ⒸNA*Ⓒqe;1_C/mol)'",      //*Faraday
     "R∞",       "'CONVERT(Ⓒme*Ⓒqe^4/(8*Ⓒε0^2*Ⓒh^3*Ⓒc);1_m⁻¹)'", //*Rydberg
-    "a0",       "'CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒc^2);1_nm)'",     //*Bohr radius
+    "a0",       "'CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)'",    //*Bohr radius
     "μB",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)'",  //*Bohr magneton
     "μN",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)'",  //*Nuclear magneton
     "λ0",       "'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'",  //*Photon wavelength

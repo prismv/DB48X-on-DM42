@@ -360,26 +360,27 @@ static const cstring basic_constants[] =
     "εsi",      "11.9",                 // Dielectric constant
     "εox",      "3.9",                  // SiO2 dielectric constant
     "I0",       "0.000000000001_W/m^2", //*Ref intensity
-    "Z0",       "'CONVERT(Ⓒμ0*Ⓒc;1_F/m)'",  //*Vacuum characteristic impedance
+    "Z0",       "'CONVERT(Ⓒμ0*Ⓒc;1_Ω)'",   //*Vacuum characteristic impedance
     "mD",       "2.01410177812_u",           //*Deuterium mass
     "mT",       "3.0160492779_u",            //*Tritium mass
+    "mHe",      "4.00260325413_u",           //*Helium atomic mass
     "G0",       "'CONVERT(Ⓒqe^2/(Ⓒπ*Ⓒℏ);1_S)'",  //*Conductance quantum
     "Rk",       "'CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe^2;1_Ω)'",  //*von Klitzing constant
     "KJ",       "'CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)'",    //*Josephson constant
     "re",       "'CONVERT(Ⓒα^2*Ⓒa0;1_m)'",       //*Classical electron radius
-    "σe",       "'CONVERT(8*Ⓒπ*Ⓒrel^2/3;1_m^2)'", //*Thomson cross-section
-    "μe",       "−9.2847646917E-24_J/T",    //*Electron magnetic moment
-    "μp",       "1.41060679545E-26_J/T",    //*Proton magnetic moment
-    "μn",       "−9.6623653E-27_J/T",       //*Neutron magnetic moment
-    "μμ",       "−4.49044830E-26_J/T",      //*Muon magnetic moment
-    "ge",       "−2.00231930436092",        //*Electron g-factor
+    "σe",       "'CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'", //*Thomson cross-section
+    "μe",       "'(-1)*9.2847646917E-24_J/T'",    //*Electron magnetic moment
+    "μp",       "1.41060679545E-26_J/T",          //*Proton magnetic moment
+    "μn",       "'(-1)*9.6623653E-27_J/T'",       //*Neutron magnetic moment
+    "μμ",       "'(-1)*4.49044830E-26_J/T'",      //*Muon magnetic moment
+    "ge",       "'(-1)*2.00231930436092'",        //*Electron g-factor
     "Mpl",      "'CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg)'",       //*Planck mass
     "T°pl",     "'CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)'",//*Planck temperature
     "Lpl",      "'CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m)'",      //*Planck length
     "Tpl",      "'CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s)'",      //*Planck time
     "Eh",       "'CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J)'",        //*Hartree energy
-    "θw",       "'CONVERT(ASIN(0.22305);1_r)'",      //*Weak mixing angle
-    "ΔfCs",     "9192631770_Hz",           //*Cs hyperfine transition
+    "θw",       "'CONVERT(ASIN(√(0.22305));1_r)'",     //*Weak mixing angle
+    "ΔfCs",     "9192631770_Hz",                //*Cs hyperfine transition
 
 // ------------------------------------------------------------------------
     //  Computing

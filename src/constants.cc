@@ -340,7 +340,7 @@ static const cstring basic_constants[] =
     "u",        "1.66053906892E-27_kg",    //*Mass unit
     "Da",       "1.66053906892E-27_kg",    //*Mass unit (Dalton)
     "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg)'",  //*q/me ratio
-    "mpme",     "'CONVERT(Ⓒmp/Ⓒme;1)'",       //*mp/me ratio
+    "mpme",     "'Ⓒmp/Ⓒme'",             //*mp/me ratio
     "α",        "0.0072973525643",        //*fine structure
     "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      //*Magnetic flux quantum
     "F",        "'CONVERT(ⒸNA*Ⓒqe;1_C/mol)'",      //*Faraday

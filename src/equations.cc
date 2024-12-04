@@ -1323,14 +1323,15 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 39 var 26 eqns 6 sims
+    //T#: 39 var 33 eqns 6 sims
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(T1/2_s)=ln(2)/(λ_s^-1)' "
     "'N=N0*exp((λ_s^-1)*(t_s))' "
     "'(A0_Bq)=(λ_s^-1)*N0' "
     "'(A_Bq)=(A0_Bq)*exp((λ_s^-1)*(t_s))' "
-    "'N0=(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "'abtot=abparent*abdaughter
+    "'N0=abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
     "}",
 
     // We need the constant for the mass of the neutral H atom
@@ -1348,6 +1349,8 @@ static const cstring basic_equations[] =
     "α Decay",  "{ "
     "'A=N+Z' "
     "'(Qα_MeV)=((mX_u)-(mY_u)-4.0026032545_u)*Ⓒc^2' "
+    "'γ=(Qα_MeV)/((ⒸmHe_u)*Ⓒc^2)+1' "
+    "'β=√(1-1/γ^2)' "
     "'(AYα)=(AXα)-4' "
     "'(ZYα)=(ZXα)-2' "
     "}",
@@ -1355,6 +1358,8 @@ static const cstring basic_equations[] =
     "β⊖ Decay",  "{ "
     "'A=N+Z' "
     "'(Qβ⊖_MeV)=((mX_u)-(mY_u))*Ⓒc^2' "
+    "'γmax=(Qβ⊖_MeV)/((me_kg)*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γ^2)' "
     "'(AYβ⊖)=(AXβ⊖)' "
     "'(ZYβ⊖)=(ZXβ⊖)+1' "
     "}",
@@ -1362,6 +1367,8 @@ static const cstring basic_equations[] =
     "β⊕ Decay",  "{ "
     "'A=N+Z' "
     "'(Qβ⊕_MeV)=((mX_u)-(mY_u)-2*Ⓒme)*Ⓒc^2' "
+    "'γmax=(Qβ⊕_MeV)/((me_kg)*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γ^2)' "
     "'(AYβ⊕)=(AXβ⊕)' "
     "'(ZYβ⊕)=(ZXβ⊕)-1' "
     "}",

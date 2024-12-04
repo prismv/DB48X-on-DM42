@@ -452,6 +452,7 @@ void user_interface::clear_editor()
     dirtyEditor = true;
     dirtyStack  = true;
     clear_help();
+    menu_refresh(menu::ID_Catalog, true);
 }
 
 
@@ -616,7 +617,6 @@ bool user_interface::key(int key, bool repeating, bool talpha)
         freezeHeader = false;
         freezeStack = false;
         freezeMenu = false;
-        menu_refresh(menu::ID_Catalog);
     }
 
     if (!skey)
@@ -4318,7 +4318,6 @@ bool user_interface::handle_shifts(int &key, bool talpha)
             repeat = true;
         }
         consumed = true;
-        menu_refresh(menu::ID_Catalog);
 #undef SHM
 #undef SHD
     }
@@ -4926,8 +4925,8 @@ bool user_interface::handle_alpha(int key)
         if (c == '"')
             alpha = true;
         repeat = true;
+        menu_refresh(object::ID_Catalog, true);
     }
-    menu_refresh(object::ID_Catalog);
     return true;
 }
 
@@ -5506,17 +5505,20 @@ bool user_interface::handle_functions(int key, object_p obj, bool user)
     bool imm     = object::is_immediate(ty);
     bool editing = rt.editing();
     bool skipcmd = false;
+    bool ac      = autoComplete;
     if (editing && !imm)
     {
         if (key == KEY_ENTER || key == KEY_BSP)
             return false;
 
-        if (autoComplete && key >= KEY_F1 && key <= KEY_F6)
+        if (ac && key >= KEY_F1 && key <= KEY_F6)
         {
             size_t start = 0;
             size_t size  = 0;
             if (current_word(start, size))
                 remove(start, size);
+            menu_refresh(menu::ID_Catalog, true);
+            ac = false;
         }
 
         if ((ty >= object::ID_Deg && ty <= object::ID_PiRadians) &&
@@ -5578,6 +5580,7 @@ bool user_interface::handle_functions(int key, object_p obj, bool user)
                     if (obj->insert() != object::OK)
                         return false;
                     skipcmd = true;
+                    ac = false;
                 }
                 if (!end_edit())
                     return false;
@@ -5598,7 +5601,11 @@ bool user_interface::handle_functions(int key, object_p obj, bool user)
     save<bool> no_halt(program::halted, false);
     bool usr = Settings.UserMode();
     if (!skipcmd)
+    {
         obj->evaluate();
+        if (ac)
+            menu_refresh(menu::ID_Catalog);
+    }
     draw_idle();
     dirtyStack = true;
     if (!imm)
@@ -5888,7 +5895,7 @@ bool user_interface::do_delete(bool forward)
 
         dirtyEditor = true;
         adjustSeps = true;
-        menu_refresh(object::ID_Catalog);
+        menu_refresh(object::ID_Catalog, true);
     }
 
     // Do not stop editing if we delete last character

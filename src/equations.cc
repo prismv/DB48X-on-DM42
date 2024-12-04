@@ -1310,13 +1310,14 @@ static const cstring basic_equations[] =
     "'(p_(kg*m/s))=(m_kg)*(v_(m/s))' "
     "'2*(d_nm)*SIN(θ_°)=n*(λ_nm)' "
     "}",
-
+    // Modified Eph to Eph_eV; adding last eqn
     "Bohr Atomic Model",  "{ "
-    "'(Eph)=Ⓒh*(f_Hz)' "
+    "'(Eph_eV)=Ⓒh*(f_Hz)' "
     "'Ⓒh*(f_Hz)=(Enp_eV)-(En_eV)' "
     "'(En_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/n^2)' "
     "'(Enp_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/np^2)' "
     "'(r_m)=n^2*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
+    "'(λ_nm)=Ⓒc/(f_Hz)' "
     "}",
 
     // ------------------------------------------------------------------------

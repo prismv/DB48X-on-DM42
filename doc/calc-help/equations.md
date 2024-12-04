@@ -2800,7 +2800,7 @@ For all nuclear reactions, including nuclear decays, we have charge conservation
 
 #### Radioactivity
 
-* To calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency & Energy of the absorbed or emitted photon) from 3 known variables:
+* To calculate `[N0;A0_Bq;T1/2_s;N;A_Bq]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency & Energy of the absorbed or emitted photon) from 3 known variables:
 ```rpl
     "",  "{ "
     "'(T1/2_s)=ln(2)/(λ_s^-1)' "

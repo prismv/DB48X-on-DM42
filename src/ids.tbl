@@ -1133,9 +1133,7 @@ OP(EvalEq,                 "EvaluateEquation")
 //
 // ============================================================================
 
-NAMED(Off, "PowerOff")
 CMD(SaveState)
-CMD(SystemSetup)
 CMD(BatteryVoltage)
 CMD(USBPowered)
 CMD(DMCPLowBattery)
@@ -1244,7 +1242,8 @@ CMD(Catalog)
 
 CMD(ToggleUserMode)
 CMD(Undo)                       // Immediate: do not save stack before Undo
-
+NAMED(Off, "PowerOff")
+CMD(SystemSetup)
 
 
 // ============================================================================

@@ -339,7 +339,7 @@ static const cstring basic_constants[] =
     "mH",       "1.00782503223_u",         //*Hydrogen mass
     "u",        "1.66053906892E-27_kg",    //*Mass unit
     "Da",       "1.66053906892E-27_kg",    //*Mass unit (Dalton)
-    "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg",    //*q/me ratio
+    "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg)'",  //*q/me ratio
     "mpme",     "'CONVERT(Ⓒmp/Ⓒme;1)'",       //*mp/me ratio
     "α",        "0.0072973525643",        //*fine structure
     "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      //*Magnetic flux quantum

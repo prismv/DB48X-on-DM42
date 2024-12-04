@@ -2619,7 +2619,7 @@ M=1.708e45_kg  t=4.18902 53989e119_s
 @ C#30 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
-* **Example 1** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
+* **Example 2** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
 @ Failing [ rs=1.48485 15275⁳⁻²⁴ m As=2.77061 33606 7⁳⁻⁴⁷ m↑2 TH=1.22720 80717 4⁳²⁰ K PBH=3.56345 07152 6⁳²⁶ W SBH=0.36617 88084 J/K tev=8.40716 15834 7⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
@@ -2628,16 +2628,15 @@ M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
 ```
 
 ## Modern Physics
-The 43 variables in the Modern Physics section are:
+The 42 variables in the Modern Physics section are:
 
 * `β`: Relativistic speed ratio
-* `φ`: Work function of the substance (dim.: energy, in SI: eV)
-* `θ`: Diffused photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Effect](#Compton Effect), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
-* `φ`: Angle of the emitted electron
+* `φ`: Work function of the substance ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy, in SI: eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering)
+* `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
 * `γ`: Lorentz relativistic factor
 * `%rFr12`: Relative % of change between distribution fractions integrated from `f1` to `f2`
 * `%rFr34`: Relative % of change between distribution fractions integrated from `f3` to `f4`
-* `λ`: Wavelength of the incident photon ([Compton Effect](#Compton Effect))
+* `λ`: Wavelength of the incident photon ([Compton Scattering](#Compton Scattering))
 * `λp`: Wavelength of the diffused photon
 * `A`: Area, or Total activity ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq)
 * `d`: Interatomic distance between cristallographic plane
@@ -2664,7 +2663,7 @@ The 43 variables in the Modern Physics section are:
 * `FrPl34`: Fraction of Planck emissive power in the range `f3` to `f4`
 * `FrWn34`: Fraction of Wien emissive power in the range `f3` to `f4`
 * `FrRJ34`: Fraction of Rayleign-Jeans emissive power in the range `f3` to `f4`
-* `K`: Kinetic energy of ejected electron (dim.: energy; in SI: eV)
+* `K`: Kinetic energy of scattered electron (dim.: energy; in SI: eV)
 * `Kmax`: Maximum kinetic energy of photoelectron ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy; in SI: eV)
 * `p`: Momentum (dim.: mas·speed, in SI: kg·m/s)
 * `m`: Mass
@@ -2712,32 +2711,47 @@ Einstein explained the photoelectric effect with the energy quantification of th
 'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;v];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
 ```
 
-#### Compton Effect
+#### Compton Scattering
 
-In the Compton effect, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency `f` (or energy `E = hf`) photon scatters due to an interaction with a charged particle, there is a decrease in the energy of the photon emitted at an angle `θ` and thus, an increase in its wavelength `λp`. The energy of the emitted electron `Kmax` is relativist.
+In the Compton Scattering, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency `f` (or energy `E = hf`) photon scatters due to an interaction with an electron, there is a decrease in the energy of the photon scattered at an angle `θ` and thus, an increase in its wavelength `λp`. The energy of the scattered electron `Kmax` is relativist.
 
-* To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of diffused photon; Kinetic energy of photoelectron; Lorentz factor; Speed of the emitted electron; Nenergy of the incident & emitted photon; Momentum of the emitted electron; Angle of emission of the electron) from 2 known variables:
+![Compton Scattering_BW](img/Compton Scattering_BW.bmp)
+
+* To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
 ```rpl
-    "'(λp_nm)-(λ_nm)=Ⓒλc*(1-COS(θ_°))' " 'CONVERT(Ⓒλc*(1-COS(θ_°))+(λ_nm);1_nm)'
-    "'K_eV='CONVERT(Ⓒh*Ⓒc/(λ_nm)-Ⓒh*Ⓒc/(λp_nm);1_eV)' " 
-    "'K_eV=((γ-1))*Ⓒme*Ⓒc^2' " 'CONVERT((K_J)/('CONVERT(Ⓒme*Ⓒc^2;1_eV)')+1;1)'
-    "'γ=1/√(1-β^2)' " '√(1-1/γ^2)'
-    "'β=(v_(m/s))/Ⓒc' " 'Ⓒc*β'
-    "'(Eph_eV)='convert(Ⓒh*Ⓒc/(λ_nm);1_eV)' "
-    "'(Epph_eV)='convert(Ⓒh*Ⓒc/(λp_nm);1_eV)' "
-    "'p_(kg*m/s)='γ*Ⓒme*(v_m/s)' "
-    "'0=Ⓒh/(λp_nm)*SIN(θ_°)-(p_(kg*m/s))*SIN(φ_°)' " 'ASIN((CONVERT(Ⓒh/(λp_nm);1_kg·m/s))*SIN(θ_°)/(p_(kg*m/s)))'
-θ=40°  λ=0.024_nm 
-@ Failing [ λp=2.45676 48842 9⁳⁻² nm nm K=1 193.63465 684 eV γ=1.00233 58857 7  β=6.82308 82203 9⁳⁻² v=20 455 103.8874 m/s Eph=51 660.10195 01 eV Epph=50 466.46729 33 eV p=1.86768 64373 3⁳⁻²³ kg·m/s φ=21.74084 79918 ° ]
-'ROOT([(λp_nm)-(λ_nm)=Ⓒλc*(1-COS(θ_°));K_eV=Ⓒh*Ⓒc/(λ_nm)-Ⓒh*Ⓒc/(λp_nm);K_eV=((γ-1))*Ⓒme*Ⓒc^2;γ=1/√(1-β^2);;β=(v_(m/s))/Ⓒc;(Eph_eV)=Ⓒh*Ⓒc/(λ_nm);(Epph_eV)=Ⓒh*Ⓒc/(λp_nm);p_(kg*m/s)=γ*(me_kg)*(v_m/s);0=Ⓒh/(λp_nm)*SIN(θ_°)-(p_(kg*m/s))*SIN(φ_°)];[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
-'ROOT(ⒺCompton Effect;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
+θ=40_°  λ=0.024_nm 
+@ Failing [ λp=0.02456 76488 43 nm K=1 193.63465 705 eV γ=1.00233 58857 7  β=0.06823 08822 04 v=20 455 103.8874 m/s Eph=51 660.10195 01 eV Epph=50 466.46729 33 eV p=1.86768 64373 3⁳⁻²³ kg·m/s φ=68.16079 96523 ° ]
+'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
 ```
 
 #### De Broglie Wave
 
 At all scales where measurements have been possible, matter exhibits wave-like behavior (e.g. Young interference for protons, even for molecules). More precisely, a beam of neutron can be diffracted just like a beam of light or a water wave as it is the case in the Bragg diffraction. Here, the interference is constructive when the phase difference between the matter wave reflected off different atomic planes at an angle `θ` is a multiple of 2π, giving the Following condition: `2·d·SINθ = n·λ` with `n` integer and where `θ` is mesured between the refected waves trajectory and the atomic plane.
 
+* To calculate `[λ_nm;K_eV;v_m/s;d_nm]` (De Broglie wavelength of scattered photon; Kinetic energy of scattered electron; Speed of the scattered electron; Distance between adjacent atomic planes) from 3 known variables:
+```rpl
+θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
+@ Failing [ λ=0.06626 0755 nm K=342.58664 2473 eV v=10 977 691.0426 m/s d=0.10308 34353 39 nm ]
+'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
+```
+
 #### Bohr Atomic Model
+
+Since the hydrogen atom is a bound system between the proton of the nucleus and the electron located at a level n, the binding energy is calculated with a negative expression, the value 0 corresponding to a free electron or occupying a level n which tends to infinity. A transition which gives a positive energy difference corresponds to the emission of a final photon `np` > initial `n`, or if it is negative, to the absorption of a photon.
+
+* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+```rpl
+np=2  n=1  Z=1 
+@ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
+@ Failing [ Enp=-3.40141 63113 2 eV En=-13.60566 52453 eV r=5.29178 06500 7⁳⁻¹¹ m f=2.46737 54942 4⁳¹⁵ Hz Eph=10.20424 8934 eV λ=121.50256 7688 nm ]
+'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
+```
+* **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+```rpl
+np=2  n=9.99999E999999  Z=1 
+@ Failing [ Enp=-3.40141 63113 2 eV En=-1.36056 92456 6⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29177 00665 1⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22458 49807 9⁳¹⁴ Hz Eph=-3.40141 63113 2 eV λ=-364.50770 3064 nm ]
+'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
+```
 
 ## Nuclear Physics
 The 39 variables in the Nuclear Physics section are:
@@ -2745,24 +2759,24 @@ The 39 variables in the Nuclear Physics section are:
 * `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
 * `A`: Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number (Nuclear Physics)
 * `AXα`: Mass number of the radionuclide X undergoing α decay
-* `AYα`: Mass number of the daughter nuclide Y from α decay
-* `AXβ⊖`: Mass number of the radionuclide X undergoing β- decay
-* `AYβ⊖`: Mass number of the daughter nuclide Y from β- decay
-* `AXβ⊕`: Mass number of the radionuclide X undergoing β+ decay
-* `AYβ⊕`: Mass number of the daughter nuclide Y from β+ decay
-* `Aa`: Mass number of the incident nuclide or particle a
-* `Ab`: Mass number of the product nuclide or particle b
-* `AX`: Mass number of the reactant nuclide X
-* `AY`: Mass number of the product nuclide Y
+* `AYα`: Mass number of the daughter nuclide `Y` from α decay
+* `AXβ⊖`: Mass number of the radionuclide `X` undergoing β- decay
+* `AYβ⊖`: Mass number of the daughter nuclide `Y` from β- decay
+* `AXβ⊕`: Mass number of the radionuclide `X` undergoing β+ decay
+* `AYβ⊕`: Mass number of the daughter nuclide `Y` from β+ decay
+* `Aa`: Mass number of the incident nuclide or particle `a`
+* `Ab`: Mass number of the product nuclide or particle `b`
+* `AX`: Mass number of the reactant nuclide `X`
+* `AY`: Mass number of the product nuclide `Y`
 * `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
 * `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
 * `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
-* `ma`: Mass of incident nuclide or particle a (In SI: u)
-* `mb`: Mass of outgoing nuclide or particle b (In SI: u)
-* `mX`: Mass of reactant neutral atom X (In SI: u)
-* `mY`: Mass of product neutral atom X (In SI: u)
+* `ma`: Mass of incident nuclide or particle `a` (In SI: u)
+* `mb`: Mass of outgoing nuclide or particle `b` (In SI: u)
+* `mX`: Mass of reactant neutral atom `X` (In SI: u)
+* `mY`: Mass of product neutral atom `X` (In SI: u)
 * `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
-* `N`: Number of nucleid (Radioactivity), or Number of neutron (Nuclear Physics)
+* `N`: Number of nucleid ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
 * `N0`: Initial number of nucleid
 * `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
 * `Qα`: Net energy balance of an α decay (dim.: energy, in SI: MeV)
@@ -2771,20 +2785,34 @@ The 39 variables in the Nuclear Physics section are:
 * `R`: Radius of the nucleus having `A` nucleons
 * `T1/2`: Half-life of radionuclide (dim.: time)
 * `Z`: Number of proton
-* `ZXα`: Proton number of the radionuclide X undergoing α decay
-* `ZYα`: Proton number of the daughter nuclide Y from α decay
-* `ZXβ⊖`: Proton number of the radionuclide X undergoing β- decay
-* `ZYβ⊖`: Proton number of the daughter nuclide Y from β- decay
-* `ZXβ⊕`: Proton number of the radionuclide X undergoing β+ decay
-* `ZYβ⊕`: Proton number of the daughter nuclide Y from β+ decay
-* `Za`: Proton number of the incident nuclide or charge of the incident particle a
-* `Zb`: Proton number of the incident nuclide or or charge of the product particle b
-* `ZX`: Proton number of the reactant nuclide X
-* `ZY`: Proton number of the product nuclide Y
+* `ZXα`: Proton number of the radionuclide `X` undergoing α decay
+* `ZYα`: Proton number of the daughter nuclide `Y` from α decay
+* `ZXβ⊖`: Proton number of the radionuclide `X` undergoing β- decay
+* `ZYβ⊖`: Proton number of the daughter nuclide `Y` from β- decay
+* `ZXβ⊕`: Proton number of the radionuclide `X` undergoing β+ decay
+* `ZYβ⊕`: Proton number of the daughter nuclide `Y` from β+ decay
+* `Za`: Proton number of the incident nuclide or charge of the incident particle `a`
+* `Zb`: Proton number of the incident nuclide or charge of the product particle `b`
+* `ZX`: Proton number of the reactant nuclide `X`
+* `ZY`: Proton number of the product nuclide `Y`
 
-For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, Z = 0`), positrons (`A = 0`, Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions like can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
+For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions like can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
 
 #### Radioactivity
+
+* To calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency & Energy of the absorbed or emitted photon) from 3 known variables:
+```rpl
+    "",  "{ "
+    "'(T1/2_s)=ln(2)/(λ_s^-1)' "
+    "'N=N0*exp((λ_s^-1)*(t_s))' "
+    "'(A0_Bq)=(λ_s^-1)*N0' "
+    "'(A_Bq)=(A0_Bq)*exp((λ_s^-1)*(t_s))' "
+    "'N0=(m_kg)*ⒸNA/(MW_(g/mol))' "
+m=_kg  MW=_(g/mol)  λ=_s^-1
+@ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
+@ Failing [ Enp=-3.40141 63113 2 eV En=-13.60566 52453 eV r=5.29178 06500 7⁳⁻¹¹ m f=2.46737 54942 4⁳¹⁵ Hz Eph=10.20424 8934 eV ]
+'ROOT(ⒺRadioactivity;[Enp;En;r;f;Eph];[1_eV;1_eV;1_m;1_Hz;1_eV])'
+```
 
 #### Radius & Binding Energy
 

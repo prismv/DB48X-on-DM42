@@ -312,7 +312,7 @@ static const cstring basic_constants[] =
 
     "NA",       "6.02214076E23_mol⁻¹",     //*Avogadro's number
     "k",        "1.380649E-23_J/K",        //*Boltzmann
-    "Vm",       "'CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_mol⁻¹)'",//*Molar volume
+    "Vm",       "'CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'",//*Molar volume
     "R",        "'CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'",    //*Universal gas constant
     "StdT",     "273.15_K",             //*Standard temperature
     "StdP",     "101.325_kPa",          //*Standard temperature

@@ -124,8 +124,6 @@ struct user_interface
     void        draw_dirty(const rect &r);
     void        draw_dirty(coord x1, coord y1, coord x2, coord y2);
     uint        draw_refresh()          { return nextRefresh; }
-    rect        draw_dirty()            { return dirty; }
-    void        draw_clean()            { dirty = rect(); }
     bool        draw_graphics(bool erase = false);
 
     bool        draw_header();          // Left part of header
@@ -279,7 +277,6 @@ protected:
     coord    busy_right;        // Right column for busy area in header
     coord    battery_left;      // Left column for battery in header
     uint     nextRefresh;       // Time for next refresh
-    rect     dirty;             // Dirty rectangles
     object_g editing;           // Object being edited if any
     uint     editingLevel;      // Stack level being edited
     uint     cmdIndex;          // Command index for next command to save

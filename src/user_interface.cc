@@ -116,7 +116,6 @@ user_interface::user_interface()
       menuHeight(),
       busy(0),
       nextRefresh(~0U),
-      dirty(),
       editing(),
       editingLevel(0),
       cmdIndex(0),
@@ -1455,7 +1454,6 @@ void user_interface::draw_start(bool forceRedraw, uint refresh)
 //   Start a drawing cycle
 // ----------------------------------------------------------------------------
 {
-    dirty = rect();
     force = forceRedraw;
     nextRefresh = refresh;
     if (forceRedraw)
@@ -1478,7 +1476,20 @@ void user_interface::draw_dirty(coord x1, coord y1, coord x2, coord y2)
 //   Indicates that a component dirtied a given area of the screen
 // ----------------------------------------------------------------------------
 {
-    draw_dirty(rect(min(x1,x2), min(y1,y2), max(x1,x2), max(y1,y2)));
+    if (x1 <= x2)
+    {
+        if (y1 < 0)
+            y1 = 0;
+        else if (y1 >= LCD_H)
+            y1 = LCD_H - 1;
+        if (y2 < 0)
+            y2 = 0;
+        else if (y2 >= LCD_H)
+            y2 = LCD_H-1;
+
+        for (coord y = y1; y <= y2; y++)
+            mark_dirty(y);
+    }
 }
 
 
@@ -1487,10 +1498,7 @@ void user_interface::draw_dirty(const rect &r)
 //   Indicates that a component dirtied a given area of the screen
 // ----------------------------------------------------------------------------
 {
-    if (dirty.empty())
-        dirty = r;
-    else
-        dirty |= r;
+    draw_dirty(r.x1, r.y1, r.x2, r.y2);
 }
 
 

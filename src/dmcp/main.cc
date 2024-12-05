@@ -67,24 +67,54 @@ RECORDER(tests_rpl,    256, "Test request processing on RPL");
 RECORDER(refresh,       16, "Refresh requests");
 
 
+static byte *lcd_buffer = nullptr;
+
+#ifndef SIMULATOR
+static uint lcd_rows = 0;
+#endif // SIMULATOR
+
+
+void mark_dirty(uint row)
+// ----------------------------------------------------------------------------
+//   Mark a screen range as dirty
+// ----------------------------------------------------------------------------
+{
+#ifndef SIMULATOR
+    if (row < LCD_H)
+    {
+        if (!lcd_buffer[52 * row - 2])
+        {
+            lcd_buffer[52 * row - 2] = 1;
+            lcd_rows++;
+        }
+    }
+#else // SIMULATOR
+    (void) row;
+#endif // SIMULATOR
+}
+
+
 void refresh_dirty()
 // ----------------------------------------------------------------------------
 //  Send an LCD refresh request for the area dirtied by drawing
 // ----------------------------------------------------------------------------
 {
-    rect dirty = ui.draw_dirty();
-    if (!dirty.empty())
+#ifndef SIMULATOR
+    if (ST(STAT_OFF))
+        return;
+    for (uint row = 0; row < LCD_H; row++)
     {
-        // We get garbagge on screen if we pass anything outside of it
-        coord top = dirty.y1;
-        coord bottom = dirty.y2;
-        coord height = LCD_H - 1;
-        top = max(coord(0), min(height, top));
-        bottom = max(coord(0), min(height, bottom));
-        lcd_refresh_lines(top, bottom - top + 1);
-        record(refresh, "Refresh %u lines from %u", bottom-top+1, top);
+        if (lcd_buffer[52 * row - 2])
+        {
+            lcd_buffer[52 * row - 2] = 0;
+            lcd_buffer[52 * row - 1] = LCD_H - row;
+            LCD_write_line(&lcd_buffer[52 * row - 2]);
+            lcd_rows--;
+        }
     }
-    ui.draw_clean();
+#else
+    lcd_refresh();
+#endif
 }
 
 
@@ -138,10 +168,13 @@ static void redraw_periodics()
 
     record(main, "Periodics %u", now);
     ui.draw_start(false);
-    ui.draw_cursor(false, ui.cursor_position());
     ui.draw_header();
     ui.draw_battery();
-    ui.draw_menus();
+    if (program::on_usb)
+    {
+        ui.draw_cursor(false, ui.cursor_position());
+        ui.draw_menus();
+    }
     refresh_dirty();
 
     // Slow things down if inactive for long enough
@@ -210,6 +243,7 @@ void program_init()
     menu_line_str_app = menu_item_description;
     is_beep_mute = db48x_is_beep_mute;
     set_beep_mute = db48x_set_beep_mute;
+    lcd_buffer = lcd_line_addr(0);
 
     // Setup default fonts
     font_defaults();
@@ -285,7 +319,6 @@ void power_check(bool running)
         if (ST(STAT_PGM_END) || ST(STAT_SUSPENDED))
         {
             // Wakeup in off state or going to sleep
-            program::on_usb = usb_powered();
             if (!ST(STAT_SUSPENDED))
             {
                 bool lowbat = !program::on_usb && program::low_battery();
@@ -316,6 +349,7 @@ void power_check(bool running)
         }
         else if (ST(STAT_POWER_CHANGE))
         {
+            program::on_usb = usb_powered();
             CLR_ST(STAT_POWER_CHANGE);
         }
         else

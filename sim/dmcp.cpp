@@ -133,6 +133,11 @@ uint32_t read_power_voltage()
     return ui_battery() * (vmax - vmin) / 1000 + vmin;
 }
 
+int get_vbat()
+{
+    return read_power_voltage();
+}
+
 int get_lowbat_state()
 {
     const uint vlow = 2450;
@@ -1108,4 +1113,14 @@ int check_create_dir(const char * dir)
         if (st.st_mode & S_IFDIR)
             return 0;
     return mkdir(dir, 0777);
+}
+
+
+void bitblt24(uint32_t x,
+              uint32_t dx,
+              uint32_t y,
+              uint32_t val,
+              int      blt_op,
+              int      fill)
+{
 }

@@ -1135,6 +1135,7 @@ OP(EvalEq,                 "EvaluateEquation")
 
 CMD(SaveState)
 CMD(BatteryVoltage)
+CMD(PowerVoltage)
 CMD(USBPowered)
 CMD(DMCPLowBattery)
 CMD(LowBattery)

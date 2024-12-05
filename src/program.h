@@ -60,6 +60,7 @@ struct program : list
     static uint          stepping;
 
     static uint          battery_voltage;
+    static uint          power_voltage;
     static ularge        active_time;
     static ularge        sleeping_time;
     static ularge        run_cycles;

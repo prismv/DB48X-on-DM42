@@ -1027,6 +1027,7 @@ MatrixMultiplyBenchmark
 		{ "Hello" « "Hello" 3 DISP » }
 		{ "RunStats" RuntimeStatistics }
 		{ "VBat" BatteryVoltage }
+		{ "VPow" PowerVoltage }
 		{ "VStat"
 			«
 				"BAT.CSV" StoΣ
@@ -1035,13 +1036,14 @@ MatrixMultiplyBenchmark
 				→V2 Σ+
 			»
 		}
-		RclΣ
 
 		ⓁKineticEnergy
 		{ "Authors" « "Authors" HELP DROP » }
 		RunStatsKeepAfterRead
 		MinimumBatteryVoltage
 		LowBattery
+		RclΣ
+
 		42_in
 		DebugOnError
 	}

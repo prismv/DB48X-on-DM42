@@ -2018,14 +2018,14 @@ bool user_interface::draw_battery()
     // Print battery voltage
     static bool low = false;
 
-    uint        vdd        = program::battery_voltage;
+    uint        vdd        = program::power_voltage;
     bool        usb        = program::on_usb;
     uint        delay      = time - last;
     uint        refresh    = Settings.BatteryRefresh();
     if (delay > refresh)
     {
         low = program::low_battery();
-        vdd = program::battery_voltage;
+        vdd = program::power_voltage;
         usb = program::on_usb;
     }
     else if (!force && !low)

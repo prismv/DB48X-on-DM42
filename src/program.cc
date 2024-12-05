@@ -267,6 +267,7 @@ bool program::interrupted()
 
 bool program::battery_low = false;
 uint program::battery_voltage = 3000;
+uint program::power_voltage = 3000;
 
 bool program::low_battery()
 // ----------------------------------------------------------------------------
@@ -280,11 +281,13 @@ bool program::low_battery()
     {
         on_usb  = usb_powered();
         battery_low = get_lowbat_state();
-        battery_voltage = read_power_voltage();
+        battery_voltage = get_vbat();
+        power_voltage = read_power_voltage();
         last_power_check = now;
     }
+    uint vlow = Settings.MinimumBatteryVoltage();
     return !on_usb &&
-        (battery_low || battery_voltage < Settings.MinimumBatteryVoltage());
+        (battery_low || battery_voltage < vlow || power_voltage < vlow);
 }
 
 

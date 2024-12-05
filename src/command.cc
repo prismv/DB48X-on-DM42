@@ -829,8 +829,24 @@ COMMAND_BODY(BatteryVoltage)
 //   Return the current battery voltage, e.g. for custom headers
 // ----------------------------------------------------------------------------
 {
-    int vdd = read_power_voltage();
+    int vdd = get_vbat();
     program::battery_voltage = vdd;
+    if (algebraic_g value = integer::make(vdd))
+        if (algebraic_g sym = +symbol::make("mV"))
+            if (algebraic_p uvalue = unit::make(value, sym))
+                if (rt.push(uvalue))
+                    return OK;
+    return ERROR;
+}
+
+
+COMMAND_BODY(PowerVoltage)
+// ----------------------------------------------------------------------------
+//   Return the current battery voltage, e.g. for custom headers
+// ----------------------------------------------------------------------------
+{
+    int vdd = read_power_voltage();
+    program::power_voltage = vdd;
     if (algebraic_g value = integer::make(vdd))
         if (algebraic_g sym = +symbol::make("mV"))
             if (algebraic_p uvalue = unit::make(value, sym))

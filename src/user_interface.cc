@@ -2631,6 +2631,8 @@ bool user_interface::draw_cursor(int show, uint ncursor)
     lastT = time;
     if (show)
         blink = show > 0;
+    else if (!program::on_usb)
+        blink = true;
 
     // Select editor font
     bool   ml         = edRows > 2;
@@ -2712,9 +2714,12 @@ bool user_interface::draw_cursor(int show, uint ncursor)
         draw_dirty(r);
     }
 
-    blink = !blink;
     Screen.clip(clip);
-    draw_refresh(period);
+    if (program::on_usb)
+    {
+        blink = !blink;
+        draw_refresh(period);
+    }
     return true;
 }
 

@@ -2757,7 +2757,7 @@ np=2  n=9.99999E999999  Z=1
 The 39 variables in the Nuclear Physics section are:
 
 * `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
-* `A`: Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number (Nuclear Physics)
+* `A`: Total activity at time `t` ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number ([Nuclear Physics](#Nuclear Physics))
 * `AXα`: Mass number of the radionuclide X undergoing α decay
 * `AYα`: Mass number of the daughter nuclide `Y` from α decay
 * `AXβ⊖`: Mass number of the radionuclide `X` undergoing β- decay
@@ -2776,14 +2776,15 @@ The 39 variables in the Nuclear Physics section are:
 * `mX`: Mass of reactant neutral atom `X` (In SI: u)
 * `mY`: Mass of product neutral atom `X` (In SI: u)
 * `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
-* `N`: Number of nucleid ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
-* `N0`: Initial number of nucleid
+* `N`: Number of nuclide at time `t` ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
+* `N0`: Initial number of nuclide
 * `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
 * `Qα`: Net energy balance of an α decay (dim.: energy, in SI: MeV)
 * `Qβ⊖`: Net energy balance of a β- decay (dim.: energy, in SI: MeV)
 * `Qβ⊕`: Net energy balance of a β+ decay (dim.: energy, in SI: MeV)
 * `R`: Radius of the nucleus having `A` nucleons
-* `T1/2`: Half-life of radionuclide (dim.: time)
+* `t`: Age of the decaying nuclide
+* `Thl`: Half-life of radionuclide (dim.: time)
 * `Z`: Number of proton
 * `ZXα`: Proton number of the radionuclide `X` undergoing α decay
 * `ZYα`: Proton number of the daughter nuclide `Y` from α decay
@@ -2800,21 +2801,44 @@ For all nuclear reactions, including nuclear decays, we have charge conservation
 
 #### Radioactivity
 
-* To calculate `[N0;A0_Bq;T1/2_s;N;A_Bq]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency & Energy of the absorbed or emitted photon) from 3 known variables:
+* **Example 1** To calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
 ```rpl
-    "",  "{ "
-    "'(T1/2_s)=ln(2)/(λ_s^-1)' "
-    "'N=N0*exp((λ_s^-1)*(t_s))' "
-    "'(A0_Bq)=(λ_s^-1)*N0' "
-    "'(A_Bq)=(A0_Bq)*exp((λ_s^-1)*(t_s))' "
-    "'N0=(m_kg)*ⒸNA/(MW_(g/mol))' "
-m=_kg  MW=_(g/mol)  λ=_s^-1
-@ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
-@ Failing [ Enp=-3.40141 63113 2 eV En=-13.60566 52453 eV r=5.29178 06500 7⁳⁻¹¹ m f=2.46737 54942 4⁳¹⁵ Hz Eph=10.20424 8934 eV ]
-'ROOT(ⒺRadioactivity;[Enp;En;r;f;Eph];[1_eV;1_eV;1_m;1_Hz;1_eV])'
+    "'(Thl_s)='ln(2)/(λ_s^-1)' "
+    "'abtot=abparent*abdaughter'
+    "'N0=abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
+    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
+    "'(A_Bq)='(A0_Bq)*exp(-(λ_s^-1)*(t_s))' "
+m=1_g  MW=226_(g/mol)  λ=1.37364 03205 5⁳⁻¹¹_s^-1  abparent=1  abdaughter=1  t=400_yr
+@ Failing [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 6⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+'ROOT(ⒺRadioactivity;[Thl;abtot;N0;A0;N;A];[1_s;1;1;1_Bq;1;1_Bq])'
+```
+* **Example 2** For the C14 datation of 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
+```rpl
+    "'(λ_s^-1)='ln(2)/(Thl_s)' "
+    "'abtot='abparent*abdaughter'
+    "'N0='abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
+    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
+    "'Convert(ln((A_Bq)/(A0_Bq))/(-(λ_s^-1));1_yr)' "
+m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
+@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
+'ROOT(ⒺRadioactivity;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
 ```
 
 #### Radius & Binding Energy
+
+* To calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
+```rpl
+    "'A=N+Z' "
+    "'(R_m)=(1.2e-15_m)*A^(1/3)' "
+    "'(V_m^3)=4/3*Ⓒπ*R^3' "
+    "'(EB_MeV)=(Z*ⒸmH+N*Ⓒmn-(mX_u))*Ⓒc^2' "
+    "'(EBse_MeV)=(1_MeV)*(15.75*A-17.8*A^(2/3)-0.711*Z*(Z-1)/A^(1/3)-23.7*(A-2*Z)^2/A+11.18/(A^(1/2))*IFTE((Z mod 2=0)and(N mod 2=0);1;IFTE((Z mod 2=1)and(N mod 2=1);-1;0)))' "
+m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
+@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
+'ROOT(ⒺRadius & Binding Energy;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
+```
 
 #### α Decay
 

@@ -2739,7 +2739,7 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 
 Since the hydrogen atom is a bound system between the proton of the nucleus and the electron located at a level n, the binding energy is calculated with a negative expression, the value 0 corresponding to a free electron or occupying a level n which tends to infinity. A transition which gives a positive energy difference corresponds to the emission of a final photon `np` > initial `n`, or if it is negative, to the absorption of a photon.
 
-* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
 ```rpl
 np=2  n=1  Z=1 
 @ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
@@ -2754,16 +2754,19 @@ np=2  n=9.99999E999999  Z=1
 ```
 
 ## Nuclear Physics
-The 39 variables in the Nuclear Physics section are:
+The 46 variables in the Nuclear Physics section are:
 
 * `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
 * `A`: Total activity at time `t` ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number ([Nuclear Physics](#Nuclear Physics))
+* `abdaughter`: Abondance of the daughter nuclide 
+* `abparent`: Abondance of the parent radionuclide
+* `abtot`: Total abondance of the nuclide
 * `AXα`: Mass number of the radionuclide X undergoing α decay
 * `AYα`: Mass number of the daughter nuclide `Y` from α decay
-* `AXβ⊖`: Mass number of the radionuclide `X` undergoing β- decay
-* `AYβ⊖`: Mass number of the daughter nuclide `Y` from β- decay
-* `AXβ⊕`: Mass number of the radionuclide `X` undergoing β+ decay
-* `AYβ⊕`: Mass number of the daughter nuclide `Y` from β+ decay
+* `AXβ⊖`: Mass number of the radionuclide `X` undergoing β⊖ decay
+* `AYβ⊖`: Mass number of the daughter nuclide `Y` from β⊖ decay
+* `AXβ⊕`: Mass number of the radionuclide `X` undergoing β⊕ decay
+* `AYβ⊕`: Mass number of the daughter nuclide `Y` from β⊕ decay
 * `Aa`: Mass number of the incident nuclide or particle `a`
 * `Ab`: Mass number of the product nuclide or particle `b`
 * `AX`: Mass number of the reactant nuclide `X`
@@ -2771,6 +2774,9 @@ The 39 variables in the Nuclear Physics section are:
 * `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
 * `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
 * `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
+* `K`: Kinetic energy of the emitted α particle
+* `Kmax`: Maximum kinetic energy of the electron ([β⊖ Decay](#β⊖ Decay)), or of the positron ([β⊕ Decay](#β⊕ Decay))
+* `ΔKtot`: Variation of total kinetic energy
 * `ma`: Mass of incident nuclide or particle `a` (In SI: u)
 * `mb`: Mass of outgoing nuclide or particle `b` (In SI: u)
 * `mX`: Mass of reactant neutral atom `X` (In SI: u)
@@ -2778,30 +2784,30 @@ The 39 variables in the Nuclear Physics section are:
 * `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
 * `N`: Number of nuclide at time `t` ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
 * `N0`: Initial number of nuclide
-* `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
-* `Qα`: Net energy balance of an α decay (dim.: energy, in SI: MeV)
-* `Qβ⊖`: Net energy balance of a β- decay (dim.: energy, in SI: MeV)
-* `Qβ⊕`: Net energy balance of a β+ decay (dim.: energy, in SI: MeV)
+* `Q`: Reaction energy of a nuclear reaction (dim.: energy, in SI: MeV)
+* `Qα`: Reaction energy of an α decay (dim.: energy, in SI: MeV)
+* `Qβ⊖`: Reaction energy of a β⊖ decay (dim.: energy, in SI: MeV)
+* `Qβ⊕`: Reaction energy of a β⊕ decay (dim.: energy, in SI: MeV)
 * `R`: Radius of the nucleus having `A` nucleons
 * `t`: Age of the decaying nuclide
 * `Thl`: Half-life of radionuclide (dim.: time)
 * `Z`: Number of proton
 * `ZXα`: Proton number of the radionuclide `X` undergoing α decay
 * `ZYα`: Proton number of the daughter nuclide `Y` from α decay
-* `ZXβ⊖`: Proton number of the radionuclide `X` undergoing β- decay
-* `ZYβ⊖`: Proton number of the daughter nuclide `Y` from β- decay
-* `ZXβ⊕`: Proton number of the radionuclide `X` undergoing β+ decay
-* `ZYβ⊕`: Proton number of the daughter nuclide `Y` from β+ decay
+* `ZXβ⊖`: Proton number of the radionuclide `X` undergoing β⊖ decay
+* `ZYβ⊖`: Proton number of the daughter nuclide `Y` from β⊖ decay
+* `ZXβ⊕`: Proton number of the radionuclide `X` undergoing β⊕ decay
+* `ZYβ⊕`: Proton number of the daughter nuclide `Y` from β⊕ decay
 * `Za`: Proton number of the incident nuclide or charge of the incident particle `a`
 * `Zb`: Proton number of the incident nuclide or charge of the product particle `b`
 * `ZX`: Proton number of the reactant nuclide `X`
 * `ZY`: Proton number of the product nuclide `Y`
 
-For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions like can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
+For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
 
 #### Radioactivity
 
-* **Example 1** To calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
+* **Example 1** For a sample mass of radium, to calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
 ```rpl
     "'(Thl_s)='ln(2)/(λ_s^-1)' "
     "'abtot=abparent*abdaughter'
@@ -2828,22 +2834,56 @@ m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_
 
 #### Radius & Binding Energy
 
-* To calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
+* For the C12, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
 ```rpl
-    "'A=N+Z' "
-    "'(R_m)=(1.2e-15_m)*A^(1/3)' "
-    "'(V_m^3)=4/3*Ⓒπ*R^3' "
-    "'(EB_MeV)=(Z*ⒸmH+N*Ⓒmn-(mX_u))*Ⓒc^2' "
-    "'(EBse_MeV)=(1_MeV)*(15.75*A-17.8*A^(2/3)-0.711*Z*(Z-1)/A^(1/3)-23.7*(A-2*Z)^2/A+11.18/(A^(1/2))*IFTE((Z mod 2=0)and(N mod 2=0);1;IFTE((Z mod 2=1)and(N mod 2=1);-1;0)))' "
-m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
-@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
-'ROOT(ⒺRadius & Binding Energy;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
+N=6  Z=6  mX=12_u  
+@ Expecting [ A=12. R=2.74731 416⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+@ Failing [ A=12. R=2.74731 416⁳⁻¹⁵ m V=8.68587 51587 7⁳⁻⁴⁴ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
 
 #### α Decay
 
+* For the α decay of U238 into Th234, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Binding energy; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+```rpl
+    "'A=N+Z' " 'A-Z'
+    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
+    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
+    "'(Kα_MeV)='(Qα_MeV)/((4.00260325413_u)/(mX_u)+1)' "
+    "'γ='(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1' "
+    "'β='√(1-1/γ^2)' "
+    "'(AYα)='(AXα)-4' "
+    "'(ZYα)='(ZXα)-2' "
+A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
+@ Expecting [ N=146. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
+@ Failing [ N=146 Δm=0.00458 00458 7 u Qα=4.26628 38693 5 MeV Kα=4.19573 64506 9 MeV  γ=1.00112 53451 3 β=0.04740 14418 32 AYα=234 ZYα=90 ]
+'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+
 #### β⊖ Decay
 
+The β⊖ Decay reaction has 3 products: the daughter nuclide, an electron & an antineutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between thse last two particles. The energy spectrum of the antineutrino being continuous and possibly very small, the nergy reaction is therefore the maximum kinetic energy `Kmax` of the emitted elevtron.
+
+* For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+```rpl
+    "'A=N+Z' "  'A-Z'
+    "'(Δm_u)='((mX_u)-(mY_u))' "
+    "'(Qβ⊖_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+    "'(Kmax_MeV)='(Qβ⊖_MeV)' "
+    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
+    "'βmax='√(1-1/γmax^2)' "
+    "'(AYβ⊖)='(AXβ⊖)' "
+    "'(ZYβ⊖)='(ZXβ⊖)+1' "
+A=234  Z=90  AXβ⊖=234  ZXβ⊖=90  mX=234.0436014_u  mY=234.0433085_u
+@ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=0.27283 45044 57 MeV Kmax=0.27283 45044 57 MeV  γmax=1.53392 40376 3 βmax=0.75828 53739 85 Aβ⊖=234 ZYβ⊖=91 ]
+'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊖_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊖)=(AXβ⊖);(ZYβ⊖)=(ZXβ⊖)+1];[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+
 #### β⊕ Decay
+
+The β⊕ Decay reaction has 3 products: the daughter nuclide, a positron & a neutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between thse last two particles. The energy spectrum of the neutrino being continuous and possibly very small, the nergy reaction is therefore the maximum kinetic energy `Kmax` of the emitted positron.
+
 
 #### General Nuclear Reaction

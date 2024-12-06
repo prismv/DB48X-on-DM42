@@ -336,6 +336,8 @@ void power_check(bool running)
                 sys_critical_start();
                 SET_ST(STAT_SUSPENDED);
                 LCD_power_off(0);
+                sys_timer_disable(TIMER0);
+                sys_timer_disable(TIMER1);
                 SET_ST(STAT_OFF);
                 sys_critical_end();
             }

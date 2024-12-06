@@ -398,3 +398,9 @@ calculator operations.
 « TIME " " PATH TAIL TOTEXT + + "
 " + DATE + " Mem: " + MEM + » HEADER
 ```
+
+
+## GraphingTimeLimit
+
+Set the maximum number of milliseconds that can be spent rendering an object
+graphically. The default is 250ms.

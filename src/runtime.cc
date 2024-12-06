@@ -432,7 +432,7 @@ size_t runtime::gc()
                 ||  (ui.keymap     >= obj   && ui.keymap     < next);
             if (!found)
             {
-                utf8 *label = (utf8 *) &ui.menu_label[0][0];
+                utf8 *label = (utf8 *) &ui.menuLabel[0][0];
                 for (uint l = 0; !found && l < ui.NUM_MENUS; l++)
                     found = label[l] >= start && label[l] < end;
 
@@ -572,7 +572,7 @@ void runtime::move(object_p to, object_p from,
         ui.command += delta;
 
     // Adjust menu labels
-    utf8 *label = (utf8 *) &ui.menu_label[0][0];
+    utf8 *label = (utf8 *) &ui.menuLabel[0][0];
     for (uint l = 0; l < ui.NUM_MENUS; l++)
         if (label[l] >= start && label[l] < end)
             label[l] += delta;

@@ -251,7 +251,7 @@ protected:
     uint     help;              // Offset of help being displayed in help file
     uint     line;              // Line offset in the help display
     uint     topic;             // Offset of topic being highlighted
-    uint     topics_history;    // History depth
+    uint     topicsHistory;     // History depth
     uint     topics[8];         // Topics history
     grob_g   image;             // Image loaded in help file
     uint     impos;             // Position of image file
@@ -273,9 +273,9 @@ protected:
     uint     menuPages;         // Number of menu pages
     uint     menuHeight;        // Height of the menu
     uint     busy;              // Busy counter
-    coord    busy_left;         // Left column for busy area in header
-    coord    busy_right;        // Right column for busy area in header
-    coord    battery_left;      // Left column for battery in header
+    coord    busyLeft;          // Left column for busy area in header
+    coord    busyRight;         // Right column for busy area in header
+    coord    batteryLeft;       // Left column for battery in header
     uint     nextRefresh;       // Time for next refresh
     object_g editing;           // Object being edited if any
     uint     editingLevel;      // Stack level being edited
@@ -288,12 +288,12 @@ protected:
     bool     alpha        : 1;  // Alpha mode active
     bool     transalpha   : 1;  // Transitory alpha (up or down key)
     bool     lowercase    : 1;  // Lowercase
-    bool     user_once    : 1;  // User mode should be reset
-    bool     shift_drawn  : 1;  // Cache of drawn annunciators
-    bool     xshift_drawn : 1;  // Cache
-    bool     alpha_drawn  : 1;  // Cache
-    bool     lowerc_drawn : 1;  // Cache
-    bool     user_drawn   : 1;  // Cache
+    bool     userOnce     : 1;  // User mode should be reset
+    bool     shiftDrawn   : 1;  // Cache of drawn annunciators
+    bool     xshiftDrawn  : 1;  // Cache
+    bool     alphaDrawn   : 1;  // Cache
+    bool     lowercDrawn  : 1;  // Cache
+    bool     userDrawn    : 1;  // Cache
     bool     down         : 1;  // Move one line down
     bool     up           : 1;  // Move one line up
     bool     repeat       : 1;  // Repeat the key
@@ -312,15 +312,15 @@ protected:
     bool     freezeHeader : 1;  // Freeze the header area
     bool     freezeStack  : 1;  // Freeze the stack area
     bool     freezeMenu   : 1;  // Freeze the menu area
-    bool     dbl_release  : 1;  // Double release
+    bool     doubleRelease: 1;  // Double release
 
 protected:
     // Key mappings
     list_p   keymap;
     object_p function[NUM_PLANES][NUM_SOFTKEYS];
-    cstring  menu_label[NUM_PLANES][NUM_SOFTKEYS];
-    uint16_t menu_marker[NUM_PLANES][NUM_SOFTKEYS];
-    bool     menu_marker_align[NUM_PLANES][NUM_SOFTKEYS];
+    cstring  menuLabel[NUM_PLANES][NUM_SOFTKEYS];
+    uint16_t menuMarker[NUM_PLANES][NUM_SOFTKEYS];
+    bool     menuMarkerAlign[NUM_PLANES][NUM_SOFTKEYS];
     file     helpfile;
     friend struct tests;
     friend struct runtime;

@@ -92,7 +92,7 @@ user_interface::user_interface()
       help(-1u),
       line(0),
       topic(0),
-      topics_history(0),
+      topicsHistory(0),
       topics(),
       image(nullptr),
       impos(0),
@@ -125,12 +125,12 @@ user_interface::user_interface()
       alpha(false),
       transalpha(false),
       lowercase(false),
-      user_once(false),
-      shift_drawn(false),
-      xshift_drawn(false),
-      alpha_drawn(false),
-      lowerc_drawn(false),
-      user_drawn(false),
+      userOnce(false),
+      shiftDrawn(false),
+      xshiftDrawn(false),
+      alphaDrawn(false),
+      lowercDrawn(false),
+      userDrawn(false),
       down(false),
       up(false),
       repeat(false),
@@ -145,7 +145,7 @@ user_interface::user_interface()
       autoComplete(false),
       adjustSeps(false),
       graphics(false),
-      dbl_release(false),
+      doubleRelease(false),
       keymap(),
       helpfile()
 {
@@ -153,9 +153,9 @@ user_interface::user_interface()
     {
         for (uint k = 0; k < NUM_SOFTKEYS; k++)
         {
-            menu_label[p][k] = nullptr;
-            menu_marker[p][k] = 0;
-            menu_marker_align[p][k] = false;
+            menuLabel[p][k] = nullptr;
+            menuMarker[p][k] = 0;
+            menuMarkerAlign[p][k] = false;
             function[p][k] = nullptr;
         }
     }
@@ -701,12 +701,12 @@ void user_interface::toggle_user()
     }
     else if (!user)
     {
-        user_once = true;
+        userOnce = true;
         Settings.UserMode(true);
     }
-    else if (user_once)
+    else if (userOnce)
     {
-        user_once = false;
+        userOnce = false;
     }
     else
     {
@@ -1284,9 +1284,9 @@ void user_interface::menu(uint menu_id, cstring label, object_p fn)
         int softkey_id       = menu_id % NUM_SOFTKEYS;
         int plane            = menu_id / NUM_SOFTKEYS;
         function[plane][softkey_id] = fn;
-        menu_label[plane][softkey_id] = label;
-        menu_marker[plane][softkey_id] = 0;
-        menu_marker_align[plane][softkey_id] = false;
+        menuLabel[plane][softkey_id] = label;
+        menuMarker[plane][softkey_id] = 0;
+        menuMarkerAlign[plane][softkey_id] = false;
         dirtyMenu = true;       // Redraw menu
     }
 }
@@ -1338,8 +1338,8 @@ void user_interface::marker(uint menu_id, unicode mark, bool alignLeft)
     {
         int softkey_id       = menu_id % NUM_SOFTKEYS;
         int plane            = menu_id / NUM_SOFTKEYS;
-        menu_marker[plane][softkey_id] = mark;
-        menu_marker_align[plane][softkey_id] = alignLeft;
+        menuMarker[plane][softkey_id] = mark;
+        menuMarkerAlign[plane][softkey_id] = alignLeft;
         dirtyMenu = true;
     }
 }
@@ -1364,7 +1364,7 @@ cstring user_interface::label_text(uint menu_id)
 {
     int     softkey_id = menu_id % NUM_SOFTKEYS;
     int     plane      = menu_id / NUM_SOFTKEYS;
-    cstring lbl        = menu_label[plane][softkey_id];
+    cstring lbl        = menuLabel[plane][softkey_id];
     return lbl;
 }
 
@@ -1423,7 +1423,7 @@ uint user_interface::menu_planes()
         {
             bool found = false;
             for (uint sk = 0; !found && sk < NUM_SOFTKEYS; sk++)
-                found = menu_label[planes-1][sk] != 0;
+                found = menuLabel[planes-1][sk] != 0;
             if (found)
                 break;
             planes--;
@@ -1586,12 +1586,12 @@ bool user_interface::draw_menus()
                 if (shplane)
                 {
                     function[0][KEY_F6-KEY_F1] = prevo;
-                    menu_label[0][NUM_SOFTKEYS-1] = "◀︎";
+                    menuLabel[0][NUM_SOFTKEYS-1] = "◀︎";
                 }
                 else
                 {
                     function[0][KEY_F6-KEY_F1] = nexto;
-                    menu_label[0][NUM_SOFTKEYS-1] = "▶";
+                    menuLabel[0][NUM_SOFTKEYS-1] = "▶";
                 }
             }
         }
@@ -1601,7 +1601,7 @@ bool user_interface::draw_menus()
     settings::SaveTabWidth stw(0);
     for (int plane = 0; plane < planes; plane++)
     {
-        cstring *labels = menu_label[plane];
+        cstring *labels = menuLabel[plane];
         if (help)
         {
             static cstring helpMenu[] =
@@ -1713,7 +1713,7 @@ bool user_interface::draw_menus()
                 rect trect = mrect;
                 if (!help && !Stack.interactive)
                 {
-                    if (unicode mark = menu_marker[plane][m])
+                    if (unicode mark = menuMarker[plane][m])
                     {
                         if (mark == 1)
                         {
@@ -1725,7 +1725,7 @@ bool user_interface::draw_menus()
                         }
                         else
                         {
-                            bool alignLeft = menu_marker_align[plane][m];
+                            bool alignLeft = menuMarkerAlign[plane][m];
                             marker         = mark;
                             mkw            = (marker == '/'
                                               ? 0
@@ -1992,7 +1992,7 @@ bool user_interface::draw_header()
 
         if (x > coord(header_width))
             x = header_width;
-        busy_left = x;
+        busyLeft = x;
 
         if (h != size(stackTop))
         {
@@ -2128,7 +2128,7 @@ bool user_interface::draw_battery()
         }
     }
 
-    battery_left = x;
+    batteryLeft = x;
     draw_dirty(x, 0, LCD_W-1, h-1);
     draw_refresh(refresh);
     last = time;
@@ -2177,9 +2177,9 @@ bool user_interface::draw_annunciators()
         return false;
 
     bool user  = Settings.UserMode();
-    bool adraw = force || alpha != alpha_drawn || lowercase != lowerc_drawn;
-    bool sdraw = force || shift != shift_drawn || xshift != xshift_drawn;
-    bool udraw = force || user != user_drawn;
+    bool adraw = force || alpha != alphaDrawn || lowercase != lowercDrawn;
+    bool sdraw = force || shift != shiftDrawn || xshift != xshiftDrawn;
+    bool udraw = force || user != userDrawn;
 
     if (!adraw && !sdraw && !udraw)
         return false;
@@ -2188,18 +2188,18 @@ bool user_interface::draw_annunciators()
     font_p  hdr_font = Settings.header_font();
     size    h        = hdr_font->height() + 1;
     size    alpha_w  = alpha_width;
-    coord   alpha_x  = battery_left - alpha_w;
+    coord   alpha_x  = batteryLeft - alpha_w;
     coord   ann_x    = alpha_x - ann_width;
 
-    if (!adraw && busy_right > alpha_x)
+    if (!adraw && busyRight > alpha_x)
         adraw = true;
-    if (!sdraw && busy_right > ann_x)
+    if (!sdraw && busyRight > ann_x)
         sdraw = true;
 
-    busy_right = battery_left - 1;
+    busyRight = batteryLeft - 1;
     if (adraw)
     {
-        rect r = rect(alpha_x, 0, battery_left - 1, h - 1);
+        rect r = rect(alpha_x, 0, batteryLeft - 1, h - 1);
         Screen.fill(r, bg);
 
         if (alpha || user)
@@ -2210,18 +2210,18 @@ bool user_interface::draw_annunciators()
                 "", "ABC", "abc", "abc",
                 "1US", "α1U", "1u", "α1u"
             };
-            utf8 label = utf8(lbls[alpha + 2*lowercase + 4*user + 8*user_once]);
+            utf8 label = utf8(lbls[alpha + 2*lowercase + 4*user + 8*userOnce]);
             pattern apat = lowercase
                 ? Settings.LowerAlphaForeground()
                 : Settings.AlphaForeground();
             Screen.text(alpha_x + 1, 0, label, hdr_font, apat);
         }
-        alpha_drawn = alpha;
-        lowerc_drawn = lowercase;
-        user_drawn = Settings.UserMode();
+        alphaDrawn = alpha;
+        lowercDrawn = lowercase;
+        userDrawn = Settings.UserMode();
     }
     if (alpha)
-        busy_right = alpha_x - 1;
+        busyRight = alpha_x - 1;
 
     if (sdraw)
     {
@@ -2242,13 +2242,13 @@ bool user_interface::draw_annunciators()
             Screen.draw(s, ann_x, ann_y, fg);
             Screen.draw_background(s, ann_x, ann_y, bg);
         }
-        shift_drawn = shift;
-        xshift_drawn = xshift;
+        shiftDrawn = shift;
+        xshiftDrawn = xshift;
     }
     if (shift || xshift)
-        busy_right = ann_x - 1;
+        busyRight = ann_x - 1;
 
-    rect dirty(busy_right, 0, battery_left, h - 1);
+    rect dirty(busyRight, 0, batteryLeft, h - 1);
     draw_dirty(dirty);
     return true;
 }
@@ -2265,7 +2265,7 @@ rect user_interface::draw_busy_background()
     const font_p hdr_font   = Settings.header_font();
     const size   h          = hdr_font->height() + 1;
     pattern bg = Settings.HeaderBackground();
-    rect busy(busy_left, 0, busy_right, h - 1);
+    rect busy(busyLeft, 0, busyRight, h - 1);
     Screen.fill(busy, bg);
     return busy;
 }
@@ -2322,9 +2322,9 @@ bool user_interface::draw_idle()
         redraw_lcd(true);
     }
     draw_busy(0, pattern::black);
-    alpha_drawn = !alpha_drawn;
-    shift_drawn = !shift;
-    xshift_drawn = !xshift;
+    alphaDrawn = !alphaDrawn;
+    shiftDrawn = !shift;
+    xshiftDrawn = !xshift;
     draw_annunciators();
     refresh_dirty();
     return true;
@@ -3186,17 +3186,17 @@ void user_interface::load_help(utf8 topic, size_t len)
         record(help, "Found topic %s at position %u level %u",
                topic, helpfile.position(), level);
 
-        if (topics_history >= NUM_TOPICS)
+        if (topicsHistory >= NUM_TOPICS)
         {
             // Overflow, keep the last topics
             for (uint i = 1; i < NUM_TOPICS; i++)
                 topics[i - 1]   = topics[i];
-            topics[topics_history - 1] = help;
+            topics[topicsHistory - 1] = help;
         }
         else
         {
             // New topic, store it
-            topics[topics_history++] = help;
+            topics[topicsHistory++] = help;
         }
     }
     else
@@ -3578,8 +3578,8 @@ restart:
 
                             if (follow && restyle == HIGHLIGHTED_CODE)
                             {
-                                if (topics_history)
-                                    topics[topics_history-1] = shown;
+                                if (topicsHistory)
+                                    topics[topicsHistory-1] = shown;
                                 load_help(utf8(link));
                                 Screen.clip(clip);
                                 goto restart;
@@ -3672,8 +3672,8 @@ restart:
                     p[-1] = 0;
                     if (follow && style == HIGHLIGHTED_TOPIC)
                     {
-                        if (topics_history)
-                            topics[topics_history-1] = shown;
+                        if (topicsHistory)
+                            topics[topicsHistory-1] = shown;
                         load_help(utf8(link));
                         Screen.clip(clip);
                         goto restart;
@@ -4042,12 +4042,12 @@ bool user_interface::handle_screen_capture(int key)
                 rt.screenshot_capture_error();
         }
         if (key == KEY_DOUBLE_RELEASE)
-            dbl_release = true; // Ignore next key
+            doubleRelease = true; // Ignore next key
         return true;
     }
-    if (!key && dbl_release)
+    if (!key && doubleRelease)
     {
-        dbl_release = false;
+        doubleRelease = false;
         return true;
     }
     return false;
@@ -4200,12 +4200,12 @@ bool user_interface::handle_help(int &key)
 
     case KEY_F6:
     case KEY_BSP:
-        if (topics_history)
+        if (topicsHistory)
         {
-            --topics_history;
-            if (topics_history)
+            --topicsHistory;
+            if (topicsHistory)
             {
-                help = topics[topics_history-1];
+                help = topics[topicsHistory-1];
                 line = 0;
                 dirtyHelp = true;
                 break;
@@ -5501,7 +5501,7 @@ bool user_interface::handle_functions(int key, object_p obj, bool user)
         size_t sz = 0;
         utf8 txt = direct->value(&sz);
         bool result = insert(txt, sz, TEXT) == object::OK;
-        if (user_once)
+        if (userOnce)
             Settings.UserMode(false);
         return result;
     }
@@ -5626,7 +5626,7 @@ bool user_interface::handle_functions(int key, object_p obj, bool user)
     xshift = false;
     shift = false;
 
-    if (user_once && usr == Settings.UserMode())
+    if (userOnce && usr == Settings.UserMode())
         Settings.UserMode(false);
     return true;
 }

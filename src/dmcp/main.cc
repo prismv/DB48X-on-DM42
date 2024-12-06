@@ -349,8 +349,13 @@ void power_check(bool running)
         }
         else if (ST(STAT_POWER_CHANGE))
         {
-            program::on_usb = usb_powered();
             CLR_ST(STAT_POWER_CHANGE);
+            program::on_usb = usb_powered();
+            program::battery_voltage = get_vbat();
+            program::power_voltage = read_power_voltage();
+            ui.draw_start(true);
+            ui.draw_battery();
+            refresh_dirty();
         }
         else
         {

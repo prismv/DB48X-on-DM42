@@ -1316,14 +1316,14 @@ static const cstring basic_equations[] =
     "'Ⓒh*(f_Hz)=(Enp_eV)-(En_eV)' "
     "'(En_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/n^2)' "
     "'(Enp_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/np^2)' "
-    "'(r_m)=n^2*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
+    "'(r_m)=n^2/Z*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
     "'(λ_nm)=Ⓒc/(f_Hz)' "
     "}",
 
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 39 var 36 eqns 6 sims
+    //T#:* 46 var 41 eqns 6 sims
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(Thl_s)=ln(2)/(λ_s^-1)' "
@@ -1345,40 +1345,45 @@ static const cstring basic_equations[] =
     "'(EB_MeV)=(Z*ⒸmH+N*Ⓒmn-(mX_u))*Ⓒc^2' "
     "'(EBse_MeV)=(1_MeV)*(15.75*A-17.8*A^(2/3)-0.711*Z*(Z-1)/A^(1/3)-23.7*(A-2*Z)^2/A+11.18/(A^(1/2))*IFTE((Z mod 2=0)and(N mod 2=0);1;IFTE((Z mod 2=1)and(N mod 2=1);-1;0)))' "
     "}",
-
+    //New energy & kinematic eqns
     "α Decay",  "{ "
     "'A=N+Z' "
-    "'(Qα_MeV)=((mX_u)-(mY_u)-ⒸmHe)*Ⓒc^2' "
-    "'(K_MeV)=(Qα_MeV)' "
-    "'γ=(K_MeV)/((ⒸmHe_u)*Ⓒc^2)+1' "
+    "'(Δm_u)=((mX_u)-(mY_u)-ⒸmHe)' "
+    "'(Qα_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(Kα_MeV)=(Qα_MeV)/(ⒸmHe/(mX_u)+1)' "
+    "'γ=(Kα_MeV)/((ⒸmHe_u)*Ⓒc^2)+1' "
     "'β=√(1-1/γ^2)' "
     "'(AYα)=(AXα)-4' "
     "'(ZYα)=(ZXα)-2' "
     "}",
-
+    //New energy & kinematic eqns
     "β⊖ Decay",  "{ "
     "'A=N+Z' "
-    "'(Qβ⊖_MeV)=((mX_u)-(mY_u))*Ⓒc^2' "
+    "'(Δm_u)=((mX_u)-(mY_u))' "
+    "'(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2' "
     "'(Kmax_MeV)=(Qβ⊖_MeV)' "
-    "'γmax=(Kmax_MeV)/((me_kg)*Ⓒc^2)+1' "
-    "'βmax=√(1-1/γ^2)' "
+    "'γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γmax^2)' "
     "'(AYβ⊖)=(AXβ⊖)' "
     "'(ZYβ⊖)=(ZXβ⊖)+1' "
     "}",
-
+    //New energy & kinematic eqns
     "β⊕ Decay",  "{ "
     "'A=N+Z' "
-    "'(Qβ⊕_MeV)=((mX_u)-(mY_u)-2*Ⓒme)*Ⓒc^2' "
+    "'(Δm_u)=((mX_u)-(mY_u)-2*Ⓒme)' "
+    "'(Qβ⊕_MeV)=(Δm_u)*Ⓒc^2' "
     "'(Kmax_MeV)=(Qβ⊕_MeV)' "
-    "'γmax=(Kmax_MeV)/((me_kg)*Ⓒc^2)+1' "
-    "'βmax=√(1-1/γ^2)' "
+    "'γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γmax^2)' "
     "'(AYβ⊕)=(AXβ⊕)' "
     "'(ZYβ⊕)=(ZXβ⊕)-1' "
     "}",
 
     "General Nuclear Reaction",  "{ "
     "'A=N+Z' "
-    "'(Q_MeV)=((ma_u)+(mX_u)-(mY_u)-(mb_u))*Ⓒc^2' "
+    "'(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
+    "'(Q_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(ΔKtot_MeV)=(Qβ⊕_MeV)' "
     "'(Aa)+(AX)=(AY)+(Ab)' "
     "'(Za)+(ZX)=(ZY)+(Zb)' "
     "}",

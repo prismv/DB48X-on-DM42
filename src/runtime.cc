@@ -110,6 +110,8 @@ runtime::runtime(byte *mem, size_t size)
       CallStack(),
       Returns(),
       HighMem(),
+      Cache(),
+      CacheIndex(),
       GCCycles(),
       GCPurged(),
       GCDuration(),
@@ -359,6 +361,68 @@ runtime::gcptr::~gcptr()
 }
 
 
+object_p runtime::cached(bool level0, object_p key)
+// ----------------------------------------------------------------------------
+//   Check if there is a value associated to this object
+// ----------------------------------------------------------------------------
+{
+    size_t max = sizeof(Cache[level0]) / sizeof(Cache[level0][0]);
+    for (uint i = 0; i < max; i += 2)
+    {
+        uint j = (CacheIndex - i) % max;
+        if (Cache[level0][j] == key)
+            return Cache[level0][j+1];
+    }
+    return nullptr;
+}
+
+
+bool runtime::cache(bool level0, object_p key, object_p value)
+// ----------------------------------------------------------------------------
+//   Cache the value
+// ----------------------------------------------------------------------------
+{
+    size_t max = sizeof(Cache[level0]) / sizeof(Cache[level0][0]);
+    for (uint i = 0; i < max; i += 2)
+    {
+        uint j = (CacheIndex - i) % max;
+        if (Cache[level0][j] == key)
+        {
+            Cache[level0][j+1] = value;
+            return true;
+        }
+    }
+    CacheIndex = (CacheIndex + 2) % max;
+    Cache[level0][CacheIndex] = key;
+    Cache[level0][CacheIndex + 1] = value;
+    return false;
+}
+
+
+void runtime::uncache(object_p key)
+// ----------------------------------------------------------------------------
+//   Purge an object from cache when it became invalid
+// ----------------------------------------------------------------------------
+{
+    cache(false, key, nullptr);
+    cache(true,  key, nullptr);
+}
+
+
+void runtime::uncache()
+// ----------------------------------------------------------------------------
+//   Drop the whole cache
+// ----------------------------------------------------------------------------
+{
+    for (uint l = 0; l < 2; l++)
+    {
+        const uint max = sizeof(Cache[0]) / sizeof(Cache[0][0]);
+        for (uint i = 0; i < max; i++)
+            Cache[l][i] = nullptr;
+    }
+}
+
+
 size_t runtime::gc()
 // ----------------------------------------------------------------------------
 //   Recycle unused temporaries
@@ -489,6 +553,9 @@ size_t runtime::gc()
 
     ui.draw_busy();
 
+    // Clear the cache
+    uncache();
+
     // Update statistics
     uint duration = sys_current_ms() - now;
     GCCycles += 1;
@@ -596,6 +663,8 @@ void runtime::move_globals(object_p to, object_p from)
 // ----------------------------------------------------------------------------
 //    In that case, we need to move everything up to the scratchpad
 {
+    uncache(from);
+
     // We overscan by 1 to deal with gcp that point to end of objects
     object_p last = (object_p) scratchpad() + allocated();
     object_p first = to < from ? to : from;
@@ -892,9 +961,10 @@ object_p runtime::clone_global(object_p global, size_t sz)
 //   We clone the object at most once, and adjust objects in a list or
 //   program to preserve the original structure
 {
-    object_p cloned = nullptr;
-    object_p *begin = Stack;
+    object_p  cloned = nullptr;
+    object_p *begin  = Stack;
     object_p *end    = HighMem;
+    uncache(global);
     for (object_p *s = begin; s < end; s++)
     {
         if (*s >= global && *s < global + sz)

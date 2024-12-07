@@ -123,36 +123,76 @@ uint stack::draw_stack()
     Screen.fill(0, top, hdrx-1, bottom, Settings.StackLevelBackground());
     Screen.fill(hdrx, top, hdrx, bottom, Settings.StackLineForeground());
 
-    char buf[16];
-    coord y = bottom;
-    coord yresult = y;
+    coord    y         = bottom;
+    coord    yresult   = y;
+    bool     rgraph    = Settings.GraphicResultDisplay();
+    bool     sgraph    = Settings.GraphicStackDisplay();
+    auto     rfont     = Settings.ResultFont();
+    auto     sfont     = Settings.StackFont();
+    uint     rtime     = Settings.ResultGraphingTimeLimit();
+    uint     stime     = Settings.StackGraphingTimeLimit();
+    pattern  rfg       = Settings.ResultForeground();
+    pattern  sfg       = Settings.StackForeground();
+    pattern  rbg       = Settings.ResultBackground();
+    pattern  sbg       = Settings.StackBackground();
+    bool     rml       = Settings.MultiLineResult();
+    bool     sml       = Settings.MultiLineStack();
+    bool     autoScale = Settings.AutoScaleStack();
+    grob_g   graph;
+    text_g   rendered;
+    object_g obj;
+    object_g cached;
+    char     buf[16];
+
+    // Invalidate cache if settings changed
+    static uint settingsHash = 0;
+    uint hash = Settings.hash();
+    if (hash != settingsHash)
+    {
+        rt.uncache();
+        settingsHash = hash;
+    }
+
     for (uint level = interactive_base; level < depth; level++)
     {
         if (coord(y) <= top)
             break;
 
-        grob_g   graph = nullptr;
-        object_g obj   = rt.stack(level);
-        size     w = 0;
-        if (!interactive && (level
-                             ? Settings.GraphicStackDisplay()
-                             : Settings.GraphicResultDisplay()))
-        {
-            auto    fid = !level ? Settings.ResultFont() : Settings.StackFont();
-            grapher g(avail - 2,
-                      bottom - top,
-                      fid,
-                      grob::pattern::black,
-                      grob::pattern::white,
-                      true);
-            g.duration = !level ? Settings.ResultGraphingTimeLimit()
-                                : Settings.StackGraphingTimeLimit();
-            do
-            {
-                graph = obj->graph(g);
-            } while (!graph && !rt.error() &&
-                     Settings.AutoScaleStack() && g.reduce_font());
+        obj        = rt.stack(level);
+        cached     = rt.cached(level == 0, +obj);
 
+        size     w = 0;
+        if (!interactive && (level ? sgraph : sgraph))
+        {
+            graph  = nullptr;
+            if (cached)
+                if (grob_p gr = cached->as<grob>())
+                    graph = gr;
+
+            if (graph && graph->height() > size(bottom - top))
+                graph = nullptr;
+
+            if (!graph && !cached)
+            {
+                grapher g(avail - 2,
+                          bottom - top,
+                          level == 0 ? rfont : sfont,
+                          grob::pattern::black,
+                          grob::pattern::white,
+                          true);
+                g.duration = level == 0 ? rtime : stime;
+                do
+                {
+                    graph = obj->graph(g);
+                } while (!graph && !rt.error() && autoScale && g.reduce_font());
+
+                if (graph)
+                {
+                    rt.cache(level == 0, +obj, +graph);
+                    if (rgraph == sgraph && rfont == sfont)
+                        rt.cache(level != 0, +obj, +graph);
+                }
+            }
             if (graph)
             {
                 size gh = graph->height();
@@ -164,8 +204,7 @@ uint stack::draw_stack()
                 if (level == 0)
                 {
                     extern int last_key;
-                    bool     ml = (level ? Settings.MultiLineStack()
-                                   : Settings.MultiLineResult());
+                    bool     ml = level ? sml : rml;
                     renderer r(nullptr, ~0U, true, ml);
                     size_t   len = obj->render(r);
                     utf8     out = r.text();
@@ -184,10 +223,8 @@ uint stack::draw_stack()
         coord yb   = y + lineHeight-1;
         Screen.clip(0, ytop, LCD_W, yb);
 
-        pattern fg = level == 0 ? Settings.ResultForeground()
-                                : Settings.StackForeground();
-        pattern bg = level == 0 ? Settings.ResultBackground()
-                                : Settings.StackBackground();
+        pattern fg = level == 0 ? rfg : sfg;
+        pattern bg = level == 0 ? rbg : sbg;
         if (graph)
         {
             grob::surface s = graph->pixels();
@@ -196,12 +233,31 @@ uint stack::draw_stack()
         }
         else
         {
-            // Text rendering
-            bool     ml = !interactive && (level ? Settings.MultiLineStack()
-                                           : Settings.MultiLineResult());
-            renderer r(nullptr, ~0U, true, ml);
-            size_t   len = obj->render(r);
-            utf8     out = r.text();
+            // Text rendering - Check caching
+            bool   ml  = !interactive && (level ? sml : rml);
+            size_t len = 0;
+            utf8   out = utf8("");
+
+            rendered = cached ? cached->as<text>() : nullptr;
+            if (rendered)
+            {
+                out = rendered->value(&len);
+            }
+            else
+            {
+                // Text rendering
+                renderer r(nullptr, ~0U, true, ml);
+                len = obj->render(r);
+                out = r.text();
+                rendered = text::make(out, len);
+                if (rendered)
+                {
+                    rt.cache(level == 0, +obj, +rendered);
+                    if (rml == sml)
+                        rt.cache(level != 0, +obj, +rendered);
+                }
+            }
+
 #ifdef SIMULATOR
             if (level == 0)
             {

@@ -80,6 +80,21 @@ settings::settings() :
         reserved(false)
 {}
 
+
+uint settings::hash() const
+// ----------------------------------------------------------------------------
+//   Compute a hash of the settings to see if value changed
+// ----------------------------------------------------------------------------
+{
+    uint   result = 0;
+    byte_p ptr    = byte_p(this);
+    for (uint i = 0; i < sizeof(*this); i++)
+        result = 0x1081 * result ^ ptr[i];
+    return result;
+}
+
+
+
 // ============================================================================
 //
 //   Save the current settings to a renderer

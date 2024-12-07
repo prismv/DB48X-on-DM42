@@ -102,7 +102,7 @@ user_interface::user_interface()
       xoffset(0),
       mode(STACK),
       last(0),
-      stackTop(16),
+      stackTop(32),
       stackBottom(LCD_H),
       cx(0),
       cy(0),
@@ -2249,10 +2249,10 @@ rect user_interface::draw_busy_background()
     if (freezeHeader || graphics)
         return false;
 
-    const font_p hdr_font   = Settings.header_font();
-    const size   h          = hdr_font->height() + 1;
-    pattern bg = Settings.HeaderBackground();
-    rect busy(busyLeft, 0, busyRight, h - 1);
+    const font_p hdr_font = Settings.header_font();
+    const size   h        = hdr_font->height() + 1;
+    pattern      bg       = Settings.HeaderBackground();
+    rect         busy(busyLeft, 0, busyRight, h - 1);
     Screen.fill(busy, bg);
     return busy;
 }
@@ -2928,7 +2928,7 @@ bool user_interface::draw_stack()
     uint bottom = Stack.draw_stack();
     if (object_p transient = transient_object())
         draw_object(transient, top, bottom);
-    draw_dirty(0, top, LCD_W-1, bottom);
+    draw_dirty(0, stackTop, LCD_W-1, stackBottom);
     draw_idle();
     dirtyStack = false;
     dirtyCommand = true;

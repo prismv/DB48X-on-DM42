@@ -61,9 +61,13 @@ struct program : list
 
     static uint          battery_voltage;
     static uint          power_voltage;
+    static ularge        run_cycles;
     static ularge        active_time;
     static ularge        sleeping_time;
-    static ularge        run_cycles;
+    static ularge        display_time;
+    static ularge        stack_display_time;
+    static ularge        refresh_time;
+
 
   public:
     OBJECT_DECL(program);

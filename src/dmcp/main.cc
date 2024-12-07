@@ -68,29 +68,32 @@ RECORDER(refresh,       16, "Refresh requests");
 
 
 static byte *lcd_buffer = nullptr;
-
-#ifndef SIMULATOR
-static uint lcd_rows = 0;
-#endif // SIMULATOR
-
+static uint  row_min    = ~0;
+static uint  row_max    = 0;
 
 void mark_dirty(uint row)
 // ----------------------------------------------------------------------------
 //   Mark a screen range as dirty
 // ----------------------------------------------------------------------------
 {
-#ifndef SIMULATOR
     if (row < LCD_H)
     {
-        if (!lcd_buffer[52 * row - 2])
+#ifndef SIMULATOR
+        if (Settings.DMCPDisplayRefresh())
+        {
+            bitblt24(0, 8, row, 0, BLT_XOR, BLT_NONE);
+        }
+        else if (!lcd_buffer[52 * row - 2])
         {
             lcd_buffer[52 * row - 2] = 1;
-            lcd_rows++;
+            lcd_buffer[52 * row] ^= 1;
+            if (row_min > row)
+                row_min = row;
+            if (row_max < row)
+                row_max = row;
         }
-    }
-#else // SIMULATOR
-    (void) row;
 #endif // SIMULATOR
+    }
 }
 
 
@@ -99,22 +102,32 @@ void refresh_dirty()
 //  Send an LCD refresh request for the area dirtied by drawing
 // ----------------------------------------------------------------------------
 {
+    uint start = sys_current_ms();
 #ifndef SIMULATOR
     if (ST(STAT_OFF))
         return;
-    for (uint row = 0; row < LCD_H; row++)
+    if (Settings.DMCPDisplayRefresh())
     {
-        if (lcd_buffer[52 * row - 2])
+        lcd_refresh();
+    }
+    else
+    {
+        for (uint row = 0; row < LCD_H; row++)
         {
-            lcd_buffer[52 * row - 2] = 0;
-            lcd_buffer[52 * row - 1] = LCD_H - row;
-            LCD_write_line(&lcd_buffer[52 * row - 2]);
-            lcd_rows--;
+            if (lcd_buffer[52 * row - 2])
+            {
+                lcd_buffer[52 * row - 1] = LCD_H - row;
+                LCD_write_line(&lcd_buffer[52 * row - 2]);
+                lcd_buffer[52 * row - 2] = 0;
+            }
         }
     }
 #else
     lcd_refresh();
 #endif
+    row_min = ~0;
+    row_max = 0;
+    program::refresh_time += sys_current_ms() - start;
 }
 
 
@@ -123,7 +136,7 @@ void redraw_lcd(bool force)
 //   Redraw the whole LCD
 // ----------------------------------------------------------------------------
 {
-    uint now     = sys_current_ms();
+    uint now = sys_current_ms();
 
     record(main, "Begin redraw at %u", now);
 
@@ -155,6 +168,8 @@ void redraw_lcd(bool force)
 
     // Refresh screen moving elements after the requested period
     sys_timer_start(TIMER1, period);
+
+    program::display_time += sys_current_ms() - now;
 }
 
 
@@ -191,6 +206,8 @@ static void redraw_periodics()
 
     // Refresh screen moving elements after 0.1s
     sys_timer_start(TIMER1, period);
+
+    program::display_time += sys_current_ms() - now;
 }
 
 

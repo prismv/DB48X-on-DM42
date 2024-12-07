@@ -932,6 +932,8 @@ FLAG(PushEvaluatedAssignment,   PushOriginalAssignment)
 FLAG(GCStatsClearAfterRead,     GCStatsKeepAfterRead)
 FLAG(RunStatsClearAfterRead,    RunStatsKeepAfterRead)
 FLAG(GCTemporariesCleanup,      AutomaticTemporariesCleanup)
+FLAG(SoftwareDisplayRefresh,    DMCPDisplayRefresh)
+
 
 ALIAS(HardwareFloatingPoint,    "HFP")
 ALIAS(HardwareFloatingPoint,    "HardFP")

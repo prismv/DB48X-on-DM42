@@ -2936,6 +2936,7 @@ bool user_interface::draw_stack()
     if ((!force && !dirtyStack) || freezeStack)
         return false;
     draw_busy();
+    uint now = sys_current_ms();
     uint top = stackTop + 1;
     uint bottom = Stack.draw_stack();
     if (object_p transient = transient_object())
@@ -2944,6 +2945,7 @@ bool user_interface::draw_stack()
     draw_idle();
     dirtyStack = false;
     dirtyCommand = true;
+    program::stack_display_time += sys_current_ms() - now;
     return true;
 }
 

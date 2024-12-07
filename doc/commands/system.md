@@ -322,3 +322,15 @@ This setting defines the refresh interval in milliseconds between checks or upda
 Note that explicitly calling `BatteryVoltage`, `USBPowered` or `LowBattery`
 causes the corresponding values to be immediatley refreshed, but does not
 necessarily cause the battery status on screen to update.
+
+
+## DMCPDisplayRefresh
+
+On hardware calculators, use the DMCP system background display refresh.
+This is the default setting, and presumably should use less energy.
+
+
+## SosftwareDisplayRefresh
+
+On hardware calculator, use the software display refresh.
+This should be used for debugging purpose only.

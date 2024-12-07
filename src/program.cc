@@ -457,9 +457,12 @@ COMMAND_BODY(Kill)
 //
 // ============================================================================
 
-ularge program::active_time   = 0;
-ularge program::sleeping_time = 0;
-ularge program::run_cycles    = 0;
+ularge program::run_cycles         = 0;
+ularge program::active_time        = 0;
+ularge program::sleeping_time      = 0;
+ularge program::display_time       = 0;
+ularge program::stack_display_time = 0;
+ularge program::refresh_time       = 0;
 
 COMMAND_BODY(RuntimeStatistics)
 // ----------------------------------------------------------------------------
@@ -473,6 +476,15 @@ COMMAND_BODY(RuntimeStatistics)
     tag_g sleeping =
         tag::make("Sleeping",
                   unit::make(integer::make(program::sleeping_time), ms));
+    tag_g display =
+        tag::make("Display",
+                  unit::make(integer::make(program::display_time), ms));
+    tag_g stack =
+        tag::make("Stack",
+                  unit::make(integer::make(program::stack_display_time), ms));
+    tag_g refresh =
+        tag::make("Refresh",
+                  unit::make(integer::make(program::refresh_time), ms));
     tag_g runcycles = tag::make("Runs", integer::make(program::run_cycles));
 
     if (running && sleeping && runcycles)
@@ -480,6 +492,9 @@ COMMAND_BODY(RuntimeStatistics)
         scribble scr;
         if (rt.append(running)   &&
             rt.append(sleeping)  &&
+            rt.append(display)   &&
+            rt.append(stack)     &&
+            rt.append(refresh)   &&
             rt.append(runcycles))
         {
             size_t sz = scr.growth();
@@ -490,9 +505,12 @@ COMMAND_BODY(RuntimeStatistics)
                 {
                     if (Settings.RunStatsClearAfterRead())
                     {
-                        program::active_time   = 0;
-                        program::sleeping_time = 0;
-                        program::run_cycles    = 0;
+                        program::active_time        = 0;
+                        program::sleeping_time      = 0;
+                        program::display_time       = 0;
+                        program::stack_display_time = 0;
+                        program::refresh_time       = 0;
+                        program::run_cycles         = 0;
                     }
                     return OK;
                 }

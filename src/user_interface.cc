@@ -1823,7 +1823,6 @@ bool user_interface::draw_header()
     {
         dt_t dt;
         tm_t tm;
-        rtc_wakeup_delay();
         rtc_read(&tm, &dt);
 
         if (Settings.ShowDate())

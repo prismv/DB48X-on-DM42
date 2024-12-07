@@ -338,8 +338,9 @@ struct runtime
 
     object_p cached(bool level0, object_p key);
     bool     cache(bool level0, object_p key, object_p value);
-    void     uncache(object_p key);
-    void     uncache();
+    void     uncache(object_p key, size_t sz);
+    void     uncache(object_p key)      { uncache(key, 1); }
+    void     uncache()                  { uncache(nullptr, ~0UL); }
 
 
     // ========================================================================

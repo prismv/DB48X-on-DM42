@@ -1091,6 +1091,8 @@ SETTING(GraphingTimeLimit,      uint(0),    uint(300000),  uint(2500))
 SETTING(ShowTimeLimit,          uint(0),    uint(300000),  uint(10000))
 SETTING(ResultGraphingTimeLimit,uint(0),    uint(300000),  uint(1500))
 SETTING(StackGraphingTimeLimit, uint(0),    uint(300000),  uint(250))
+SETTING(TextRenderingSizeLimit, uint(32),   uint(0x10000), uint(256))
+SETTING(GraphRenderingSizeLimit,uint(32),   uint(0x10000), uint(256))
 
 SETTING_ENUM(DateSlash,         nullptr,        DateSeparatorCommand)
 SETTING_ENUM(DateDash,          nullptr,        DateSeparatorCommand)

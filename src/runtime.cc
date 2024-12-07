@@ -53,7 +53,7 @@ RECORDER(errors,        16, "Runtime errors)");
 RECORDER(gc,           256, "Garbage collection events");
 RECORDER(gc_errors,     16, "Garbage collection errors");
 RECORDER(gc_details,   256, "Details about garbage collection (noisy)");
-
+RECORDER(cache,        256, "Cached values for the stack");
 
 
 // ============================================================================
@@ -371,8 +371,13 @@ object_p runtime::cached(bool level0, object_p key)
     {
         uint j = (CacheIndex - i) % max;
         if (Cache[level0][j] == key)
+        {
+            record(cache, "Got %p for %p at %u.%u",
+                   Cache[level0][j+1], key, level0, j);
             return Cache[level0][j+1];
+        }
     }
+    record(cache, "Did not find %p", key);
     return nullptr;
 }
 
@@ -388,37 +393,37 @@ bool runtime::cache(bool level0, object_p key, object_p value)
         uint j = (CacheIndex - i) % max;
         if (Cache[level0][j] == key)
         {
+            record(cache, "Replace %p with %p for %p at %u.%u",
+                   Cache[level0][j+1], value, key, level0, j);
             Cache[level0][j+1] = value;
             return true;
         }
     }
     CacheIndex = (CacheIndex + 2) % max;
+    record(cache, "Set  %p for %p at %u.%u, erasing %p",
+           value, key, level0, CacheIndex, Cache[level0][CacheIndex+1]);
     Cache[level0][CacheIndex] = key;
     Cache[level0][CacheIndex + 1] = value;
     return false;
 }
 
 
-void runtime::uncache(object_p key)
-// ----------------------------------------------------------------------------
-//   Purge an object from cache when it became invalid
-// ----------------------------------------------------------------------------
-{
-    cache(false, key, nullptr);
-    cache(true,  key, nullptr);
-}
-
-
-void runtime::uncache()
+void runtime::uncache(object_p start, size_t sz)
 // ----------------------------------------------------------------------------
 //   Drop the whole cache
-// ----------------------------------------------------------------------------
+// ------------------]----------------------------------------------------------
 {
+    object_p end = start + sz;
+    record(cache, "Clear cache %p-%p sz %u", start, end, sz);
     for (uint l = 0; l < 2; l++)
     {
         const uint max = sizeof(Cache[0]) / sizeof(Cache[0][0]);
         for (uint i = 0; i < max; i++)
-            Cache[l][i] = nullptr;
+        {
+            object_p &ptr = Cache[l][i];
+            if (ptr >= start && ptr < end)
+                ptr = nullptr;
+        }
     }
 }
 
@@ -601,6 +606,8 @@ void runtime::move(object_p to, object_p from,
     {
         if (p->safe >= (byte *) from && p->safe < (byte *) last)
         {
+            if ((long(p->safe) & 0xffffff) == 0x23ffa)
+                record(gc_details, "Badaboom");
             record(gc_details, "Adjusting GC-safe %p from %p to %p",
                    p, p->safe, p->safe + delta);
             p->safe += delta;
@@ -663,8 +670,6 @@ void runtime::move_globals(object_p to, object_p from)
 // ----------------------------------------------------------------------------
 //    In that case, we need to move everything up to the scratchpad
 {
-    uncache(from);
-
     // We overscan by 1 to deal with gcp that point to end of objects
     object_p last = (object_p) scratchpad() + allocated();
     object_p first = to < from ? to : from;
@@ -676,6 +681,9 @@ void runtime::move_globals(object_p to, object_p from)
     if (Globals >= first && Globals < last)             // Storing global var
         Globals += delta;
     Temporaries += delta;
+
+    // Remove all cached entries, they may be covered by what we moved
+    uncache(from, moving);
 }
 
 #ifdef DM42
@@ -2025,7 +2033,7 @@ cleaner::cleaner()
 {}
 
 
-RECORDER(cleaner, 32, "Runtime temporary object cleaner");
+RECORDER(cleaner, 256, "Runtime temporary object cleaner");
 
 object_p cleaner::adjust(object_p temp)
 // ----------------------------------------------------------------------------

@@ -146,7 +146,7 @@ uint stack::draw_stack()
 
     // Invalidate cache if settings changed
     static uint settingsHash = 0;
-    uint hash = Settings.hash();
+    uint hash = Settings.hash() ^ (interactive ? 0x4242 : 0) ;
     if (hash != settingsHash)
     {
         rt.uncache();
@@ -169,7 +169,8 @@ uint stack::draw_stack()
                 if (grob_p gr = cached->as<grob>())
                     graph = gr;
 
-            if (graph && graph->height() > size(bottom - top))
+            if (graph && !obj->is_graph() &&
+                graph->height() > size(bottom - top))
                 graph = nullptr;
 
             if (!graph && !cached)
@@ -249,6 +250,7 @@ uint stack::draw_stack()
                 renderer r(nullptr, ~0U, true, ml);
                 len = obj->render(r);
                 out = r.text();
+                gcutf8 saveOut = out;
                 rendered = text::make(out, len);
                 if (rendered)
                 {
@@ -256,6 +258,7 @@ uint stack::draw_stack()
                     if (rml == sml)
                         rt.cache(level != 0, +obj, +rendered);
                 }
+                out = saveOut;
             }
 
 #ifdef SIMULATOR

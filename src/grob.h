@@ -271,6 +271,7 @@ struct grapher
         : maxw(w),
           maxh(h),
           start(sys_current_ms()),
+          duration(Settings.GraphingTimeLimit()),
           voffset(0),
           font(f),
           foreground(fg),
@@ -284,15 +285,14 @@ struct grapher
 
     grob_p grob(size w, size h)
     {
-        if (w <= maxw && h <= maxh &&
-            sys_current_ms() - start <= Settings.GraphingTimeLimit())
+        if (w <= maxw && h <= maxh && sys_current_ms() - start <= duration)
             return grob::make(w, h);
         return nullptr;
     }
 
     bool reduce_font()
     {
-        if (sys_current_ms() - start > Settings.GraphingTimeLimit())
+        if (sys_current_ms() - start > duration)
             return false;
         font_id next = settings::smaller_font(font);
         if (next == font)
@@ -304,6 +304,7 @@ struct grapher
     size          maxw;
     size          maxh;
     uint          start;
+    uint          duration;
     coord         voffset;
     font_id       font;
     grob::pattern foreground;

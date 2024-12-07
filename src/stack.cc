@@ -145,6 +145,8 @@ uint stack::draw_stack()
                       grob::pattern::black,
                       grob::pattern::white,
                       true);
+            g.duration = !level ? Settings.ResultGraphingTimeLimit()
+                                : Settings.StackGraphingTimeLimit();
             do
             {
                 graph = obj->graph(g);

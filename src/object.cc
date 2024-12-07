@@ -1194,6 +1194,8 @@ grob_p object::graph(bool showing) const
     bool    astext = false;
     grapher g(width, height, settings::EDITOR,
               Settings.Foreground(), Settings.Background(), !showing);
+    if (showing)
+        g.duration = Settings.ShowTimeLimit();
     while (!graph)
     {
         if (astext)

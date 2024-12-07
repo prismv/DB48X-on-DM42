@@ -1241,7 +1241,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Modern Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 37 vars 55 eqns 6 sims in 6 sections
+    //T#: 43 vars 56 eqns 7 sims in 6 sections
     "Planck & Wien Comparison",  "{ "
     // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
@@ -1323,7 +1323,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#:* 46 var 41 eqns 6 sims
+    //T#:* 51 var 47 eqns 13 sims
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(Thl_s)=ln(2)/(λ_s^-1)' "
@@ -1383,10 +1383,20 @@ static const cstring basic_equations[] =
     "'A=N+Z' "
     "'(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
     "'(Q_MeV)=(Δm_u)*Ⓒc^2' "
-    "'(ΔKtot_MeV)=(Qβ⊕_MeV)' "
+    "'(ΔKtot_MeV)=(Q_MeV)' "
     "'(Aa)+(AX)=(AY)+(Ab)' "
     "'(Za)+(ZX)=(ZY)+(Zb)' "
     "}",
+
+    "Fission Reaction",  "{ "
+    "'A=N+Z' "
+    "'(Δm_u)=(Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-nn*Ⓒmn)' "
+    "'(Q_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(ΔKtot_MeV)=(Q_MeV)' "
+    "'1+(AX)=(AY1)+(AY2)+nn' "
+    "'(ZX)=(ZY1)+(ZY2)' "
+    "}",
+
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
 };
 //   clang-format on

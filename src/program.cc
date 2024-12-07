@@ -278,17 +278,25 @@ bool program::low_battery()
 {
     uint now = sys_current_ms();
     if (now - last_power_check >= Settings.BatteryRefresh())
-    {
-        on_usb  = usb_powered();
-        battery_low = get_lowbat_state();
-        battery_voltage = get_vbat();
-        power_voltage = read_power_voltage();
-        last_power_check = now;
-    }
+        read_battery();
     uint vlow = Settings.MinimumBatteryVoltage();
-    return !on_usb &&
+    return !animated() &&
         (battery_low || battery_voltage < vlow || power_voltage < vlow);
 }
+
+
+void program::read_battery()
+// ----------------------------------------------------------------------------
+//   Read battery information
+// ----------------------------------------------------------------------------
+{
+    on_usb  = usb_powered();
+    battery_low = get_lowbat_state();
+    battery_voltage = get_vbat();
+    power_voltage = read_power_voltage();
+    last_power_check = sys_current_ms();
+}
+
 
 
 

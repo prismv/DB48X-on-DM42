@@ -126,9 +126,9 @@ struct user_interface
     uint        draw_refresh()          { return nextRefresh; }
     bool        draw_graphics(bool erase = false);
 
-    bool        draw_header();          // Left part of header
-    bool        draw_battery();         // Rightmost part of header
-    bool        draw_annunciators();    // Left of battery
+    bool        draw_header();                  // Left part of header
+    bool        draw_battery(bool now=false);   // Rightmost part of header
+    bool        draw_annunciators();            // Left of battery
     bool        draw_busy(unicode glyph, pattern col);
     rect        draw_busy_background();
     bool        draw_busy();
@@ -276,7 +276,18 @@ protected:
     coord    busyLeft;          // Left column for busy area in header
     coord    busyRight;         // Right column for busy area in header
     coord    batteryLeft;       // Left column for battery in header
+    uint     time;              // Time at which we began drawing
     uint     nextRefresh;       // Time for next refresh
+    int      lastShiftPlane;    // Last shift plane when drawing indicators
+    uint     menuAnimate;       // Menu items to animate
+    uint     menuDrawn;         // Last time the menu was drawn
+    uint     cursorDrawn;       // Last time the cursor was drawn
+    uint     customHeaderDrawn; // Last time the custom header was drawn
+    uint     batteryDrawn;      // Last time the battery
+    uint     day, month, year;  // Date shown in header
+    uint     dow;               // Day of week shown in header
+    uint     hour, minute;      // Hour and minute shown
+    uint     second;            // Second shown in header
     object_g editing;           // Object being edited if any
     uint     editingLevel;      // Stack level being edited
     uint     cmdIndex;          // Command index for next command to save
@@ -313,6 +324,7 @@ protected:
     bool     freezeStack  : 1;  // Freeze the stack area
     bool     freezeMenu   : 1;  // Freeze the menu area
     bool     doubleRelease: 1;  // Double release
+    bool     batteryLow   : 1;  // Battery low indicator is shown
 
 protected:
     // Key mappings

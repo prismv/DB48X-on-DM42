@@ -185,7 +185,7 @@ static void redraw_periodics()
     ui.draw_start(false);
     ui.draw_header();
     ui.draw_battery();
-    if (program::on_usb)
+    if (program::animated())
     {
         ui.draw_cursor(false, ui.cursor_position());
         ui.draw_menus();
@@ -194,12 +194,19 @@ static void redraw_periodics()
 
     // Slow things down if inactive for long enough
     uint period = ui.draw_refresh();
-    if (dawdle_time > 180000)      // If inactive for 3 minutes
-        period = 60000;                 // Only upate screen every minute
-    else if (dawdle_time > 60000)       // If inactive for 1 minute
-        period = 10000;                 // Onlyi update screen every 10s
-    else if (dawdle_time > 10000)       // If inactive for 10 seconds
-        period = 3000;                  // Only upate screen every 3 second
+    if (!program::animated())
+    {
+        // Adjust refresh time based on time since last interaction
+        // After 10s, update at most every 3s
+        // After 1 minute, update at most every 10s
+        // After 3 minutes, update at most once per minute
+        if (dawdle_time > 180000 && period < 60000)
+            period = 60000;
+        else if (dawdle_time > 60000 && period < 10000)
+            period = 10000;
+        else if (dawdle_time > 10000 && period < 3000)
+            period = 3000;
+    }
 
     uint then = sys_current_ms();
     record(main, "Dawdling for %u at %u after %u", period, then, then-now);
@@ -339,7 +346,6 @@ void power_check(bool running)
             if (!ST(STAT_SUSPENDED))
             {
                 bool lowbat = !program::on_usb && program::low_battery();
-
                 if (lowbat)
                     ui.draw_message("Switched off due to low power",
                                     "Connect to USB to avoid losing memory",
@@ -369,11 +375,7 @@ void power_check(bool running)
         else if (ST(STAT_POWER_CHANGE))
         {
             CLR_ST(STAT_POWER_CHANGE);
-            program::on_usb = usb_powered();
-            program::battery_voltage = get_vbat();
-            program::power_voltage = read_power_voltage();
-            ui.draw_start(true);
-            ui.draw_battery();
+            ui.draw_battery(true);
             refresh_dirty();
         }
         else

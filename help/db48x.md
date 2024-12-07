@@ -12502,7 +12502,7 @@ On hardware calculators, use the DMCP system background display refresh.
 This is the default setting, and presumably should use less energy.
 
 
-## SosftwareDisplayRefresh
+## SoftwareDisplayRefresh
 
 On hardware calculator, use the software display refresh.
 This should be used for debugging purpose only.

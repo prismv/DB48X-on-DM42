@@ -102,7 +102,7 @@ user_interface::user_interface()
       xoffset(0),
       mode(STACK),
       last(0),
-      stackTop(0),
+      stackTop(16),
       stackBottom(LCD_H),
       cx(0),
       cy(0),
@@ -116,6 +116,14 @@ user_interface::user_interface()
       menuHeight(),
       busy(0),
       nextRefresh(~0U),
+      lastShiftPlane(0),
+      menuAnimate(0),
+      menuDrawn(0),
+      cursorDrawn(0),
+      customHeaderDrawn(0),
+      batteryDrawn(0),
+      day(0), month(0), year(0), dow(0),
+      hour(0), minute(0), second(0),
       editing(),
       editingLevel(0),
       cmdIndex(0),
@@ -146,6 +154,7 @@ user_interface::user_interface()
       adjustSeps(false),
       graphics(false),
       doubleRelease(false),
+      batteryLow(false),
       keymap(),
       helpfile()
 {
@@ -1456,6 +1465,7 @@ void user_interface::draw_start(bool forceRedraw, uint refresh)
 {
     force = forceRedraw;
     nextRefresh = refresh;
+    time = sys_current_ms();
     if (forceRedraw)
         graphics = false;
 }
@@ -1476,20 +1486,20 @@ void user_interface::draw_dirty(coord x1, coord y1, coord x2, coord y2)
 //   Indicates that a component dirtied a given area of the screen
 // ----------------------------------------------------------------------------
 {
-    if (x1 <= x2)
-    {
-        if (y1 < 0)
-            y1 = 0;
-        else if (y1 >= LCD_H)
-            y1 = LCD_H - 1;
-        if (y2 < 0)
-            y2 = 0;
-        else if (y2 >= LCD_H)
-            y2 = LCD_H-1;
+    (void) (x1 + x2);
+    if (y1 > y2)
+        std::swap(y1, y2);
+    if (y1 < 0)
+        y1 = 0;
+    else if (y1 >= LCD_H)
+        y1 = LCD_H - 1;
+    if (y2 < 0)
+        y2 = 0;
+    else if (y2 >= LCD_H)
+        y2 = LCD_H - 1;
 
-        for (coord y = y1; y <= y2; y++)
-            mark_dirty(y);
-    }
+    for (coord y = y1; y <= y2; y++)
+        mark_dirty(y);
 }
 
 
@@ -1527,44 +1537,33 @@ bool user_interface::draw_menus()
     if (freezeMenu)
         return false;
 
-    static int  lastp   = 0;
-    static uint lastt   = 0;
-    static uint animate = 0;
-    uint        time    = sys_current_ms();
-    int         shplane = shift_plane();
-    uint        period  = 200;
-
-    bool animating = animate && (time - lastt > period);
-    bool redraw = dirtyMenu || shplane != lastp || animating;
+    enum { SPEED = 256 };
+    int  shplane   = shift_plane();
+    uint period    = SPEED;
+    bool animating = menuAnimate && (time - menuDrawn > period);
+    bool redraw    = dirtyMenu || shplane != lastShiftPlane || animating;
     if (!force && !redraw)
         return false;
 
-    if (force || dirtyMenu || shplane != lastp)
+    if (force || dirtyMenu || shplane != lastShiftPlane)
     {
-        animate = 0;
+        menuAnimate = 0;
         animating = false;
     }
 
-    font_p font   = MenuFont;
-    bool   square = Settings.SquareMenus();
-    int    mh     = font->height() + 5 - square;
-    int    mw     = (LCD_W - 10) / 6;
-    int    sp     = (LCD_W - 5) - 6 * mw;
-    rect   clip   = Screen.clip();
-    bool   help   = showing_help();
-
-    if (period > time - last)
-        period = time - last;
-
-    static unsigned menuShift = 0;
-    menuShift++;
-
-    int  planes        = menu_planes();
-    id   menuStyle     = Settings.MenuAppearance();
-    bool single        = menuStyle == object::ID_SingleRowMenus;
-    bool flat          = menuStyle == object::ID_FlatMenus;
-    int  visiblePlanes = single ? 1 : planes;
-    uint newMenuHeight = visiblePlanes * mh;
+    font_p font          = MenuFont;
+    bool   square        = Settings.SquareMenus();
+    int    mh            = font->height() + 5 - square;
+    int    mw            = (LCD_W - 10) / 6;
+    int    sp            = (LCD_W - 5) - 6 * mw;
+    rect   clip          = Screen.clip();
+    bool   help          = showing_help();
+    int    planes        = menu_planes();
+    id     menuStyle     = Settings.MenuAppearance();
+    bool   single        = menuStyle == object::ID_SingleRowMenus;
+    bool   flat          = menuStyle == object::ID_FlatMenus;
+    int    visiblePlanes = single ? 1 : planes;
+    uint   newMenuHeight = visiblePlanes * mh;
     if (newMenuHeight != menuHeight)
     {
         menuHeight = newMenuHeight;
@@ -1634,7 +1633,7 @@ bool user_interface::draw_menus()
         for (int m = 0; m < NUM_SOFTKEYS; m++)
         {
             uint animask = (1<<(m + plane * NUM_SOFTKEYS));
-            if (animating && (~animate & animask))
+            if (animating && (~menuAnimate & animask))
                 continue;
 
             coord x = (2 * m + 1) * mw / 2 + (m * sp) / 5 + 2;
@@ -1747,8 +1746,8 @@ bool user_interface::draw_menus()
                     tw += font->width(utf8("⁻¹"));
                 if (tw + 2 >= mcw)
                 {
-                    animate |= animask;
-                    x = mrect.x1 - menuShift % (tw - mcw + 5);
+                    menuAnimate |= animask;
+                    x = mrect.x1 - time / SPEED % (tw - mcw + 5);
                 }
                 else
                 {
@@ -1790,13 +1789,13 @@ bool user_interface::draw_menus()
         Screen.fill(0, my, LCD_W-1, my, sel);
     }
 
-    if (animate && program::on_usb)
+    if (menuAnimate && program::animated())
         draw_refresh(period);
     if (!animating)
         draw_dirty(0, LCD_H - 1 - menuHeight, LCD_W, LCD_H-1);
 
-    lastp = shplane;
-    lastt = time;
+    lastShiftPlane = shplane;
+    menuDrawn = time;
     dirtyMenu = false;
 
     return true;
@@ -1814,11 +1813,7 @@ bool user_interface::draw_header()
     if (freezeHeader || graphics)
         return false;
 
-    static uint day = 0, month = 0, year = 0;
-    static uint hour = 0, minute = 0, second = 0;
-    static uint dow = 0;
     bool changed = force;
-
     if (!day || Settings.ShowDate() || Settings.ShowTime())
     {
         dt_t dt;
@@ -1857,21 +1852,18 @@ bool user_interface::draw_header()
     {
         if (object_p cst = directory::recall_all(cstname, false))
         {
-            pgm = cst->as_program();
-
-            static uint lastt     = 0;
-            uint        time      = sys_current_ms();
             uint        period    = Settings.CustomHeaderRefresh();
             uint        remaining = period;
+            pgm = cst->as_program();
             record(user_interface,
                    "Header %s%s last=%u time=%u d=%u period=%u\n",
                    force ? "force " : "",
                    changed ? "redraw" : "keep",
-                   lastt, time, time - lastt, period);
-            changed = !rt.editing() && time - lastt > period;
+                   customHeaderDrawn, time, time - customHeaderDrawn, period);
+            changed = !rt.editing() && time - customHeaderDrawn > period;
             if (changed)
-                lastt = time;
-            if (program::on_usb && time - last < remaining)
+                customHeaderDrawn = time;
+            if (time - last < remaining)
                 remaining -= time - last;
             draw_refresh(remaining);
         }
@@ -1901,7 +1893,7 @@ bool user_interface::draw_header()
             if (eval)
             {
                 auto    fid = Settings.HeaderFont();
-                grapher g(LCD_W, LCD_H / 2, fid,
+                grapher g(LCD_W, LCD_H / 3, fid,
                           grob::pattern::black, grob::pattern::white,
                           true, true, true);
                 if (grob_p gr = eval->graph(g))
@@ -2007,7 +1999,7 @@ static const uint ann_width   = 15;
 static const uint ann_height  = 12;
 static const uint alpha_width = 30;
 
-bool user_interface::draw_battery()
+bool user_interface::draw_battery(bool now)
 // ----------------------------------------------------------------------------
 //    Draw the battery information
 // ----------------------------------------------------------------------------
@@ -2015,29 +2007,25 @@ bool user_interface::draw_battery()
     if (freezeHeader || graphics)
         return false;
 
-    static uint last       = 0;
-    uint        time       = sys_current_ms();
-
     font_p      hdr_font   = Settings.header_font();
     size        h          = hdr_font->height() + 1;
     coord       ann_y      = (h - ann_height) / 2;
 
     // Print battery voltage
-    static bool low = false;
-
     uint        vdd        = program::power_voltage;
     bool        usb        = program::on_usb;
-    uint        delay      = time - last;
+    uint        delay      = time - batteryDrawn;
     uint        refresh    = Settings.BatteryRefresh();
-    if (delay > refresh)
+    if (now || delay > refresh)
     {
-        low = program::low_battery();
+        program::read_battery();
+        batteryLow = program::low_battery();
         vdd = program::power_voltage;
         usb = program::on_usb;
     }
-    else if (!force && !low)
+    else if (!force && !batteryLow)
     {
-        if (usb)
+        if (program::animated())
             refresh -= delay;
         draw_refresh(refresh);
         return false;
@@ -2059,9 +2047,9 @@ bool user_interface::draw_battery()
     bool       blink = false;
     if (vdd <= vlow)
     {
-        low = true;
-        draw_refresh(500);
-        blink = (time / 500) & 1;
+        batteryLow = true;
+        draw_refresh((-time) & 511);
+        blink = (time / 512) & 1;
     }
 
     if (Settings.ShowVoltage())
@@ -2130,7 +2118,7 @@ bool user_interface::draw_battery()
     batteryLeft = x;
     draw_dirty(x, 0, LCD_W-1, h-1);
     draw_refresh(refresh);
-    last = time;
+    batteryDrawn = time;
 
     // Power off if battery power is really low
     if (program::low_battery())
@@ -2293,8 +2281,9 @@ bool user_interface::draw_busy(unicode glyph, pattern color)
         font_p hdr_font = Settings.header_font();
         rect   clip        = Screen.clip();
         Screen.clip(busy);
+        time = sys_current_ms();
         size  w = hdr_font->width('M');
-        coord x = busy.x1 + sys_current_ms() / 16 % (busy.width() - w);
+        coord x = busy.x1 + time / 16 % (busy.width() - w);
         coord y = busy.y1;
         Screen.glyph(x, y, glyph, hdr_font, color);
         Screen.clip(clip);
@@ -2626,19 +2615,17 @@ bool user_interface::draw_cursor(int show, uint ncursor)
     if (!rt.editing() || showing_help() || freezeStack)
         return false;
 
-    static uint lastT = 0;
-    uint time = sys_current_ms();
     const uint period = Settings.CursorBlinkRate();
 
-    if (!force && !show && time - lastT < period)
+    if (!force && !show && time - cursorDrawn < period)
     {
-        draw_refresh(lastT + period - time);
+        draw_refresh(cursorDrawn + period - time);
         return false;
     }
-    lastT = time;
+    cursorDrawn = time;
     if (show)
         blink = show > 0;
-    else if (!program::on_usb)
+    else if (!program::animated())
         blink = true;
 
     // Select editor font
@@ -2722,7 +2709,7 @@ bool user_interface::draw_cursor(int show, uint ncursor)
     }
 
     Screen.clip(clip);
-    if (program::on_usb)
+    if (program::animated())
     {
         blink = !blink;
         draw_refresh(period);
@@ -2941,7 +2928,7 @@ bool user_interface::draw_stack()
     uint bottom = Stack.draw_stack();
     if (object_p transient = transient_object())
         draw_object(transient, top, bottom);
-    draw_dirty(0, top, stackBottom, LCD_H-1);
+    draw_dirty(0, top, LCD_W-1, bottom);
     draw_idle();
     dirtyStack = false;
     dirtyCommand = true;

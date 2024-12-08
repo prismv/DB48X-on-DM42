@@ -10935,7 +10935,7 @@ void tests::graphic_commands()
         .image("cllcd");
 
     step("Draw graphic objects")
-        .test(CLEAR,
+        .test(CLEAR, DIRECT(
               "13 LineWidth { 0 0 } 5 Circle 1 LineWidth "
               "GROB 9 15 "
               "E300140015001C001400E3008000C110AA00940090004100220014102800 "
@@ -10949,7 +10949,7 @@ void tests::graphic_commands()
               "PICT OVER "
               "4.12 ⅈ * i * exp 4.22 0.08 i * + * Swap "
               "GOr "
-              "next",
+              "next"),
               ENTER)
         .noerror()
         .image("walkman")
@@ -10957,8 +10957,8 @@ void tests::graphic_commands()
 
     step("Displaying text, compatibility mode");
     test(CLEAR,
-         "\"Hello World\" 1 DISP "
-         "\"Compatibility mode\" 2 DISP",
+         DIRECT("\"Hello World\" 1 DISP "
+                "\"Compatibility mode\" 2 DISP"),
          ENTER)
         .noerror()
         .image("text-compat")
@@ -10966,8 +10966,8 @@ void tests::graphic_commands()
 
     step("Displaying text, fractional row");
     test(CLEAR,
-         "\"Gutentag\" 1.5 DrawText "
-         "\"Fractional row\" 3.8 DrawText",
+         DIRECT("\"Gutentag\" 1.5 DrawText "
+                "\"Fractional row\" 3.8 DrawText"),
          ENTER)
         .noerror()
         .image("text-frac")
@@ -10975,42 +10975,44 @@ void tests::graphic_commands()
 
     step("Displaying text, pixel row");
     test(CLEAR,
-         "\"Bonjour tout le monde\" #5d DISP "
-         "\"Pixel row mode\" #125d DISP",
+         DIRECT("\"Bonjour tout le monde\" #5d DISP "
+                "\"Pixel row mode\" #125d DISP"),
          ENTER)
         .noerror()
         .image("text-pixrow")
         .test(ENTER);
 
     step("Displaying text, x-y coordinates");
-    test(CLEAR, "\"Hello\" { 0 0 } DISP ", ENTER)
+    test(CLEAR, DIRECT("\"Hello\" { 0 0 } DISP "), ENTER)
         .noerror()
         .image("text-xy")
         .test(ENTER);
 
     step("Displaying text, x-y pixel coordinates");
-    test(CLEAR, "\"Hello\" { #20d #20d } DISP ", ENTER)
+    test(CLEAR, DIRECT("\"Hello\" { #20d #20d } DISP"), ENTER)
         .noerror()
         .image("text-pixxy")
         .test(ENTER);
 
     step("Displaying text, font ID");
-    test(CLEAR, "\"Hello\" { 0 1 2 } DISP \"World\" { 0 -1 3 } DISP ", ENTER)
+    test(CLEAR,
+         DIRECT("\"Hello\" { 0 1 2 } DISP \"World\" { 0 -1 3 } DISP"),
+         ENTER)
         .noerror()
         .image("text-font")
         .test(ENTER);
 
     step("Displaying text, erase and invert");
-    test(CLEAR, "\"Inverted\" { 0 0 3 true true } DISP", ENTER)
+    test(CLEAR, DIRECT("\"Inverted\" { 0 0 3 true true } DISP"), ENTER)
         .noerror()
         .image("text-invert")
         .test(ENTER);
 
     step("Displaying text, background and foreground");
     test(CLEAR,
-         "1 Gray Background cllcd "
-         "0.25 Gray Foreground 0.75 Gray Background "
-         "\"Grayed\" { 0 0 } Disp",
+         DIRECT("1 Gray Background cllcd "
+                "0.25 Gray Foreground 0.75 Gray Background "
+                "\"Grayed\" { 0 0 } Disp"),
          ENTER)
         .noerror()
         .image("text-gray")
@@ -11018,8 +11020,8 @@ void tests::graphic_commands()
 
     step("Displaying text, restore background and foreground");
     test(CLEAR,
-         "0 Gray Foreground 1 Gray Background "
-         "\"Grayed\" { 0 0 } Disp",
+         DIRECT("0 Gray Foreground 1 Gray Background "
+                "\"Grayed\" { 0 0 } Disp"),
          ENTER)
         .noerror()
         .image("text-normal")
@@ -11030,30 +11032,31 @@ void tests::graphic_commands()
 
     step("Displaying styled text");
     test(CLEAR,
-         "0 10 for i"
-         "  \"Hello\" { }"
-         "  i 135 * 321 mod 25 + R→B +"
-         "  i  51 * 200 mod  3 + R→B +"
-         "  i DISPXY "
-         "next",
+         DIRECT("0 10 for i"
+                "  \"Hello\" { }"
+                "  i 135 * 321 mod 25 + R→B +"
+                "  i  51 * 200 mod  3 + R→B +"
+                "  i DISPXY "
+                "next"),
          ENTER)
         .noerror()
         .image("text-dispxy");
 
     step("Lines");
-    test(CLEAR, "3 50 for i ⅈ i * exp i 2 + ⅈ * exp 5 * Line next", ENTER)
+    test(CLEAR,
+         DIRECT("3 50 for i ⅈ i * exp i 2 + ⅈ * exp 5 * Line next"), ENTER)
         .noerror()
         .image("lines")
         .test(ENTER);
 
     step("Line width");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "1 11 for i "
          "{ #000 } #0 i 20 * + + "
          "{ #400 } #0 i 20 * + + "
          "i LineWidth Line "
          "next "
-         "1 LineWidth",
+         "1 LineWidth"),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11061,14 +11064,14 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Line width, grayed");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "1 11 for i "
          "{ #000 } #0 i 20 * + + "
          "{ #400 } #0 i 20 * + + "
          "i 12 / gray foreground "
          "i LineWidth Line "
          "next "
-         "1 LineWidth 0 Gray Foreground",
+         "1 LineWidth 0 Gray Foreground"),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11076,11 +11079,11 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Circles");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "1 11 for i "
          "{ 0 0 } i Circle "
          "{ 0 1 } i 0.25 * Circle "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11089,9 +11092,9 @@ void tests::graphic_commands()
 
     step("Circles, complex coordinates");
     test(CLEAR,
-         "2 150 for i "
-         "ⅈ i 0.12 * * exp 0.75 0.05 i * + * 0.4 0.003 i * +  Circle "
-         "next ",
+         DIRECT("2 150 for i "
+                "ⅈ i 0.12 * * exp 0.75 0.05 i * + * 0.4 0.003 i * + Circle "
+                "next"),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11099,12 +11102,12 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Circles, fill and patterns");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 LineWidth "
          "2 150 for i "
          "i 0.0053 * gray Foreground "
          "ⅈ i 0.12 * * exp 0.75 0.05 i * + * 0.1 0.008 i * +  Circle "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11112,13 +11115,13 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Ellipses");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 gray foreground 1 LineWidth "
          "2 150 for i "
          "i 0.12 * ⅈ * exp 0.05 i * 0.75 + * "
          "i 0.17 * ⅈ * exp 0.05 i * 0.75 + * "
          " Ellipse "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11126,14 +11129,14 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Ellipses, fill and patterns");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 LineWidth "
          "2 150 for i "
          "i 0.0047 * gray Foreground "
          "0.23 ⅈ * exp 5.75 0.01 i * - * "
          "1.27 ⅈ * exp 5.45 0.01 i * - * neg "
          " Ellipse "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11141,13 +11144,13 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Rectangles");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 gray foreground 1 LineWidth "
          "2 150 for i "
          "i 0.12 * ⅈ * exp 0.05 i * 0.75 + * "
          "i 0.17 * ⅈ * exp 0.05 i * 0.75 + * "
          " Rect "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11155,14 +11158,14 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Rectangles, fill and patterns");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 LineWidth "
          "2 150 for i "
          "i 0.0047 * gray Foreground "
          "0.23 ⅈ * exp 5.75 0.01 i * - * "
          "1.27 ⅈ * exp 5.45 0.01 i * - * neg "
          " Rect "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11170,13 +11173,13 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Rounded rectangles");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 gray foreground 1 LineWidth "
          "2 150 for i "
          "i 0.12 * ⅈ * exp 0.05 i * 0.75 + * "
          "i 0.17 * ⅈ * exp 0.05 i * 0.75 + * "
          "0.8 RRect "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11184,14 +11187,14 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Rounded rectangles, fill and patterns");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 LineWidth "
          "2 150 for i "
          "i 0.0047 * gray Foreground "
          "0.23 ⅈ * exp 5.75 0.01 i * - * "
          "1.27 ⅈ * exp 5.45 0.01 i * - * neg "
          "0.8 RRect "
-         "next ",
+         "next "),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11199,13 +11202,13 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Clipping");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "0 LineWidth CLLCD { 120 135 353 175 } Clip "
          "2 150 for i "
          "i 0.0053 * gray Foreground "
          "ⅈ i 0.12 * * exp 0.75 0.05 i * + * 0.1 0.008 i * +  Circle "
          "next "
-         "{} Clip",
+         "{} Clip"),
          LENGTHY(5000),
          ENTER)
         .noerror()
@@ -11213,34 +11216,34 @@ void tests::graphic_commands()
         .test(ENTER);
 
     step("Cleanup");
-    test(CLEAR,
+    test(CLEAR, DIRECT(
          "1 LineWidth 0 Gray Foreground 1 Gray Background "
-         "{ -1 -1 } { 3 2 } rect",
+         "{ -1 -1 } { 3 2 } rect"),
          ENTER)
         .noerror()
         .image("cleanup");
 
     step("PixOn")
-        .test(CLEAR,
+        .test(CLEAR, DIRECT(
               "0 "
               "0 5000 for i"
               " 0.005 i * i 1.5 * R→P pixon "
               " 0.005 i * i 1.5 * R→P pix? 1 - neg + "
-              "next",
+              "next"),
               LENGTHY(5000),
               ENTER)
         .image("pixon")
         .test(ENTER)
         .expect("5 001");
     step("PixOff")
-        .test(CLEAR,
+        .test(CLEAR, DIRECT(
               "0 LINEWIDTH { #0 #0 } { 10#400 10#240 } rect 3 LINEWIDTH "
               "0 "
               "0 5000 for i"
               " 0.002 i * i 1.5 * R→P pixoff "
               " 0.002 i * i 1.5 * R→P pixelcolor + + + "
               "next "
-              "1 LINEWIDTH",
+              "1 LINEWIDTH"),
               LENGTHY(5000),
               ENTER)
         .image("pixoff")
@@ -11248,7 +11251,7 @@ void tests::graphic_commands()
         .expect("12 429");
 
     step("PixTest")
-        .test(CLEAR,
+        .test(CLEAR, DIRECT(
               "CLLCD "
               "0 399 for i "
               "{ } 10#0 i + + 10#100 + "
@@ -11258,7 +11261,7 @@ void tests::graphic_commands()
               "0 399 for i "
               "{ } 10#0 i + + 10#100 + "
               "pix? i 997.42 * sin 0 > 0 1 IFTE - 1 + +  "
-              "next",
+              "next"),
               LENGTHY(5000),
               ENTER)
         .image("pixtest")
@@ -11266,7 +11269,8 @@ void tests::graphic_commands()
         .expect("400");
 
     step("Convert to graph")
-        .test(CLEAR, "'X+Y' cbrt inv 1 + sqrt dup 1 + 2 * /", ENTER, EXIT)
+        .test(CLEAR, DIRECT("'X+Y' cbrt inv 1 + sqrt dup 1 + 2 * /"),
+              ENTER, EXIT)
         .image_noheader("eq-xgraph")
         .test("0 →Grob", ENTER)
         .image_noheader("eq-graph")
@@ -11274,9 +11278,11 @@ void tests::graphic_commands()
         .image_noheader("eq-graph");
 
     step("Pattern in graph conversion")
-        .test(CLEAR, "0.85 GRAY FOREGROUND 0.15 GRAY BACKGROUND", ENTER)
+        .test(CLEAR, DIRECT("0.85 GRAY FOREGROUND 0.15 GRAY BACKGROUND"),
+              ENTER)
         .noerror()
-        .test(CLEAR, "'X+Y' cbrt inv 1 + sqrt dup 1 + 2 * /", ENTER, EXIT)
+        .test(CLEAR, DIRECT("'X+Y' cbrt inv 1 + sqrt dup 1 + 2 * /"),
+              ENTER, EXIT)
         .image_noheader("pat-eq-xgraph")
         .test("2 →Grob", ENTER)
         .image_noheader("pat-eq-graph")

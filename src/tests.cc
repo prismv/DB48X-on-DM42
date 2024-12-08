@@ -119,6 +119,7 @@ TESTS(text,             "Text operations");
 TESTS(vectors,          "Vectors");
 TESTS(matrices,         "Matrices");
 TESTS(solver,           "Solver");
+TESTS(cstlib,           "Built-in constants parsing");
 TESTS(equations,        "Built-in equations");
 TESTS(colnbeams,        "Columns and Beams equations in library");
 TESTS(integrate,        "Numerical integration");
@@ -179,7 +180,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            matrix_functions();
+            constants_parsing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -224,6 +225,7 @@ void tests::run(uint onlyCurrent)
         vector_functions();
         matrix_functions();
         solver_testing();
+        constants_parsing();
         eqnlib_parsing();
         eqnlib_columns_and_beams();
         numerical_integration_testing();
@@ -6241,6 +6243,36 @@ void tests::solver_testing()
 }
 
 
+void tests::constants_parsing()
+// ----------------------------------------------------------------------------
+//   Test that we can parse every single builtin constant
+// ----------------------------------------------------------------------------
+{
+    BEGIN(cstlib);
+
+    size_t nbuiltins = constant::constants.nbuiltins;
+    const cstring *cst = constant::constants.builtins;
+
+    for (size_t i = 0; i < nbuiltins; i += 2)
+    {
+        if (cst[i+1])
+        {
+            istep(cst[i]);
+            test(CLEAR, DIRECT(cst[i+1]), ENTER).noerror();
+        }
+        else
+        {
+            begin(cst[i], true);
+        }
+        if (!ok)
+        {
+            test(cst[i+1]);
+            break;
+        }
+    }
+}
+
+
 void tests::eqnlib_parsing()
 // ----------------------------------------------------------------------------
 //   Test that we can parse every single builtin equation
@@ -9503,7 +9535,6 @@ void tests::constants_menu()
         .test(CLEAR, NOSHIFT, F4).expect("I0")
         .test(LSHIFT, F4).expect("1.⁳⁻¹² W/m↑2");
 }
-
 
 
 void tests::character_menu()

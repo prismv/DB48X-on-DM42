@@ -1,3 +1,4 @@
+
 // ****************************************************************************
 //  menu.cc                                                       DB48X project
 // ****************************************************************************
@@ -1489,10 +1490,17 @@ MENU(UserInterfaceModesMenu,
      "Libs",                                    ID_ShowBuiltinLibrary,
      "Chars",                                   ID_ShowBuiltinCharacters,
 
+     ResultGraphingTimeLimit::label,            ID_ResultGraphingTimeLimit,
+     StackGraphingTimeLimit::label,             ID_StackGraphingTimeLimit,
+     GraphingTimeLimit::label,                  ID_GraphingTimeLimit,
+     ShowTimeLimit::label,                      ID_ShowTimeLimit,
+     CustomHeaderRefresh::label,                ID_CustomHeaderRefresh,
+
+     TextRenderingSizeLimit::label,             ID_TextRenderingSizeLimit,
+     GraphRenderingSizeLimit::label,            ID_GraphRenderingSizeLimit,
      MinimumBatteryVoltage::label,              ID_MinimumBatteryVoltage,
      "AllVars",                                 ID_AllEquationVariables,
-     CustomHeaderRefresh::label,                ID_CustomHeaderRefresh,
-     "SIPfx",                                   ID_UnitsSIPrefixCycle );
+     "SIPrefixCycle",                           ID_UnitsSIPrefixCycle );
 
 MENU(UserModeMenu,
 // ----------------------------------------------------------------------------

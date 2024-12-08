@@ -692,6 +692,18 @@ cstring setting::label(object::id ty)
         return printf("Busy %u", s.BusyIndicatorRefresh());
     case ID_MinimumBatteryVoltage:
         return printf("%u mV", s.MinimumBatteryVoltage());
+    case ID_GraphingTimeLimit:
+        return printf("Grph%ums", s.GraphingTimeLimit());
+    case ID_ShowTimeLimit:
+        return printf("Show%ums", s.ShowTimeLimit());
+    case ID_ResultGraphingTimeLimit:
+        return printf("Rslt%ums", s.ResultGraphingTimeLimit());
+    case ID_StackGraphingTimeLimit:
+        return printf("Stck%ums", s.StackGraphingTimeLimit());
+    case ID_TextRenderingSizeLimit:
+        return printf("Txt%uB", s.TextRenderingSizeLimit());
+    case ID_GraphRenderingSizeLimit:
+        return printf("Grph%uB", s.GraphRenderingSizeLimit());
     default:
         break;
     }

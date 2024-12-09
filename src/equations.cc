@@ -59,7 +59,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Columns and Beams", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 21 vars 14 eqns 10 sims
+    //T#*: 21 vars 14 eqns 10 sims 10 secs
     "Elastic Buckling",  "{ "
     "  '(Pcr_kN)=(Ⓒπ²*(E_kPa)*(A_cm^2))/sq((K*(L_m))/(r_cm))' "
     "  '(Pcr_kN)=(Ⓒπ²*(E_kPa)*(I_mm^4))/sq(K*(L_m))' "
@@ -110,7 +110,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Electricity", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 77 vars 67 eqns 33 sims
+    //T#*: 78 vars 67 eqns 32 sims 30 secs
 
     "Coulomb’s Law & E Field",  "{ "
     "  '(F_N)=1/(4*Ⓒπ*Ⓒε0*εr)*((q1_C)*(q2_C)/(r_m)^2)' "
@@ -280,7 +280,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Fluids", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 30 vars 30 eqns 4 sims in Fluids
+    //T#*: 30 vars 30 eqns 4 sims 4 secs in Fluids
     "Pressure at Depth",  "{ "
     "  '(P_kPa)=(P0_atm)+(ρ_(kg/m^3))*Ⓒg*(h_m)' "
     "}",
@@ -338,7 +338,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Forces And Energy", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 37 vars 34 eqs 8 sims
+    //T#*: 37 vars 34 eqs 8 sims 8 secs
 
     "Linear Mechanics",  "{ "
     "'(F_N)=(m_kg)*(a_(m/s^2))' "
@@ -403,7 +403,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Gases", nullptr,
     // ------------------------------------------------------------------------
-    //t#: 38 vars 21 eqns 8 sims
+    //t#*: 38 vars 21 eqns 8 sims 8 secs
     // Change all occurrences of gmol by mol
     // In eq (1) units of T should be K instead of °C
     "Ideal Gas",  "{ "
@@ -467,7 +467,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Heat Transfer", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 31 vars 17 eqns 6 sims
+    //T#*: 31 vars 17 eqns 6 sims 6 secs
     "Heat Capacity",  "{ "
     "'(Q_kJ)=(m_kg)*(c_(kJ/(kg*K)))*(UBASE(Tf_°C)-UBASE(Ti_°C))' "
     "'(ΔT_°C)=(Tf_°C)-(Ti_°C)' "
@@ -511,7 +511,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Magnetism", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 28 vars 14 eqns 13 sims
+    //T#*: 28 vars 14 eqns 13 sims 10 secs
     // WARNING both HP50G & HP50G_AUR.pdf used a variables rw absent from all
     // equations
     "Straight Wire Infinite",  "{ "
@@ -562,7 +562,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Motion", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 38 vars 34 eqns 10 sims
+    //T#: 38 vars 34 eqns 10 sims 7 secs
     "Linear Motion",  "{ "
     "'(x_m)=(x0_m)+(v0_(m/s))*(t_s)+1/2*(a_(m/s^2))*(t_s)^2' "
     "'(x_m)=(x0_m)+(v_(m/s))*(t_s)-1/2*(a_(m/s^2))*(t_s)^2' "
@@ -647,7 +647,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Optics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 40 vars 38 eqns 11 sims
+    //T#*: 40 vars 38 eqns 11 sims 11 secs
 
     "Refraction Law",  "{ "
     "'n1*SIN(θ1_°)=n2*SIN(θ2_°)' "
@@ -727,7 +727,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Oscillations", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 25 vars 36 equs 7 sims
+    //T#*: 25 vars 37 equs 7 sims 7 secs
     "Mass‐Spring System",  "{ "
     "'(ω_(r/s))=(1_r)*√((k_(N/m))/(m_kg))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
@@ -792,7 +792,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Plane Geometry", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 21 vars 31 eqns 6 sims
+    //T#*: 21 vars 31 eqns 6 sims 6 secs
     "Circle",  "{ "
     "'(A_(cm^2))=Ⓒπ*(r_cm)^2' "
     "'(C_cm)=2*Ⓒπ*(r_cm)' "
@@ -845,7 +845,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Solid Geometry", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 12 vars 18 eqns 4 sims
+    //T#*: 12 vars 18 eqns 4 sims 4 secs
     "Cone",  "{ "
     "'(V_(cm^3))=(Ⓒπ/3)*(r_cm)^2*(h_cm)' "
     "'(A_(cm^2))=Ⓒπ*(r_cm)^2+Ⓒπ*(r_cm)*√((r_cm)^2+(h_cm)^2)' "
@@ -881,7 +881,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Solid State Device", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 53 vars 36 eqns 4 sims
+    //T#*: 54 vars 36 eqns 4 sims 4 secs
     // **WARNING: Required function for the parameter ni_(cm^-3)=SIDENS(T_K)
     // And Here q = Ⓒqe.
     // ERROR in gm formula in HP50G_AUR.pdf: μm=μn (OK)
@@ -951,7 +951,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Stress Analysis", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 28 vars 16 eqns 4 sims
+    //T#*: 28 vars 16 eqns 4 sims 4 secs
     //"Inconsistent units" in eqn (2), New trial with UBASE
     "Normal Stress",  "{ "
     "'(σ_atm)=(E_atm)*ε' "
@@ -989,7 +989,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Waves", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 33 vars 49 eqns 9 sims
+    //T#*: 39 vars 49 eqns 11 sims 9 secs
     "Transverse Waves",  "{ "
     "'(y_cm)=(ym_cm)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
     "'(v_(cm/s))=(λ_cm)*(f_Hz)' "
@@ -1070,7 +1070,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Relativity", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 107 vars 86 eqns 18 sims in 17 sections
+    //T#*: 109 vars 105 eqns 23 sims 17 secs
     //The primed frame is travelling with speed v in the positive x direction
     // ref.: https://en.wikipedia.org/wiki/Special_relativity
     // https://galileo-unbound.blog/2021/06/03/the-transverse-doppler-effect-and-relativistic-time-dilation/
@@ -1241,7 +1241,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Modern Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 43 vars 56 eqns 7 sims in 6 sections
+    //T#*: 43 vars 56 eqns 7 sims 6 secs
     "Planck & Wien Comparison",  "{ "
     // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
@@ -1323,7 +1323,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#:* 51 var 47 eqns 13 sims
+    //T#:* 51 var 47 eqns 13 sims 7 secs
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(Thl_s)=ln(2)/(λ_s^-1)' "
@@ -1398,6 +1398,7 @@ static const cstring basic_equations[] =
     "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
+    // As of 24-12-08: Total 723 vars, 644 eqns, 181 sims in 158 subsections, 18 sections (644/315=2.04; 723/397=1.82) 
 };
 //   clang-format on
 

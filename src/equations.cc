@@ -952,6 +952,7 @@ static const cstring basic_equations[] =
     "Stress Analysis", nullptr,
     // ------------------------------------------------------------------------
     //T#: 28 vars 16 eqns 4 sims
+    //"Inconsistent units" in eqn (2), New trial with UBASE
     "Normal Stress",  "{ "
     "'(σ_atm)=(E_atm)*ε' "
     //"'ε=(δ_cm)/(L_m)' "
@@ -1140,7 +1141,7 @@ static const cstring basic_equations[] =
     "'γ=1/√(1-β^2)' "
     "}",
 // Ref.: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.fisica.net/formulas/The-Cambridge-Handbook-of-Physics-Formulas.pdf
-// Name of var fp changed to fpr
+// Name of var fp changed to fpr 
     "Light Propagation",  "{ "
     "'(fpr_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
     "'COS(θp_°)=(COS(θ_°)-β)/(1-β*COS(θ_°))' "
@@ -1187,7 +1188,7 @@ static const cstring basic_equations[] =
     "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Remp_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
-// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6
+// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6 
     "Circumnavigating Airplanes",  "{ "
     "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
     "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
@@ -1240,55 +1241,66 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Modern Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 37 vars 47 eqns 6 sims in 6 sections
+    //T#: 43 vars 56 eqns 7 sims in 6 sections
     "Planck & Wien Comparison",  "{ "
-    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
-    "'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
+    // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
     "'(f1_Hz)=Ⓒk*4*(T_K)/Ⓒh' "
     "'(f2_Hz)=Ⓒk*9*(T_K)/Ⓒh' "
     "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'FrWn12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
+    "'FrWn12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12*100' "
     "'(f3_Hz)=Ⓒk*0.01*(T_K)/Ⓒh' "
     "'(f4_Hz)=Ⓒk*2.5*(T_K)/Ⓒh' "
-    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
     "'FrWn34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
-    "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
+    "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34*100' "
+    "'FrPlab=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(fb_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
+    "'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
     "'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
     "}",
 
     "Planck & Rayleigh‐Jeans Comparison",  "{ "
-    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
-    "'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
+    // Eqns order change. Modifications to eqns 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
     "'(f1_Hz)=Ⓒk*1.7*(T_K)/Ⓒh' "
     "'(f2_Hz)=Ⓒk*3.7*(T_K)/Ⓒh' "
     "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
     "'FrRJ12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^2;X))' "
-    "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
+    "'%rFr12=ABS(FrPl12-FrRJ12)/FrPl12*100' "
     "'(f3_Hz)=Ⓒk*0.001*(T_K)/Ⓒh' "
     "'(f4_Hz)=Ⓒk*0.05*(T_K)/Ⓒh' "
-    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
     "'FrRJ34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^2;X))' "
-    "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
+    "'%rFr34=ABS(FrPl34-FrRJ34)/FrPl34*100' "
+    "'FrPlab=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(fb_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
+    "'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
     "'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
     "}",
-
+    
     "Photoelectric Effect",  "{ "
-    "'(Kmax_J)=Ⓒqe*(Vo_V)' "
-    "'(Eph)=Ⓒh*(f_Hz)' "
-    "'Ⓒh*(f_Hz)=(φ_eV)+(Kmax_eV)' "
-    "'(φ_eV)=Ⓒh*(f0_Hz)' "
+    // All eqns modified INPUT: f_Hz;φ_eV
+    "'f_Hz=Ⓒc/(λ_nm)' "
+    "'Eph_eV=Ⓒh*(f_Hz)' "
+    "'f0_Hz=(φ_eV)/Ⓒh' "
+    "'λ0_nm=Ⓒc/(f0_Hz)' "
+    "'Kmax_eV='IFTE(f_Hz>f0_Hz;Ⓒh*(f_Hz)-(φ_eV);0)' "
+    "'Kmax_eV=Ⓒqe*(Vo_V)' "
+    "'vmax_m/s=√((2*Kmax_J)/Ⓒme)' "    
     "}",
-
-    "Compton Effect",  "{ "
-    "'(Kmax_J)=((γ-1))*Ⓒme*Ⓒc^2' "
-    "'β=(v_(m/s))/Ⓒc' "
-    "'γ=1/√(1-β^2)' "
-    "'(Eph)=Ⓒh*(f_Hz)' "
-    "'Ⓒh*Ⓒc/(λ_nm)=Ⓒh*Ⓒc/(λp_nm)+(K_J)' "
+    // All eqns modified INPUT: λp_nm;θ_° OUTPUT: K_J;γ;β;v_m/s;p_(kg*m/s);φ_°
+    "Compton Scattering",  "{ "
     "'(λp_nm)-(λ_nm)=Ⓒλc*(1-COS(θ_°))' "
+    "'K_eV=Ⓒh*Ⓒc/(λ_nm)-Ⓒh*Ⓒc/(λp_nm)' "
+    "'K_eV=((γ-1))*Ⓒme*Ⓒc^2' "
+    "'γ=1/√(1-β^2)' "
+    "'β=(v_(m/s))/Ⓒc' "
+    "'Eph_eV=Ⓒh*Ⓒc/(λ_nm)' "
+    "'Epph_eV=Ⓒh*Ⓒc/(λp_nm)' "
+    "'p_(kg*m/s)=γ*Ⓒme*(v_m/s)' "
+    "'0=Ⓒh/(λp_nm)*SIN(θ_°)-(p_(kg*m/s))*SIN(φ_°)' "
     "}",
 
      //Ref to Bragg's law  https://en.wikipedia.org/wiki/Bragg%27s_law 	http://hyperphysics.phy-astr.gsu.edu/hbase/quantum/bragg.html
@@ -1298,26 +1310,28 @@ static const cstring basic_equations[] =
     "'(p_(kg*m/s))=(m_kg)*(v_(m/s))' "
     "'2*(d_nm)*SIN(θ_°)=n*(λ_nm)' "
     "}",
-
+    // Modified Eph to Eph_eV; adding last eqn
     "Bohr Atomic Model",  "{ "
-    "'(Eph)=Ⓒh*(f_Hz)' "
+    "'(Eph_eV)=Ⓒh*(f_Hz)' "
     "'Ⓒh*(f_Hz)=(Enp_eV)-(En_eV)' "
     "'(En_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/n^2)' "
     "'(Enp_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/np^2)' "
-    "'(r_m)=n^2*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
+    "'(r_m)=n^2/Z*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
+    "'(λ_nm)=Ⓒc/(f_Hz)' "
     "}",
 
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#: 39 var 26 eqns 6 sims
+    //T#:* 51 var 47 eqns 13 sims
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
-    "'(T1/2_s)=ln(2)/(λ_s^-1)' "
-    "'N=N0*exp((λ_s^-1)*(t_s))' "
+    "'(Thl_s)=ln(2)/(λ_s^-1)' "
+    "'abtot=abparent*abdaughter' "
+    "'N0=abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "'N=N0*exp(-(λ_s^-1)*(t_s))' "
     "'(A0_Bq)=(λ_s^-1)*N0' "
-    "'(A_Bq)=(A0_Bq)*exp((λ_s^-1)*(t_s))' "
-    "'N0=(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "'(A_Bq)=(A0_Bq)*exp(-(λ_s^-1)*(t_s))' "
     "}",
 
     // We need the constant for the mass of the neutral H atom
@@ -1331,34 +1345,58 @@ static const cstring basic_equations[] =
     "'(EB_MeV)=(Z*ⒸmH+N*Ⓒmn-(mX_u))*Ⓒc^2' "
     "'(EBse_MeV)=(1_MeV)*(15.75*A-17.8*A^(2/3)-0.711*Z*(Z-1)/A^(1/3)-23.7*(A-2*Z)^2/A+11.18/(A^(1/2))*IFTE((Z mod 2=0)and(N mod 2=0);1;IFTE((Z mod 2=1)and(N mod 2=1);-1;0)))' "
     "}",
-
+    //New energy & kinematic eqns
     "α Decay",  "{ "
     "'A=N+Z' "
-    "'(Qα_MeV)=((mX_u)-(mY_u)-4.0026032545_u)*Ⓒc^2' "
+    "'(Δm_u)=((mX_u)-(mY_u)-ⒸmHe)' "
+    "'(Qα_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(Kα_MeV)=(Qα_MeV)/(ⒸmHe/(mX_u)+1)' "
+    "'γ=(Kα_MeV)/((ⒸmHe_u)*Ⓒc^2)+1' "
+    "'β=√(1-1/γ^2)' "
     "'(AYα)=(AXα)-4' "
     "'(ZYα)=(ZXα)-2' "
     "}",
-
+    //New energy & kinematic eqns
     "β⊖ Decay",  "{ "
     "'A=N+Z' "
-    "'(Qβ⊖_MeV)=((mX_u)-(mY_u))*Ⓒc^2' "
+    "'(Δm_u)=((mX_u)-(mY_u))' "
+    "'(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(Kmax_MeV)=(Qβ⊖_MeV)' "
+    "'γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γmax^2)' "
     "'(AYβ⊖)=(AXβ⊖)' "
     "'(ZYβ⊖)=(ZXβ⊖)+1' "
     "}",
-
+    //New energy & kinematic eqns
     "β⊕ Decay",  "{ "
     "'A=N+Z' "
-    "'(Qβ⊕_MeV)=((mX_u)-(mY_u)-2*Ⓒme)*Ⓒc^2' "
+    "'(Δm_u)=((mX_u)-(mY_u)-2*Ⓒme)' "
+    "'(Qβ⊕_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(Kmax_MeV)=(Qβ⊕_MeV)' "
+    "'γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1' "
+    "'βmax=√(1-1/γmax^2)' "
     "'(AYβ⊕)=(AXβ⊕)' "
     "'(ZYβ⊕)=(ZXβ⊕)-1' "
     "}",
 
     "General Nuclear Reaction",  "{ "
     "'A=N+Z' "
-    "'(Q_MeV)=((ma_u)+(mX_u)-(mY_u)-(mb_u))*Ⓒc^2' "
+    "'(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
+    "'(Q_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(ΔKtot_MeV)=(Q_MeV)' "
     "'(Aa)+(AX)=(AY)+(Ab)' "
     "'(Za)+(ZX)=(ZY)+(Zb)' "
     "}",
+
+    "Fission Reaction",  "{ "
+    "'A=N+Z' "
+    "'(Δm_u)=(Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-nn*Ⓒmn)' "
+    "'(Q_MeV)=(Δm_u)*Ⓒc^2' "
+    "'(ΔKtot_MeV)=(Q_MeV)' "
+    "'1+(AX)=(AY1)+(AY2)+nn' "
+    "'(ZX)=(ZY1)+(ZY2)' "
+    "}",
+
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
 };
 //   clang-format on

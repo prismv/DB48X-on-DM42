@@ -2682,8 +2682,9 @@ In this section, two comparisons are done between the Planck and Wien spectral d
 
 * To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrWn12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrWn34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
 ```rpl
-24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=7.48479 70756 7⁳¹³_Hz  fb=2.38754 63831 2⁳¹⁴_Hz  Frfafb=0.62639 35930 68
-@ Failing [ fpeak=7.48479 70756 7⁳¹³ Hz f1=1.06113 17258 3⁳¹⁴ Hz f2=2.38754 63831 2⁳¹⁴ Hz FrPl12=6.26393 59306 8⁳⁻¹ FrWn12=0.61528 52483 99 %rFr12=1.77338 09528 6 f3=2.65282 93145 8⁳¹¹ Hz f4=6.63207 32864 4⁳¹³ Hz FrPl34=2.84027 62457 4⁳⁻¹ FrWn34=0.22398 47200 01 %rFr34=21.13981 15457 FrPlab=0.62639 35930 68 eb=148 984.27029 5 W/m↑2 ebfafb=93 322.79238 1 W/m↑2 q=933.22792 381 W ]
+24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=7.48475 43283 5⁳¹³ Hz  fb=3.18337 69964 2⁳¹⁴ Hz  Frfafb=0.64388 90934 2
+@ Failing [ fpeak=7.48475 43283 5⁳¹³ Hz f1=1.06112 56654 7⁳¹⁴ Hz f2=f2=2.38753 27473 2⁳¹⁴ Hz FrPl12=0.38336 04816 94 FrWn12=0.38088 77248 71 %rFr12=0.64502 13155 81 f3=2.65281 41636 9⁳¹¹ Hz f4=6.63203 54092 2⁳¹³ Hz FrPl34=0.28402 76245 74 FrWn34=0.22398 47200 01 %rFr34=21.13981 15457 FrPlab=0.64388 90934 2 eb=148 980.70811 W/m↑2 ebfafb=95 927.05308 19 W/m↑2 q=959.27053 0819 W ]
+@ C#31 NOT OK MSOLVE: "Unable to solve for all variables" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
 'ROOT(ⒺPlanck & Wien Comparison;[fpeak;f1;f2;FrPl12;FrWn12;%rFr12;f3;f4;FrPl34;FrWn34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
 ```
 
@@ -2695,8 +2696,9 @@ In this section, two comparisons are done between the Planck and Rayleigh-Jeans 
 
 * To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrRJ12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrRJ34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
 ```rpl
-24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=2.65282 93145 8⁳¹⁰ Hz  fb=7.48479 70756 7⁳¹³_Hz  Frfafb=0.35399 34269 16
-@ Failing [ fpeak=7.48479 70756 7⁳¹³ Hz f1=4.50980 98347 8⁳¹³ Hz f2=9.81546 84639 3⁳¹³ Hz FrPl12=0.41306 62386 78 FrRJ12=2.34783 01416 5 %rFr12=468.39071 3596 6 f3=2.65282 93145 8⁳¹⁰ Hz f4=1.32641 46572 9⁳¹² Hz FrPl34=6.29668 51249 6⁳⁻⁶ FrRJ34=6.41618 75792 7⁳⁻⁶ %rFr34=1.89786 29538 3 FrPlab=0.35399 34269 16 eb=148 984.27029 5 W/m↑2 ebfafb=52 739.45239 85 W/m↑2 q=527.39452 3985 W ]
+4 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=2.65281 41636 9⁳¹⁰ Hz  fb=7.48475 43283 5⁳¹³ Hz  Frfafb=0.35399 34269 15
+@ Failing [ fpeak=7.48475 43283 5⁳¹³ Hz f1=4.50978 40782 7⁳¹³ Hz f2=9.81541 24056 4⁳¹³ Hz FrPl12=0.41306 62386 78 FrRJ12=2.34783 01416 5 %rFr12=468.39071 3596 f3=2.65281 41636 9⁳¹⁰ Hz f4=1.32640 70818 4⁳¹² Hz FrPl34=6.29668 51249 6⁳⁻⁶ FrRJ34=FrRJ34=6.41618 75792 7⁳⁻⁶ %rFr34=1.89786 29538 3 FrPlab=0.35399 34269 15 eb=148 980.70811 W/m↑2 ebfafb=52 738.19140 8 W/m↑2 q=527.38191 408 W ]
+@ C#31 NOT OK MSOLVE: "Unable to solve for all variables" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
 'ROOT(ⒺPlanck & Rayleigh‐Jeans Comparison;[fpeak;f1;f2;FrPl12;FrRJ12;%rFr12;f3;f4;FrPl34;FrRJ34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
 ```
 
@@ -2708,7 +2710,8 @@ Einstein explained the photoelectric effect with the energy quantification of th
 ```rpl
 φ=4.01_eV  λ=207_nm  
 @ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 70376 9 eV f0=9.69613 32440 3⁳¹⁴ λ0=309.18764 2594 nm Hz Kmax=1.97957 70376 9 eV V0=1.97957 78976 4 V vmax=834 472.42017 5 m/s ]
-'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;v];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
+@ C#31 NOT OK MSOLVE & SOLVE: "Not an equation or program"
+'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;vmax];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
 ```
 
 #### Compton Scattering
@@ -2813,27 +2816,15 @@ For all nuclear reactions, including nuclear decays, we have charge conservation
 #### Radioactivity
 
 * **Example 1** For a sample of 1 g of radium, to calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
-//    "'(Thl_s)='ln(2)/(λ_s^-1)' "
-//    "'abtot=abparent*abdaughter'
-//    "'N0=abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
-//    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
-//    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
-//    "'(A_Bq)='(A0_Bq)*exp(-(λ_s^-1)*(t_s))' "
 ```rpl
 m=1_g  MW=226_(g/mol)  λ=1.37364 03205 5⁳⁻¹¹_s^-1  abparent=1  abdaughter=1  t=400_yr
-@ Failing [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 6⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+@ Expecting [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 5⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
 'ROOT(ⒺRadioactivity;[Thl;abtot;N0;A0;N;A];[1_s;1;1;1_Bq;1;1_Bq])'
 ```
 * **Example 2** For the C14 datation (present in the atmosphere) of a 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
-//    "'(λ_s^-1)='ln(2)/(Thl_s)' "
-//    "'abtot='abparent*abdaughter'
-//    "'N0='abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
-//    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
-//    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
-//    "'Convert(ln((A_Bq)/(A0_Bq))/(-(λ_s^-1));1_yr)' "
 ```rpl
 m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
-@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
+@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.28569 99999 7⁳⁻¹² N0=6.44684 96044 6⁳¹¹ A0=2.47128 99175 1 Bq t=13 209.16426 29 yr ]
 'ROOT(ⒺRadioactivity;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
 ```
 
@@ -2849,14 +2840,14 @@ N=6  Z=6  mX=12_u
 * **Example 2** For the U238, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
 ```rpl
 N=92  Z=146  mX=238.0507847_u
-@ Expecting [ A=238. R=7.43658 53⁳⁻¹⁵ m V=1.72269 85997 1⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
-@ Failing [ A=238. R=7.43658 53⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+@ Expecting [ A=238. R=7.43658 53⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+@ Failing [ A=238. R=7.43658 53⁳⁻¹⁵ m V=1.72269 85997 1⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
 'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
 
 #### α Decay
 
-* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Binding energy; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 //    "'A=N+Z' " 'A-Z'
 //    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
 //    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
@@ -2872,7 +2863,7 @@ A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
-* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Binding energy; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 //    "'A=N+Z' " 'A-Z'
 //    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
 //    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "

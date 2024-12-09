@@ -3344,13 +3344,13 @@ void tests::decimal_numerical_functions()
         .expect("1.20487 56251 52809 23400 86691 05495 30674 r");
     step("atan2 pos / neg quadrant")
         .test(CLEAR, "3.21 -1.23 atan2", ENTER)
-        .expect("1.93671 70284 36984 00445 39742 77784 19614 r");
+        .expect("1.93671 70284 36984 00445 39742 77784 19616 r");
     step("atan2 neg / pos quadrant")
         .test(CLEAR, "-3.21 1.23 atan2", ENTER)
         .expect("-1.20487 56251 52809 23400 86691 05495 30674 r");
     step("atan2 neg / neg quadrant")
         .test(CLEAR, "-3.21 -1.23 atan2", ENTER)
-        .expect("-1.93671 70284 36984 00445 39742 77784 19614 r");
+        .expect("-1.93671 70284 36984 00445 39742 77784 19616 r");
 
     step("Restore default 24-digit precision");
     test(CLEAR, "24 PRECISION 12 SIG", ENTER).noerror();
@@ -4029,6 +4029,36 @@ void tests::exact_trig_cases()
             .type(ID_unit)
             .test("UVAL 4 *", ENTER)
             .expect(circle[unit] * -1 / 2);
+        step("asin(0) = 0")
+            .test("0 asin", ENTER)
+            .type(ID_unit)
+            .test("UVAL", ENTER)
+            .expect("0.");
+        step("asin(1) = 90")
+            .test("1 asin", ENTER)
+            .type(ID_unit)
+            .test("UVAL 4 * ", circle[unit], " -", ENTER)
+            .expect("0.");
+        step("asin(-1) = -90")
+            .test("-1 asin", ENTER)
+            .type(ID_unit)
+            .test("UVAL -4 * ", circle[unit], " -", ENTER)
+            .expect("0.");
+        step("acos(0) = 90")
+            .test("0 acos", ENTER)
+            .type(ID_unit)
+            .test("UVAL 4 * ", circle[unit], " -", ENTER)
+            .expect("0.");
+        step("acos(1) = 0")
+            .test("1 acos", ENTER)
+            .type(ID_unit)
+            .test("UVAL", ENTER)
+            .expect("0.");
+        step("acos(-1) = 180 degrees")
+            .test("-1 acos", ENTER)
+            .type(ID_unit)
+            .test("UVAL 2 * ", circle[unit], " - ToDecimal", ENTER)
+            .expect("0.");
     }
 
     step("Conversion from non-standard units")

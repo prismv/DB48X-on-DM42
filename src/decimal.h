@@ -601,6 +601,7 @@ struct decimal : algebraic
     static decimal_p lnpi()     { return constants().lnpi(); }
     bool             adjust_from_angle(uint &qturns, decimal_g &fp) const;
     decimal_p        adjust_to_angle() const;
+    static decimal_p exact_angle(int digits, int exp);
 
 public:
     OBJECT_DECL(decimal);

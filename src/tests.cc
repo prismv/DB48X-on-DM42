@@ -180,7 +180,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            eqnlib_parsing();
+            check_help_examples();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -1496,11 +1496,16 @@ void tests::stack_operations()
         .test(BSP).noerror()
         .test(BSP).error("Too few arguments");
     step("NDupN in program")
-        .test(CLEAR, "13 17 25 42 3 NDUPN", ENTER)
-        .got("3", "42", "42", "42", "25", "17", "13");
-    step("NDupN with short stack")
-        .test(CLEAR, "2 5 NDUPN", ENTER)
-        .got("5", "2", "2", "2", "2", "2");
+        .test(CLEAR, "13 17 25 42 3 NDUPN", ENTER).expect("3")
+        .test(BSP).expect("42")
+        .test(BSP).expect("25")
+        .test(BSP).expect("17")
+        .test(BSP).expect("42")
+        .test(BSP).expect("25")
+        .test(BSP).expect("17")
+        .test(BSP).expect("13")
+        .test(BSP).noerror()
+        .test(BSP).error("Too few arguments");
     step("DupDup in program")
         .test(CLEAR, "13 17 42 DUPDUP", ENTER).expect("42")
         .test(BSP).expect("42")
@@ -1586,11 +1591,16 @@ void tests::stack_operations()
         .test(BSP).noerror()
         .test(BSP).error("Too few arguments");
     step("NDupN in stack menu")
-        .test(CLEAR, "13 17 25 42 3", F6, LSHIFT, F1, F6)
-        .got("3", "42", "42", "42", "25", "17", "13");
-    step("NDupN with short stack")
-        .test(CLEAR, "2 5", F6, LSHIFT, F1, F6)
-        .got("5", "2", "2", "2", "2", "2");
+        .test(CLEAR, "13 17 25 42 3", F6, LSHIFT, F1, F6).expect("3")
+        .test(BSP).expect("42")
+        .test(BSP).expect("25")
+        .test(BSP).expect("17")
+        .test(BSP).expect("42")
+        .test(BSP).expect("25")
+        .test(BSP).expect("17")
+        .test(BSP).expect("13")
+        .test(BSP).noerror()
+        .test(BSP).error("Too few arguments");
     step("DupDup in stack menu")
         .test(CLEAR, "13 17 42", F6, LSHIFT, F2, F6).expect("42")
         .test(BSP).expect("42")

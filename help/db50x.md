@@ -2493,6 +2493,111 @@ You can edit it by recalling its content on the stack using
 back to disk using `"config:equations.csv" STO`.
 # Release notes
 
+## Release 0.8.8 "Voice" - Power usage reduction
+
+This release focuses on reducing power usage and improving reactivity,
+notably while running on battery.
+
+### Features
+
+* Cache rendered graphics and text on the stack to reduce the time
+spent redrawing the stack.
+
+* Limit the size of objects being rendered on the stack. Objects that
+  are too large will simply render as something like `Large bignum
+  (399 bytes)` on the stack. This is configured by two new settings,
+  `TextRenderingSizeLimit` and `GraphRenderingSizeLimit`.
+
+* Limit the size spent rendering graphical objects. There are four
+  settings controlling the maximum time spent rendering objects
+  graphically.  `ResultGraphingSizeLimits` controls the display for
+  the first level on the stack, `StackGraphingSizeLimit` controls the
+  display for the other levels on the stack, `ShowTimeLimit` controls
+  the display for the `Show` command, and `GraphingTimeLimit` controls
+  other graphical rendering.
+
+* Blink the battery icon when in a low-battery situation.
+
+* Add configurable `MinimumBatteryVoltage` to adjust the threshold for
+  low-battery detection and automatic power-off.
+
+* Power-related commands: The `BatteryVoltage` and `PowerVoltage` read
+  the battery and power voltage respectively. The `USBPowered`
+  commands detects if the calculator is running on USB power. The
+  `LowBattery` command detects if the calculator is running low on
+  battery.
+
+* Detect and reject Unicode characters that look like mathematical
+  characters, and are produced by auto-correction on Windows, notably
+  the`-` and `*` signs that look like `-` and `*`. This is notably
+  useful when copy-pasting in the simulator on Windows.
+
+### Bug fixes
+
+* Fix `NDupN` again. While the previous release fixed what `NDupN`
+  does, it did not fix the detection of the number of arguments,
+  meaning that `NDupN` would incorrectly complain about missing
+  arguments if the stack was not deep enough.
+
+* Fix the precedence of unary `-` when in front of a parenthesized
+  expression.  For example, `-(X)^2` now parses correctly.
+
+* Disable keyboard repeat timer when no key is pressed. It was
+  possible to trigger a condition where the keyboard repeat timer
+  would trigger continuously if two keys had been pressed in rapid
+  succession, keeping the CPU in a busy loop and depleting the battery
+  unnecessarily rapidly until another key was pressed. This could also
+  trigger incorrect long-press detections, e.g. the shift key
+  triggering alpha mode instead of a simple shift.
+
+* Disable all timers when switching the calculator off. In some
+  situations, the display refresh timer could still remain active
+  after the calcualtor had been switched off.
+
+* `RclΣ` now returns the statistics data even when the `ΣData`
+  variable contains the name of a variable or file.
+
+* The `Off` command can now be used while editing and no longer causes
+  immediate command-line evaluation.
+
+* Return to the first page of the catalog menus when updating it, to
+  avoid scenarios where the catalog appeared empty
+
+* Return to the first page of the cartalog menu when changing
+  directories, to avoid showing an empty variables menu in a non-empty
+  directory.
+
+* Do not leave garbage on the stack after failed array arithmetic.
+
+* Avoid occasional test crashes due to concurrent pixmap updates in
+  the simulator.
+
+* Avoid occasional spurious error on `Primitive` test due to long
+  execution time.
+
+* Switch to `kg` as the base unit for `UBASE` instead of `g`,
+  following the SI standard.
+
+### Improvements
+
+* Reduce animations more drastically while on battery power.
+  Notably, the cursor does not blink, and menu animations are entirely
+  disabled.
+
+* Rework the animation and screen refresh system to make it easier to
+  maintain and more power-efficient while on battery.
+
+* Refresh the display using hardware-accelerated background refresh
+  routines provided by the DMCP platform. This can be disabled using
+  the `SoftwareDisplayRefresh` flag.
+
+* Redraw the battery immediately on power change, i.e. plugging or
+  unplugging the USB cable.
+
+* Updated built-in constants with latets CODATA values
+  (contributed by Jean Wilson)
+
+
 ## Release 0.8.7 "Signs" - Performance optimizations
 
 This release focuses on performance improvements and bug fixes for
@@ -6384,14 +6489,14 @@ These equations describe the electrostatic force between two point charged parti
 * **Example 1**. To calculate `[F_N;Er_N/C]` (Electric force; Electric Field) from 5 known variables:
 ```rpl
 q1=1.6E-19_C  q2=1.6E-19_C  r=4.00E-13_cm  εr=1  qtest=1.6E-19_C
-@ Expecting [ F=14.38008 28598 N Er=8.98755 17873 8⁳¹⁹ N/C ]
+@ Expecting [ F=14.38008 28578 N Er=8.98755 17861 3⁳¹⁹ N/C ]
 'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 ```
 
 * **Example 2**. A square metal plate `L = 8_cm` on a side carries a charge of `q1 = 6_μC`. Approximate values of the electric force & electric field for a point charge `q2 = 1_μC` located at `r = 3_m` can be calculated with Coulomb’s law if the separation distance is much greater than the plate dimension `r >> L`. The whole plate is indeed considered as being a point charge providing that `r > 10 · L`. Therefore, to calculate `[F_N;Er_N/C]`:
 ```rpl
 L=8_cm r=3_m q1=6E-6_C  q2=1E-6_C  r=3_m  εr=1  qtest=1E-6_C
-@ Expecting [ F=5.99170 11915 9⁳⁻³ N Er=5 991.70119 159 N/C ]
+@ Expecting [ F=5.99170 11907 5⁳⁻³ N Er=5 991.70119 075 N/C ]
 if 'r > 10*L' then
  'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 end
@@ -6404,7 +6509,7 @@ The expression for the radial electric field at the distance `r` is approximatel
 * To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field) from 4 known variables:
 ```rpl
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11915 9 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 5 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 The code below saves the reference value for comparison with the example 2 in [E Field Finite Line](#E Field Finite Line):
@@ -6423,7 +6528,7 @@ The expression of the radial electric field at the distance `r` depends on the s
 ```rpl
 r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 972 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 892 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 
@@ -6431,7 +6536,7 @@ Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
 ```rpl
 Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ1='atan(L/2/r)' θ2='360_°-θ1'
 if 'r < L/10' then
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52400 7 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 4 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
 ```
@@ -6449,7 +6554,7 @@ The expression of the perpendicular electric field is constant over an infinite 
 * To calculate `[Ep_N/C;σ_C/m^2]` (Electric Field; Linear charge density) at position `[d=5_mm]` above a square plate of width `[L=8_cm]` and surface `A=L^2` where `d << L` when `d < L/10` is verified:
 ```rpl
 L=8_cm A='L^2' d=5_mm Q=6E-6_C  A=64_cm^2  εr=1
-@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 050.0044 N/C ]
+@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 049.997 N/C ]
 if 'd < L/10' then
  'ROOT(ⒺE Field Infinite Plate;[σ;Ep];[1_C/cm^2;1_N/C])'
 end
@@ -6549,7 +6654,7 @@ E=0.025_J  C=20_μF
 * To calculate `[uE_(J/m^3)]` (Volumic Density Electric Energy) from 2 known variables:
 ```rpl
 E=5_V/m  εr=1
-@ Expecting [ uE=1.10677 34772⁳⁻¹⁰ J/m↑3 ]
+@ Expecting [ uE=1.10677 34773 5⁳⁻¹⁰ J/m↑3 ]
 'ROOT(ⒺVolumic Density Electric Energy;[uE];[1_(J/m^3)])'
 ```
 
@@ -6657,7 +6762,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[C_μF;ΔV_V]` (Capacitance; Voltage) from 5 known variables:
 ```rpl
 εr=1  Q=75_μC  ro=1_cm  ri=.999_cm  L=10_cm
-@ Expecting [ C=5 560.46819 129 pF ΔV=13 488.07284 21 V ]
+@ Expecting [ C=5 560.46819 206 pF ΔV=13 488.07284 02 V ]
 'ROOT(ⒺCylindrical Capacitor;[C;ΔV];[1_pF;1_V])'
 ```
 
@@ -6668,7 +6773,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[L_mH]` (Inductance) from 4 known variables:
 ```rpl
 μr=2.5  n=40_1/cm  A=0.2_cm^2  h=3_cm
-@ Expecting [ L=0.03015 92894 75 mH ]
+@ Expecting [ L=0.03015 92894 7 mH ]
 'ROOT(ⒺSolenoid Inductance;[L];[1_mH])'
 ```
 
@@ -6679,7 +6784,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[L_mH]` (Inductance) from 4 known variables:
 ```rpl
 μr=1  N=5000  h=2_cm  ri=2_cm  ro=4_cm
-@ Expecting [ L=69.31471 80562 mH ]
+@ Expecting [ L=69.31471 80464 mH ]
 @ Error in ri input data of HP50gAUR.pdf
 'ROOT(ⒺToroid Inductance;[L];[1_mH])'
 ```
@@ -10841,6 +10946,37 @@ calculator operations.
 « TIME " " PATH TAIL TOTEXT + + "
 " + DATE + " Mem: " + MEM + » HEADER
 ```
+
+
+## GraphingTimeLimit
+
+Maximum number of milliseconds that can be spent rendering an object
+graphically. The default is 250ms.
+
+## ShowTimeLimit
+
+Maximum number of milliseconds that can be spent rendering an object for the
+`Show` command. The default is 10000 (10s)
+
+## ResultGraphingTimeLimit
+
+Maximum amount of time that can be spent rendering the result (level 1 of the
+stack) graphically. The default value is 1500 (1.5s)
+
+## StackGraphingTimeLimit
+
+Maximum amount of time that can be spent rendering the levels of the stack above
+level 1. The default value is 250ms.
+
+## TextRenderingSizeLimit
+
+Limit in bytes for the size of objects to be rendered on the stack. Objects that are larger than this size are shown on the stack as something like
+`Large text (399 bytes)`.
+
+## GraphRenderingSizeLimit
+
+Limit in bytes for the size of objects to be rendered on the stack
+graphically. Objects that are larger than this size are text.
 # Library Management
 
 DB48x features a [library](#library) that can contain arbitary RPL code,
@@ -13509,7 +13645,21 @@ Return an array containing garbage collector statistics, including:
 * The total number of bytes collected
 * The total time spent collecting garbage
 * The number of bytes collected during the last collection cycle
-* The time spent during the last collection cycle
+* The duration of the last collection cycle
+* The number of bytes cleared by temporaries cleaning
+
+
+## RuntimeStatistics
+
+Return an array containing runtime statistics, including:
+
+* The time spent running (i.e. the calculator is in high-power state)
+* The time spent sleeping (i.e. the calculator is in low-power state)
+* The number of times the calculator entered high-power state
+
+Note that the calculator tends to spend more time in active state when on USB
+power, because of additional animations or more expensive graphical rendering.
+
 
 ## Bytes
 
@@ -13588,6 +13738,77 @@ upgrade.
 ## ScreenCapture
 
 Capture the current state of the screen in a dated file stored on the flash storage under the `SCREENS/` directory. This is activated by *holding* 🟨 and _O_ simultaneously. Pressing the keys one after another activates the [DisplayMenu](#displaymenu).
+
+
+## BatteryVoltage
+
+Return the current battery voltage as a decimal value.
+
+## USBPowered
+
+Returns `True` if the calculator is connected to USB power.
+
+Programmers can use this command in a long-running program to alter the
+frequency of power-hungry operations such as displaying on the screen.
+
+For example, the `CollatzConjecture` library program only displays the amount of
+memory used when powered by USB:
+
+```rpl
+ⓁCollatzBenchmark
+```
+
+## LowBattery
+
+Returns `True` if the calculator is running low on battery, which is defined as
+having less than 1/4th of the charge between 3000 mV and the value defined in
+`MinimumBatteryVoltage`.
+
+Programmers can use this command in long-running programs to automatically pause
+their programs in order to avoid draining the battery and losing memory.
+
+## DMCPLowBattery
+
+Returns `True` if the calculator is running low on battery according to the DMCP
+`get_lowbat_state()` function. Experimentally, this function is not very
+reliable in detecting low-battery conditions. Use `LowBattery` instead.
+
+## MinimumBatteryVoltage
+
+This setting defines the minimum battery voltage in millivolts where the
+calculator will automatically switch off to preserve battery. The default
+value is 2600mV, which appears to be safe even with no-brand batteries.
+
+Experimentally, the DM32 can operate at much lower voltages than 2.4V, but some
+operations become unreliable or even cause a reset. Notably, the calculator may
+not be able to wake up without rebooting, losing user data in the process.
+
+If the battery goes below `MinimumBatteryVoltage`, the calculator will
+automatically switch off with a message on the screen requesting to connect to
+USB power or to change the battery. Selecting a higher value than the
+default can be used to have an early reminder that you need to purchase
+replacement batteries.
+
+
+## BatteryRefresh
+
+This setting defines the refresh interval in milliseconds between checks or updates of the battery levels. The default is `5000` (5 seconds).
+
+Note that explicitly calling `BatteryVoltage`, `USBPowered` or `LowBattery`
+causes the corresponding values to be immediatley refreshed, but does not
+necessarily cause the battery status on screen to update.
+
+
+## DMCPDisplayRefresh
+
+On hardware calculators, use the DMCP system background display refresh.
+This is the default setting, and presumably should use less energy.
+
+
+## SoftwareDisplayRefresh
+
+On hardware calculator, use the software display refresh.
+This should be used for debugging purpose only.
 # Tagged objects
 
 Tagged objects are a way to indicate what a value represents, using a *tag*

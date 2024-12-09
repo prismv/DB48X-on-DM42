@@ -952,6 +952,7 @@ static const cstring basic_equations[] =
     "Stress Analysis", nullptr,
     // ------------------------------------------------------------------------
     //T#: 28 vars 16 eqns 4 sims
+    //"Inconsistent units" in eqn (2), New trial with UBASE
     "Normal Stress",  "{ "
     "'(σ_atm)=(E_atm)*ε' "
     //"'ε=(δ_cm)/(L_m)' "
@@ -1140,7 +1141,7 @@ static const cstring basic_equations[] =
     "'γ=1/√(1-β^2)' "
     "}",
 // Ref.: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.fisica.net/formulas/The-Cambridge-Handbook-of-Physics-Formulas.pdf
-// Name of var fp changed to fpr
+// Name of var fp changed to fpr 
     "Light Propagation",  "{ "
     "'(fpr_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
     "'COS(θp_°)=(COS(θ_°)-β)/(1-β*COS(θ_°))' "
@@ -1187,7 +1188,7 @@ static const cstring basic_equations[] =
     "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Remp_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
-// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6
+// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6 
     "Circumnavigating Airplanes",  "{ "
     "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
     "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "

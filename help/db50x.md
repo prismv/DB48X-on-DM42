@@ -6729,8 +6729,12 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 * To calculate `[I_A]` (Current) from 5 known variables:
 ```rpl
 Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
-@ Expecting [ I=7.22565 13671 4⁳⁻³ A ]
+@ Expecting [ I=-2.⁳⁻²³ A ]
+@ Failing [ I=7.22565 13671 4⁳⁻³ A ]
+@ C#1 NOT OK. MSOLVER gives "Inconsistent units" BUT if I try the eqn alone (see 2nd call to ROOT, I got wrong value
+@ AND algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A
 'ROOT(ⒺRL Transient;[I];[1_A])'
+'ROOT([(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))];[I];[1_A])'
 ```
 
 ### Resonant Frequency
@@ -6738,10 +6742,14 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 * To calculate `[ω0;Qs;Qp;f0]` (Resonant pulsation; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
-@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
+@ Failing [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
+@ C#2 NOT OK. MSOLVER & SOLVER Error: "Inconsistent units" but units are OK and it computes algebraically
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
-
+    "  'Qs=1/(R_Ω)*UBASE(√((L_mH)/(C_μF)))' "
+    "  'Qp=(R_Ω)* UBASE(√((C_μF)/(L_mH)))' "
+    "  '(ω0_(r/s))=2*(Ⓒπ_r)*(f0_Hz)' "
+    "  '(ω0_(r/s))=(1_r)/√((L_mH)*(C_μF))' "
 ### Plate Capacitor
 
 ![Plate Capacitor](img/PlateCapacitor.bmp)
@@ -8556,7 +8564,7 @@ The 109 variables in the Relativity section are:
 * `ΔτWE`: Time difference between westward and eastward flights
 * `ΔτE`: Flight time in the eastward direction
 * `ΔτW`: Flight time in the westward direction
-* `Δτg`: Elapsed time variation due to the ground tangential velocity
+* `Δτg`: Elapsed time variation due to the ground tangential velocity 
 * `ΔτpE`: Elapsed time variation due to the plane altitude and velocity in the eastward direction
 * `ΔτpW`: Elapsed time variation due to the plane altitude and velocity in the westward direction
 * `As`: Schwarzschild  black hole surface area
@@ -8772,7 +8780,7 @@ K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.0
 
 * To calculate `[ve_m/s;βe;γG;ΔtpG_s]` (Excape speed; Relativistic escape speed ratio; Lorentz factor associated to gravitational dilation; Gravitational dilated time interval) from 3 known variables:
 ```rpl
-M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
+M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s  
 @ Expecting [ ve=210 912 146.007 m/s βe=0.70352 71914 92 γG=1.40712 61408 1 ΔtpG=1 407 126.14081 s ]
 'ROOT(ⒺGravitational Time Dilation;[ve;βe;γG;ΔtpG];[1_m/s;1;1;1_s])'
 ```

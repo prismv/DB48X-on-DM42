@@ -180,7 +180,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            check_help_examples();
+            eqnlib_parsing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)

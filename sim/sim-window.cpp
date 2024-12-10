@@ -1006,7 +1006,7 @@ int ui_file_selector(const char *title,
         QFileInfo fi(path);
         QString suffix = fi.suffix(); // On Linux we don't get the extension
         QString name = fi.fileName();
-        if ("." + suffix != ext)
+        if (QFileInfo("." + suffix) != QFileInfo(ext))
         {
             path += ext;
             name += ext;

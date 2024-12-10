@@ -6721,8 +6721,12 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 * To calculate `[I_A]` (Current) from 5 known variables:
 ```rpl
 Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
-@ Expecting [ I=7.22565 13671 4⁳⁻³ A ]
+@ Expecting [ I=-2.⁳⁻²³ A ]
+@ Failing [ I=7.22565 13671 4⁳⁻³ A ]
+@ C#1 NOT OK. MSOLVER gives "Inconsistent units" BUT if I try the eqn alone (see 2nd call to ROOT, I got wrong value
+@ AND algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A
 'ROOT(ⒺRL Transient;[I];[1_A])'
+'ROOT([(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))];[I];[1_A])'
 ```
 
 ### Resonant Frequency
@@ -6730,7 +6734,7 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 * To calculate `[ω0;Qs;Qp;f0]` (Resonant pulsation; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
-@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
+@ Expecting [ ω0=500. r/s Qs=25. Qp=4.⁳⁻² f0=79.57747 15459 Hz ]
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
 
@@ -6742,7 +6746,7 @@ L=500_mH  C=8_μF  R=10_Ω
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 @ Failing [ d=8.00418 57871 2⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ V/m ΔV=3. V ]
-@ C#3 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Bad argument type" BUT strangely
+@ C#2 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Bad argument type" BUT strangely
 @ if I give "1" as a trial value for σ, it works then it will also work seperately for Ein & ΔV BUT indicating SOLVE Error: "Sign Reversal"
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
@@ -6810,7 +6814,7 @@ I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/
 ```
 
 ```rpl
-@ C#4 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT it should work !
+@ C#3 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT it should work !
 I=1_A  n=8.5e28_(m^-3)  r=0.1_cm  A='Ⓒπ*r^2'  ρ='Ⓒqe*n' σ='UBASE(Ⓒqe*(n_(m^-3))*40_(cm^2/(V*s)))'
 @ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
@@ -6885,7 +6889,7 @@ These equations represent the streamlined flow of an incompressible fluid.
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#5 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
+@ C#4 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -6893,7 +6897,7 @@ Alternate présentation adding one more known value: `v2`
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s  v2=122.421311569_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#5 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
+@ C#4 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -6920,7 +6924,7 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 ```rpl
 ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft  μ=0.00002_lbf*s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
 @ Failing [ ΔP=-5. psi Δy=40. ft A=113.0973 in↑2 n=1.0312 ft^2/s Q=376.991 ft↑3/min M=23 524.2358 lb/min W=25.8897 hp Reynolds=775 780.5 ]
-@ C#6 NOT OK. MSOLVER: "EquationSolver error: Inconsistent units". This uses the new DANNING function.
+@ C#5 NOT OK. MSOLVER: "EquationSolver error: Inconsistent units". This uses the new DANNING function.
 'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Reynolds];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
 ```
 
@@ -7149,21 +7153,8 @@ These equations adapt the ideal gas law to emulate real-gas behavior.
 * To calculate `[Z_1;n_mol;m_kg]` (Gas compressibility correction factor; Number of mole; Mass) from 7 known variables:
 ```rpl
 Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
-@ Failing [ Z=0.99977 57972 690 n=1.72768 40576 1⁳⁻² mol m=1.10571 77968 7⁳⁻³ kg ]
-@ C#7 NOT OK. MSOLVER: "Inconsistent units". SOLVE for Z alone doesn't work (see below). If I substitute the Z value, SOLVE works for n & m
+@ Expecting [ Z=0.99977 57972 69 n=1.72768 40576 1⁳⁻² mol m=1.10571 77968 7⁳⁻³ kg ]
 'ROOT(ⒺReal Gas Law;[Z;n;m];[1;1_mol;1_kg])'
-```
-```rpl
-@ Let me examine the computation of Z alone in its own implicit expression
-Pc=48_atm  Tc=298_K  P=5_kPa  T=348.15_K
-@ Failing [ Z=0.99977 57972 69 ]
-@ Doesn't work. MSOLVER : "Inconsistent units". Very strange because if I substitute P,T,Pc & Tc values, it works, see next trial
-'ROOT([Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)];[Z];[1])'
-```
-```rpl
-@ Here it works if I substitute the P,T,Pc & Tc values explicitely. Why this substitution seems to be requires ?
-@ Expecting [ Z=0.99977 57972 69 ]
-'ROOT([Z=1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)];[Z];[1])'
 ```
 
 ### Real Gas State Change
@@ -7174,7 +7165,7 @@ This equation adapts the ideal gas state-change equation to emulate real-gas beh
 ```rpl
 Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
 @ Failing [ Vf=30.17028 92973 l Zi=0.99550 62096 36 Zf=0.99938 68303 14 ]
-@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below)SOLVE for Vf : "Inconsistent units"
+@ C#6 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below)SOLVE for Vf : "Inconsistent units"
 'ROOT(ⒺReal Gas State Change;[Zi;Zf;Vf];[1;1;Vf_l])'
 ```
 
@@ -7198,7 +7189,7 @@ These equations describe properties of an ideal gas.
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
 @ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
 @ Expecting [ vrms=644.76778 7657 m/s n=8.01811 13098 3⁳⁻² mol m=1.44326 00357 7⁳⁻³ kg λ=1 nm ]
-@ C#8 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
+@ C#7 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
 ```
 
@@ -7304,7 +7295,7 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 ```rpl
 T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
 @ Failing [ λmax=2 276.05231 12 nm eb=148 984.27029 5 W/m↑2 f=3.60929 06376 4e-3 eb12=537.72753 1933 W/m↑2 q=14.89842 70295 W ]
-@ C#9 NOT OK: MSOLVER: "Invalid function" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
+@ C#8 NOT OK: MSOLVER: "Inconsistent units" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
 
@@ -7626,7 +7617,7 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 @ Expecting [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=0.21337 88142 9 s xfr=1 ft ]
 @ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
+@ C#9 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
 @ algebraically: '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)'=1 117.39339 246 ft=xfr
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
@@ -7637,7 +7628,7 @@ Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
 @ Expecting [ vt=95.13182 74789 m/s v=45.10777 55851 m/s tfr=10.00590 25332 s xfr=1 ft ]
 @ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
-@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
+@ C#9 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
 @ algebraically: '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)'=1 074.15231 681 m=xfr
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
@@ -7649,10 +7640,10 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 
 * **Example 1**. For a golf ball falling in water, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 8 known variables:
 ```rpl
-//input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
+@ input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
 Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
 @ Failing [ vt=0.29459 06011 51 m/s  v=0.22419 40616 41 m/s  tfr=5.50264 78343 1e-2 s  xfr=0.01030 03495 63 m ]
-@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
+@ C#9 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
 @ algebraically: '(0.29459 06011 51 m/s)*∫(0;5.50264 78343 1e-2;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)'=0.01030 03495 63 m=xfr
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
@@ -7663,7 +7654,7 @@ Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_c
 //input data: Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=0.1_s  fr=0.95
 Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
 @ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-0.15488 56277 53 m ]
-@ C#10 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
+@ C#9 MSOLVER: works fine for vt, v & tfr  (see second ROOT call below), BUT NOT for xfr as a result of an integral that can be computed
 @ algebraically: '(-1.14234 81034 5_m/s)*∫(0;0.21337 88142 91;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)'=-0.15488 56277 53 m=xfr < 0
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
@@ -7771,7 +7762,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 ```rpl
 n1=1  n2=1.5
 @ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θB=33.69006 7526 ° ]
-@ C#11 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails.
+@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails.
 'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
@@ -7828,8 +7819,7 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 * To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
-@ Failing [ I=7.5 W/m↑2  Ix=0.06751 63889 34 W/m↑2   E0=86.80210 98203 V/m ]
-@ c#12 NOT OK MSOLVER: "Inconsistent units". And if I try to calculate with the expression 'I0x_(W/m^2)*((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))*(COS(θ_°))^2' I get "Internal error, please report".
+@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88934 4⁳⁻² W/m↑2 E0=86.80210 98203 V/m ]
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
@@ -7901,7 +7891,7 @@ k=20_N/m  m=5_kg
 ```rpl
 L=15_cm  θmax=80_°
 @ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
-@ c#13 NOT OK MSOLVER & SOLVE: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following
+@ c#11 NOT OK MSOLVER & SOLVE: "Bad argument type". However Treal can be calculated alone with θmax or (θmax_°) by the following
 @ sum: Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
 'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
 ```
@@ -7940,7 +7930,7 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
 @ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-2 038.83579 33 cm/s↑2  m=4.44444 44444 4⁳⁻² kg  E=1.125 J ]
-@ C#14 NOT OK MSOLVER: "No solution?" Solve shows on sreen an error of sign in the acceleration eqn see ISSUE #1353
+@ C#12 NOT OK MSOLVER: "No solution?" Solve shows on sreen an error of sign in the acceleration eqn see ISSUE #1353
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
@@ -7952,7 +7942,7 @@ We are considering here a damped mass-spring oscillator having the natural angul
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
 @ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2 r/s  ωu=14.99966 6663 r/s  x=9.06146 97962 2 cm  v=-64.34829 19812 cm/s  a=-2 026.14705 038_cm/s↑2  E=0.24809 02514 79 J  Q=75.  ]
-@ C#15 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be computed. NOTE it's not
+@ C#13 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be computed. NOTE it's not
 @ possible to solve for m alone in the simple eqn (see COMMENT of ISSUE #1323): 'ROOT((ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg));[m];[1_kg])'
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
@@ -8223,10 +8213,10 @@ These equations for a silicon NMOS transistor use a two-port network model. They
 tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
 @ Failing [ ni=1.03628 29628⁳²⁶ (m↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47498 38 pF/cm↑2 γ=0.37247 98153 35 V↑(¹/₂) φp=-0.29855 54642 25 V
 @ Vt=0.75 V VDsat=4.25 V IDS=IDS=2.97832 74271 5 mA gds=0.00014 89163 71 S gm=1.42391 28564 6 mA/V ]
-@ C#16 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute.
+@ C#14 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute.
 'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_m^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
-
 ```
+
 #### Bipolar Transistors
 
 These equations for an NPN silicon bipolar transistor are based on large-signal models developed by J.J. Ebers and J.L. Moll. The offset-voltage calculation differs depending on whether the transistor is saturated or not. The equations also include the special conditions when the emitter-base or collector-base junction is open, which are convenient for measuring transistor parameters.
@@ -8236,8 +8226,8 @@ These equations for an NPN silicon bipolar transistor are based on large-signal 
 * To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IC_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total collector current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
 ```rpl
 IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
-Failing [ VBE=0.65531 72748 12 V IS=0.00000 98 nA ICO=0.00001 0396 nA ICEO=0.00051 98 nA IE=-1.02040 81632 5 mA IB=0.02040 81632 55 mA VCEsat=0.02962 86227 01 V VCE=...]
-@ C#17 NOT OK MSOLVER: "Inconsistent units". Algebraic conforms to HP50g. SOLVE alone works but for IC=1. mA "Sign reversal".
+Failing [ VBE=0.65531 72748 12 V IS=0.00000 98 nA ICO=0.00001 0396 nA ICEO=0.00051 98 nA IE=-1.02040 81632 5 mA IB=0.02040 81632 55 mA VCEsat=0.02962 86227 01 V ]
+@ C#15 NOT OK MSOLVER: "Inconsistent units". Algebraic conforms to HP50g. SOLVE alone works but for IC=1. mA "Sign reversal".
 @ Then SOLVE fails surprisingly for the IB (simple eqn). And fails again for VCEsat "Argument outside domain" which doesn't compute
 'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
 ```
@@ -8256,7 +8246,7 @@ drain, and source resistances) are negligible.
 ```rpl
 ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
 @ Failing [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=0.35808 22815 91 V xdmax=1.04848 1973 μ G0=0.00059 98549 32 S ... ]
-@ C#18 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but failed for ID. Algebraic
+@ C#16 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but failed for ID. Algebraic
 @ calculation also fails "Inconsistent units", cannot go further.
 'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
 ```
@@ -8302,7 +8292,7 @@ The 28 variables in the Stress Analysis section are:
 ```rpl
 P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
 @ Failing [ σ=12 732.39544 73 psi δ=0.00127 32395 45 ft 45 ε=0.00127 32395 45 ]
-@ C#19 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σ but indicate for δ "Inconsistent units" for ε "Sign reversal" NOTE: HP50g_AUR has an error in the calculated value of δ. New trial with UBASE in eqn (2) to calculate δ
+@ C#17 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σ but indicate for δ "Inconsistent units" for ε "Sign reversal" NOTE: HP50g_AUR has an error in the calculated value of δ. New trial with UBASE in eqn (2) to calculate δ
 'ROOT(ⒺNormal Stress;[σ;δ;ε];[1_psi;1_in;1])'
 ```
 
@@ -8329,7 +8319,6 @@ Stresses and strains are positive in the directions shown in the picture.
     "Shear Stress",  "{ "
 σx=15000_kPa  σy=4755_kPa  τxy=7500_kPa  θ=30_°
 @ Expecting [ σx1=18 933.94052 84 kPa σy1=821.05947 1617 kPa τx1y1=-686.21513 0886 kPa ]
-@ C#20 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σx1;σy1 but SOLVE for τx1y1: "Inconsistent units"
 'ROOT(ⒺStress On An Element;[σx1;σy1;τx1y1];[1_kPa;1_kPa;1_kPa])'
 ```
 
@@ -8411,25 +8400,20 @@ sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
 * **Example 1**. To calculate for an unknomn substance `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=10_cm  ω=6000_r/s  B=12500_kPa  ρ=65_kg/m^3   x=2_cm   t=0_s  r=10_m   k=13.6821_r/m  φ=2_r
-@ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W ]
+@ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
 @ Failing [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
-@ C#21 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
-@ But β can be computed '→NUM((10_dB)*LOG10((I_(W/(m^2)))/(ⒸI0)))'=217.10184 1899 dB
+@ C#18 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
-'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
 ```
-
 * **Example 2**. For a sound wave propagating in air at a pressure of 1 atm and temperature of 20°C, to calculate `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=1e-5_m  ω=2 513.27412 287_r/s  B=141_kPa  ρ=1.29_kg/m^3   x=2_cm   t=0_s  r=5_m   k=7.59297 31808 8_r/m  φ=2_r
-@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W ]
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=1.34695 82516 8⁳⁻¹ W/m↑2 s=8.35879 55288 8⁳⁻⁴ cm vs=-1.37956 85902 cm/s as=5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
 @ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
-@ C#21 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
+@ C#18 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353
 @ But β can be computed '→NUM((10_dB)*LOG10((I_(W/(m^2)))/(ⒸI0)))'=111.29354 1352 dB
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
-'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
 ```
-
 #### Doppler Effect
 
 In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air `vr` is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air `vs` is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
@@ -8439,18 +8423,16 @@ In the classical Doppler effect it is assumed that the speed of the observer and
     "'(f_Hz)=(f0_Hz)*(((vsair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
     "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
 T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
-@ Expecting [ vsair=25. m/s f=-2.⁳⁻²³ Hz ]
 @ Failing [ vsair=343.23616 5602 m/s f0=1 302.30661 671 HZ ]
-@ C#22 NOT OK MSOLVER: hallucinantes both values of vsair & f
+@ C#19 NOT OK MSOLVER: "Inconsisten units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
 * **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
 T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
-@ Expecting [ vsair=-25. m/s f=-2.⁳⁻²³ Hz ]
 @ Failing [ vsair=343.23616 5602 m/s f0=1 123.70996 713 HZ ]
-@ C#22 NOT OK MSOLVER: hallucinantes both values of vsair & f
+@ C#19 NOT OK MSOLVER: "Inconsisten units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -8464,8 +8446,7 @@ For an object moving at a supersonic speed, the shockwave describes a cone havin
     "'SIN(θcone_°)=ubase((vsair_(m/s))/(u_(m/s)))' "
     "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
 T=-20_°C  u=2200_km/h
-@ Failing [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
-@ C#23 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for M & θcone: "Inconsistent units".
+@ Expecting [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
 'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
 ```
 
@@ -8475,10 +8456,10 @@ A string being fixed or free at its ends admits only discrete harmonics as stand
 
 * To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixed-fixed_Hz;ffixed-free_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
 ```rpl
-λ=1,2_m f=112_Hz μ=1,8_(g/m) L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s ym=2_cm
+λ=1.2_m  f=112_Hz  μ=1.8_(g/m)  L=0.6_m  ninteger=2  nodd=3  x=10_cm  t=5_s  ym=2_cm
 @ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=0.99999 99999 99 cm ffixed-fixed=531.60102 2863 Hz
 ffixed-free=398.70076 7147 Hz ]
-@ C#24 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units". Algebraic are OK
+@ C#20 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units". Algebraic are OK
 'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixed-fixed;ffixed-free];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
 ```
 
@@ -8488,10 +8469,10 @@ A tube being open or closed at its ends admits only discrete harmonics as standi
 
 * To calculate `[v_m/s;k_(r/m);ω_(r/s);T_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
 ```rpl
-λ=3_m f=110_Hz L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
+λ=3_m f=110_Hz L=0.6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
 @ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=-2.17345 88932 4 °C s=0.00000 04158 23 m fopenopen=550. Hz
 fopenclose=412.5 Hz ]
-@ C#25 NOT OK MSOLVER: "Bad argument type". SOLVE works for all unknowns except for s "Inconsistent units". Algebraic are OK.
+@ C#21 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for s "Inconsistent units". Algebraic are OK.
 'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
 ```
 
@@ -8512,7 +8493,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
 @ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
-@ C#26 NOT OK MSOLVER: "Numerical precision lost". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
+@ C#22 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
 @ But algebraics are OK and the unknown can be computed.
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```
@@ -8532,7 +8513,7 @@ The 109 variables in the Relativity section are:
 * `Δx`: Proper space interval
 * `Δxp`: Contracted space interval
 * `λ1`: Wavelength of the photon as measured by the observer at position `R1`
-* `λ2`: Wavelength of the photon as measured by the observer at position `R2`  yyy
+* `λ2`: Wavelength of the photon as measured by the observer at position `R2`
 * `λ∞`: Wavelength of the photon as measured by the observer at infinity
 * `γ`: Lorentz factor
 * `γ21`: Factor of combined special and general relativity effects
@@ -8642,7 +8623,7 @@ The primed reference frame `[xp yp zp]` is travelling with velocity `v` in the p
 x=1_m  y=2_m  z=3_m  t=4_s  v=239 833 966.4_m/s
 @ Expecting [ β=0.8 γ=1.66666 66666 7 xp=-1.59889 31076 7⁳⁹ m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
 @ Failing [ β=0.8 γ=1.66666 66666 7 xp=959 335 865.6 m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
-@ C#27 NOT OK MSOLVE: hallucinates the value of xp. SOLVE for xp hallucinates also.
+@ C#23 NOT OK MSOLVE: hallucinates the value of xp. SOLVE for xp hallucinates also.
 'ROOT(ⒺLorentz Transformation;[β;γ;xp;tp;yp;zp];[1;1;1_m;1_s;1_m;1_m])'
 ```
 
@@ -8654,7 +8635,7 @@ The dilation comes from the fact that the Lorentz factor `γ` is greater or equa
 ```rpl
 Δt=4_s  v=239 833 966.4_m/s
 @ Failing [ β=0.8 γ=1.66666 66666 7 Δtp=6.66666 66666 7 s ]
-@ C#28 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
+@ C#24 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
 'ROOT(ⒺLorentz Transformation;[β;γ;Δtp];[1;1;1_s])'
 ```
 
@@ -8673,12 +8654,25 @@ The contraction comes from the fact that the Lorentz factor `γ` is greater or e
 
 These expressions replace the usual Galilean addition of velocities. It can be checked that superposing with `v = c` leads to `upx = c`, hence the impossibility to superpose velocities to go beyond the velocity limit `c`. Even if the velocity `v` is confined to the x-direction, all components of the observed velocity are transformed in the moving frame.
 
-* To calculate `[β;γ;upx_(m/s);upy_(m/s);upz_(m/s)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the velocity observed in the moving frame) from 3 known variables:
+* **Example 1** To calculate `[β;γ;upx_(m/s);upy_(m/s);upz_(m/s)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the velocity observed in the moving frame) from 3 known variables:
 ```rpl
 v=296 794 533.42_m/s  ux=284 802 835.1_(m/s)  uy=200 000 000_(m/s)  uz=250 000 000_(m/s)
 @ Expecting [ β=0.99 γ=7.08881 20500 8 upx=-201 541 148.235 m/s upy=474 175 999.317 m/s upz=592 719 999.146 m/s ]
 'ROOT(ⒺVelocity Superposition;[β;γ;upx;upy;upz];[1;1;1_(m/s);1_(m/s);1_(m/s)])'
 ```
+* **Example 2** First attempt to cross the `c` speed limit, to calculate `[upx_(m/s)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the velocity observed in the moving frame) from 2 known variables:
+```rpl
+v=299 792 458_m/s  ux=284 802 835.1_m/s
+@ Expecting [ upx=-299 792 458. m/s ]
+'ROOT(ⒺVelocity Superposition;[upx];[1_(m/s)])'
+```
+* **Example 3** Second attempt to cross the `c` speed limit, to calculate `[upx_(m/s)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the velocity observed in the moving frame) from 2 known variables:
+```rpl
+ux=299 792 458_m/s  v=284 802 835.1_m/s
+@ Expecting [ upx=299 792 458. m/s ]
+'ROOT(ⒺVelocity Superposition;[upx];[1_(m/s)])'
+```
+
 
 #### Acceleration Superposition
 
@@ -8699,7 +8693,7 @@ v=298 293 495.71_m/s  ax=100_(m/s^2)  ay=200_(m/s^2)  az=300_(m/s^2)  ux=284
 ```rpl
 v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By=250_T  Bz=350_T
 @ Failing [ β=0.995 γ=10.01252 34864 Epx=100._N/C Epy=-1.04533 47190 7e12_N/C Epz=7.46667 66091 6e11_N/C Bpx=150_T Bpy=2 503.13088 158 T Bpz=3 504.38321 361 T E=374.16573 8677 N/C B=455.52167 8957 T E=1.28461 56120 6⁳¹² N/C Bp=4 309.16069 765 T ]
-@ C#30 NOT OK MSOLVE & SOLVE & Algebraics: "Inconsistent units" see ISSUE #1356
+@ C#25 NOT OK MSOLVE & SOLVE & Algebraics: "Undefined name" see ISSUE #1356
 'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz;E;B;Ep;Bp];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T;1_(N/C);1_T;1_(N/C);1_T])'
 ```
 
@@ -8726,8 +8720,9 @@ v=298 293 495.71_m/s  fs=2e3_Hz
 * To calculate `[β;γ;fp;θp;Pθ]` (Relativistic speed ratio; Lorentz factor; Transformed Doppler frequency; Emission angle in the moving frame for light aberration; Angular distribution of photon in the moving frame from a source isotropic and stationary) from 4 known variables:
 ```rpl
 v=298 293 495.71_m/s  f=2e3_Hz  α=20_°  θ=10_°
+@ Expecting [ β=0.995 γ=10.01252 34864 fpr=38 748.34889 98 Hz θp=3 720.44203 73 ° Pθ=2.14021 57038 4 ]
 @ Failing [ β=0.995 γ=10.01252 34864 fpr=38 748.34889 97 Hz θp=120.44203 7302 ° Pθ=2.14021 57038 6 ]
-@ C#31 NOT OK MSOLVE: "Inconsistent units". Algebraics: OK
+@ C#26 NOT OK MSOLVE: hallucinates value of θp. Algebraics: OK
 'ROOT(ⒺLight Propagation;[β;γ;fpr;θp;Pθ];[1;1;1_Hz;1_°;1])'
 ```
 
@@ -8739,7 +8734,7 @@ The total relativistic energy `E` and the norm of the momentum `p` form the inva
 ```rpl
 v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
 @ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=3.92123 95184⁳⁹ kg/s K= 1.33189 22556 7⁳¹⁹ J ]
-@ C#32 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
+@ C#27 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
 'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
 ```
 
@@ -8749,14 +8744,15 @@ v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s)
 ```rpl
 K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
 @ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=0.00000 00124 25 s Δxp=3.72497 65249 3 m ]
-@ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+@ C#28 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
 * **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
 ```rpl
-32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781_s
+32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755
+781_s
 @ Failing [ E0=1.50327 76180 161⁳⁻¹⁰ J γ=3.41052 60362 89408 32603 82⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 57283 93430 7331⁳⁻¹⁶ s Δxp=0.00000 02932 09900 57240 03256 07 m ]
-@ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+@ C#28 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
 
@@ -8764,7 +8760,7 @@ K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.0
 
 * To calculate `[ve_m/s;βe;γG;ΔtpG_s]` (Excape speed; Relativistic escape speed ratio; Lorentz factor associated to gravitational dilation; Gravitational dilated time interval) from 3 known variables:
 ```rpl
-M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
+M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s  
 @ Expecting [ ve=210 912 146.007 m/s βe=0.70352 71914 92 γG=1.40712 61408 1 ΔtpG=1 407 126.14081 s ]
 'ROOT(ⒺGravitational Time Dilation;[ve;βe;γG;ΔtpG];[1_m/s;1;1;1_s])'
 ```
@@ -8774,8 +8770,7 @@ M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
 * To calculate `[rs_m;λ∞_nm;z;λ1_nm;zNL]` (Schwarzschild  radius; Wavelength of the photon as measured by the observer at infinity; Gravitational redshift; Wavelength of the photon as measured by the observer at position R1) from 7 known variables:
 ```rpl
 λe=550_nm  λ2=550_nm  M=2.32e30_kg  Remp=70_km  R2=50e6_km  R1=10e6_km  M=4.10227 55e30_kg
-@ Failing [ rs=6 091.27004 242 m λ∞=575.61435 4886 nm z=4.65715 54338 2⁳⁻²  λ1=549.99986 5992 nm zNL=4.35090 71731 6⁳⁻² ]
-@ C#34  MSOLVER: "Inconsistent units". SOLVER: "Bad argument type"
+@ Expecting [ rs=6 091.27004 242 m λ∞=575.61435 4886 nm z=4.65715 54338 1⁳⁻² λ1=549.99986 5992 nm zNL=4.35090 71731 6⁳⁻² ]
 'ROOT(ⒺGravitational Redshift;[rs;λ∞;z;λ1;zNL];[1_m;1_nm;1;1_nm;1])'
 ```
 
@@ -8795,6 +8790,7 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 ```rpl
 24 PRECISION 24 SIG vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R=6371e3_m  hp=18288_m  M=5.972168e24_kg  φ=12_°
 @ Expecting [ Δt=64 689.99803 65516 53654 321 s vg=453.18771 12964 44358 64443 2 m/s βp=0.00000 20189 89342 87992 5866 βg=0.00000 15116 71488 73519 8112 MGu=0.00443 38913 88656 93479 3177 m Δτg=64 689.99799 14567 97869 7596 s ΔτpE=64 689.99799 12563 75377 464 s ΔτpW=64 689.99799 16512 49416 6709 s ΔτE=-200.42249 22956 00000 00000 3 ns ΔτW=194.45154 69112 99999 99999 7 ns ΔτWE=394.87403 92068 99999 99999 9 ns ]
+            
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
 
@@ -8802,7 +8798,7 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 
 It is assumed that the two clocks are at rest with respect to the ground at a latitude `φ` and are rotating with the planet at the angular frequency `ω`. The clocks are at their respective heights `h1` and `h2` for instance at the bottom & top of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invoke an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velocities at height `h1` and `h2` are << `c` (slow rotating planet).
 
-* **EXAMPLE** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
+* **EXAMPLE 1** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
 24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
 @ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
@@ -8813,10 +8809,29 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
 @ The prerequisite condition & its direct consequence are satisfied by:
 '(Δh_m)/((R_m)+(h1_m)) < 0.1/100'   'ABS(γv1/γv2-1) < 0.1/100'
-@ The APPROXIMATION is then checked by:
+@ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
 @ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
+@ Expecting [ 1.09237 01908 71344 51715 531⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
+```
+* **EXAMPLE 2** (Earth, Mount Everest):  This mount has an height of 3660_m with repect to the surrounding ground which is at an altitude of 5200_m. To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
+```rpl
+24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=5200_m  h2=8860_m  M=5.972168e24_kg  φ=15_°
+@ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.89048 35228 81029 63307 3 m/s v2=448.14757 69593 62593 03579 7 m/s MGu=0.00443 38913 88656 93479 315 m γv1=1.00000 00000 01116 02074 718 γv2=1.00000 00000 01117 30232 813 γG1=1.00000 00006 95381 48007 927 γG2=1.00000 00006 94982 55342 261 γ21=1.00000 00000 00397 64507 542 ]
+'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
+```
+* **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
+```rpl
+Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
+@ The prerequisite condition & its direct consequence are satisfied by:
+'(Δh_m)/((R_m)+(h1_m)) < 0.1/100'   'ABS(γv1/γv2-1) < 0.1/100'
+@ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
+'→NUM(ABS(approx1/approx2-1)) < 0.1/100'
+@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
+@ Expecting [ 1.09058 91900 41080 54310 648⁳⁻¹⁶ m⁻¹ ]
+'→NUM(gloc/Ⓒc^2)'
+'ABS(γG1/γG2-1)'
 ```
 
 #### B H Schwarzschild Geometry
@@ -8826,7 +8841,7 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
 @ Failing [ rs=1.26806 32044 9⁳¹⁰ m ve=308 177 217.955 m/s Vs=8.54105 09309⁳³⁰ m↑3 Vxsun=6 048.90292 557 rxearth=1 883.53476 691 Mxsun=4 294 694.49334 Mxearth=1.42996 64711 4⁳¹² ]
 @ NOTE that the fact that `ve > Ⓒc` which is unphysical, prooves that we are probably in the presence of a blach hole
-@ C#35 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ C#29 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
 'ROOT(ⒺB H Schwarzschild Geometry;[rs;ve;Vs;Vxsun;rxearth;Mxsun;Mxearth];[1_m;1_(m/s);1_(m^3);1;1;1;1])'
 ```
 
@@ -8836,138 +8851,395 @@ M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
 ```rpl
 M=1.708e45_kg  t=4.18902 53989e119_s
 @ Failing [ rs=2.53612 64089 8⁳¹⁸ m As=8.08261 06149 9⁳³⁷ m↑2 TH=7.18505 89680 3⁳⁻²³ K PBH=1.22150 43668 5⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.18902 53989⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ Txyr=1.32742 20469 6⁳¹¹² ]
-@ C#36 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ C#30 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
-* **Example 1** For a small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
+* **Example 2** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
 @ Failing [ rs=1.48485 15275⁳⁻²⁴ m As=2.77061 33606 7⁳⁻⁴⁷ m↑2 TH=1.22720 80717 4⁳²⁰ K PBH=3.56345 07152 6⁳²⁶ W SBH=0.36617 88084 J/K tev=8.40716 15834 7⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
-@ C#36 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ C#30 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 
 ## Modern Physics
-The 37 variables in the Modern Physics section are:
+The 43 variables in the Modern Physics section are:
 
-* `β`: Velocity relativistic speed ratio
-* `φ`: Work function of the substance (dim.: energy, in SI: eV)
-* `θ`: Diffused photon angle of deflection (Photoelectric Effect, Compton Effect), or Angle between incident photon and cristallographic plane (DeBroglie Wave)
+* `β`: Relativistic speed ratio
+* `φ`: Work function of the substance ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy, in SI: eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering)
+* `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
 * `γ`: Lorentz relativistic factor
-* `%rFr12`: Relative % of change between distribution fractions integrated from f1 to f2
-* `%rFr34`: Relative % of change between distribution fractions integrated from f3 to f4
-* `λ`: Wavelength of the incident photon (Compton Effect)
+* `%rFr12`: Relative % of change between distribution fractions integrated from `f1` to `f2`
+* `%rFr34`: Relative % of change between distribution fractions integrated from `f3` to `f4`
+* `λ`: Wavelength of the incident photon ([Compton Scattering](#Compton Scattering))
 * `λp`: Wavelength of the diffused photon
-* `A`: Area, or Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq)
+* `A`: Area, or Total activity ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq)
 * `d`: Interatomic distance between cristallographic plane
-* `En`: Electron energy in level n (dim.: energy, in SI: eV)
-* `Enp`: Electron energy in level np (dim.: energy, in SI: eV)
-* `ebfafb`: Emissive power in the range fa to fb (dim.: energy/time·area, in SI: W/m^2)
+* `En`: Electron energy in level `n` (dim.: energy, in SI: eV)
+* `Enp`: Electron energy in level `np` (dim.: energy, in SI: eV)
+* `ebfafb`: Emissive power in the range `fa` to `fb` (dim.: energy/time·area, in SI: W/m^2)
 * `eb`: Total emissive power for the entire Planck spectrum (dim.: energy/time·area, in SI: W/m^2)
-* `Eph`: Photon energy (dim.: energy; in SI: eV)
+* `Eph`: Inident photon energy (dim.: energy; in SI: eV)
+* `Epph`: Diffused photon energy (dim.: energy; in SI: eV)
 * `f`: Frequency of the photon (dim.: 1/time, in SI: hertz, Hz)
 * `f0`: Threshold frequency (dim.: 1/time, in SI: hertz, Hz)
-* `f1, f2`: Lower and upper frequency limits of integration (dim.: 1/time, in SI: hertz, Hz)
-* `f3, f4`: Lower and upper frequency limits of integration (dim.: 1/time, in SI: hertz, Hz)
+* `f1`: Lower frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
+* `f2`: Upper frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
+* `f3`: Lower frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
+* `f4`: Upper frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
+* `fa`: Lower frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
+* `fb`: Upper frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
 * `fpeak`: Frequency of maximum emissive power for the Planck distribution (dim.: 1/time, in SI: hertz, Hz)
-* `Frfafb`: Fraction of total emissive power in the range fa to fb
-* `FrPl12`: Fraction of Planck emissive power in the range f1 to f2
-* `FrWn12`: Fraction of Wien emissive power in the range f1 to f2
-* `FrRJ12`: Fraction of Rayleign-Jeans emissive power in the range f1 to f2
-* `FrPl34`: Fraction of Planck emissive power in the range f3 to f4
-* `FrWn34`: Fraction of Wien emissive power in the range f3 to f4
-* `FrRJ34`: Fraction of Rayleign-Jeans emissive power in the range f3 to f4
-* `K`: Kinetic energy of ejected electron (dim.: energy; in SI: eV)
-* `Kmax`: Maximum kinetic energy of photoelectron (dim.: energy; in SI: eV)
+* `Frfafb`: Fraction of total emissive power in the range `fa` to `fb`
+* `Frfafb`: Fraction of Planck emissive power in the range `fa` to `fb`
+* `FrPl12`: Fraction of Planck emissive power in the range `f1` to `f2`
+* `FrWn12`: Fraction of Wien emissive power in the range `f1` to `f2`
+* `FrRJ12`: Fraction of Rayleign-Jeans emissive power in the range `f1` to `f2`
+* `FrPl34`: Fraction of Planck emissive power in the range `f3` to `f4`
+* `FrWn34`: Fraction of Wien emissive power in the range `f3` to `f4`
+* `FrRJ34`: Fraction of Rayleign-Jeans emissive power in the range `f3` to `f4`
+* `K`: Kinetic energy of scattered electron (dim.: energy; in SI: eV)
+* `Kmax`: Maximum kinetic energy of photoelectron ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy; in SI: eV)
 * `p`: Momentum (dim.: mas·speed, in SI: kg·m/s)
 * `m`: Mass
 * `q`: Heat transfer rate (dim.: energy/time, in SI: watt, W)
-* `r`: Radius of electron orbit in level n
+* `r`: Radius of electron orbit in level `n`
 * `T`: Temperature
 * `V0`: Stopping potential (dim.: energy/charge, In SI: volt,V)
+* `v`: Speed of emitted electron
+* `vmax`: Maximum speed of ejected photoelectron
 
 #### Planck & Wien Comparison
 
-In this section, two comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` and `f2`, or between `f3` and `f4`. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` & `f2`, or between `f3` & `f4`. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power `ebfafb` and the heat transfer rate `q` from the black-body. Or, For the Planck distribution, one could choose any other values for `fa` & `fb` and computes the corresponding `FrPlab`, `ebfafb` and `q`.
 
 ![Planck & Wien Comparison](img/Planck&Wien_Distributions.bmp)
 
+* To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrWn12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrWn34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
+```rpl
+24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=7.48479 70756 7⁳¹³_Hz  fb=2.38754 63831 2⁳¹⁴_Hz  Frfafb=0.62639 35930 68
+@ Failing [ fpeak=7.48479 70756 7⁳¹³ Hz f1=1.06113 17258 3⁳¹⁴ Hz f2=2.38754 63831 2⁳¹⁴ Hz FrPl12=6.26393 59306 8⁳⁻¹ FrWn12=0.61528 52483 99 %rFr12=1.77338 09528 6 f3=2.65282 93145 8⁳¹¹ Hz f4=6.63207 32864 4⁳¹³ Hz FrPl34=2.84027 62457 4⁳⁻¹ FrWn34=0.22398 47200 01 %rFr34=21.13981 15457 FrPlab=0.62639 35930 68 eb=148 984.27029 5 W/m↑2 ebfafb=93 322.79238 1 W/m↑2 q=933.22792 381 W ]
+'ROOT(ⒺPlanck & Wien Comparison;[fpeak;f1;f2;FrPl12;FrWn12;%rFr12;f3;f4;FrPl34;FrWn34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
+```
+
 #### Planck & Rayleigh-Jeans Comparison
 
-In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` and `f2`, or between `f3` and `f4`. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` & `f2`, or between `f3` & `f4`. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power `ebfafb` and the heat transfer rate `q` from the black-body. Or, For the Planck distribution, one could choose any other values for `fa` & `fb` and computes the corresponding `FrPlab`, `ebfafb` and `q`.
 
 ![Planck & Rayleigh-Jeans Comparison](img/Planck&Rayleigh-Jeans_Distributions.bmp)
+
+* To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrRJ12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrRJ34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
+```rpl
+24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=2.65282 93145 8⁳¹⁰ Hz  fb=7.48479 70756 7⁳¹³_Hz  Frfafb=0.35399 34269 16
+@ Failing [ fpeak=7.48479 70756 7⁳¹³ Hz f1=4.50980 98347 8⁳¹³ Hz f2=9.81546 84639 3⁳¹³ Hz FrPl12=0.41306 62386 78 FrRJ12=2.34783 01416 5 %rFr12=468.39071 3596 6 f3=2.65282 93145 8⁳¹⁰ Hz f4=1.32641 46572 9⁳¹² Hz FrPl34=6.29668 51249 6⁳⁻⁶ FrRJ34=6.41618 75792 7⁳⁻⁶ %rFr34=1.89786 29538 3 FrPlab=0.35399 34269 16 eb=148 984.27029 5 W/m↑2 ebfafb=52 739.45239 85 W/m↑2 q=527.39452 3985 W ]
+'ROOT(ⒺPlanck & Rayleigh‐Jeans Comparison;[fpeak;f1;f2;FrPl12;FrRJ12;%rFr12;f3;f4;FrPl34;FrRJ34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
+```
 
 #### Photoelectric Effect
 
 Einstein explained the photoelectric effect with the energy quantification of the electromagnetic wave. The photoelectron is then emitted only if the energy `E` of the incident photon is greather or equal to the work function `φ` of the material. A simple energy budget equation determines the maximum kinetic energy `Kmax` of the photoelectron.
 
-#### Compton Effect
+* To calculate `[f_Hz;Eph_eV;f0_Hz;λ0_nm;Kmax_eV;Vo_V;vmax_m/s]` (Frequency, Photon enrgy; Threshold frequency; Threshold wavelength; Maximum kinetic energy of photoelectron; Stoping potential; Maximum speed of photoelectron) from 2 known variables:
+```rpl
+φ=4.01_eV  λ=207_nm  
+@ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 70376 9 eV f0=9.69613 32440 3⁳¹⁴ λ0=309.18764 2594 nm Hz Kmax=1.97957 70376 9 eV V0=1.97957 78976 4 V vmax=834 472.42017 5 m/s ]
+'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;v];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
+```
 
-In the Compton effect, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency `f` (or energy `E = hf`) photon scatters due to an interaction with a charged particle, there is a decrease in the energy of the photon emitted at an angle `θ` and thus, an increase in its wavelength `λp`. The energy of the ejected electron `Kmax` is relativist.
+#### Compton Scattering
+
+In the Compton Scattering, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency `f` (or energy `E = hf`) photon scatters due to an interaction with an electron, there is a decrease in the energy of the photon scattered at an angle `θ` and thus, an increase in its wavelength `λp`. The kinetic energy of the scattered electron `Kmax` is relativist.
+
+![Compton Scattering_BW](img/Compton Scattering_BW.bmp)
+
+* To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
+```rpl
+θ=40_°  λ=0.024_nm 
+@ Failing [ λp=0.02456 76488 43 nm K=1 193.63465 705 eV γ=1.00233 58857 7  β=0.06823 08822 04 v=20 455 103.8874 m/s Eph=51 660.10195 01 eV Epph=50 466.46729 33 eV p=1.86768 64373 3⁳⁻²³ kg·m/s φ=68.16079 96523 ° ]
+'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
+```
 
 #### De Broglie Wave
 
 At all scales where measurements have been possible, matter exhibits wave-like behavior (e.g. Young interference for protons, even for molecules). More precisely, a beam of neutron can be diffracted just like a beam of light or a water wave as it is the case in the Bragg diffraction. Here, the interference is constructive when the phase difference between the matter wave reflected off different atomic planes at an angle `θ` is a multiple of 2π, giving the Following condition: `2·d·SINθ = n·λ` with `n` integer and where `θ` is mesured between the refected waves trajectory and the atomic plane.
 
+* To calculate `[λ_nm;K_eV;v_m/s;d_nm]` (De Broglie wavelength of scattered photon; Kinetic energy of scattered electron; Speed of the scattered electron; Distance between adjacent atomic planes) from 3 known variables:
+```rpl
+θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
+@ Failing [ λ=0.06626 0755 nm K=342.58664 2473 eV v=10 977 691.0426 m/s d=0.10308 34353 39 nm ]
+'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
+```
+
 #### Bohr Atomic Model
 
+Since the hydrogen atom is a bound system between the proton of the nucleus and the electron located at a level n, the binding energy is calculated with a negative expression, the value 0 corresponding to a free electron or occupying a level n which tends to infinity. A transition which gives a positive energy difference corresponds to the emission of a final photon `np` > initial `n`, or if it is negative, to the absorption of a photon.
+
+* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+```rpl
+np=2  n=1  Z=1 
+@ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
+@ Failing [ Enp=-3.40141 63113 2 eV En=-13.60566 52453 eV r=5.29178 06500 7⁳⁻¹¹ m f=2.46737 54942 4⁳¹⁵ Hz Eph=10.20424 8934 eV λ=121.50256 7688 nm ]
+'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
+```
+* **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+```rpl
+np=2  n=9.99999E999999  Z=1 
+@ Failing [ Enp=-3.40141 63113 2 eV En=-1.36056 92456 6⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29177 00665 1⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22458 49807 9⁳¹⁴ Hz Eph=-3.40141 63113 2 eV λ=-364.50770 3064 nm ]
+'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
+```
+
 ## Nuclear Physics
-The 39 variables in the Nuclear Physics section are:
+The 51 variables in the Nuclear Physics section are:
 
 * `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
-* `A`: Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number (Nuclear Physics)
-* `AXα`: Mass number of the radionuclide X undergoing α decay
-* `AYα`: Mass number of the daughter nuclide Y from α decay
-* `AXβ⊖`: Mass number of the radionuclide X undergoing β- decay
-* `AYβ⊖`: Mass number of the daughter nuclide Y from β- decay
-* `AXβ⊕`: Mass number of the radionuclide X undergoing β+ decay
-* `AYβ⊕`: Mass number of the daughter nuclide Y from β+ decay
-* `Aa`: Mass number of the incident nuclide or particle a
-* `Ab`: Mass number of the product nuclide or particle b
-* `AX`: Mass number of the reactant nuclide X
-* `AY`: Mass number of the product nuclide Y
+* `A`: Total activity at time `t` ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number ([Nuclear Physics](#Nuclear Physics))
+* `abdaughter`: Abondance of the daughter nuclide 
+* `abparent`: Abondance of the parent radionuclide
+* `abtot`: Total abondance of the nuclide
+* `AY1`: Mass number of the first nuclide `Y1` produced by a fission
+* `AY2`: Mass number of the second nuclide `Y2` produced by a fission
+* `AXα`: Mass number of the radionuclide `X` undergoing α decay
+* `AYα`: Mass number of the daughter nuclide `Y` from α decay
+* `AXβ⊖`: Mass number of the radionuclide `X` undergoing β⊖ decay
+* `AYβ⊖`: Mass number of the daughter nuclide `Y` from β⊖ decay
+* `AXβ⊕`: Mass number of the radionuclide `X` undergoing β⊕ decay
+* `AYβ⊕`: Mass number of the daughter nuclide `Y` from β⊕ decay
+* `Aa`: Mass number of the incident nuclide or particle `a`
+* `Ab`: Mass number of the product nuclide or particle `b`
+* `AX`: Mass number of the reactant nuclide `X`
+* `AY`: Mass number of the product nuclide `Y`
 * `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
 * `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
 * `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
-* `ma`: Mass of incident nuclide or particle a (In SI: u)
-* `mb`: Mass of outgoing nuclide or particle b (In SI: u)
-* `mX`: Mass of reactant neutral atom X (In SI: u)
-* `mY`: Mass of product neutral atom X (In SI: u)
+* `K`: Kinetic energy of the emitted `α` particle
+* `Kmax`: Maximum kinetic energy of the electron ([β⊖ Decay](#β⊖ Decay)), or of the positron ([β⊕ Decay](#β⊕ Decay))
+* `ΔKtot`: Variation of total kinetic energy
+* `ma`: Mass of incident nuclide or particle `a` (In SI: u)
+* `mb`: Mass of outgoing nuclide or particle `b` (In SI: u)
+* `mX`: Mass of reactant neutral atom `X` (In SI: u)
+* `mY`: Mass of product neutral atom `X` (In SI: u)
 * `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
-* `N`: Number of nucleid (Radioactivity), or Number of neutron (Nuclear Physics)
-* `N0`: Initial number of nucleid
-* `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
-* `Qα`: Net energy balance of an α decay (dim.: energy, in SI: MeV)
-* `Qβ⊖`: Net energy balance of a β- decay (dim.: energy, in SI: MeV)
-* `Qβ⊕`: Net energy balance of a β+ decay (dim.: energy, in SI: MeV)
+* `N`: Number of nuclide at time `t` ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
+* `nn`: Number of neutrons produced in a fission reaction
+* `N0`: Initial number of nuclide
+* `Q`: Reaction energy of a nuclear reaction (dim.: energy, in SI: MeV)
+* `Qα`: Reaction energy of an α decay (dim.: energy, in SI: MeV)
+* `Qβ⊖`: Reaction energy of a β⊖ decay (dim.: energy, in SI: MeV)
+* `Qβ⊕`: Reaction energy of a β⊕ decay (dim.: energy, in SI: MeV)
 * `R`: Radius of the nucleus having `A` nucleons
-* `T1/2`: Half-life of radionuclide (dim.: time)
+* `t`: Age of the decaying nuclide
+* `Thl`: Half-life of radionuclide (dim.: time)
 * `Z`: Number of proton
-* `ZXα`: Proton number of the radionuclide X undergoing α decay
-* `ZYα`: Proton number of the daughter nuclide Y from α decay
-* `ZXβ⊖`: Proton number of the radionuclide X undergoing β- decay
-* `ZYβ⊖`: Proton number of the daughter nuclide Y from β- decay
-* `ZXβ⊕`: Proton number of the radionuclide X undergoing β+ decay
-* `ZYβ⊕`: Proton number of the daughter nuclide Y from β+ decay
-* `Za`: Proton number of the incident nuclide or charge of the incident particle a
-* `Zb`: Proton number of the incident nuclide or or charge of the product particle b
-* `ZX`: Proton number of the reactant nuclide X
-* `ZY`: Proton number of the product nuclide Y
+* `ZXα`: Proton number of the radionuclide `X` undergoing α decay
+* `ZYα`: Proton number of the daughter nuclide `Y` from α decay
+* `ZY1`: Proton number of the first nuclide `Y1` produced by a fission
+* `ZY2`: Proton number of the second nuclide `Y2` produced by a fission
+* `ZXβ⊖`: Proton number of the radionuclide `X` undergoing β⊖ decay
+* `ZYβ⊖`: Proton number of the daughter nuclide `Y` from β⊖ decay
+* `ZXβ⊕`: Proton number of the radionuclide `X` undergoing β⊕ decay
+* `ZYβ⊕`: Proton number of the daughter nuclide `Y` from β⊕ decay
+* `Za`: Proton number of the incident nuclide or charge of the incident particle `a`
+* `Zb`: Proton number of the incident nuclide or charge of the product particle `b`
+* `ZX`: Proton number of the reactant nuclide `X`
+* `ZY`: Proton number of the product nuclide `Y`
 
-For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, Z = 0`), positrons (`A = 0`, Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions like can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
+For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
 
 #### Radioactivity
 
+* **Example 1** For a sample of 1 g of radium, to calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
+//    "'(Thl_s)='ln(2)/(λ_s^-1)' "
+//    "'abtot=abparent*abdaughter'
+//    "'N0=abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
+//    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
+//    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
+//    "'(A_Bq)='(A0_Bq)*exp(-(λ_s^-1)*(t_s))' "
+```rpl
+m=1_g  MW=226_(g/mol)  λ=1.37364 03205 5⁳⁻¹¹_s^-1  abparent=1  abdaughter=1  t=400_yr
+@ Failing [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 6⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+'ROOT(ⒺRadioactivity;[Thl;abtot;N0;A0;N;A];[1_s;1;1;1_Bq;1;1_Bq])'
+```
+* **Example 2** For the C14 datation (present in the atmosphere) of a 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
+//    "'(λ_s^-1)='ln(2)/(Thl_s)' "
+//    "'abtot='abparent*abdaughter'
+//    "'N0='abtot*(m_kg)*ⒸNA/(MW_(g/mol))' "
+//    "'N='N0*exp(-(λ_s^-1)*(t_s))' "
+//    "'(A0_Bq)='CONVERT((λ_s^-1)*N0;1_Bq)' "
+//    "'Convert(ln((A_Bq)/(A0_Bq))/(-(λ_s^-1));1_yr)' "
+```rpl
+m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
+@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
+'ROOT(ⒺRadioactivity;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
+```
+
 #### Radius & Binding Energy
+
+* **Example 1** For the C12, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
+```rpl
+N=6  Z=6  mX=12_u  
+@ Expecting [ A=12. R=2.74731 416⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+@ Failing [ A=12. R=2.74731 416⁳⁻¹⁵ m V=8.68587 51587 7⁳⁻⁴⁴ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
+```
+* **Example 2** For the U238, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
+```rpl
+N=92  Z=146  mX=238.0507847_u
+@ Expecting [ A=238. R=7.43658 53⁳⁻¹⁵ m V=1.72269 85997 1⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+@ Failing [ A=238. R=7.43658 53⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
+```
 
 #### α Decay
 
+* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Binding energy; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
+//    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(Kα_MeV)='(Qα_MeV)/((4.00260325413_u)/(mX_u)+1)' "
+//    "'γ='(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1' "
+//    "'β='√(1-1/γ^2)' "
+//    "'(AYα)='(AXα)-4' "
+//    "'(ZYα)='(ZXα)-2' "
+```rpl
+A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
+@ Expecting [ N=146. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
+@ Failing [ N=146 Δm=0.00458 00458 7 u Qα=4.26628 38693 5 MeV Kα=4.19573 64506 9 MeV  γ=1.00112 53451 3 β=0.04740 14418 32 AYα=234 ZYα=90 ]
+'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Binding energy; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
+//    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(Kα_MeV)='(Qα_MeV)/((4.00260325413_u)/(mX_u)+1)' "
+//    "'γ='(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1' "
+//    "'β='√(1-1/γ^2)' "
+//    "'(AYα)='(AXα)-4' "
+//    "'(ZYα)='(ZXα)-2' "
+```rpl
+A=239  Z=94  AXα=239  ZXα=94  mX=239.052157_u  mY=235.043924_u
+@ Expecting [ N=145. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
+@ Failing [ N=145 Δm=0.00562 97458 7 u Qα=5.24407 28052 7 MeV Kα=5.15771 39005 8 MeV  γ=1.00138 33586 3 β=0.05254 50928 98 AYα=235 ZYα=92 ]
+'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+
 #### β⊖ Decay
+
+The β⊖ Decay reaction has 3 products: the daughter nuclide, an electron & an antineutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the antineutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted elevtron.
+
+* **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+//    "'A=N+Z' "  'A-Z'
+//    "'(Δm_u)='((mX_u)-(mY_u))' "
+//    "'(Qβ⊖_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(Kmax_MeV)='(Qβ⊖_MeV)' "
+//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
+//    "'βmax='√(1-1/γmax^2)' "
+//    "'(AYβ⊖)='(AXβ⊖)' "
+//    "'(ZYβ⊖)='(ZXβ⊖)+1' "
+```rpl
+A=234  Z=90  AXβ⊖=234  ZXβ⊖=90  mX=234.0436014_u  mY=234.0433085_u
+@ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=0.27283 45044 57 MeV Kmax=0.27283 45044 57 MeV γmax=1.53392 40376 3 βmax=0.75828 53739 85 Aβ⊖=234 ZYβ⊖=91 ]
+'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊖_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊖)=(AXβ⊖);(ZYβ⊖)=(ZXβ⊖)+1];[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+* **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+//    "'A=N+Z' "  'A-Z'
+//    "'(Δm_u)='((mX_u)-(mY_u))' "
+//    "'(Qβ⊖_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(Kmax_MeV)='(Qβ⊖_MeV)' "
+//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
+//    "'βmax='√(1-1/γmax^2)' "
+//    "'(AYβ⊖)='(AXβ⊖)' "
+//    "'(ZYβ⊖)='(ZXβ⊖)+1' "
+```rpl
+A=14  Z=6  AXβ⊖=14  ZXβ⊖=6  mX=14.0032419884_u  mY=14.00307400443_u
+@ Failing [ N=8 Δm=0.00016 79839 7 u Qβ⊖=0.15647 60096 MeV Kmax=0.15647 60096 MeV γmax=1.30621 60447 9 βmax=0.64335 24392 34 Aβ⊖=14 ZYβ⊖=7 ]
+'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊖_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊖)=(AXβ⊖);(ZYβ⊖)=(ZXβ⊖)+1];[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
 
 #### β⊕ Decay
 
+The β⊕ Decay reaction has 3 products: the daughter nuclide, a positron & a neutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the neutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted positron.
+
+* For the β⊕ decay of K40 (present in banana) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((mX_u)-(mY_u)-2*Ⓒme)' "
+//    "'(Qβ⊕_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(Kmax_MeV)='(Qβ⊕_MeV)' "
+//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
+//    "'βmax='√(1-1/γmax^2)' "
+//    "'(AYβ⊕)='(AXβ⊕)' "
+//    "'(ZYβ⊕)='(ZXβ⊕)-1' "
+```rpl
+A=40  Z=19  AXβ⊕=40  ZXβ⊕=19  mX=39.963998166_u  mY=39.9623831237_u
+@ Failing [ N=21 Δm=0.00051 78824 82 u Qβ⊕=0.48240 42688 41 MeV Kmax=0.48240 42688 41 MeV γmax=1.94404 20136 8 βmax=0.85755 50653 72 Aβ⊕=40 ZYβ⊕=18 ]
+'ROOT(Ⓔβ⊕ Decay;[N;Δm;Qβ⊕;Kmax;γmax;βmax;AYβ⊕;ZYβ⊕];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊕_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊕_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊕)=(AXβ⊕);(ZYβ⊕)=(ZXβ⊕)+1];[N;Δm;Qβ⊕;Kmax;γmax;βmax;AYβ⊕;ZYβ⊕];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
+```
+
 #### General Nuclear Reaction
+
+* **Example 1**  For the nuclear reaction: α + N14 → O17 + p (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: the proton is replaced here by the neutral hydrogen atom H1):
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
+//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+//    "'(ΔKtot_MeV)='(Q_MeV)' "
+//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
+//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+```rpl
+A=14  Z=7  AX=14  ZX=7  Aa=4  Ab=1  Za=2  Zb=1  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.00782503223_u
+@ Expecting [ N=-3. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-1. ZY=-1. ]
+@ Failing [ N=3 Δm=-0.00127 95301 7 u Q=-1.19187 42911 2 MeV ΔKtot=-1.19187 42911 2 MeV AY=17 ZY=8 ]
+'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+```
+* **Example 2**  For the nuclear reaction: α + Al27 → P30 + n (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 5 known variables (note: to balance the `Z` number the α particle is replaced by the neutral helium atom He4):
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
+//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' " 'CONVERT((-0.00211 94139 96 u)*Ⓒc^2;1_MeV)'
+//    "'(ΔKtot_MeV)='(Q_MeV)' "
+//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
+//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+```rpl
+A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.67492750056E-27_kg
+@ Expecting [ N=14. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-1. ZY=-2.⁳⁻²³ ]
+@ Failing [ N=14 Δm=-0.00211 94139 96 u Q=-1.97422 07829 9 MeV ΔKtot=-1.97422 07829 9 MeV AY=17 ZY=8 ]
+'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+```
+* **Example 3**  For the fusion nuclear reaction: D2 + Li6 → He4 + He4 (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 5 known variables :
+//    "'A=N+Z' " 'A-Z'
+//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
+//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' " 'CONVERT((0.02401 81572 6 u)*Ⓒc^2;1_MeV)'
+//    "'(ΔKtot_MeV)='(Q_MeV)' "
+//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
+//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+```rpl
+A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.00260325413_u  ma=2.01410177812_u  mb=4.00260325413_u
+@ Expecting [ N=3. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-4. ZY=-2. ]
+@ Failing [ N=14 Δm=0.02401 81572 6 u Q=22.37276 21509 MeV ΔKtot=22.37276 21509 MeV AY=4 ZY=2 ]
+'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
+```
+
+#### Fission Reaction
+
+* For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 10 known variables:
+```rpl
+    "'A=N+Z' " 'A-Z'
+    "'(Δm_u)='convert((Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-convert(nn*Ⓒmn;1_u));1_u)' "
+    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
+    "'(ΔKtot_MeV)='(Q_MeV)' "
+    "'1+(AX)=(AY1)+(AY2)+nn' " '1+(AX)-((AY2)+nn)'
+    "'(ZX)=(ZY1)+(ZY2)' " '(ZX)-(ZY2)'
+A=235  Z=92  AX=235  ZX=92  AY2=94  ZY2=38  mX=235.043924_u  mY1=139.9216458_u  mY2=93.915361_u  nn=2
+@ Expecting [ N=143. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY1=140. ZY1=-38. ]
+@ Failing [ N=143 Δm=0.19825 22839 44 u Q=184.67075 332 MeV ΔKtot=184.67075 332 MeV AY1=140 ZY1=54 ]
+'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
+'ROOT([A=N+Z;(Δm_u)=convert((Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-convert(nn*Ⓒmn;1_u));1_u);(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);1+(AX)=(AY1)+(AY2)+nn;(ZX)=(ZY1)+(ZY2)];[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
+```
 # Menus
 
 Menus display at the bottom of the screen, and can be activated using the keys

@@ -241,7 +241,7 @@ static int state_save_callback(cstring fpath, cstring fname, void *)
     ui.draw_message("Saving state...", fname);
 
     // Open save file name
-    file prog(fpath, true);
+    file prog(fpath, file::WRITING);
     if (!prog.valid())
     {
         ui.draw_message("State save failed", prog.error(), fpath);
@@ -376,8 +376,7 @@ static int state_load_callback(cstring path, cstring name, void *merge)
 
     // Store the state file name
     {
-        file prog;
-        prog.open(path);
+        file prog(path, file::READING);
         if (!prog.valid())
         {
             ui.draw_message("State load failed", prog.error(), name);
@@ -553,7 +552,7 @@ static int keymap_load_callback(cstring path, cstring name, void *)
 
     if (!ui.load_keymap(path))
     {
-        file kmap(path, false);
+        file kmap(path, file::READING);
         ui.draw_message("Keymap load failed",
                         kmap.valid() ? "Invalid keymap" : kmap.error(),
                         name);
@@ -561,7 +560,7 @@ static int keymap_load_callback(cstring path, cstring name, void *)
         return 1;
     }
 
-    file kcfg("config/keymap.cfg", true);
+    file kcfg("config/keymap.cfg", file::WRITING);
     kcfg.write(path, strlen(path));
 
     // Exit with success

@@ -222,7 +222,8 @@ symbol_p expression::render(uint depth, int &precedence, bool editing)
                     op = symbol::make("∫");
                 return op + rtxt + arg;
             }
-            else if (prec != precedence::FUNCTION)
+            else if (prec != precedence::FUNCTION &&
+                     prec != precedence::NONE)
             {
                 if (op->is_alpha())
                 {
@@ -2274,7 +2275,7 @@ grob_p expression::graph(grapher &g, uint depth, int &precedence)
             coord  lv   = g.voffset;
             int    prec = obj->precedence();
             g.font = fid;
-            if (prec == precedence::FUNCTION &&
+            if ((prec == precedence::FUNCTION || prec == precedence::NONE) &&
                 oid != ID_xroot && oid != ID_comb && oid != ID_perm)
             {
                 grob_g arg = infix(g, lv, lg, 0, ";", rv, rg);

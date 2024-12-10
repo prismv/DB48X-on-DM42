@@ -2706,11 +2706,13 @@ In this section, two comparisons are done between the Planck and Rayleigh-Jeans 
 
 Einstein explained the photoelectric effect with the energy quantification of the electromagnetic wave. The photoelectron is then emitted only if the energy `E` of the incident photon is greather or equal to the work function `φ` of the material. A simple energy budget equation determines the maximum kinetic energy `Kmax` of the photoelectron.
 
-* To calculate `[f_Hz;Eph_eV;f0_Hz;λ0_nm;Kmax_eV;Vo_V;vmax_m/s]` (Frequency, Photon enrgy; Threshold frequency; Threshold wavelength; Maximum kinetic energy of photoelectron; Stoping potential; Maximum speed of photoelectron) from 2 known variables:
+* To calculate `[f_Hz;Eph_eV;f0_Hz;λ0_nm;Kmax_eV;Vo_V;vmax_m/s]` (Frequency, Photon energy; Threshold frequency; Threshold wavelength; Maximum kinetic energy of photoelectron; Stoping potential; Maximum speed of photoelectron) from 2 known variables:
+
 ```rpl
-φ=4.01_eV  λ=207_nm  
-@ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 70376 9 eV f0=9.69613 32440 3⁳¹⁴ λ0=309.18764 2594 nm Hz Kmax=1.97957 70376 9 eV V0=1.97957 78976 4 V vmax=834 472.42017 5 m/s ]
-@ C#31 NOT OK MSOLVE & SOLVE: "Not an equation or program"
+φ=4.01_eV  λ=207_nm
+@ Expecting [ f=1.44827 27439 6⁳¹⁵ Hz Eph=1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV Vo=1 V vmax=834 471.40087 2 m/s ]
+@ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 22016 1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV V0=1.97957 30615 6 V vmax=834 471.40087 2 m/s ]
+@ C#32 NOT OK MSOLVE: Hallucinates values of Eph, V0
 'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;vmax];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
 ```
 
@@ -2723,7 +2725,8 @@ In the Compton Scattering, both energy and momentum are conserved during the col
 * To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
 ```rpl
 θ=40_°  λ=0.024_nm 
-@ Failing [ λp=0.02456 76488 43 nm K=1 193.63465 705 eV γ=1.00233 58857 7  β=0.06823 08822 04 v=20 455 103.8874 m/s Eph=51 660.10195 01 eV Epph=50 466.46729 33 eV p=1.86768 64373 3⁳⁻²³ kg·m/s φ=68.16079 96523 ° ]
+@ Failing [ λp=2.45676 48762 3⁳⁻² nm K=1 193.63352 749 eV γ=1.00233 58835 6 β=6.82308 49980 3⁳⁻² v=20 455 094.227 m/s Eph=51 660.06023 89 eV Epph=50 466.42671 14 eV p=1.86768 55511 5⁳⁻²³ kg·m/s φ=68.16075 25239 ° ]
+@ C#33 NOT OK MSOLVE: "Constant ?"
 'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
 ```
 
@@ -2734,7 +2737,8 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 * To calculate `[λ_nm;K_eV;v_m/s;d_nm]` (De Broglie wavelength of scattered photon; Kinetic energy of scattered electron; Speed of the scattered electron; Distance between adjacent atomic planes) from 3 known variables:
 ```rpl
 θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
-@ Failing [ λ=0.06626 0755 nm K=342.58664 2473 eV v=10 977 691.0426 m/s d=0.10308 34353 39 nm ]
+@ Failing [ λ=0.06626 07015 nm K=K=342.58664 2473 eV v=10 977 691.0426 m/s d=3.73373 71844 6⁳⁻² nm ]
+@ C#34 NOT OK MSOLVE: "Constant ?"
 'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
 ```
 
@@ -2742,24 +2746,28 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 
 Since the hydrogen atom is a bound system between the proton of the nucleus and the electron located at a level n, the binding energy is calculated with a negative expression, the value 0 corresponding to a free electron or occupying a level n which tends to infinity. A transition which gives a positive energy difference corresponds to the emission of a final photon `np` > initial `n`, or if it is negative, to the absorption of a photon.
 
-* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+* **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the emitted photon) from 3 known variables:
 ```rpl
 np=2  n=1  Z=1 
-@ Expecting [ Enp=1 eV En=-13.84337 83847 eV r=5.29178 06500 6⁳⁻¹¹ m f=3.58911 15862 8⁳¹⁵ Hz Eph=14.60566 52453 eV ]
-@ Failing [ Enp=-3.40141 63113 2 eV En=-13.60566 52453 eV r=5.29178 06500 7⁳⁻¹¹ m f=2.46737 54942 4⁳¹⁵ Hz Eph=10.20424 8934 eV λ=121.50256 7688 nm ]
+@ Expecting [ Enp=-2.⁳⁻²³ eV En=-2.⁳⁻²³ eV r=-2.⁳⁻²³ m f=1 Hz Eph=-2.⁳⁻²³ eV λ=-2.⁳⁻²³ nm ]
+@ Failing [ Enp=-3.40142 18031 eV En=-13.60568 72124 eV r=5.29177 21054 7⁳⁻¹¹ m f=2.46738 14701 6⁳¹⁵ Hz λ=121.50227 3412 nm ]
+@ C#35 NOT OK MSOLVE: hallucinates all values
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
-* **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level np; Energy of the initial atomic level n; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed or emitted photon) from 3 known variables:
+* **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed photon) from 3 known variables (Note: instead to `n→∞` one can choose `n=9.99999E999999`):
 ```rpl
-np=2  n=9.99999E999999  Z=1 
-@ Failing [ Enp=-3.40141 63113 2 eV En=-1.36056 92456 6⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29177 00665 1⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22458 49807 9⁳¹⁴ Hz Eph=-3.40141 63113 2 eV λ=-364.50770 3064 nm ]
+np=2  n=9.99999E999999  Z=1
+@ Expecting [ Enp=-2.⁳⁻²³ eV En=-2.⁳⁻²³ eV r=-2.⁳⁻²³ m f=1 Hz Eph=-2.⁳⁻²³ eV λ=-2.⁳⁻²³ nm ]
+@ Failing [ Enp=-3.40142 18031 eV En=-1.36057 14423 8⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29176 15219 3⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22460 49005 4⁳¹⁴ Hz Eph=-3.40142 18031 eV λ=-364.50682 0237 nm ]
+@ C#35 NOT OK MSOLVE: hallucinates all values
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 
 ## Nuclear Physics
-The 51 variables in the Nuclear Physics section are:
+The 52 variables in the Nuclear Physics section are:
 
 * `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
+* `Δm`: Mass default
 * `A`: Total activity at time `t` ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number ([Nuclear Physics](#Nuclear Physics))
 * `abdaughter`: Abondance of the daughter nuclide 
 * `abparent`: Abondance of the parent radionuclide
@@ -2811,115 +2819,89 @@ The 51 variables in the Nuclear Physics section are:
 * `ZX`: Proton number of the reactant nuclide `X`
 * `ZY`: Proton number of the product nuclide `Y`
 
-For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 8 significant digits because reactants and products masses can be of the same order of magnitude.
+For all nuclear reactions, including nuclear decays, we have charge conservation `Zp = Z` and mass number conservation `Mp = M` (the same number of nucleons). This therefore requires assigning numbers `A` and `Z` to incident particles `a` and `b` whether they are for example gamma photons or neutrinos (`A = 0`, `Z = 0`), positrons (`A = 0`, `Z = +1`) or others. The reaction energy `Q` is always calculated with the mass-energy equivalence by the mass default `Δm` between the reactants and the products. For instance, spontaneous decays and fissions are always exothermic `Q > 0` while some nuclear reactions can also be endothermic `Q < 0` (like nucleosynthesis of heavy elements). The mass difference should be computed with at least 9 significant digits because reactants and products masses can be of the same order of magnitude.
 
 #### Radioactivity
 
 * **Example 1** For a sample of 1 g of radium, to calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
 ```rpl
 m=1_g  MW=226_(g/mol)  λ=1.37364 03205 5⁳⁻¹¹_s^-1  abparent=1  abdaughter=1  t=400_yr
-@ Expecting [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 5⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+@ Expecting [ Thl=-2.⁳⁻²³ s abtot=1 N0=2.66466 40531⁳²¹ A0=-2.⁳⁻²³ Bq N=2.24047 19403 2⁳²¹ A=-2.⁳⁻²³ Bq ]
+@ Failing [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 5⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+@ C#35 NOT OK MSOLVE: hallucinates Thl, A0 & A values
 'ROOT(ⒺRadioactivity;[Thl;abtot;N0;A0;N;A];[1_s;1;1;1_Bq;1;1_Bq])'
 ```
-* **Example 2** For the C14 datation (present in the atmosphere) of a 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the decaying nuclide) from 6 known variables:
+* **Example 2** For the C14 datation (present in the atmosphere) of a 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the sample) from 6 known variables:
 ```rpl
 m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_min^-1
-@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.28569 99999 7⁳⁻¹² N0=6.44684 96044 6⁳¹¹ A0=2.47128 99175 1 Bq t=13 209.16426 29 yr ]
+@ Failing [ λ=3.83332 95627⁳⁻¹² s⁻¹ abtot=1.2857⁳⁻¹² N0=6.44684 96046 1⁳¹¹ A0=2.47128 99175 6 Bq t=13 209.16426 31 yr ]
+@ C#36 NOT OK MSOLVER: "Constant ?"
 'ROOT(ⒺRadioactivity;[λ;abtot;N0;A0;t];[1_s^-1;1;1;1_Bq;1_yr])'
 ```
 
 #### Radius & Binding Energy
 
-* **Example 1** For the C12, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
+* **Example 1** For the C12, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 3 known variables:
 ```rpl
 N=6  Z=6  mX=12_u  
-@ Expecting [ A=12. R=2.74731 416⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
-@ Failing [ A=12. R=2.74731 416⁳⁻¹⁵ m V=8.68587 51587 7⁳⁻⁴⁴ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+@ Expecting [ A=12. R=-2.⁳⁻²³ m V=-2.⁳⁻²³ m↑3 EB=-2.⁳⁻²³ MeV EBse=-2.⁳⁻²³ MeV ]
+@ Failing [ A=12 R=2.74731 41821 3⁳⁻¹⁵ m V=8.68587 53686 5⁳⁻⁴⁴ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
+@ C#37 NOT OK MSOLVER: hallucinates all values except A 
 'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
-* **Example 2** For the U238, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 2 known variables:
+* **Example 2** For the U238, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 3 known variables:
 ```rpl
 N=92  Z=146  mX=238.0507847_u
-@ Expecting [ A=238. R=7.43658 53⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
-@ Failing [ A=238. R=7.43658 53⁳⁻¹⁵ m V=1.72269 85997 1⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+@ Expecting [ A=238. R=-2.⁳⁻²³ m V=-2.⁳⁻²³ m↑3 EB=-2.⁳⁻²³ MeV EBse=-2.⁳⁻²³ MeV ]
+@ Failing [ A=238 R=7.43658 53216 9⁳⁻¹⁵ m V=1.72269 86147 8⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
+@ C#37 NOT OK MSOLVER: hallucinates all values except A 
 'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
 
 #### α Decay
 
-* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
-//    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(Kα_MeV)='(Qα_MeV)/((4.00260325413_u)/(mX_u)+1)' "
-//    "'γ='(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1' "
-//    "'β='√(1-1/γ^2)' "
-//    "'(AYα)='(AXα)-4' "
-//    "'(ZYα)='(ZXα)-2' "
+* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
 @ Expecting [ N=146. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
-@ Failing [ N=146 Δm=0.00458 00458 7 u Qα=4.26628 38693 5 MeV Kα=4.19573 64506 9 MeV  γ=1.00112 53451 3 β=0.04740 14418 32 AYα=234 ZYα=90 ]
+@ Failing [ N=146 Δm=0.00458 00458 7 u Qα=4.26628 38693 5 MeV Kα=4.19573 64506 9 MeV γ=1.00112 53451 3 β=4.74014 42424 1⁳⁻² AYα=234 ZYα=90 ]
+@ C#38 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
-* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((mX_u)-(mY_u)-(4.00260325413_u))' "
-//    "'(Qα_MeV)='Convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(Kα_MeV)='(Qα_MeV)/((4.00260325413_u)/(mX_u)+1)' "
-//    "'γ='(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1' "
-//    "'β='√(1-1/γ^2)' "
-//    "'(AYα)='(AXα)-4' "
-//    "'(ZYα)='(ZXα)-2' "
+* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=239  Z=94  AXα=239  ZXα=94  mX=239.052157_u  mY=235.043924_u
 @ Expecting [ N=145. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
-@ Failing [ N=145 Δm=0.00562 97458 7 u Qα=5.24407 28052 7 MeV Kα=5.15771 39005 8 MeV  γ=1.00138 33586 3 β=0.05254 50928 98 AYα=235 ZYα=92 ]
+@ Failing [ N=145 Δm=0.00562 97458 7 u Qα=5.24407 28052 7 MeV Kα=5.15771 39005 8 MeV γ=1.00138 33586 3 β=5.25450 92817 3⁳⁻² AYα=235 ZYα=92 ]
+@ C#38 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u)-(4.00260325413_u));(Qα_MeV)=Convert((Δm_u)*Ⓒc^2;1_MeV);(Kα_MeV)=(Qα_MeV)/((4.00260325413_u)/(mX_u)+1);γ=(Kα_MeV)/convert(((4.00260325413_u)*Ⓒc^2);1_MeV)+1;β=√(1-1/γ^2);(AYα)=(AXα)-4;(ZYα)=(ZXα)-2];[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 
 #### β⊖ Decay
 
 The β⊖ Decay reaction has 3 products: the daughter nuclide, an electron & an antineutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the antineutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted elevtron.
 
-* **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
-//    "'A=N+Z' "  'A-Z'
-//    "'(Δm_u)='((mX_u)-(mY_u))' "
-//    "'(Qβ⊖_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(Kmax_MeV)='(Qβ⊖_MeV)' "
-//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
-//    "'βmax='√(1-1/γmax^2)' "
-//    "'(AYβ⊖)='(AXβ⊖)' "
-//    "'(ZYβ⊖)='(ZXβ⊖)+1' "
+* **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
 ```rpl
 A=234  Z=90  AXβ⊖=234  ZXβ⊖=90  mX=234.0436014_u  mY=234.0433085_u
-@ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=0.27283 45044 57 MeV Kmax=0.27283 45044 57 MeV γmax=1.53392 40376 3 βmax=0.75828 53739 85 Aβ⊖=234 ZYβ⊖=91 ]
+@ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=2.72834 50445 7⁳⁻¹ MeV Kmax=2.72834 50445 7⁳⁻¹ MeV γmax=1.53392 40376 3 βmax=0.75828 53739 86 Aβ⊖=234 ZYβ⊖=91 ]
+@ C#39 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊖_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊖)=(AXβ⊖);(ZYβ⊖)=(ZXβ⊖)+1];[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
-* **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
-//    "'A=N+Z' "  'A-Z'
-//    "'(Δm_u)='((mX_u)-(mY_u))' "
-//    "'(Qβ⊖_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(Kmax_MeV)='(Qβ⊖_MeV)' "
-//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
-//    "'βmax='√(1-1/γmax^2)' "
-//    "'(AYβ⊖)='(AXβ⊖)' "
-//    "'(ZYβ⊖)='(ZXβ⊖)+1' "
+* **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
 ```rpl
 A=14  Z=6  AXβ⊖=14  ZXβ⊖=6  mX=14.0032419884_u  mY=14.00307400443_u
-@ Failing [ N=8 Δm=0.00016 79839 7 u Qβ⊖=0.15647 60096 MeV Kmax=0.15647 60096 MeV γmax=1.30621 60447 9 βmax=0.64335 24392 34 Aβ⊖=14 ZYβ⊖=7 ]
+@ Failing [ N=8 Δm=0.00016 79839 7 u Qβ⊖=0.15647 60096 MeV Kmax=0.15647 60096 MeV γmax=1.30621 60447 9 βmax=0.64335 24392 36 Aβ⊖=14 ZYβ⊖=7 ]
+61356 339 βmax= Aβ⊖= ZYβ⊖= ]
+@ C#39 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊖_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊖_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊖)=(AXβ⊖);(ZYβ⊖)=(ZXβ⊖)+1];[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 
 #### β⊕ Decay
 
 The β⊕ Decay reaction has 3 products: the daughter nuclide, a positron & a neutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the neutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted positron.
 
-* For the β⊕ decay of K40 (present in banana) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistiv speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+* For the β⊕ decay of K40 (present in bananas) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
 //    "'A=N+Z' " 'A-Z'
 //    "'(Δm_u)='((mX_u)-(mY_u)-2*Ⓒme)' "
 //    "'(Qβ⊕_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
@@ -2982,7 +2964,7 @@ A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.0026032541
 
 #### Fission Reaction
 
-* For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 10 known variables:
+* For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of one of the two daughter nuclide) from 10 known variables:
 ```rpl
     "'A=N+Z' " 'A-Z'
     "'(Δm_u)='convert((Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-convert(nn*Ⓒmn;1_u));1_u)' "

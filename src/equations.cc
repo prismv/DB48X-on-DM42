@@ -1286,7 +1286,7 @@ static const cstring basic_equations[] =
     "'Eph_eV=Ⓒh*(f_Hz)' "
     "'f0_Hz=(φ_eV)/Ⓒh' "
     "'λ0_nm=Ⓒc/(f0_Hz)' "
-    "'Kmax_eV='IFTE(f_Hz>f0_Hz;Ⓒh*(f_Hz)-(φ_eV);0)' "
+    "'Kmax_eV=IFTE(f_Hz>f0_Hz;Ⓒh*(f_Hz)-(φ_eV);0)' "
     "'Kmax_eV=Ⓒqe*(Vo_V)' "
     "'vmax_m/s=√((2*Kmax_J)/Ⓒme)' "    
     "}",
@@ -1323,7 +1323,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#:* 51 var 47 eqns 13 sims 7 secs
+    //T#:* 52 var 47 eqns 13 sims 7 secs
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(Thl_s)=ln(2)/(λ_s^-1)' "
@@ -1398,7 +1398,7 @@ static const cstring basic_equations[] =
     "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
-    // As of 24-12-08: Total 723 vars, 644 eqns, 181 sims in 158 subsections, 18 sections (644/315=2.04; 723/397=1.82) 
+    // As of 24-12-10: Total 724 vars, 644 eqns, 181 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
 };
 //   clang-format on
 

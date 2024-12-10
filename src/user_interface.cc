@@ -3042,8 +3042,7 @@ void user_interface::load_help(utf8 topic, size_t len)
 
     // Check if the index exists. If so, scan it
     {
-        file_closer hfc(helpfile);
-        file index(HELPINDEX_NAME, false);
+        file index(HELPINDEX_NAME, file::READING);
         if (index.valid())
         {
             for (char c = index.getchar(); !found && c; c = index.getchar())
@@ -3104,7 +3103,7 @@ void user_interface::load_help(utf8 topic, size_t len)
     // Need to have the help file open here
     if (!helpfile.valid())
     {
-        helpfile.open(HELPFILE_NAME);
+        helpfile.open(HELPFILE_NAME, file::READING);
         if (!helpfile.valid())
         {
             help = -1u;
@@ -3465,7 +3464,7 @@ restart:
                                 image = files->recall_grob(name);
                             impos = offs;
 
-                            helpfile.open(HELPFILE_NAME);
+                            helpfile.open(HELPFILE_NAME, file::READING);
                             helpfile.seek(offs);
                         }
                         imdsp = true;
@@ -5326,7 +5325,7 @@ bool user_interface::load_keymap(cstring name)
 //   Load the keymap from a file
 // ----------------------------------------------------------------------------
 {
-    file kmap(name, false);
+    file kmap(name, file::READING);
     if (!kmap.valid())
     {
         rt.error(kmap.error());

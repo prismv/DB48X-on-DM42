@@ -293,7 +293,7 @@ void program_init()
     if (keymap_filename == keymap_default)
     {
         char keymapcfg[80] = { 0 };
-        file kcfg("config/keymap.cfg", false);
+        file kcfg("config/keymap.cfg", file::READING);
         if (kcfg.valid())
         {
             kcfg.read(keymapcfg, sizeof(keymapcfg)-1);

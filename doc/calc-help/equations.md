@@ -2860,7 +2860,7 @@ N=92  Z=146  mX=238.0507847_u
 
 #### α Decay
 
-* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+* **Example 1** For the α decay of U238 into Th234, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron of U238; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
 @ Expecting [ N=146. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
@@ -2868,7 +2868,7 @@ A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
 @ C#38 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
-* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
+* **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron of Pu239; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=239  Z=94  AXα=239  ZXα=94  mX=239.052157_u  mY=235.043924_u
 @ Expecting [ N=145. Δm=-2.⁳⁻²³ u Qα=-2.⁳⁻²³ MeV Kα=-2.⁳⁻²³ MeV γ=1 β=-2.⁳⁻²³ AYα=-2.⁳⁻²³ ZYα=-2.⁳⁻²³ ]
@@ -2881,14 +2881,14 @@ A=239  Z=94  AXα=239  ZXα=94  mX=239.052157_u  mY=235.043924_u
 
 The β⊖ Decay reaction has 3 products: the daughter nuclide, an electron & an antineutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the antineutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted elevtron.
 
-* **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+* **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron of Th234; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=234  Z=90  AXβ⊖=234  ZXβ⊖=90  mX=234.0436014_u  mY=234.0433085_u
 @ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=2.72834 50445 7⁳⁻¹ MeV Kmax=2.72834 50445 7⁳⁻¹ MeV γmax=1.53392 40376 3 βmax=0.75828 53739 86 Aβ⊖=234 ZYβ⊖=91 ]
 @ C#39 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
-* **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
+* **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron of C14; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=14  Z=6  AXβ⊖=14  ZXβ⊖=6  mX=14.0032419884_u  mY=14.00307400443_u
 @ Failing [ N=8 Δm=0.00016 79839 7 u Qβ⊖=0.15647 60096 MeV Kmax=0.15647 60096 MeV γmax=1.30621 60447 9 βmax=0.64335 24392 36 Aβ⊖=14 ZYβ⊖=7 ]
@@ -2901,80 +2901,57 @@ A=14  Z=6  AXβ⊖=14  ZXβ⊖=6  mX=14.0032419884_u  mY=14.00307400443_u
 
 The β⊕ Decay reaction has 3 products: the daughter nuclide, a positron & a neutrino having a negligeable mass. Due to their weak masses, the resulting kinetic energy is essentially splitted between the last two particles. The energy spectrum of the neutrino being continuous and possibly very small, the energy reaction can therefore be the maximum kinetic energy `Kmax` of the emitted positron.
 
-* For the β⊕ decay of K40 (present in bananas) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 5 known variables:
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((mX_u)-(mY_u)-2*Ⓒme)' "
-//    "'(Qβ⊕_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(Kmax_MeV)='(Qβ⊕_MeV)' "
-//    "'γmax='(Kmax_MeV)/convert((Ⓒme*Ⓒc^2);1_MeV)+1' "
-//    "'βmax='√(1-1/γmax^2)' "
-//    "'(AYβ⊕)='(AXβ⊕)' "
-//    "'(ZYβ⊕)='(ZXβ⊕)-1' "
+* For the β⊕ decay of K40 (present in bananas) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron of K40; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=40  Z=19  AXβ⊕=40  ZXβ⊕=19  mX=39.963998166_u  mY=39.9623831237_u
-@ Failing [ N=21 Δm=0.00051 78824 82 u Qβ⊕=0.48240 42688 41 MeV Kmax=0.48240 42688 41 MeV γmax=1.94404 20136 8 βmax=0.85755 50653 72 Aβ⊕=40 ZYβ⊕=18 ]
+@ Failing [ N=21 Δm=5.17882 48191 5⁳⁻⁴ u Qβ⊕=4.82404 26876 2⁳⁻¹ MeV Kmax=4.82404 26876 2⁳⁻¹ MeV γmax=1.94404 20135 3 βmax=0.85755 50653 48 Aβ⊕=40 ZYβ⊕=18 ]
+@ C#39 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(Ⓔβ⊕ Decay;[N;Δm;Qβ⊕;Kmax;γmax;βmax;AYβ⊕;ZYβ⊕];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((mX_u)-(mY_u));(Qβ⊕_MeV)=(Δm_u)*Ⓒc^2;(Kmax_MeV)=(Qβ⊕_MeV);γmax=(Kmax_MeV)/(Ⓒme*Ⓒc^2)+1;βmax=√(1-1/γ^2);(AYβ⊕)=(AXβ⊕);(ZYβ⊕)=(ZXβ⊕)+1];[N;Δm;Qβ⊕;Kmax;γmax;βmax;AYβ⊕;ZYβ⊕];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 
 #### General Nuclear Reaction
 
-* **Example 1**  For the nuclear reaction: α + N14 → O17 + p (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: the proton is replaced here by the neutral hydrogen atom H1):
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
-//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
-//    "'(ΔKtot_MeV)='(Q_MeV)' "
-//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
-//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+* **Example 1**  For the nuclear reaction: α + N14 → O17 + p (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of N14; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, the α & p are replaced here by the neutral atoms He4 & H1):
 ```rpl
 A=14  Z=7  AX=14  ZX=7  Aa=4  Ab=1  Za=2  Zb=1  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.00782503223_u
-@ Expecting [ N=-3. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-1. ZY=-1. ]
-@ Failing [ N=3 Δm=-0.00127 95301 7 u Q=-1.19187 42911 2 MeV ΔKtot=-1.19187 42911 2 MeV AY=17 ZY=8 ]
+@ Expecting [ N=7. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-1. ZY=-1. ]
+@ Failing [ N=7 Δm=-0.00127 95301 7 u Q=-1.19187 42911 2 MeV ΔKtot=-1.19187 42911 2 MeV AY=17 ZY=8 ]
+@ C#40 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
-* **Example 2**  For the nuclear reaction: α + Al27 → P30 + n (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 5 known variables (note: to balance the `Z` number the α particle is replaced by the neutral helium atom He4):
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
-//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' " 'CONVERT((-0.00211 94139 96 u)*Ⓒc^2;1_MeV)'
-//    "'(ΔKtot_MeV)='(Q_MeV)' "
-//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
-//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+* **Example 2**  For the nuclear reaction: α + Al27 → P30 + n (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Al27; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, α is replaced by the neutral atom He4):
 ```rpl
-A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.67492750056E-27_kg
+A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.67492 75005 6⁳⁻²⁷ kg
 @ Expecting [ N=14. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-1. ZY=-2.⁳⁻²³ ]
-@ Failing [ N=14 Δm=-0.00211 94139 96 u Q=-1.97422 07829 9 MeV ΔKtot=-1.97422 07829 9 MeV AY=17 ZY=8 ]
+@ Failing [ N=14 Δm=-2.11941 39960 6⁳⁻³ u Q=-1.97422 07830 5 MeV ΔKtot=-1.97422 07830 5 MeV AY=30 ZY=15 ]
+@ C#40 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
-* **Example 3**  For the fusion nuclear reaction: D2 + Li6 → He4 + He4 (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 5 known variables :
-//    "'A=N+Z' " 'A-Z'
-//    "'(Δm_u)='((ma_u)+(mX_u)-(mY_u)-(mb_u))' "
-//    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' " 'CONVERT((0.02401 81572 6 u)*Ⓒc^2;1_MeV)'
-//    "'(ΔKtot_MeV)='(Q_MeV)' "
-//    "'(Aa)+(AX)=(AY)+(Ab)' " '(Aa)+(AX)-(Ab)'
-//    "'(Za)+(ZX)=(ZY)+(Zb)' " '(Za)+(ZX)-(Zb)'
+* **Example 3**  For the fusion nuclear reaction: D2 + Li6 → He4 + He4 (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Li6; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of one of the daughter nuclide) from 12 known variables :
 ```rpl
 A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.00260325413_u  ma=2.01410177812_u  mb=4.00260325413_u
 @ Expecting [ N=3. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY=-4. ZY=-2. ]
-@ Failing [ N=14 Δm=0.02401 81572 6 u Q=22.37276 21509 MeV ΔKtot=22.37276 21509 MeV AY=4 ZY=2 ]
+@ Failing [ N=3 Δm=0.02401 81572 6 u Q=22.37276 21509 MeV ΔKtot=22.37276 21509 MeV AY=4 ZY=2 ] 
+@ C#40 NOT OK MSOLVER: hallucinates all values except N
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
-'ROOT([A=N+Z;(Δm_u)=((ma_u)+(mX_u)-(mY_u)-(mb_u));(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);(Aa)+(AX)=(AY)+(Ab);(Za)+(ZX)=(ZY)+(Zb)];[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 
 #### Fission Reaction
 
-* For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of one of the two daughter nuclide) from 10 known variables:
+* **Example 1** For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron of U235; Mass default; Reaction energy; Variation of total kinetic energy; Mass number & Proton number of one of the two products of fission, Xe140) from 10 known variables:
 ```rpl
-    "'A=N+Z' " 'A-Z'
-    "'(Δm_u)='convert((Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-convert(nn*Ⓒmn;1_u));1_u)' "
-    "'(Q_MeV)='convert((Δm_u)*Ⓒc^2;1_MeV)' "
-    "'(ΔKtot_MeV)='(Q_MeV)' "
-    "'1+(AX)=(AY1)+(AY2)+nn' " '1+(AX)-((AY2)+nn)'
-    "'(ZX)=(ZY1)+(ZY2)' " '(ZX)-(ZY2)'
 A=235  Z=92  AX=235  ZX=92  AY2=94  ZY2=38  mX=235.043924_u  mY1=139.9216458_u  mY2=93.915361_u  nn=2
 @ Expecting [ N=143. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY1=140. ZY1=-38. ]
 @ Failing [ N=143 Δm=0.19825 22839 44 u Q=184.67075 332 MeV ΔKtot=184.67075 332 MeV AY1=140 ZY1=54 ]
+@ C#41 NOT OK MSOLVER: hallucinates all values except N & AY1
 'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
-'ROOT([A=N+Z;(Δm_u)=convert((Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-convert(nn*Ⓒmn;1_u));1_u);(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);1+(AX)=(AY1)+(AY2)+nn;(ZX)=(ZY1)+(ZY2)];[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
+```
+* **Example 2** For the fission reaction: n + Pu239 → Xe134 + Zr103 + 3n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron of Pu239; Mass default; Reaction energy; Variation of total kinetic energy; Mass number & Proton number of one of the two products of fission, Xe134) from 10 known variables:
+```rpl
+[A=N+Z;(Δm_u)=(Ⓒmn+(mX_u)-(mY1_u)-(mY2_u)-nn*Ⓒmn);(Q_MeV)=(Δm_u)*Ⓒc^2;(ΔKtot_MeV)=(Q_MeV);1+(AX)=(AY1)+(AY2)+nn;(ZX)=(ZY1)+(ZY2)]
+A=239  Z=94  AX=239  ZX=94  AY2=103  ZY2=40  mX=239.052157_u  mY1=133.90539466_u  mY2=102.926597_u  nn=3
+@ Expecting [ N=145. Δm=-2.⁳⁻²³ u Q=-2.⁳⁻²³ MeV ΔKtot=-2.⁳⁻²³ MeV AY1=134. ZY1=-40. ]
+@ Failing [ N=145 Δm=0.20283 55078 88 u Q=188.93999 7545 MeV ΔKtot=188.93999 7545 MeV AY1=134 ZY1=54 ]
+@ C#41 NOT OK MSOLVER: hallucinates all values except N & AY1
+'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
 ```

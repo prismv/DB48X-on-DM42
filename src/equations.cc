@@ -1323,7 +1323,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Nuclear Physics", nullptr,
     // ------------------------------------------------------------------------
-    //T#:* 52 var 47 eqns 13 sims 7 secs
+    //T#:* 52 var 47 eqns 14 sims 7 secs
     // We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
     "Radioactivity",  "{ "
     "'(Thl_s)=ln(2)/(λ_s^-1)' "
@@ -1398,7 +1398,7 @@ static const cstring basic_equations[] =
     "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
-    // As of 24-12-10: Total 724 vars, 644 eqns, 181 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
+    // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
 };
 //   clang-format on
 

@@ -9800,9 +9800,20 @@ void tests::probabilities()
         .expect("0");
     step("Permutations in program")
         .test(CLEAR, "42 37 PERM", ENTER)
-        .expect(
-            "11 708 384 314 607 332 487 859 521 718 704 263 082 803 200 000 00"
-            "0");
+        .expect("11 708 384 314 607 332 487 859 521 718 704 263 082 803 "
+                "200 000 000");
+    step("Combination with decimal non-fractional input")
+        .test(CLEAR, "42. 37. COMB", ENTER)
+        .expect("850 668.");
+    step("Combination with decimal fractional input")
+        .test(CLEAR, "0.5 2. COMB", ENTER)
+        .expect("-0.125");
+    step("Permutations in program with decimal input")
+        .test(CLEAR, "42. 37. PERM", ENTER)
+        .expect("1.17083 84314 6⁳⁴⁹");
+    step("Permutations in program")
+        .test(CLEAR, "6. 4. PERM", ENTER)
+        .expect("360.");
 
     step("Factorial in menu")
         .test(CLEAR, LSHIFT, W)

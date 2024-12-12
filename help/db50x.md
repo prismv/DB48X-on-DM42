@@ -10519,6 +10519,27 @@ This setting limits the number of iterations for the integration algorithm. Each
 iteration requires the evaluation of twice as many samples of the function to
 integrate as the previous one, so the maximum number of samples taken is in the
 order of `2^IntegrationIterations`.
+
+
+# Numerical conversions
+
+## →Num
+
+Convert fractions and symbolic constants to decimal form.
+For example, `1/4 →Num` results in `0.25`.
+
+## →Q
+
+Convert decimal values to fractions. For example `1.25 →Frac` gives `5/4`.
+The precision of the conversion in digits is defined by
+[→FracDigits](#ToFractionDigits), and the maximum number of iterations for the
+conversion is defined by [→FracDigits](#ToFractionIterations)
+
+## →Integer
+
+Convert decimal values to integers. For example `1. →Integer` gives `1`.
+This command intentionally fails with `Bad argument value` if the input contains
+a non-zero fractional part.
 # Objects
 
 ## Cycle
@@ -12241,20 +12262,6 @@ Evaluate algebraic rules on symbolic expressions repeatedly until no futher chan
 ## StepByStepAlgebraResults
 
 Evaluate algebraic rules on symbolic expressions one step at a time.
-
-
-
-## →Num
-
-Convert fractions and symbolic constants to decimal form.
-For example, `1/4 →Num` results in `0.25`.
-
-## →Q
-
-Convert decimal values to fractions. For example `1.25 →Frac` gives `5/4`.
-The precision of the conversion in digits is defined by
-[→FracDigits](#ToFractionDigits), and the maximum number of iterations for the
-conversion is defined by [→FracDigits](#ToFractionIterations)
 
 ## ListExpressionNames
 

@@ -1454,6 +1454,26 @@ FUNCTION_BODY(ToFraction)
 }
 
 
+FUNCTION_BODY(ToInteger)
+// ----------------------------------------------------------------------------
+//   Convert numbers to integer
+// ----------------------------------------------------------------------------
+{
+    if (!x)
+        return nullptr;
+    algebraic_g xg = x;
+    if (arithmetic::to_fraction(xg))
+    {
+        if (xg->is_integer())
+            return xg;
+        rt.value_error();
+    }
+    if (!rt.error())
+        rt.type_error();
+    return nullptr;
+}
+
+
 FUNCTION_BODY(RadiansToDegrees)
 // ----------------------------------------------------------------------------
 //   Compatibility function for R->D on HP-48

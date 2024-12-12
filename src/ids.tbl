@@ -525,6 +525,8 @@ CMD(RuntimeStatistics)          ALIAS(RuntimeStatistics, "RunStats")
 // Object commands
 NAMED(Compile, "Text→")         ALIAS(Compile, "Str→")
 NAMED(ToProgram, "→Program")    ALIAS(ToProgram, "→Prg")
+NAMED(ToInteger, "R→I")         ALIAS(ToInteger, "→Integer")
+                                ALIAS(ToInteger, "→Int")
 
 // Flags
 CMD(TestFlagClearThenClear)     ALIAS(TestFlagClearThenClear, "FC?C")

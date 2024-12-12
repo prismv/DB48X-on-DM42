@@ -7,7 +7,7 @@ using the `config/equations.csv` configuration file.
 
 ## Columns and Beams
 
-The 21 variables in the Columns and Beams section are:
+The 21 variables in the Columns and Beams section are: 
 
 * `o`: Eccentricity (offset) of load (dim.: length)
 * `σcr`: Critical stress (dim.: pressure=force/area, in SI: pascal, Pa)
@@ -23,7 +23,7 @@ The 21 variables in the Columns and Beams section are:
 * `L`: Length of column or beam
 * `M`: Applied moment (dim.: length·force, in SI: N·m)
 * `Mx`: Internal bending moment at x (dim.: length·force, in SI: N·m)
-* `P`: Load (Eccentric Columns), or Point load (beams) (dim.: force)
+* `P`: Load ([Eccentric Columns](#Eccentric Columns)), or Point load ([beams](#Beams)) (dim.: force)
 * `Pcr`: Critical load (dim.: force)
 * `r`: Radius of gyration
 * `V`: Shear force at x
@@ -31,7 +31,7 @@ The 21 variables in the Columns and Beams section are:
 * `x`: Distance along beam
 * `y`: Deflection at x (dim.: length)
 
-For simply supported beams and cantilever beams ([Simple Deflection](#Simple Deflection) through [Cantilever Shear](#Cantilever Shear)), the calculations differ depending upon the location of `x` relative to the loads.
+For simply supported beams and cantilever beams ([Simple Deflection](#Simple Deflection)) through ([Cantilever Shear](#Cantilever Shear)), the calculations differ depending upon the location of `x` relative to the loads.
 
 * Applied loads are positive downward.
 * The applied moment is positive counterclockwise.
@@ -85,7 +85,7 @@ L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_f
 ```rpl
 L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf
  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ θ=-0.08763 17825 27 ° ]
+@ Expecting [ θ=-8.76317 82526 7⁳⁻² ° ]
 'ROOT(ⒺSimple Slope;[θ];[0_°])'
 ```
 
@@ -158,7 +158,7 @@ L=10_ft  P=500_lbf  a=3_ft  x=8_ft  w=100_lbf/ft
 
 ## Electricity
 
-The 77 variables in the Electricity section are:
+The 78 variables in the Electricity section are:
 
 * `∈r`: Relative permittivity
 * `μr`: Relative permeability
@@ -169,8 +169,8 @@ The 77 variables in the Electricity section are:
 * `φs`: Series phase angle
 * `θ1`: First subtended angle relative to the left end of the wire
 * `θ2`: Second subtended angle relative to the right end of the wire
-* `ρ`: Resistivity (dim.: resistance·length; in SI: ohm·meter, Ω·m), or Volumic charge density [Drift Speed & Current Density](#Drift Speed & Current Density) (dim.: charge/volume, in SI: C/m^3)
-* `ρ0`: Resistivity at the reference temperature T0 (dim.: resistance·length; in SI: ohm·meter, Ω·m)
+* `ρ`: Resistivity (dim.: resistance·length; in SI: ohm·meter, Ω·m), or Volumic charge density ([Drift Speed & Current Density](#Drift Speed & Current Density)) (dim.: charge/volume, in SI: C/m^3)
+* `ρ0`: Resistivity at the reference temperature `T0` (dim.: resistance·length; in SI: ohm·meter, Ω·m)
 * `ΔI`: Current Change (dim.: charge/time; in SI: ampere, A)
 * `Δt`: Time Change
 * `ΔV`: Voltage Change (dim.: energy/charge; in SI: volt, V)
@@ -181,7 +181,7 @@ The 77 variables in the Electricity section are:
 * `Cp`: Parallel capacitance (dim.: charge^2/energy; in SI: farad, F)
 * `Cs`: Series capacitance (dim.: charge^2/energy; in SI: farad, F)
 * `d`: Plate separation (dim.: length)
-* `E`: Energy
+* `E`: Energy (dim.: charge·voltage, in SI: joule, J)
 * `Er`: Electric field at distance r from the source (dim.: force/charge; in SI: N/C = V/m)
 * `Ep`: Electric field over an infinite plate (dim.: force/charge; in SI: N/C = V/m)
 * `Ein`: Electric field inside a plate capacitor (dim.: force/charge; in SI: N/C = V/m)
@@ -191,7 +191,7 @@ The 77 variables in the Electricity section are:
 * `I`: Current, or Total current ([Current Divider](#Current Divider)) (dim.: charge/time; in SI: ampere, A)
 * `I1`: Current in R1 (dim.: charge/time; in SI: ampere, A)
 * `Imax`: Maximum current (dim.: charge/time; in SI: ampere, A)
-* `L`: Inductance (dim.: energy/current^2; in SI: henry, H), or Length ([Wire Resistance](#Wire Resistance), [Cylindrical Capacitor](#Cylindrical Capacitor))
+* `L`: Inductance (dim.: energy/current^2; in SI: henry, H), or Length ([Wire Resistance](#Wire Resistance)), ([Cylindrical Capacitor](#Cylindrical Capacitor))
 * `Lp`: Parallel inductance (dim.: energy/current^2; in SI: henry, H)
 * `Ls`: Series inductance (dim.: energy/current^2; in SI: henry, H)
 * `N`: Number of turns
@@ -220,7 +220,7 @@ The 77 variables in the Electricity section are:
 * `Vmax`: Maximum voltage (dim.: energy/charge; in SI: volt, V)
 * `XC`: Reactance of capacitor (dim.: energy·time/charge^2; in SI: ohm, Ω)
 * `XL`: Reactance of inductor (dim.: energy·time/charge^2; in SI: ohm, Ω)
-* `σ`: Conductivity (dim.: (resistance·length)^-1; in SI: siemens/meter, S/m), or Surface charge density ([E field infinite plate](#E field infinite plate), [Plate capacitor](#Plate capacitor)) (dim.: charge/area, in SI: C/m^2)
+* `σ`: Conductivity (dim.: (resistance·length)^-1; in SI: siemens/meter, S/m), or Surface charge density ([E field infinite plate](#E field infinite plate)), ([Plate capacitor](#Plate capacitor)) (dim.: charge/area, in SI: C/m^2)
 * `T`: Temperature (in SI: K)
 * `T0`: Fixed reference temperature for the measurement of resistivity (In SI: K)
 * `uE`: Volumic density of electric energy (dim.: energy/volume)
@@ -246,14 +246,14 @@ These equations describe the electrostatic force between two point charged parti
 * **Example 1**. To calculate `[F_N;Er_N/C]` (Electric force; Electric Field) from 5 known variables:
 ```rpl
 q1=1.6E-19_C  q2=1.6E-19_C  r=4.00E-13_cm  εr=1  qtest=1.6E-19_C
-@ Expecting [ F=14.38008 28598 N Er=8.98755 17873 8⁳¹⁹ N/C ]
+@ Expecting [ F=14.38008 28578 N Er=8.98755 17861 3⁳¹⁹ N/C ]
 'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 ```
 
 * **Example 2**. A square metal plate `L = 8_cm` on a side carries a charge of `q1 = 6_μC`. Approximate values of the electric force & electric field for a point charge `q2 = 1_μC` located at `r = 3_m` can be calculated with Coulomb’s law if the separation distance is much greater than the plate dimension `r >> L`. The whole plate is indeed considered as being a point charge providing that `r > 10 · L`. Therefore, to calculate `[F_N;Er_N/C]`:
 ```rpl
 L=8_cm r=3_m q1=6E-6_C  q2=1E-6_C  r=3_m  εr=1  qtest=1E-6_C
-@ Expecting [ F=5.99170 11915 9⁳⁻³ N Er=5 991.70119 159 N/C ]
+@ Expecting [ F=5.99170 11907 5⁳⁻³ N Er=5 991.70119 075 N/C ]
 if 'r > 10*L' then
  'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 end
@@ -266,7 +266,7 @@ The expression for the radial electric field at the distance `r` is approximatel
 * To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field) from 4 known variables:
 ```rpl
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11915 9 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 5 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 The code below saves the reference value for comparison with the example 2 in [E Field Finite Line](#E Field Finite Line):
@@ -285,7 +285,7 @@ The expression of the radial electric field at the distance `r` depends on the s
 ```rpl
 r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 972 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 892 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 
@@ -293,14 +293,14 @@ Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
 ```rpl
 Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ1='atan(L/2/r)' θ2='360_°-θ1'
 if 'r < L/10' then
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52400 7 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 4 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
 ```
-Verify relative difference under condition `5_cm << 3_m` with the example of ([E Field Infinite Line](#E Field Infinite Line))
+Verify relative difference under condition `5_cm << 3_m` with the example of [E Field Infinite Line](#E Field Infinite Line)
 ```rpl
 Er0 Er %Ch
-@ Expecting -5.55093 02084 6⁳⁻²
+@ Expecting [ -5.55093 02084 6⁳⁻² ]
 @ % of relative difference
 ```
 
@@ -311,7 +311,7 @@ The expression of the perpendicular electric field is constant over an infinite 
 * To calculate `[Ep_N/C;σ_C/m^2]` (Electric Field; Linear charge density) at position `[d=5_mm]` above a square plate of width `[L=8_cm]` and surface `A=L^2` where `d << L` when `d < L/10` is verified:
 ```rpl
 L=8_cm A='L^2' d=5_mm Q=6E-6_C  A=64_cm^2  εr=1
-@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 050.0044 N/C ]
+@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 049.997 N/C ]
 if 'd < L/10' then
  'ROOT(ⒺE Field Infinite Plate;[σ;Ep];[1_C/cm^2;1_N/C])'
 end
@@ -376,7 +376,7 @@ R1=2_Ω  R2=3_Ω
 ```
 
 ### Series & Parallel C
-
+zzz
 ![Series & Parallel C](img/Series&ParallelC.bmp)
 
 * To calculate `[Cs_μF;Cp_μF]` (Capacitance) from 2 known variables:
@@ -713,8 +713,8 @@ The 37 variables in the Force and Energy section are:
 force ([Law of Gravitation](#Law of Gravitation)), or Drag force ([Drag force](#Drag force))
 * `I`: Moment of inertia (dim.: mass·length^2, in SI: kg·m^2)
 * `k`: Spring constant (dim.: force/length, in SI: N/m)
-* `Ki`: Initial kinetic energie (dim.: force·length, in SI: joule, J)
-* `Kf`: Final kinetic energie (dim.: force·length, in SI: joule, J)
+* `Ki`: Initial kinetic energy (dim.: force·length, in SI: joule, J)
+* `Kf`: Final kinetic energy (dim.: force·length, in SI: joule, J)
 * `m`: Mass
 * `m1`: First mass
 * `m2`: Second mass
@@ -863,7 +863,9 @@ The 38 variables in the Gases section are:
 * To calculate `[n_mol;m_kg]` (Number of moles; Mass) from 4 known variables:
 ```rpl
 T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
-@ Expecting [ n=1.05056 26661 2 mol m=0.03782 02559 8 kg ]] instead, [3⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
+@ Expecting [ n=-2.⁳⁻²³ mol m=-2.⁳⁻²³ kg ]
+@ Failing [ n=1.05056 86529 9 mol m=3.78204 71507 7⁳⁻² kg ]
+@ C#6 NOT OK MSOLVE: hallucinates values
 'ROOT(ⒺIdeal Gas;[n;m];[1_mol;1_kg])'
 ```
 
@@ -986,10 +988,10 @@ The 31 variables in the Heat Transfer section are:
 * `L2`: Length
 * `L3`: Length
 * `m`: Mass
-* `Q`: Heat capacity (dim.: energy, in SI: joule, J)
+* `Q`: Heat capacity (dim.: force·length, in SI: joule, J)
 * `qr`: Heat transfer rate (dim.: power=energy/time, in SI: watt, W)
 * `T`: Temperature
-* `Tc`: Cold surface temperature ([Conduction^](#Conduction)), or Cold fluid temperature ([Convection](1Convection))
+* `Tc`: Cold surface temperature ([Conduction^](#Conduction)), or Cold fluid temperature ([Convection](#Convection))
 * `Th`: Hot surface temperature, or Hot fluid temperature ([Conduction + Convection](#Conduction + Convection))
 * `Ti`: Initial temperature
 * `Tf`: Final temperature
@@ -1123,7 +1125,7 @@ The magnetic field expression differs depending upon whether the point at `r` is
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 ```
 
-The code below saves the reference value for comparison with the example 2 in ([B Field Finite Wire](#B Field Finite Wire)):
+The code below saves the reference value for comparison with the example 2 in [B Field Finite Wire](#B Field Finite Wire):
 ```rpl
 @ Save the reference value for comparison below
 B0=B
@@ -1182,7 +1184,7 @@ The expression for the magnetic field in the center is approximately valid if th
 @ Expecting [ B=0.07853 98163 4 T ]
 'ROOT(ⒺB Field In Infinite Solenoid;[B];[1_T])'
 ```
-The code below saves the reference value for comparison with the example 2 in ([B Field Finite Solenoid](#B Field Finite Solenoid)):
+The code below saves the reference value for comparison with the example 2 in [B Field Finite Solenoid](#B Field Finite Solenoid):
 ```rpl
 @ Save the reference value for comparison below
 B0=B
@@ -1209,7 +1211,7 @@ if 'r < L/10' then
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 end
 ```
-Verify relative difference under condition 10_cm << 3_m with the example of ([B Field In Infinite Solenoid](#B Field In Infinite Solenoid))
+Verify relative difference under condition 10_cm << 3_m with the example of [B Field In Infinite Solenoid](#B Field In Infinite Solenoid)
 ```rpl
 B0 B %Ch
 @ Expecting [ -1.38859 9604⁳⁻² ]
@@ -1308,7 +1310,7 @@ The 38 variables in the Motion section are:
 * `t`: Time
 * `tf`: Time of flight of a projectile
 * `tfr`: time required to reach the fraction `fr` of the terminal velocity
-* `v`: Velocity at `t` ([linear Motion](#linear Motion)), or Tangential velocity at `r` [Circular Motion¸](#Circular Motion)), or Falling velocity at time `t` [Terminal Velocity](#Terminal Velocity)) & ([Buoyancy & Terminal Velocity](#Buoyancy & Terminal Velocity))
+* `v`: Velocity at `t` ([linear Motion](#linear Motion)), or Tangential velocity at `r` ([Circular Motion¸](#Circular Motion)), or Falling velocity at time `t` ([Terminal Velocity](#Terminal Velocity)) & ([Buoyancy & Terminal Velocity](#Buoyancy & Terminal Velocity))
 * `v0`: Initial velocity
 * `ve`: Escape velocity in a gravitational field
 * `vcx`: Horizontal (component x) of velocity at `t`
@@ -1618,7 +1620,7 @@ The 25 variables in the Oscillations section are:
 * `φ`: Phase angle
 * `θ`: Cone angle
 * `a`: Acceleration at `t`
-* `E`: Total energy (kinetic plus potential)
+* `E`: Total energy (kinetic plus potential) (dim.: force·length, in SI: joule, J)
 * `f`: Frequency (dim.: time^-1; in SI: hertz, Hz)
 * `G`: Shear modulus of elasticity (dim.: pressure, in SI: pascal, Pa)
 * `h`: Cone height
@@ -1733,7 +1735,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
-Verify relative difference with the total energy of the case ([Underdamped Oscillations](#Underdamped Oscillations))
+Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)
 ```rpl
 E0 E %Ch
 @ Expecting [ 46 649.10006 64 ]
@@ -2132,11 +2134,11 @@ The 39 variables in the Waves section are:
 * `s`: Longitudinal displacement at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
 * `sm`: Longitudinal displacement amplitude of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement amplitude of air particles ([Sound Waves](#Sound Waves))
 * `t`: Time
-* `T`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), (^[Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
+* `T`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), ([Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
 * `u`: Mass or flow velocity ([Mach Number](#Mach Number))
 * `v`: Velocity of the propagating sound in medium ([Sound Waves](#Sound Waves)), or Wave speed ([Transverse Waves](#Transverse Waves)) & ([Longitudinal Waves](#Longitudinal Waves))
 * `vr`: Speed of the receiver relative to the medium
-* `vs`: Velocity at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Velocity at `x` and `t` of air particles ([Sound Waves](#Sound Waves)), or Speed of the source relative to the medium ([Doppler Effect](Doppler Effect))
+* `vs`: Velocity at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Velocity at `x` and `t` of air particles ([Sound Waves](#Sound Waves)), or Speed of the source relative to the medium ([Doppler Effect](#Doppler Effect))
 * `vsair`: Velocity of the propagating sound in the ait as a function of temperature
 * `vy`: Velocity at `x` and `t` of vibrating particles for transversal waves
 * `x`: Position
@@ -2311,9 +2313,9 @@ The 109 variables in the Relativity section are:
 * `Bpx`: Transformed x component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `Bpy`: Transformed y component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `Bpz`: Transformed z component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
-* `E`: Total energy or, Norm of the Electric field ([E & B Fields Transformation](#E & B Fields Transformation)) (dim.: force/charge, in SI: N/C=V/m)
-* `Ep`: Transformed total energy
-* `E0`: Total energy associated to the rest mass
+* `E`: Total energy (dim.: force·length, in SI: joule, J) or, Norm of the Electric field ([E & B Fields Transformation](#E & B Fields Transformation)) (dim.: force/charge, in SI: N/C=V/m)
+* `Ep`: Transformed total energy (dim.: force·length, in SI: joule, J)
+* `E0`: Total energy associated to the rest mass (dim.: force·length, in SI: joule, J)
 * `Ex`: X component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ey`: Y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ez`: Z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
@@ -2328,7 +2330,7 @@ The 109 variables in the Relativity section are:
 * `h1`: Height of point 1
 * `h2`: Height of point 2
 * `hp`: Altitude of plane (dim.: length)
-* `K`: Kinetic energy
+* `K`: Kinetic energy (dim.: force·length, in SI: joule, J)
 * `M`: Mass of planet
 * `m0`: Rest mass
 * `MGu`: Reduced gravitational mass given in geometrized units (dim.: length)
@@ -2630,9 +2632,9 @@ M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
 ## Modern Physics
 The 43 variables in the Modern Physics section are:
 
-* `β`: Relativistic speed ratio
-* `φ`: Work function of the substance ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy, in SI: eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering)
-* `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
+* `β`: Relativistic speed ratio 
+* `φ`: Work function of the substance ([Photoelectric Effect](#Photoelectric Effect)) (dim.: charge·voltage, in SI: eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering))
+* `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering)), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
 * `γ`: Lorentz relativistic factor
 * `%rFr12`: Relative % of change between distribution fractions integrated from `f1` to `f2`
 * `%rFr34`: Relative % of change between distribution fractions integrated from `f3` to `f4`
@@ -2640,12 +2642,12 @@ The 43 variables in the Modern Physics section are:
 * `λp`: Wavelength of the diffused photon
 * `A`: Area, or Total activity ([Radioactivity](#Radioactivity)) (dim.: number of decay/time, in SI: becquerel, Bq)
 * `d`: Interatomic distance between cristallographic plane
-* `En`: Electron energy in level `n` (dim.: energy, in SI: eV)
-* `Enp`: Electron energy in level `np` (dim.: energy, in SI: eV)
+* `En`: Electron energy in level `n` (dim.: charge·voltage, in SI: eV)
+* `Enp`: Electron energy in level `np` (dim.: charge·voltage, in SI: eV)
 * `ebfafb`: Emissive power in the range `fa` to `fb` (dim.: energy/time·area, in SI: W/m^2)
 * `eb`: Total emissive power for the entire Planck spectrum (dim.: energy/time·area, in SI: W/m^2)
-* `Eph`: Inident photon energy (dim.: energy; in SI: eV)
-* `Epph`: Diffused photon energy (dim.: energy; in SI: eV)
+* `Eph`: Inident photon energy (dim.: charge·voltage; in SI: eV)
+* `Epph`: Diffused photon energy (dim.: charge·voltage; in SI: eV)
 * `f`: Frequency of the photon (dim.: 1/time, in SI: hertz, Hz)
 * `f0`: Threshold frequency (dim.: 1/time, in SI: hertz, Hz)
 * `f1`: Lower frequency limit of integration (dim.: 1/time, in SI: hertz, Hz)
@@ -2663,8 +2665,8 @@ The 43 variables in the Modern Physics section are:
 * `FrPl34`: Fraction of Planck emissive power in the range `f3` to `f4`
 * `FrWn34`: Fraction of Wien emissive power in the range `f3` to `f4`
 * `FrRJ34`: Fraction of Rayleign-Jeans emissive power in the range `f3` to `f4`
-* `K`: Kinetic energy of scattered electron (dim.: energy; in SI: eV)
-* `Kmax`: Maximum kinetic energy of photoelectron ([Photoelectric Effect](#Photoelectric Effect)) (dim.: energy; in SI: eV)
+* `K`: Kinetic energy of scattered electron (dim.: charge·voltage; in SI: eV) 
+* `Kmax`: Maximum kinetic energy of photoelectron ([Photoelectric Effect](#Photoelectric Effect)) (dim.: charge·voltage; in SI: eV)
 * `p`: Momentum (dim.: mas·speed, in SI: kg·m/s)
 * `m`: Mass
 * `q`: Heat transfer rate (dim.: energy/time, in SI: watt, W)
@@ -2785,11 +2787,11 @@ The 52 variables in the Nuclear Physics section are:
 * `AX`: Mass number of the reactant nuclide `X`
 * `AY`: Mass number of the product nuclide `Y`
 * `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
-* `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
-* `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
-* `K`: Kinetic energy of the emitted `α` particle
-* `Kmax`: Maximum kinetic energy of the electron ([β⊖ Decay](#β⊖ Decay)), or of the positron ([β⊕ Decay](#β⊕ Decay))
-* `ΔKtot`: Variation of total kinetic energy
+* `EB`: Nuclear binding energy (dim.: charge·voltage, in SI: MeV) 
+* `EBse`: Semiempirical nuclear binding energy (dim.: charge·voltage, in SI: MeV) 
+* `K`: Kinetic energy of the emitted `α` particle (dim.: charge·voltage, in SI: MeV)
+* `Kmax`: Maximum kinetic energy of the electron ([β⊖ Decay](#β⊖ Decay)), or of the positron ([β⊕ Decay](#β⊕ Decay)) (dim.: charge·voltage, in SI: MeV)
+* `ΔKtot`: Variation of total kinetic energy (dim.: charge·voltage, in SI: MeV)
 * `ma`: Mass of incident nuclide or particle `a` (In SI: u)
 * `mb`: Mass of outgoing nuclide or particle `b` (In SI: u)
 * `mX`: Mass of reactant neutral atom `X` (In SI: u)
@@ -2798,10 +2800,10 @@ The 52 variables in the Nuclear Physics section are:
 * `N`: Number of nuclide at time `t` ([Radioactivity](#Radioactivity)), or Number of neutron ([Nuclear Physics](#Nuclear Physics))
 * `nn`: Number of neutrons produced in a fission reaction
 * `N0`: Initial number of nuclide
-* `Q`: Reaction energy of a nuclear reaction (dim.: energy, in SI: MeV)
-* `Qα`: Reaction energy of an α decay (dim.: energy, in SI: MeV)
-* `Qβ⊖`: Reaction energy of a β⊖ decay (dim.: energy, in SI: MeV)
-* `Qβ⊕`: Reaction energy of a β⊕ decay (dim.: energy, in SI: MeV)
+* `Q`: Reaction energy of a nuclear reaction (dim.: charge·voltage, in SI: MeV) 
+* `Qα`: Reaction energy of an α decay (dim.: charge·voltage, in SI: MeV)
+* `Qβ⊖`: Reaction energy of a β⊖ decay (dim.: charge·voltage, in SI: MeV)
+* `Qβ⊕`: Reaction energy of a β⊕ decay (dim.: charge·voltage, in SI: MeV)
 * `R`: Radius of the nucleus having `A` nucleons
 * `t`: Age of the decaying nuclide
 * `Thl`: Half-life of radionuclide (dim.: time)

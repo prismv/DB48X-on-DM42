@@ -1006,11 +1006,15 @@ int ui_file_selector(const char *title,
         QFileInfo fi(path);
         QString suffix = fi.suffix(); // On Linux we don't get the extension
         QString name = fi.fileName();
+        path = fi.absoluteFilePath();
         if (QFileInfo("." + suffix) != QFileInfo(ext))
         {
             path += ext;
             name += ext;
         }
+        QString here = QDir::currentPath() + QDir::separator();
+        if (path.startsWith(here))
+            path = path.remove(0, here.length());
         std::cout << "Got path: " << path.toStdString()
                   << ", name is " << name.toStdString() << "\n";
         ret = callback(path.toStdString().c_str(),

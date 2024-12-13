@@ -2496,6 +2496,18 @@ expression_p expression::get(object_p obj)
 }
 
 
+bool expression::is_simplifiable() const
+// ----------------------------------------------------------------------------
+//   Return true if the expression is simplifiable
+// ----------------------------------------------------------------------------
+{
+    for (object_p obj : *this)
+        if (!obj->is_simplifiable())
+            return false;
+    return true;
+}
+
+
 list_p expression::current_equation(bool all, bool error)
 // ----------------------------------------------------------------------------
 //   Return content of EQ variable
@@ -3341,6 +3353,8 @@ expression_p expression::simplify() const
 //   Run various rewrites to simplify equations
 // ----------------------------------------------------------------------------
 {
+    if (!is_simplifiable())
+        return this;
     return rewrites(
         // Compute constant sub-expressions
         A+B,            A+B,

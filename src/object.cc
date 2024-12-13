@@ -1540,6 +1540,34 @@ bool object::is_negative(bool error) const
 }
 
 
+bool object::is_simplifiable() const
+// ----------------------------------------------------------------------------
+//   Return true if auto-simplification does not apply
+// ----------------------------------------------------------------------------
+{
+    id ty = type();
+    if (!is_algebraic(ty))
+        return false;
+    switch (ty)
+    {
+    case ID_hwfloat:
+        return hwfloat_p(this)->is_simplifiable();
+    case ID_hwdouble:
+        return hwdouble_p(this)->is_simplifiable();
+    case ID_decimal:
+    case ID_neg_decimal:
+        return decimal_p(this)->is_simplifiable();
+    case ID_constant:
+        return constant_p(this)->is_simplifiable();
+    case ID_expression:
+        return expression_p(this)->is_simplifiable();
+    default:
+        break;
+    }
+    return true;
+}
+
+
 int object::compare_to(object_p other) const
 // ----------------------------------------------------------------------------
 //   Bitwise comparison of two objects

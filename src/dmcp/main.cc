@@ -553,6 +553,7 @@ extern "C" void program_main()
 uint            memory_size           = 100;
 volatile uint   test_command          = 0;
 bool            noisy_tests           = false;
+bool            no_beep               = false;
 bool            tests::running        = false;
 
 static void *rpl_thread(void *)

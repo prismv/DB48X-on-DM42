@@ -419,6 +419,7 @@ struct decimal : algebraic
     bool             is_magnitude_less_than(uint kigit, large exp) const;
     bool             is_magnitude_less_than_half() const;
     bool             is_infinity() const;
+    bool             is_simplifiable() const { return is_normal(); }
     // ------------------------------------------------------------------------
     //   Tests about the value of a given decimal number
     // ------------------------------------------------------------------------

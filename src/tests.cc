@@ -4086,19 +4086,19 @@ void tests::fraction_decimal_conversions()
 // ----------------------------------------------------------------------------
 {
     cstring cases[] =
-        {
-            // Easy exact cases (decimal)
-            "1/2",          "0.5",
-            "1/4",          "0.25",
-            "5/4",          "1.25",
-            "-5/4",         "-1.25",
+    {
+        // Easy exact cases (decimal)
+        "1/2",          "0.5",
+        "1/4",          "0.25",
+        "5/4",          "1.25",
+        "-5/4",         "-1.25",
 
-            // More tricky fractions
-            "1/3",          "0.33333 33333 33",
-            "-1/7",         "-0.14285 71428 57",
-            "22/7",         "3.14285 71428 6",
-            "37/213",       "0.17370 89201 88",
-        };
+        // More tricky fractions
+        "1/3",          "0.33333 33333 33",
+        "-1/7",         "-0.14285 71428 57",
+        "22/7",         "3.14285 71428 6",
+        "37/213",       "0.17370 89201 88",
+    };
 
     BEGIN(dfrac);
 
@@ -6675,6 +6675,22 @@ void tests::auto_simplification()
     step("Does not apply to lists");
     test(CLEAR, "{ 1 2 3 } 0 +", ENTER)
         .expect("{ 1 2 3 0 }");
+
+    step("Do not apply to infinities")
+        .test(CLEAR, "Ⓒ∞ Ⓒ∞ +", ENTER)
+        .expect("'∞+∞'")
+        .test(CLEAR, "0 Ⓒ∞ +", ENTER)
+        .expect("'0+∞'")
+        .test(CLEAR, "Ⓒ∞ 0 +", ENTER)
+        .expect("'∞+0'")
+        .test(CLEAR, "Ⓒ∞ Ⓒ∞ -", ENTER)
+        .expect("'∞-∞'")
+        .test(CLEAR, "Ⓒ∞ Ⓒ∞ *", ENTER)
+        .expect("'∞·∞'")
+        .test(CLEAR, "Ⓒ∞ Ⓒ∞ /", ENTER)
+        .expect("'∞÷∞'")
+        .test(CLEAR, "Ⓒ∞ Ⓒ∞ NEG /", ENTER)
+        .expect("'∞÷(-∞)'");
 
     step("Fold constants: additions")
         .test(CLEAR, "'1+X+2'", ENTER).expect("'1+X+2'")
@@ -9732,6 +9748,13 @@ void tests::probabilities()
     step("Combination with decimal fractional input")
         .test(CLEAR, "0.5 2. COMB", ENTER)
         .expect("-0.125");
+    step("Combination with very large decimal values")
+        .test(CLEAR, "9999. 555. COMB", ENTER)
+        .expect("2.24470 86227 3⁳⁹²⁹");
+    step("Combination with hardware floating-point")
+        .test(CLEAR, "HFP 16 Precision", ENTER, "9999. 555. COMB", ENTER)
+        .error("Argument outside domain")
+        .test(CLEAR, "SFP 24 Precision");
     step("Permutations in program with decimal input")
         .test(CLEAR, "42. 37. PERM", ENTER)
         .expect("1.17083 84314 6⁳⁴⁹");

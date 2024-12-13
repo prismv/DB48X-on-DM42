@@ -153,42 +153,19 @@ struct hwfp : hwfp_base
         return (large) fp;
     }
 
-    int32_t as_int32() const
-    {
-        return int32_t(as_integer());
-    }
-    hw as_hwfp() const
-    {
-        return value();
-    }
-    float as_float() const
-    {
-        return value();
-    }
-    double as_double() const
-    {
-        return value();
-    }
+    int32_t     as_int32()              const { return int32_t(as_integer()); }
+    hw          as_hwfp()               const { return value(); }
+    float       as_float()              const { return value(); }
+    double      as_double()             const { return value(); }
     // ------------------------------------------------------------------------
     //   Conversion to machine values
     // ------------------------------------------------------------------------
 
-    bool is_zero() const
-    {
-        return value() == 0.0;
-    }
-    bool is_one() const
-    {
-        return value() == 1.0;
-    }
-    bool is_negative() const
-    {
-        return value() < 0.0;
-    }
-    bool is_negative_or_zero() const
-    {
-        return value() <= 0.0;
-    }
+    bool        is_zero()               const { return value() == 0.0; }
+    bool        is_one()                const { return value() == 1.0; }
+    bool        is_negative()           const { return value() < 0.0; }
+    bool        is_negative_or_zero()   const { return value() <= 0.0; }
+    bool        is_simplifiable()   const { return std::isfinite(value());}
     // ------------------------------------------------------------------------
     //   Tests about the value of a given hwfp number
     // ------------------------------------------------------------------------

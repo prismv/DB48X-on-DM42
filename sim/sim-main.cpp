@@ -41,9 +41,10 @@
 RECORDER(options, 32, "Information about command line options");
 RECORDER_TWEAK_DEFINE(rpl_objects_detail, 0, "Set to 1 to see object addresses")
 
-bool run_tests = false;
-bool noisy_tests = false;
-uint memory_size = 100;           // Memory size in kilobytes
+bool   run_tests   = false;
+bool   noisy_tests = false;
+bool   no_beep     = false;
+uint   memory_size = 100; // Memory size in kilobytes
 
 size_t recorder_render_object(intptr_t tracing,
                               const char *UNUSED /* format */,
@@ -136,6 +137,9 @@ int main(int argc, char *argv[])
                 break;
             case 'n':
                 noisy_tests = true;
+                break;
+            case 'N':
+                no_beep = true;
                 break;
 
             case 'T':

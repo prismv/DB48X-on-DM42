@@ -883,7 +883,7 @@ grob_p files::recall_grob(text_p name) const
               b.info.planes == 1 &&
               b.info.bitsPerPixel == 1 &&
               b.info.compression == 0 &&
-              b.info.numColors == 2);
+              (b.info.numColors == 2 || b.info.numColors == 0));
 
     char palette[8] = { 0 };
     if (ok)

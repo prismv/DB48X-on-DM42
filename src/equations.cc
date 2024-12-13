@@ -889,7 +889,7 @@ static const cstring basic_equations[] =
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "PN Step Junctions",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))='SIDENS(T_K)' "
     //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "

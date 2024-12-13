@@ -315,7 +315,11 @@ algebraic_p function::evaluate_noclean(algebraic_r xr, id op, ops_t ops)
 
     // Convert arguments to numeric if necessary
     if (Settings.NumericalResults())
+    {
         (void) to_decimal(x, true);   // May fail silently, and that's OK
+        if (!x)
+            return nullptr;
+    }
 
     id xt = x->type();
     if (should_be_symbolic(xt))

@@ -58,6 +58,7 @@ using std::max;
 using std::min;
 
 // Those are put in the same file to guarantee initialization order
+settings Settings;
 runtime rt(nullptr, 0);
 runtime::gcptr *runtime::GCSafe;
 user_interface ui;

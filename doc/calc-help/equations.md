@@ -1477,7 +1477,7 @@ For reflection and refraction problems, the focal length and radius of curvature
 #### Refraction Law
 
 ![Refraction Law](img/RefractionLaw.bmp)
-zzz
+
 * To calculate `[θ2_°;v1_m/s;v2_m/s]` (Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 3 known variables:
 ```rpl
 n1=1  n2=1.333  θ1=45_°
@@ -1505,6 +1505,7 @@ n1=1  n2=1.5
 nf0=1.2  nf1=1.5  nf2=1.45
 @ Expecting [ vf0=249 827 048.333 m/s vf1=199 861 638.66 m/s vf2=206 753 419.294 m/s NA=0.32004 77394 95 θ0=18.66581 19909 ° ]
 'ROOT(ⒺFiber Optic;[vf0;vf1;vf2;NA;θ0];[1_m/s;1_m/s;1_m/s;1;1_°])'
+```
 
 #### Brewster’s Law
 
@@ -1515,8 +1516,8 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 * To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle; Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
-@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θB=33.69006 7526 ° ]
-@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails.
+@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
+@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails for the eqn: 'θB+θ2=90'!!
 'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
@@ -1560,7 +1561,7 @@ r1=5_cm  r2=20_cm  n=1.5  u=50_cm
 * To calculate `[θr_°;y_m]` (Rayleigh’s criterion angle; Distance between two point source) from 3 known variables:
 ```rpl
 λ=550_nm  d=9_mm  L=18.7_km
-@ Expecting [ θr=0.00427 05628 26 ° y=1.39381 16503 9 m ]
+@ Expecting [ θr=4.27056 28265⁳⁻³ ° y=1.39381 16503 9 m ]
 'ROOT(ⒺRayleigh’s Criterion;[θr;y];[1_°;1_m])'
 ```
 
@@ -1573,7 +1574,7 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 * To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
-@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88934 4⁳⁻² W/m↑2 E0=86.80210 98203 V/m ]
+@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88932 1⁳⁻² W/m↑2 E0=86.80210 98142 V/m ]
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
@@ -1618,8 +1619,8 @@ The 25 variables in the Oscillations section are:
 * `m`: Mass
 * `Q`: Quality factor
 * `t`: Time
-* `T`: Period, Period dor small amplitude (Simple Pendulum)
-* `Treal`: Real period for large amplitude (Simple Pendulum)
+* `T`: Period, or Period for small amplitude ([Simple Pendulum](#Simple Pendulum))
+* `Treal`: Real period for large amplitude ([Simple Pendulum](#Simple Pendulum))
 * `v`: Velocity at `t`
 * `x`: Displacement at `t`
 * `xm`: Displacement amplitude
@@ -1683,8 +1684,8 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 * To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
-@ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-2 038.83579 33 cm/s↑2  m=4.44444 44444 4⁳⁻² kg  E=1.125 J ]
-@ C#12 NOT OK MSOLVER: "No solution?" Solve shows on sreen an error of sign in the acceleration eqn see ISSUE #1353
+@ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-20.38835 7933 m/s↑2  m=4.44444 44444 4⁳⁻² kg  E=0.05 J ]
+@ C#12 NOT OK MSOLVER: "No solution?" SOLVE for m: "No solution?" unable to isolate m in: 'ω0=1 r·√(k÷m)' !!  
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
@@ -1695,13 +1696,13 @@ We are considering here a damped mass-spring oscillator having the natural angul
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
-@ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2 r/s  ωu=14.99966 6663 r/s  x=9.06146 97962 2 cm  v=-64.34829 19812 cm/s  a=-2 026.14705 038_cm/s↑2  E=0.24809 02514 79 J  Q=75.  ]
-@ C#13 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be computed. NOTE it's not
-@ possible to solve for m alone in the simple eqn (see COMMENT of ISSUE #1323): 'ROOT((ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg));[m];[1_kg])'
+@ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  x=9.06100 06640 3 cm  v=-83.10906 53488 cm/s  a=-1 664.73435 534 cm/s↑2  E=5.64000 14834 9⁳⁻² J  Q=3.33333 33333 3 ]
+@ C#13 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be
+@ computed. NOTE it's not possible to solve for m alone in its simple eqn (see ISSUE #1334). SOLVE fails for a:
+@ "Inconsistent units" neither for Q: "idem"
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
-ω0=15_r/s  k=10_N/m
-'ROOT((ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg));[m];[1_kg])'
+
 The code below saves the reference value for comparison with the example in [Driven Damped Oscillations](#Driven Damped Oscillations):
 ```rpl
 @ Save the reference value for comparison below
@@ -1716,16 +1717,16 @@ We are considering here a damped mass-spring oscillator where the external drivi
 
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Phase angle; Resulting amplitude; Displacement; Velocity & Acceleration at `t`; Total energy at `t`; Quality factor) from 9 known variables which correspond to the values of the previous section:
 ```rpl
-ω=14.9_r/s  ω0=15_r/s  θ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
-@ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2_r/s  ωu=14.99966 6663 r/s  φ=-44.90402 72598 °  xp=4.79694 88212 1 m  x=348.95077 8802 cm  v=4 979.30583 593 cm/s  a=-774.84786 538 m/s↑2  E=115.97995 9919 J  Q=75.  ]
-@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 2) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
+ω=14.99_r/s  ω0=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
+@ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  φ=-89.74526 88301 °  xp=3.00197 16654 8⁳⁻¹ m  x=-21.44064 71859 cm  v=314.96199 4059 cm/s  a=47.58321 09983 m/s↑2  E=0.45029 74707 68 J  Q=3.33333 33333 3  ]
+@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 3) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
 Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)
 ```rpl
 E0 E %Ch
-@ Expecting [ 46 649.10006 64 ]
+@ Expecting [ 698.39956 0862 ]
 @ % of relative augmentation which illustrates the huge energy gain due to the driving force acting very near the resonance frequency.
 ```
 
@@ -1820,7 +1821,6 @@ ro=4_μm  ri=25_Å  d=0.1_mil
 ```rpl
 h=4.33012781892_in  v=2.5_in  P=15_in  d=2_in
 @ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
-MSOLVE doesn't calculate anymore "Inconsistent units"
 'ROOT(ⒺTriangle;[b;A;Ix;Iy;J;Id];[1_in;1_in^2;1_in^4;1_in^4;1_in^4;1_in^4])'
 ```
 
@@ -1948,11 +1948,13 @@ The 54 variables in the Solid State Devices section are:
 These equations for a silicon PN-junction diode use a “two-sided step-junction” model–the doping density changes abruptly at the junction. The equation assume the current density is determined by minority carries injected across the depletion region and the PN junction is rectangular in its layout, The temperature should be between 77 and 500 K.
 
 ![PN Step Junctions](img/PNStepJunctions.bmp)
-
+zzz
 * To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
 ```rpl
 ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
-@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+@ Failing [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+@ C#14 NOT OK MSOLVE: "Unable to solve for all variables" for absolutely no discernable reason. It worked in v0.8.7!!
+@ CLUE: It seems that the SIDENS function doesn't work OR even exist anymore !!
 'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_m^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
 ```
 
@@ -1968,6 +1970,7 @@ tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=
 @ Failing [ ni=1.03628 29628⁳²⁶ (m↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47498 38 pF/cm↑2 γ=0.37247 98153 35 V↑(¹/₂) φp=-0.29855 54642 25 V
 @ Vt=0.75 V VDsat=4.25 V IDS=IDS=2.97832 74271 5 mA gds=0.00014 89163 71 S gm=1.42391 28564 6 mA/V ]
 @ C#14 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute.
+@ And here also, it appears that the SIDENS function doesn't work OR even exist anymore !!
 'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_m^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
 ```
 

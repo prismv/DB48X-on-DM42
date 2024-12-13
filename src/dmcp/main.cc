@@ -57,10 +57,31 @@
 using std::max;
 using std::min;
 
+// ============================================================================
+//
 // Those are put in the same file to guarantee initialization order
+//
+// ============================================================================
+
+// Initialize the screen
+surface Screen((pixword *) lcd_line_addr(0), LCD_W, LCD_H, LCD_SCANLINE);
+
+// Pre-built patterns for shades of grey
+const pattern pattern::black   = pattern(0, 0, 0);
+const pattern pattern::gray10  = pattern(32, 32, 32);
+const pattern pattern::gray25  = pattern(64, 64, 64);
+const pattern pattern::gray50  = pattern(128, 128, 128);
+const pattern pattern::gray75  = pattern(192, 192, 192);
+const pattern pattern::gray90  = pattern(224, 224, 224);
+const pattern pattern::white   = pattern(255, 255, 255);
+const pattern pattern::invert  = pattern(~0ULL);
+
+// Settings depend on patterns
 settings Settings;
-runtime rt(nullptr, 0);
+
+// Runtime must be initialized before ser interface, which contains GC pointers
 runtime::gcptr *runtime::GCSafe;
+runtime rt(nullptr, 0);
 user_interface ui;
 
 uint last_keystroke_time = 0;

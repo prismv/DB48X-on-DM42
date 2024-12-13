@@ -321,7 +321,7 @@ static const cstring basic_equations[] =
    // the high RE number of the example the absolute roughness coefficient ϵ_in
    // is defined as a variable in both the HP50G and the manual but here it is
    // absent of all actual eqns
-   //24-11-12 I replace the call for FANNING by the corresponding calculation in eqn (2)
+   //24-11-12 I replace the call for FANNING by the corresponding calculation in eqn (2). Error in last eqn
     "Flow In Full Pipes",  "{ "
     "  '(ρ_(kg/m^3))*((Ⓒπ*(D_m)^2)/4)*(vavg_(m/s))*((ΔP_Pa)/(ρ_(kg/m^3))+Ⓒg*(Δy_m)+(vavg_(m/s))^2*(2*f*((L_m)/(D_m))+ΣK/2))=(W_W)' "
   //"  'f=FANNING((ε_m)/(D_m);Reynolds)' "
@@ -331,7 +331,7 @@ static const cstring basic_equations[] =
     "  '(M_(kg/s))=(ρ_(kg/m^3))*(Q_(m^3/s))' "
     "  '(Q_(m^3/s))=(A_(m^2))*(vavg_(m/s))' "
     "  '(A_(m^2))=Ⓒπ*(D_m)^2/4' "
-    "  'Reynolds=(D_m)*(vavg_(m/s))*(ρ_(kg/m^3))*(μ_(kg/(m*s)))' "
+    "  'Reynolds=(D_m)*(vavg_(m/s))*(ρ_(kg/m^3))/(μ_(kg/(m*s)))' "
     "  '(n_(m^2/s))=(μ_(kg/(m*s)))/(ρ_(kg/m^3))' "
     "}",
 
@@ -1351,7 +1351,7 @@ static const cstring basic_equations[] =
     "'(Δm_u)=((mX_u)-(mY_u)-ⒸmHe)' "
     "'(Qα_MeV)=(Δm_u)*Ⓒc^2' "
     "'(Kα_MeV)=(Qα_MeV)/(ⒸmHe/(mX_u)+1)' "
-    "'γ=(Kα_MeV)/((ⒸmHe_u)*Ⓒc^2)+1' "
+    "'γ=(Kα_MeV)/((ⒸmHe)*Ⓒc^2)+1' "
     "'β=√(1-1/γ^2)' "
     "'(AYα)=(AXα)-4' "
     "'(ZYα)=(ZXα)-2' "

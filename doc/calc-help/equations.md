@@ -1950,12 +1950,13 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 ![PN Step Junctions](img/PNStepJunctions.bmp)
 
 * To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
+// ni_(1/cm^3)='√((2.81e19)*(1.83e19))*(1_(1/cm^3))*exp(-(1.12_eV)/(2*Ⓒk*(T_K)))'
 ```rpl
 ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
-@ Failing [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=1.01814 13959 2 V xd=5.25780 92138 7 μ Cj=2 003.96839 745 pF/cm↑2 Emax=7 995 018.66308 V/m BV=358.08260 5883 V J=-1.⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
 @ C#14 NOT OK MSOLVE: "Unable to solve for all variables" for absolutely no discernable reason. It worked in v0.8.7!!
-@ CLUE: It seems that the SIDENS function doesn't work OR even exist anymore !!
-'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_m^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
+@ CLUE: It seems that the call to the SIDENS function fails.
+'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_cm^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
 ```
 
 #### NMOS Transistor
@@ -1965,13 +1966,12 @@ These equations for a silicon NMOS transistor use a two-port network model. They
 ![NMOS Transistor](img/NMOSTransistor.bmp)
 
 * To calculate `[ni_(cm^-3);We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Silicon density; Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
+// ni_(1/cm^3)='√((2.81e19)*(1.83e19))*(1_(1/cm^3))*exp(-(1.12_eV)/(2*Ⓒk*(T_K)))'
 ```rpl
 tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
-@ Failing [ ni=1.03628 29628⁳²⁶ (m↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47498 38 pF/cm↑2 γ=0.37247 98153 35 V↑(¹/₂) φp=-0.29855 54642 25 V
-@ Vt=0.75 V VDsat=4.25 V IDS=IDS=2.97832 74271 5 mA gds=0.00014 89163 71 S gm=1.42391 28564 6 mA/V ]
-@ C#14 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute.
-@ And here also, it appears that the SIDENS function doesn't work OR even exist anymore !!
-'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_m^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
+@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=3.72479 81530 9⁳⁻¹ V↑(1/2) φp=-0.30072 81952 95 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 5 mA/V ]
+@ C#14 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute. And here also, it appears that the call to the SIDENS function fails.
+'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_cm^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
 ```
 
 #### Bipolar Transistors
@@ -1983,10 +1983,9 @@ These equations for an NPN silicon bipolar transistor are based on large-signal 
 * To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IC_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total collector current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
 ```rpl
 IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
-Failing [ VBE=0.65531 72748 12 V IS=0.00000 98 nA ICO=0.00001 0396 nA ICEO=0.00051 98 nA IE=-1.02040 81632 5 mA IB=0.02040 81632 55 mA VCEsat=0.02962 86227 01 V ]
-@ C#15 NOT OK MSOLVER: "Inconsistent units". Algebraic conforms to HP50g. SOLVE alone works but for IC=1. mA "Sign reversal".
-@ Then SOLVE fails surprisingly for the IB (simple eqn). And fails again for VCEsat "Argument outside domain" which doesn't compute
-'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
+@ Expecting [ VBE=-7.81873 4911⁳⁻² V IS=-2.⁳⁻²³ nA ICO=-2.⁳⁻²³ nA ICEO=-2.⁳⁻²³ nA IE=-2.⁳⁻²³ mA IB=-2.⁳⁻²³ mA VCEsat=-2.⁳⁻²³ V ]
+@ Failing [ VBE=6.55313 00304 1⁳⁻¹ V V IS=9.8⁳⁻⁶ nA ICO=1.0396⁳⁻⁵ nA ICEO=5.198⁳⁻⁴ nA IE=-1.02040 81632 5 mA IB=2.04081 63254 7⁳⁻² mA VCEsat=0 V ]
+@ C#15 NOT OK MSOLVE: hallucinates all values. SOLVE works
 ```
 
 #### JFETs
@@ -2000,11 +1999,12 @@ drain, and source resistances) are negligible.
 ![JFETs](img/JFETs.bmp)
 
 * To calculate `[ni_(cm^-3);Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Silicon density; Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
+// ni_(1/cm^3)='√((2.81e19)*(1.83e19))*(1_(1/cm^3))*exp(-(1.12_eV)/(2*Ⓒk*(T_K)))'
 ```rpl
 ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
-@ Failing [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=0.35808 22815 91 V xdmax=1.04848 1973 μ G0=0.00059 98549 32 S ... ]
-@ C#16 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but failed for ID. Algebraic
-@ calculation also fails "Inconsistent units", cannot go further.
+@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=3.60254 62462 8⁳⁻¹ V xdmax=1.04861 82193 1 μ G0=5.99854 93177⁳⁻⁴ S ID=2.14057 10256 1⁳⁻¹ mA VDsat=3.24274 04036 8 V Vt=-7.24274 04036 8 V gm=1.45589 37795 8⁳⁻¹ mA/V ]
+@ C#16 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but
+@ failed for ID. Algebraic calculation also fails "Inconsistent units" needs CONVERT to go further
 'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
 ```
 
@@ -2029,8 +2029,8 @@ The 28 variables in the Stress Analysis section are:
 * `τx1y1`: Rotated shear stress (dim.: pressure, in SI: pascal, Pa)
 * `τxy`: Shear stress (dim.: pressure, in SI: pascal, Pa)
 * `θ`: Rotation angle
-* `θp1`: Angle to plane of maximum principal normal stress
-* `θp2`: Angle to plane of minimum principal normal stress
+* `θp1`: Angle 1 to plane of maximum principal normal stress
+* `θp2`: Angle 2 to plane of minimum principal normal stress
 * `θs`: Angle to plane of maximum shear stress
 * `A`: Area
 * `E`: Modulus of elasticity (dim.: pressure, in SI: pascal, Pa)
@@ -2048,8 +2048,7 @@ The 28 variables in the Stress Analysis section are:
 * To calculate `[δ_in;ε;σ_psi]` (Elongation; Normal strain; Normal stress) from 4 known variables:
 ```rpl
 P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
-@ Failing [ σ=12 732.39544 73 psi δ=0.00127 32395 45 ft 45 ε=0.00127 32395 45 ]
-@ C#17 NOT OK MSOLVER: "Inconsistent units". SOLVE individually works for σ but indicate for δ "Inconsistent units" for ε "Sign reversal" NOTE: HP50g_AUR has an error in the calculated value of δ. New trial with UBASE in eqn (2) to calculate δ
+@ Expecting [ σ=12 732.39544 73 psi δ=1.52788 74536 8⁳⁻² in ε=1.27323 95447 3⁳⁻³ ]
 'ROOT(ⒺNormal Stress;[σ;δ;ε];[1_psi;1_in;1])'
 ```
 
@@ -2059,9 +2058,8 @@ P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
 
 * To calculate `[T_ft*lbf;γ_°;φ_°]` (Torque; Shear strain; Angle of twist) from 5 known variables:
 ```rpl
-    "Shear Stress",  "{ "
 L=6_ft  r=2_in  J=10.4003897419_in^4  G=12000000_psi  τ=12000_psi
-@ Expecting [ T=5 200.19487 095 ft·lbf γ=0.05729 57795 13 ° φ=2.06264 80624 7 ° ]
+@ Expecting [ T=5 200.19487 095 ft·lbf γ=5.72957 79513 1⁳⁻² ° φ=2.06264 80624 7 ° ]
 'ROOT(ⒺShear Stress;[T;γ;φ];[1_ft*lbf;1_°;1_°])'
 ```
 
@@ -2073,7 +2071,6 @@ Stresses and strains are positive in the directions shown in the picture.
 
 * To calculate `[σx1_kPa;σy1_kPa;τx1y1_kPa]` (Normal stress in rotated-`x` direction; Normal stress in rotated-`y` direction; Rotated shear stress) from 4 known variables:
 ```rpl
-    "Shear Stress",  "{ "
 σx=15000_kPa  σy=4755_kPa  τxy=7500_kPa  θ=30_°
 @ Expecting [ σx1=18 933.94052 84 kPa σy1=821.05947 1617 kPa τx1y1=-686.21513 0886 kPa ]
 'ROOT(ⒺStress On An Element;[σx1;σy1;τx1y1];[1_kPa;1_kPa;1_kPa])'
@@ -2086,7 +2083,7 @@ Stresses and strains are positive in the directions shown in the picture.
 * To calculate `[σ1_psi;σ2_psi;θp1_°;θp2_°;τmax_psi;θs_°;σavg_psi]` (Maximum principal normal stress; Minimum principal normal stress; Angle to plane of maximum principal normal stress; Angle to plane of minimum principal normal stress; Maximum shear stress; Angle to plane of maximum shear stress; Normal stress on place of maximum shear stress) from 3 known variables:
 ```rpl
 σx=-5600_psi  σy=-18400_psi  τxy=4800_psi
-@ Expecting [ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ][ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ]
+@ Expecting [ σ1=-1 755.00122 011 psi σ2=-22 244.99877 99 psi θp1=18.43494 88229 ° θp2=108.43494 8823 ° τmax=10 244.99877 99 psi θs=-26.56505 11771 ° σavg=-12 000. psi ]
 'ROOT(ⒺMohr’s Circle;[σ1;σ2;θp1;θp2;τmax;θs;σavg];[1_psi;1_psi;1_°;1_°;1_psi;1_°;1_psi])'
 ```
 
@@ -2139,7 +2136,7 @@ The 39 variables in the Waves section are:
 * To calculate `[f_Hz;λ_cm;v_cm/s;y_cm;vy_cm/s;ay_cm/s^2]` (Frequency; Wavelength; Transverse displacement at `x` and `t`; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
 ```rpl
 ym=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
-@ Expecting [ f=1 114.08460 164 Hz λ=0.19567 69015 cm v=218.00062 2859 cm/s y=2.87199 87256 6 cm vy=-39 800.72414 76 cm/s ay=312 130 000. cm/s↑2 ]
+@ Expecting [ f=1 114.08460 164 Hz λ=0.19567 69015 cm v=218.00062 2859 cm/s y=2.87199 87256 6 cm vy=-39 800.72414 76 cm/s ay=-312 130 000. cm/s↑2 ]
 'ROOT(ⒺTransverse Waves;[f;λ;v;y;vy;ay];[1_Hz;1_cm;1_cm/s;1_cm;1_cm/s;1_cm/s^2])'
 ```
 
@@ -2148,7 +2145,7 @@ ym=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
 * To calculate `[s_cm;λ_cm;f_Hz;v_m/s;vs_cm/s;as_cm/s^2]` (Frequency; Wavelength; Transverse displacement at `x` and `t`; Wave speed; Velocity & Acceleration at `x` and `t` of vibrating particles) from 5 known variables:
 ```rpl
 sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
-@ Expecting [ s=5.68581 77353 7 cm λ=0.19567 69015 cm f=1 114.08460 164 Hz v=2.18000 62285 9 m/s vs=20 103.99107 96 cm/s as=278 605 069.033 cm/s↑2 ]
+@ Expecting [ s=5.68581 77353 7 cm λ=0.19567 69015 cm f=1 114.08460 164 Hz v=2.18000 62285 9 m/s vs=20 103.99107 96 cm/s as=-278 605 069.033 cm/s↑2 ]
 'ROOT(ⒺLongitudinal Waves;[s;λ;f;v;vs;as];[1_cm;1_cm;1_Hz;1_m/s;1_cm/s;1_cm/s^2])'
 ```
 
@@ -2157,18 +2154,13 @@ sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
 * **Example 1**. To calculate for an unknomn substance `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=10_cm  ω=6000_r/s  B=12500_kPa  ρ=65_kg/m^3   x=2_cm   t=0_s  r=10_m   k=13.6821_r/m  φ=2_r
-@ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
-@ Failing [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
-@ C#18 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353
+@ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
 ```
 * **Example 2**. For a sound wave propagating in air at a pressure of 1 atm and temperature of 20°C, to calculate `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=1e-5_m  ω=2 513.27412 287_r/s  B=141_kPa  ρ=1.29_kg/m^3   x=2_cm   t=0_s  r=5_m   k=7.59297 31808 8_r/m  φ=2_r
-@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=1.34695 82516 8⁳⁻¹ W/m↑2 s=8.35879 55288 8⁳⁻⁴ cm vs=-1.37956 85902 cm/s as=5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
-@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
-@ C#18 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353
-@ But β can be computed '→NUM((10_dB)*LOG10((I_(W/(m^2)))/(ⒸI0)))'=111.29354 1352 dB
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=1.34695 82516 8⁳⁻¹ W/m↑2 s=8.35879 55288 8⁳⁻⁴ cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
 ```
 #### Doppler Effect
@@ -2177,19 +2169,17 @@ In the classical Doppler effect it is assumed that the speed of the observer and
 
 * **Example 1**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are behind him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
-    "'(f_Hz)=(f0_Hz)*(((vsair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
-    "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
 T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
-@ Failing [ vsair=343.23616 5602 m/s f0=1 302.30661 671 HZ ]
-@ C#19 NOT OK MSOLVER: "Inconsisten units"
+@ Failing [ vsair=343.23616 5602 m/s f=1 302.30661 671 HZ ]
+@ C#17 NOT OK MSOLVE & SOLVE: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
 * **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
 T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
-@ Failing [ vsair=343.23616 5602 m/s f0=1 123.70996 713 HZ ]
-@ C#19 NOT OK MSOLVER: "Inconsisten units"
+@ Failing [ vsair=343.23616 5602 m/s f=1 123.70996 713 HZ ]
+@ C#17 NOT OK MSOLVE & SOLVE: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -2199,9 +2189,6 @@ For an object moving at a supersonic speed, the shockwave describes a cone havin
 
 * To calculate `[vsair_(m/s);M;θcone_°]` (Propagation speed of sound waves; Mach number; Angle at the tip of the cone formed by the supersonic shockwave) from 2 known variables:
 ```rpl
-    "'M=ubase((u_(m/s))/(vsair_(m/s)))' "
-    "'SIN(θcone_°)=ubase((vsair_(m/s))/(u_(m/s)))' "
-    "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
 T=-20_°C  u=2200_km/h
 @ Expecting [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
 'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
@@ -2211,13 +2198,12 @@ T=-20_°C  u=2200_km/h
 
 A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string. A string being fixed (or free) at both ends admits all integer harmonics. A string being being fixed at one end and free at the other end admits only all odd integer harmonics.
 
-* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixed-fixed_Hz;ffixed-free_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixedfixed_Hz;ffixedfree_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
 ```rpl
 λ=1.2_m  f=112_Hz  μ=1.8_(g/m)  L=0.6_m  ninteger=2  nodd=3  x=10_cm  t=5_s  ym=2_cm
-@ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=0.99999 99999 99 cm ffixed-fixed=531.60102 2863 Hz
-ffixed-free=398.70076 7147 Hz ]
-@ C#20 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units". Algebraic are OK
-'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixed-fixed;ffixed-free];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
+@ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=1. cm ffixedfixed=224 Hz ffixedfree=168 Hz ]
+@ C#18 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units".
+'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixedfixed;ffixedfree];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
 ```
 
 #### Sound Wave Harmonics
@@ -2227,9 +2213,8 @@ A tube being open or closed at its ends admits only discrete harmonics as standi
 * To calculate `[v_m/s;k_(r/m);ω_(r/s);T_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
 ```rpl
 λ=3_m f=110_Hz L=0.6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
-@ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=-2.17345 88932 4 °C s=0.00000 04158 23 m fopenopen=550. Hz
-fopenclose=412.5 Hz ]
-@ C#21 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for s "Inconsistent units". Algebraic are OK.
+@ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=270.97654 1107 K s=4.15823 38163 6⁳⁻⁵ cm fopenopen=550. Hz fopenclose=412.5 Hz ]
+@ C#18 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for T "Inconsistent units".
 'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
 ```
 
@@ -2240,17 +2225,18 @@ In acoustics, a beat is an interference pattern between two sounds of slightly d
 * To calculate `[favg_Hz;fbeat_Hz;s_m]` (Frequency average; Beat frequency; Longitudinal displacement) from 4 known variables:
 ```rpl
 f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
-@ Expecting [ favg=401. Hz fbeat=2. Hz s=0.00000 2 m ]
+@ Expecting [ favg=401. Hz fbeat=2. Hz s=2.⁳⁻⁶ m ]
 'ROOT(ⒺBeat Acoustics;[favg;fbeat;s];[1_Hz;1_Hz;1_m])'
 ```
 
 #### Electromagnetic Waves
 
 * To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 4 known variables:
+// zzz
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
 @ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
-@ C#22 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
+@ C#19 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
 @ But algebraics are OK and the unknown can be computed.
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```

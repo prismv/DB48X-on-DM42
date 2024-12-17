@@ -3654,7 +3654,7 @@ restart:
                                 *p++ = n;
                     }
                     p[-1] = 0;
-                    if (follow && style == HIGHLIGHTED_TOPIC)
+                    if (follow && style == HIGHLIGHTED_TOPIC && y >= 0)
                     {
                         if (topicsHistory)
                             topics[topicsHistory-1] = shown;

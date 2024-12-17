@@ -1039,8 +1039,8 @@ static const cstring basic_equations[] =
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "'(v_(m/s))=√((T_N)/(μ_(kg/m)))' "
-    "'(ffixed-fixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
-    "'(ffixed-free_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
+    "'(ffixedfixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
+    "'(ffixedfree_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",
 
     "Sound Wave Harmonics",  "{ "
@@ -1070,7 +1070,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Relativity", nullptr,
     // ------------------------------------------------------------------------
-    //T#*: 109 vars 105 eqns 23 sims 17 secs
+    //T#*: 110 vars 110 eqns 23 sims 17 secs
     //The primed frame is travelling with speed v in the positive x direction
     // ref.: https://en.wikipedia.org/wiki/Special_relativity
     // https://galileo-unbound.blog/2021/06/03/the-transverse-doppler-effect-and-relativistic-time-dilation/
@@ -1128,6 +1128,12 @@ static const cstring basic_equations[] =
     "'(Bpz_T)=γ*((Bz_T)-β/Ⓒc*(Ey_(N/C)))' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
+    "'(E_(N/C))=√((Ex_(N/C))^2+(Ey_(N/C))^2+(Ez_(N/C))^2)' "
+    "'(Ep_(N/C))=√((Epx_(N/C))^2+(Epy_(N/C))^2+(Epz_(N/C))^2)' "
+    "'(B_(T))=√((Bx_(T))^2+(By_(T))^2+(Bz_(T))^2)' "
+    "'(Bp_(T))=√((Bpx_(T))^2+(Bpy_(T))^2+(Bpz_(T))^2)' "
+    "'EDB=convert((E_(N/C))/(B_(T));1_m/s)' "
+    "'EpDBp=convert((Ep_(N/C))/(Bp_(T));1_m/s)' "
     "}",
 
     "Longitudinal Doppler Effect",  "{ "
@@ -1151,11 +1157,11 @@ static const cstring basic_equations[] =
     "}",
 
     "Energy & Momentum",  "{ "
-    "'(ppx_(kg*(m/s)))=γ*((px_(kg*(m/s)))-v(m/s)*(E_J)/Ⓒc^2)' "
+    "'(ppx_(kg*(m/s)))=γ*((px_(kg*(m/s)))-(v_(m/s))*(E_J)/Ⓒc^2)' "
     "'(ppy_(kg*(m/s)))=(py_(kg*(m/s)))' "
     "'(ppz_(kg*(m/s)))=(pz_(kg*(m/s)))' "
-    "'(Ep_J)=γ*((E_J)-v(m/s)*(px_(kg*(m/s))))' "
-    "'(p_(kg*(m/s)))=γ*(mo_kg)*(v(m/s))' "
+    "'(Ep_J)=γ*((E_J)-(v_m/s)*(px_(kg*(m/s))))' "
+    "'(p_(kg*(m/s)))=γ*(m0_kg)*(v_(m/s))' "
     "'(E_J)=γ*(E0_J)' "
     "'(E0_J)=(m0_kg)*Ⓒc^2' "
     "'(E_J)^2=(p_(kg*(m/s)))^2*Ⓒc^2+(m0_kg)^2*Ⓒc^4' "

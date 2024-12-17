@@ -2231,19 +2231,17 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 
 #### Electromagnetic Waves
 
-* To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 4 known variables:
-// zzz
+* To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 5 known variables:
 ```rpl
-λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
-@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
-@ C#19 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
-@ But algebraics are OK and the unknown can be computed.
+λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s  φ=25_°
+@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
+@ C#19 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Constant?"
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```
 
 
 ## Relativity
-The 109 variables in the Relativity section are:
+The 110 variables in the Relativity section are:
 
 * `α`: Light Doppler effect, light arrival angle in the rest frame
 * `β`: Relativistic speed ratio
@@ -2354,6 +2352,7 @@ The 109 variables in the Relativity section are:
 * `v`: Velocity along the x axis
 * `ve`: Escape velocity in a gravitational field
 * `z`: Gravitational redshift parameter
+* `znl`: Newtonian limit of the gravitational redshift parameter
 
 The relativistic transformations are parametrized by the real constant `v` representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
 
@@ -2365,8 +2364,6 @@ The primed reference frame `[xp yp zp]` is travelling with velocity `v` in the p
 ```rpl
 x=1_m  y=2_m  z=3_m  t=4_s  v=239 833 966.4_m/s
 @ Expecting [ β=0.8 γ=1.66666 66666 7 xp=-1.59889 31076 7⁳⁹ m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
-@ Failing [ β=0.8 γ=1.66666 66666 7 xp=959 335 865.6 m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
-@ C#23 NOT OK MSOLVE: hallucinates the value of xp. SOLVE for xp hallucinates also.
 'ROOT(ⒺLorentz Transformation;[β;γ;xp;tp;yp;zp];[1;1;1_m;1_s;1_m;1_m])'
 ```
 
@@ -2378,7 +2375,7 @@ The dilation comes from the fact that the Lorentz factor `γ` is greater or equa
 ```rpl
 Δt=4_s  v=239 833 966.4_m/s
 @ Failing [ β=0.8 γ=1.66666 66666 7 Δtp=6.66666 66666 7 s ]
-@ C#24 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
+@ C#20 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
 'ROOT(ⒺLorentz Transformation;[β;γ;Δtp];[1;1;1_s])'
 ```
 
@@ -2389,7 +2386,7 @@ The contraction comes from the fact that the Lorentz factor `γ` is greater or e
 * To calculate `[β;γ;Δxp_m]` (Relativistic speed ratio; Lorentz factor; Contracted space interval) from 3 known variables:
 ```rpl
 Δx=2_m  v=284 802 835.1_m/s
-@ Expecting [ β=0.95 γ=3.20256 30761 Δxp=0.62449 97998 4 m ]
+@ Expecting [ β=0.95 γ=3.20256 30761 Δxp=6.24499 79984⁳⁻¹ m ]
 'ROOT(ⒺSpace Contraction;[β;γ;Δxp];[1;1;1_m])'
 ```
 
@@ -2424,19 +2421,20 @@ Even if the velocity `v` is confined to the x-direction, all components of the o
 * To calculate `[β;γ;apx_(m/s^2);apy_(m/s^2);apz_(m/s^2)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the acceleration observed in the moving frame) from 3 known variables:
 ```rpl
 v=298 293 495.71_m/s  ax=100_(m/s^2)  ay=200_(m/s^2)  az=300_(m/s^2)  ux=284 802 835.1_(m/s)  uy=200 000 000_(m/s)  uz=250 000 000_(m/s)
-@ Expecting [ β=0.995 γ=10.01252 34864 apx=0.64100 06334 63 m/s↑2 apy=4 700.07036 316 m/s↑2 apz=6 041.47314 191 m/s↑2 ]
-@ Failing [ β=0.995 γ=10.01252 34864 apx=607.03954 8234 m/s↑2 apy=4 700.07036 316 m/s↑2 apz=6 041.47314 191 m/s↑2 ]
-@ C#29 NOT OK MSOLVE: hallucibates the value of apx BUT SOLVE computes the correct value of apx
+@ Expecting [ β=0.995 γ=10.01252 34864 apx=607.03954 8234 m/s↑2 apy=4 700.07036 316 m/s↑2 apz=6 041.47314 191 m/s↑2 ]
 'ROOT(ⒺAcceleration Superposition;[β;γ;apx;apy;apz];[1;1;1_(m/s^2);1_(m/s^2);1_(m/s^2)])'
 ```
 
 #### E & B Fields Transformation
 
+Even if the velocity `v` is confined to the x-direction, only the `y` & `z` transformed components of both B & E fields are modified. One can check that ratio the `EDB = E/B = c` & `EpDBp = Ep/Bp = c` remains the same. 
+
 * To calculate `[β;γ;Epx_(N/C);Epy_(N/C);Epz_(N/C);Bpx_T;Bpy_T;Bpz_T;E_(N/C);B_T;Ep_(N/C);Bp_T]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the electric field & of the magnetic field;Norm of the Electric field & Magnetic field;Norm of the transformed Electric field & Magnetic field) from 7 known variables:
 ```rpl
-v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By=250_T  Bz=350_T
-@ Failing [ β=0.995 γ=10.01252 34864 Epx=100._N/C Epy=-1.04533 47190 7e12_N/C Epz=7.46667 66091 6e11_N/C Bpx=150_T Bpy=2 503.13088 158 T Bpz=3 504.38321 361 T E=374.16573 8677 N/C B=455.52167 8957 T E=1.28461 56120 6⁳¹² N/C Bp=4 309.16069 765 T ]
-@ C#25 NOT OK MSOLVE & SOLVE & Algebraics: "Undefined name" see ISSUE #1356
+v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=50e-8_T  By=80e-8_T Bz=8.17135 28774 3⁳⁻⁷ T
+@ Bz='CONVERT(√(((Ex_N/C)^2+(Ey_N/C)^2+(Ez_N/C)^2)/Ⓒc^2-(Bx_T)^2-(By_T)^2);1_T)'
+@ Failing [ β=0.995 γ=10.01252 34864 Epx=100._N/C Epy=-438.00926 8698 N/C Epz=5 393.09355 125 N/C Bpx=50e-8_T Bpy=1.79793 76526 3⁳⁻⁵ T Bpz=1.53534 77686 9⁳⁻⁶ T E=374.16573 8677 N/C B=1.24808 25607 6⁳⁻⁶ T Ep=5 411.77514 056 N/C Bp=1.80517 38781 8⁳⁻⁵ T EDP=299 792 458. m/s EpDBp=299 792 457.999 m/s ]
+@ C#21 NOT OK MSOLVE & SOLVE & Algebraics: "Undefined name" see ISSUE #1356
 'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz;E;B;Ep;Bp];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T;1_(N/C);1_T;1_(N/C);1_T])'
 ```
 
@@ -2465,7 +2463,7 @@ v=298 293 495.71_m/s  fs=2e3_Hz
 v=298 293 495.71_m/s  f=2e3_Hz  α=20_°  θ=10_°
 @ Expecting [ β=0.995 γ=10.01252 34864 fpr=38 748.34889 98 Hz θp=3 720.44203 73 ° Pθ=2.14021 57038 4 ]
 @ Failing [ β=0.995 γ=10.01252 34864 fpr=38 748.34889 97 Hz θp=120.44203 7302 ° Pθ=2.14021 57038 6 ]
-@ C#26 NOT OK MSOLVE: hallucinates value of θp. Algebraics: OK
+@ C#22 NOT OK MSOLVE: hallucinates value of θp. Algebraics: OK
 'ROOT(ⒺLight Propagation;[β;γ;fpr;θp;Pθ];[1;1;1_Hz;1_°;1])'
 ```
 
@@ -2476,26 +2474,27 @@ The total relativistic energy `E` and the norm of the momentum `p` form the inva
 * To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
 ```rpl
 v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
-@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=3.92123 95184⁳⁹ kg/s K= 1.33189 22556 7⁳¹⁹ J ]
-@ C#27 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
+@ Expecting [ β=0.998 γ=-2.⁳⁻²³ ppx=-2.⁳⁻²³ kg·m/s ppy=-2.⁳⁻²³ kg·m/s ppz=-2.⁳⁻²³ kg·m/s Ep=-2.⁳⁻²³ J E0=1 J m0=-2.⁳⁻²³ kg p=-2.⁳⁻²³ kg·m/s K=-2.⁳⁻²³ J ]
+@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=4.73302 17959 9⁳¹⁰ kg·m/s K= 1.33189 22556 7⁳¹⁹ J ]
+@ C#23 NOT OK MSOLVE hallucinates all values except β
 'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
 ```
 
 #### Ultrarelativistic Cases
 
-* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
+* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
 ```rpl
 K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
-@ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=0.00000 00124 25 s Δxp=3.72497 65249 3 m ]
-@ C#28 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+@ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 707 β=9.99999 99048 3⁳⁻¹ v=299 792 455.147 m/s Δt=1.24251 84420 6⁳⁻⁸ s Δxp=3.72497 65249 4 m ]
+@ C#24 NOT OK MSOLVE & SOLVE: "Divide by zero". SOLVE for β "Argument outside domain", OK for the rest.
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
-* **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
+* **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
 ```rpl
-32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755
+32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781 s
 781_s
-@ Failing [ E0=1.50327 76180 161⁳⁻¹⁰ J γ=3.41052 60362 89408 32603 82⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 57283 93430 7331⁳⁻¹⁶ s Δxp=0.00000 02932 09900 57240 03256 07 m ]
-@ C#28 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+@ Failing [ E0=1.50327 76180 16312 40919 07337 58⁳⁻¹⁰ J γ=3.41052 60362 88926 42764 04379 13⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 58665 88338 62605 12⁳⁻¹⁶ s Δxp=2.93209 90057 24417 55398 10962 23⁳⁻¹⁰ km ]
+@ C#24 NOT OK MSOLVE & SOLVE: "Divide by zero". SOLVE for β "Argument outside domain", OK for the rest.
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
 
@@ -2504,7 +2503,7 @@ K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.0
 * To calculate `[ve_m/s;βe;γG;ΔtpG_s]` (Excape speed; Relativistic escape speed ratio; Lorentz factor associated to gravitational dilation; Gravitational dilated time interval) from 3 known variables:
 ```rpl
 M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s  
-@ Expecting [ ve=210 912 146.007 m/s βe=0.70352 71914 92 γG=1.40712 61408 1 ΔtpG=1 407 126.14081 s ]
+@ Expecting [ ve=210 939 169.746 m/s βe=0.70361 73329 83 γG=1.40730 28724 7 ΔtpG=1 407 302.87247 s ]
 'ROOT(ⒺGravitational Time Dilation;[ve;βe;γG;ΔtpG];[1_m/s;1;1;1_s])'
 ```
 
@@ -2513,7 +2512,7 @@ M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
 * To calculate `[rs_m;λ∞_nm;z;λ1_nm;zNL]` (Schwarzschild  radius; Wavelength of the photon as measured by the observer at infinity; Gravitational redshift; Wavelength of the photon as measured by the observer at position `R1`) from 7 known variables:
 ```rpl
 λe=550_nm  λ2=550_nm  M=2.32e30_kg  Remp=70_km  R2=50e6_km  R1=10e6_km  M=4.10227 55e30_kg
-@ Expecting [ rs=6 091.27004 242 m λ∞=575.61435 4886 nm z=4.65715 54338 1⁳⁻² λ1=549.99986 5992 nm zNL=4.35090 71731 6⁳⁻² ]
+@ Expecting [ rs=6 092.83106 622 m λ∞=575.62138 4944 nm z=4.65843 36261 9⁳⁻² λ1=549.99986 5958 nm zNL=4.35202 21901 5⁳⁻² ]
 'ROOT(ⒺGravitational Redshift;[rs;λ∞;z;λ1;zNL];[1_m;1_nm;1;1_nm;1])'
 ```
 
@@ -2524,16 +2523,15 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 * **Example 1** To calculate for a standard jet (500_mph) `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables (maintain 24 digits of precision):
 ```rpl
 24 PRECISION 24 SIG vp=223.52 m/s  Tday=86400_s  R=6371e3_m  hp=1e4_m  M=5.972168e24_kg  φ=7_°
-@ Expecting [ Δt=177 754.98724 19224 92543 01 s vg=459.85873 55128 99485 33812 3 m/s βp=0.00000 07455 82465 58690 9446 βg=0.00000 15339 23630 30326 6272 MGu=0.00443 38913 88656 93479 3177 m Δτg=177 754.98711 80049 56503 649 s ΔτpE=177 754.98711 79461 27621 65 s ΔτpW=177 754.98711 83527 12492 033 s ΔτE=-58.82888 19990 00000 00000 03 ns ΔτW=347.75598 83839 99999 99999 7 ns ΔτWE=406.58487 03829 99999 99999 6 ns ]
+@ Expecting [ Δt=177 754.98724 19224 92543 01 s vg=459.85873 55128 99485 33812 3 m/s βp=0.00000 07455 82465 58690 945 βg=0.00000 15339 23630 30326 628 MGu=0.00443 50276 72210 18823 128 m Δτg=177 754.98711 79732 53463 545 s ΔτpE=177 754.98711 79144 74265 044 s ΔτpW=177 754.98711 83210 59135 425 s ΔτE=-58.77919 85010 00000 00000 01 ns ΔτW=347.80567 18799 99999 99999 9 ns ΔτWE=406.58487 03809 99999 99999 8 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 @ IMPORTANT NOTE if I use less compatible units (see below) MSOLVER & SOLVER: "Inconsistent units". SOLVER: "Bad argument type".
-24 PRECISION 24 SIG vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
+@ 24 PRECISION 24 SIG vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
 ```
 * **Example 2** To calculate for the circumnavigation of the Concorde at maximal speed (Mach 2.04) flying at an altitude of 60000 feet `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables (maintain 24 digits of precision):
 ```rpl
 24 PRECISION 24 SIG vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R=6371e3_m  hp=18288_m  M=5.972168e24_kg  φ=12_°
-@ Expecting [ Δt=64 689.99803 65516 53654 321 s vg=453.18771 12964 44358 64443 2 m/s βp=0.00000 20189 89342 87992 5866 βg=0.00000 15116 71488 73519 8112 MGu=0.00443 38913 88656 93479 3177 m Δτg=64 689.99799 14567 97869 7596 s ΔτpE=64 689.99799 12563 75377 464 s ΔτpW=64 689.99799 16512 49416 6709 s ΔτE=-200.42249 22956 00000 00000 3 ns ΔτW=194.45154 69112 99999 99999 7 ns ΔτWE=394.87403 92068 99999 99999 9 ns ]
-            
+@ Expecting [ Δt=64 689.99803 65516 53654 321 s vg=453.18771 12964 44358 64443 2 m/s βp=0.00000 20189 89342 87992 586 βg=0.00000 15116 71488 73519 811 MGu=0.00443 50276 72210 18823 128 m Δτg=64 689.99799 14452 60249 1619 s ΔτpE=64 689.99799 12448 70780 8911 s ΔτpW=64 689.99799 16397 44820 0979 s ΔτE=-200.38946 82708 ns ΔτW=194.48457 09360 00000 00000 2 ns ΔτWE=394.87403 92068 00000 00000 1 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
 
@@ -2544,7 +2542,7 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 * **EXAMPLE 1** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
 24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
-@ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
+@ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.52521 41595 73890 37237 1 m/s v2=447.66570 23762 30482 39571 6 m/s MGu=0.00443 50276 72210 18823 128 m γv1=1.00000 00000 01114 20118 647 γv2=1.00000 00000 01114 90084 183 γG1=1.00000 00006 96127 40179 577 γG2=1.00000 00006 95908 94034 831 γ21=1.00000 00000 00217 76179 193 ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 ```
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
@@ -2555,13 +2553,13 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 @ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
 @ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
-@ Expecting [ 1.09237 01908 71344 51715 531⁳⁻¹⁶ m⁻¹ ]
+@ Expecting [ 1.09265 01350 94860 34411 857⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
 ```
 * **EXAMPLE 2** (Earth, Mount Everest):  This mount has an height of 3660_m with repect to the surrounding ground which is at an altitude of 5200_m. To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
 24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=5200_m  h2=8860_m  M=5.972168e24_kg  φ=15_°
-@ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.89048 35228 81029 63307 3 m/s v2=448.14757 69593 62593 03579 7 m/s MGu=0.00443 38913 88656 93479 315 m γv1=1.00000 00000 01116 02074 718 γv2=1.00000 00000 01117 30232 813 γG1=1.00000 00006 95381 48007 927 γG2=1.00000 00006 94982 55342 261 γ21=1.00000 00000 00397 64507 542 ]
+@ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.89048 35228 81029 63307 3 m/s v2=448.14757 69593 62593 03579 7 m/s MGu=0.00443 50276 72210 18823 128 m γv1=1.00000 00000 01116 02074 718 γv2=1.00000 00000 01117 30232 813 γG1=1.00000 00006 95559 68709 217 γG2=1.00000 00006 95160 65820 165 γ21=1.00000 00000 00397 74730 928 ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 ```
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
@@ -2572,9 +2570,8 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 @ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
 @ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
-@ Expecting [ 1.09058 91900 41080 54310 648⁳⁻¹⁶ m⁻¹ ]
+@ Expecting [ 1.09086 86778 43413 62835 536⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
-'ABS(γG1/γG2-1)'
 ```
 
 #### B H Schwarzschild Geometry
@@ -2582,26 +2579,27 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 * For Sagittarius A*, the supermassive black hole at the Galactic Center of the Milky Way to calculate `[rs_m;ve_(m/s);Vs_(m^3);Vxsun;rxearth;Mxsun;Mxearth]` (Schwarzschild radius; Escape velocity; Schwarzschild volume; Factor multiplicative of Sun volume, of Earth radius, of Sun mass & of Earth mass) from 3 known variables (maintain 24 digits of precision):
 ```rpl
 M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
-@ Failing [ rs=1.26806 32044 9⁳¹⁰ m ve=308 177 217.955 m/s Vs=8.54105 09309⁳³⁰ m↑3 Vxsun=6 048.90292 557 rxearth=1 883.53476 691 Mxsun=4 294 694.49334 Mxearth=1.42996 64711 4⁳¹² ]
-@ NOTE that the fact that `ve > Ⓒc` which is unphysical, prooves that we are probably in the presence of a blach hole
-@ C#29 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ Failing [ rs=1.26838 81739 7⁳¹⁰ m ve=299 792 458. m/s Vs=8.54761 91183⁳³⁰ m↑3 Vxsun=6 048.90292 557 rxearth=1 883.53476 691 Mxsun=4 294 694.49334 Mxearth=1.42996 64711 4⁳¹² ]
+@ NOTE: the fact that `ve ≥ Ⓒc` which is near unphysical, indicates that we are probably describing a black hole
+@ C#25 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". SOLVE for Vs "Sign reversal"
 'ROOT(ⒺB H Schwarzschild Geometry;[rs;ve;Vs;Vxsun;rxearth;Mxsun;Mxearth];[1_m;1_(m/s);1_(m^3);1;1;1;1])'
 ```
 
 #### B H Thermodynamics
 
-* **Example 1** For M31*, the supermassive black hole at the Galactic Center of Andromeda Galaxy to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
+* **Example 1** For M31*, the supermassive black hole at the Galactic Center of Andromeda Galaxy to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Multiplicative factor of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1.708e45_kg  t=4.18902 53989e119_s
-@ Failing [ rs=2.53612 64089 8⁳¹⁸ m As=8.08261 06149 9⁳³⁷ m↑2 TH=7.18505 89680 3⁳⁻²³ K PBH=1.22150 43668 5⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.18902 53989⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ Txyr=1.32742 20469 6⁳¹¹² ]
-@ C#30 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ Failing [ rs=2.53677 63479 3⁳¹⁸ m As=8.08675 38442 8⁳³⁷ m↑2 TH=7.18325 91955 2⁳⁻²³ K PBH=1.22087 75567 7⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.19117 60841 4⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ txyr=1.32742 20469 6⁳¹¹² ]
+@ C#26 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for TH & PBH hallucinates; for tev "Constant?"
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 * **Example 2** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
-@ Failing [ rs=1.48485 15275⁳⁻²⁴ m As=2.77061 33606 7⁳⁻⁴⁷ m↑2 TH=1.22720 80717 4⁳²⁰ K PBH=3.56345 07152 6⁳²⁶ W SBH=0.36617 88084 J/K tev=8.40716 15834 7⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
-@ C#30 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+@ Failing [ rs=1.48523 20538 2⁳⁻²⁴ m As=2.77203 36055 4⁳⁻⁴⁷ m↑2 TH=1.22690 06705 9⁳²⁰ K PBH=3.56162 21447 8⁳²⁶ W SBH=3.66270 55485 1⁳⁻¹ J/K tev=8.41147 78997⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
+@ C#26 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for rs, TH & PBH hallucinates; for tev "Constant?"
+TO BE CHECKED.
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 
@@ -2662,7 +2660,7 @@ In this section, two comparisons are done between the Planck and Wien spectral d
 ```rpl
 24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=7.48475 43283 5⁳¹³ Hz  fb=3.18337 69964 2⁳¹⁴ Hz  Frfafb=0.64388 90934 2
 @ Failing [ fpeak=7.48475 43283 5⁳¹³ Hz f1=1.06112 56654 7⁳¹⁴ Hz f2=f2=2.38753 27473 2⁳¹⁴ Hz FrPl12=0.38336 04816 94 FrWn12=0.38088 77248 71 %rFr12=0.64502 13155 81 f3=2.65281 41636 9⁳¹¹ Hz f4=6.63203 54092 2⁳¹³ Hz FrPl34=0.28402 76245 74 FrWn34=0.22398 47200 01 %rFr34=21.13981 15457 FrPlab=0.64388 90934 2 eb=148 980.70811 W/m↑2 ebfafb=95 927.05308 19 W/m↑2 q=959.27053 0819 W ]
-@ C#31 NOT OK MSOLVE: "Unable to solve for all variables" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
+@ C#27 NOT OK MSOLVE: "Inconsistent units" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
 'ROOT(ⒺPlanck & Wien Comparison;[fpeak;f1;f2;FrPl12;FrWn12;%rFr12;f3;f4;FrPl34;FrWn34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
 ```
 
@@ -2676,7 +2674,7 @@ In this section, two comparisons are done between the Planck and Rayleigh-Jeans 
 ```rpl
 4 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=2.65281 41636 9⁳¹⁰ Hz  fb=7.48475 43283 5⁳¹³ Hz  Frfafb=0.35399 34269 15
 @ Failing [ fpeak=7.48475 43283 5⁳¹³ Hz f1=4.50978 40782 7⁳¹³ Hz f2=9.81541 24056 4⁳¹³ Hz FrPl12=0.41306 62386 78 FrRJ12=2.34783 01416 5 %rFr12=468.39071 3596 f3=2.65281 41636 9⁳¹⁰ Hz f4=1.32640 70818 4⁳¹² Hz FrPl34=6.29668 51249 6⁳⁻⁶ FrRJ34=FrRJ34=6.41618 75792 7⁳⁻⁶ %rFr34=1.89786 29538 3 FrPlab=0.35399 34269 15 eb=148 980.70811 W/m↑2 ebfafb=52 738.19140 8 W/m↑2 q=527.38191 408 W ]
-@ C#31 NOT OK MSOLVE: "Unable to solve for all variables" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
+@ C#27 NOT OK MSOLVE: "Unable to solve for all variables" SOLVE: 1st eqn doesn't show "Expected argument", all eqns do not show. Algebraics: OK
 'ROOT(ⒺPlanck & Rayleigh‐Jeans Comparison;[fpeak;f1;f2;FrPl12;FrRJ12;%rFr12;f3;f4;FrPl34;FrRJ34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
 ```
 
@@ -2688,9 +2686,9 @@ Einstein explained the photoelectric effect with the energy quantification of th
 
 ```rpl
 φ=4.01_eV  λ=207_nm
-@ Expecting [ f=1.44827 27439 6⁳¹⁵ Hz Eph=1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV Vo=1 V vmax=834 471.40087 2 m/s ]
+@ Expecting [ f=1.44827 27439 6⁳¹⁵ Hz Eph=1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV Vo=1 V vmax=834 442.55677 6 m/s ]
 @ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 22016 1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV V0=1.97957 30615 6 V vmax=834 471.40087 2 m/s ]
-@ C#32 NOT OK MSOLVE: Hallucinates values of Eph, V0
+@ C#28 NOT OK MSOLVE: Hallucinates values of Eph, V0
 'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;vmax];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
 ```
 
@@ -2699,12 +2697,12 @@ Einstein explained the photoelectric effect with the energy quantification of th
 In the Compton Scattering, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency `f` (or energy `E = hf`) photon scatters due to an interaction with an electron, there is a decrease in the energy of the photon scattered at an angle `θ` and thus, an increase in its wavelength `λp`. The kinetic energy of the scattered electron `Kmax` is relativist.
 
 ![Compton Scattering_BW](img/Compton Scattering_BW.bmp)
-
+// zzz
 * To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
 ```rpl
 θ=40_°  λ=0.024_nm 
 @ Failing [ λp=2.45676 48762 3⁳⁻² nm K=1 193.63352 749 eV γ=1.00233 58835 6 β=6.82308 49980 3⁳⁻² v=20 455 094.227 m/s Eph=51 660.06023 89 eV Epph=50 466.42671 14 eV p=1.86768 55511 5⁳⁻²³ kg·m/s φ=68.16075 25239 ° ]
-@ C#33 NOT OK MSOLVE: "Constant ?"
+@ C#29 NOT OK MSOLVE: "Divide by zero"
 'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
 ```
 
@@ -2716,7 +2714,7 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 ```rpl
 θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
 @ Failing [ λ=0.06626 07015 nm K=K=342.58664 2473 eV v=10 977 691.0426 m/s d=3.73373 71844 6⁳⁻² nm ]
-@ C#34 NOT OK MSOLVE: "Constant ?"
+@ C#30 NOT OK MSOLVE: "Constant ?"
 'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
 ```
 
@@ -2729,7 +2727,7 @@ Since the hydrogen atom is a bound system between the proton of the nucleus and 
 np=2  n=1  Z=1 
 @ Expecting [ Enp=-2.⁳⁻²³ eV En=-2.⁳⁻²³ eV r=-2.⁳⁻²³ m f=1 Hz Eph=-2.⁳⁻²³ eV λ=-2.⁳⁻²³ nm ]
 @ Failing [ Enp=-3.40142 18031 eV En=-13.60568 72124 eV r=5.29177 21054 7⁳⁻¹¹ m f=2.46738 14701 6⁳¹⁵ Hz λ=121.50227 3412 nm ]
-@ C#35 NOT OK MSOLVE: hallucinates all values
+@ C#31 NOT OK MSOLVE: hallucinates all values
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 * **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed photon) from 3 known variables (Note: instead to `n→∞` one can choose `n=9.99999E999999`):
@@ -2737,7 +2735,7 @@ np=2  n=1  Z=1
 np=2  n=9.99999E999999  Z=1
 @ Expecting [ Enp=-2.⁳⁻²³ eV En=-2.⁳⁻²³ eV r=-2.⁳⁻²³ m f=1 Hz Eph=-2.⁳⁻²³ eV λ=-2.⁳⁻²³ nm ]
 @ Failing [ Enp=-3.40142 18031 eV En=-1.36057 14423 8⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29176 15219 3⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22460 49005 4⁳¹⁴ Hz Eph=-3.40142 18031 eV λ=-364.50682 0237 nm ]
-@ C#35 NOT OK MSOLVE: hallucinates all values
+@ C#31 NOT OK MSOLVE: hallucinates all values
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 

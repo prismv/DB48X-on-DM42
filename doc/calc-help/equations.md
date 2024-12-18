@@ -2530,7 +2530,7 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 
 #### Clocks at different heights
 
-It is assumed that the two clocks are at rest with respect to the ground at a latitude `φ` and are rotating with the planet at the angular frequency `ω`. The clocks are at their respective heights `h1` and `h2` for instance at the bottom & top of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invoke an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velocities at height `h1` and `h2` are << `c` (slow rotating planet).
+It is assumed that the two clocks are at rest with respect to the ground at a latitude `φ` and are rotating with the planet at the angular frequency `ω`. The clocks are at their respective heights `h1` and `h2` for instance at the bottom & top of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invoke an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velocities at height `h1` and `h2` are << `c` (slow rotating planet). As a consequence, the rate of time dilation per meter of height is calculated.
 
 * **EXAMPLE 1** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
@@ -2541,11 +2541,11 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
 ```rpl
 Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
-@ The prerequisite condition & its direct consequence are satisfied by:
-'(Δh_m)/((R_m)+(h1_m)) < 0.1/100'   'ABS(γv1/γv2-1) < 0.1/100'
-@ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
+@ The prerequisite conditions & their direct consequence are given by:
+'(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100' 
+@ EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
-@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
+@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc` at height `h1`:
 @ Expecting [ 1.09265 01350 94860 34411 857⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
 ```
@@ -2558,11 +2558,11 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
 ```rpl
 Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
-@ The prerequisite condition & its direct consequence are satisfied by:
-'(Δh_m)/((R_m)+(h1_m)) < 0.1/100'   'ABS(γv1/γv2-1) < 0.1/100'
-@ Obtaining both TRUE, then APPROXIMATION can be checked to be TRUE by:
+@ The prerequisite conditions & their direct consequence are given by:
+'(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100'
+@ EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
-@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc`:
+@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc` at height `h1`:
 @ Expecting [ 1.09086 86778 43413 62835 536⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
 ```

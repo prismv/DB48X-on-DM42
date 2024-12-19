@@ -687,10 +687,10 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 ```rpl
 ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft  μ=0.00002_lbf*s/ft^2  ΣK=2.25  ϵ=0.02_in  L=250_ft
 @ Failing [ ΔP=-5. psi Δy=40. ft A=113.09733 5529 in↑2 n=1.03121 95050 1⁳⁻⁵ ft↑2/s Q=376.99111 8431 ft↑3/min M=23 524.24579 01 lb/min Reynolds=775 780.51628 2 f=4.32637 07915 4⁳⁻³  W=24.95162 12864 hp ]
-@ C#5 NOT OK. MSOLVER: "Inconsistent units". Eqn of Reynolds corrected. To be checked.
+@ C#5 NOT OK. MSOLVER: "Inconsistent units". SOLVE hallucinate ΔP; "Constant?" for Δy, A, Q, M ; OK for n & f; "Inconsistent units" for W
 'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;Reynolds;f;W];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1;1;1_hp])'
 ```
-
+'Reynolds='(D_m)*(vavg_(m/s))*(ρ_(kg/m^3))/(μ_(kg/(m*s)))'  Reynolds=775 780.51628 23186 30725 06
 ## Forces and Energy
 
 The 37 variables in the Force and Energy section are:
@@ -2532,37 +2532,58 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 
 It is assumed that the two clocks are at rest with respect to the ground at a latitude `φ` and are rotating with the planet at the angular frequency `ω`. The clocks are at their respective heights `h1` and `h2` for instance at the bottom & top of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invoke an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velocities at height `h1` and `h2` are << `c` (slow rotating planet). As a consequence, the rate of time dilation per meter of height is calculated.
 
-* **EXAMPLE 1** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
+* **EXAMPLE 1a)** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
 24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
 @ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.52521 41595 73890 37237 1 m/s v2=447.66570 23762 30482 39571 6 m/s MGu=0.00443 50276 72210 18823 128 m γv1=1.00000 00000 01114 20118 647 γv2=1.00000 00000 01114 90084 183 γG1=1.00000 00006 96127 40179 577 γG2=1.00000 00006 95908 94034 831 γ21=1.00000 00000 00217 76179 193 ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 ```
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
+
+* **1b)** The prerequisite conditions & their direct consequence are given by:
 ```rpl
 Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
-@ The prerequisite conditions & their direct consequence are given by:
-'(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100' 
-@ EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
+"1a) Prerequisite conditions:"
+"(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100"
+'(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100'
+```
+* **1c)** EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
+```rpl
+"1b) APPROXIMATION check:"
+"→NUM(ABS(approx1/approx2-1)) < 0.1/100"
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
-@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc` at height `h1`:
+```
+* **1d)** The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc` at height `h1`:
+```rpl
+"=> Rate of t Dilation /m - vert :"
+"ABS(γ21-1)/Δh≈gloc/Ⓒc^2="
 @ Expecting [ 1.09265 01350 94860 34411 857⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
 ```
-* **EXAMPLE 2** (Earth, Mount Everest):  This mount has an height of 3660_m with repect to the surrounding ground which is at an altitude of 5200_m. To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
+* **EXAMPLE 2a)** (Earth, Mount Everest):  This mount has an height of 3660_m with repect to the surrounding ground which is at an altitude of 5200_m. To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
 24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=5200_m  h2=8860_m  M=5.972168e24_kg  φ=15_°
 @ Expecting [ ω=0.00007 27220 52166 43039 902 r/s v1=447.89048 35228 81029 63307 3 m/s v2=448.14757 69593 62593 03579 7 m/s MGu=0.00443 50276 72210 18823 128 m γv1=1.00000 00000 01116 02074 718 γv2=1.00000 00000 01117 30232 813 γG1=1.00000 00006 95559 68709 217 γG2=1.00000 00006 95160 65820 165 γ21=1.00000 00000 00397 74730 928 ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 ```
 * **CONSEQUENCE** To check the validity of a well-known APPROXIMATION which is valid when `Δh/R < 0.1%` => special relativity corrections are negligible which means `ABS(γv1/γv2-1) < 0.1%` => `γ21=γG1/γG2` Then the APPROXIMATE RESULT is `γG1/γG2 ≈ 1 + gloc*Δh/Ⓒc^2` with `gloc=ⒸG*M/R^2`. Let's verify precisely these relations in 3 steps with the final CONSEQUENCE:
+* **2b)** The prerequisite conditions & their direct consequence are given by:
 ```rpl
 Δh='ABS((h2_m)-(h1_m))'  gloc='ⒸG*(M_kg)/((R_m)+(h1_m))^2'  approx1='ABS(γG1/γG2-1)'  approx2='gloc*Δh/Ⓒc^2'
-@ The prerequisite conditions & their direct consequence are given by:
+"2a) Prerequisite CONDITIONS:"
+"(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100"
 '(Δh_m)/((R_m)+(h1_m)) < 0.1/100  AND  ABS(γv1/γv2-1) < 0.1/100'
-@ EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
+```
+* **2c)** EVAL => True, then APPROXIMATION can be checked (EVAL => True) by:
+```rpl
+"1b) APPROXIMATION check:"
+"→NUM(ABS(approx1/approx2-1)) < 0.1/100"
 '→NUM(ABS(approx1/approx2-1)) < 0.1/100'
-@ The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field `gloc` at height `h1`:
+```
+* **2d)** The important CONSEQUENCE is that the following value is the RATE OF TIME DILATION per meter of height due to a gravitational field  `gloc` at height `h1`:
+```rpl
+"=> Rate of t Dilation /m - vert :"
+"ABS(γ21-1)/Δh≈gloc/Ⓒc^2="
 @ Expecting [ 1.09086 86778 43413 62835 536⁳⁻¹⁶ m⁻¹ ]
 '→NUM(gloc/Ⓒc^2)'
 ```

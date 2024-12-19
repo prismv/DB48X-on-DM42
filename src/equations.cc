@@ -1070,7 +1070,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Relativity", nullptr,
     // ------------------------------------------------------------------------
-    //T#*: 110 vars 110 eqns 23 sims 17 secs
+    //T#*: 110 vars 110 eqns 29 sims 17 secs
     //The primed frame is travelling with speed v in the positive x direction
     // ref.: https://en.wikipedia.org/wiki/Special_relativity
     // https://galileo-unbound.blog/2021/06/03/the-transverse-doppler-effect-and-relativistic-time-dilation/
@@ -1405,7 +1405,7 @@ static const cstring basic_equations[] =
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
-    // As of 24-12-17: Total 725 vars, 669 eqns, 182 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83) 
+    // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83) 
 };
 //   clang-format on
 

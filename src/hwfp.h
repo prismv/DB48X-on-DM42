@@ -50,8 +50,7 @@ struct hwfp_base : algebraic
 // ----------------------------------------------------------------------------
 {
     hwfp_base(id type) : algebraic(type) {}
-    static size_t render(renderer &r, double d);
-    PARSE_DECL(hwfp_base);
+    static size_t render(renderer &r, double d, char suffix);
 };
 
 
@@ -522,11 +521,6 @@ struct hwfp : hwfp_base
         p += sizeof(hw);
         return ptrdiff(p, o);
     }
-
-    RENDER_DECL(hwfp)
-    {
-        return render(r, o->value());
-    }
 };
 
 
@@ -554,6 +548,10 @@ struct hwfloat : hwfp<float>
     {
         return utf8("hwfloat");
     }
+    RENDER_DECL(hwfloat)
+    {
+        return render(r, o->value(), 'F');
+    }
 };
 
 
@@ -570,6 +568,10 @@ struct hwdouble : hwfp<double>
     HELP_DECL(hwdouble)
     {
         return utf8("hwdouble");
+    }
+    RENDER_DECL(hwdouble)
+    {
+        return render(r, o->value(), 'D');
     }
 };
 

@@ -1547,7 +1547,9 @@ arithmetic_fn target(algebraic_r x, algebraic_r y)
 //  Target function for bignum objects
 // ----------------------------------------------------------------------------
 {
-    return x->is_decimal() && y->is_decimal() ? arithmetic_fn(code) : nullptr;
+    return x->is_decimal() && y->is_decimal() &&
+        (!Settings.HardwareFloatingPoint() || Settings.Precision() > 16)
+        ? arithmetic_fn(code) : nullptr;
 }
 
 

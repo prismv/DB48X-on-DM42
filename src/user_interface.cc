@@ -3654,7 +3654,7 @@ restart:
                                 *p++ = n;
                     }
                     p[-1] = 0;
-                    if (follow && style == HIGHLIGHTED_TOPIC)
+                    if (follow && style == HIGHLIGHTED_TOPIC && y >= 0)
                     {
                         if (topicsHistory)
                             topics[topicsHistory-1] = shown;
@@ -5475,11 +5475,12 @@ bool user_interface::handle_user(int key)
 }
 
 
-bool user_interface::handle_functions(int key, object_p obj, bool user)
+bool user_interface::handle_functions(int key, object_p objp, bool user)
 // ----------------------------------------------------------------------------
 //   Code shared for user-mode and normal mode commands
 // ----------------------------------------------------------------------------
 {
+    object_g obj = objp;
     if (text_p direct = obj->as<text>())
     {
         size_t sz = 0;

@@ -30,6 +30,7 @@
 
 #include "arithmetic.h"
 #include "bignum.h"
+#include "constants.h"
 #include "fraction.h"
 #include "parser.h"
 #include "renderer.h"
@@ -1422,11 +1423,21 @@ decimal_p decimal::from(double x)
 //   Conversion from hardware floating-point to decimal
 // ----------------------------------------------------------------------------
 {
-    renderer r;
-    r.printf("%.18g", x);
-    parser p(r.text(), r.size());
-    if (decimal::do_parse(p) == OK)
-        return decimal_p(+p.out);
+    if (std::isfinite(x))
+    {
+        renderer r;
+        r.printf("%.18g", x);
+        parser p(r.text(), r.size());
+        if (decimal::do_parse(p) == OK)
+            return decimal_p(+p.out);
+    }
+    else if (std::isinf(x))
+    {
+        if (constant_p cst = constant::lookup("∞"))
+            if (decimal_p inf = decimal_p(cst->value()))
+                return x > 0 ? inf : neg(inf);
+
+    }
     return nullptr;
 }
 
@@ -1547,7 +1558,9 @@ arithmetic_fn target(algebraic_r x, algebraic_r y)
 //  Target function for bignum objects
 // ----------------------------------------------------------------------------
 {
-    return x->is_decimal() && y->is_decimal() ? arithmetic_fn(code) : nullptr;
+    return x->is_decimal() && y->is_decimal() &&
+        (!Settings.HardwareFloatingPoint() || Settings.Precision() > 16)
+        ? arithmetic_fn(code) : nullptr;
 }
 
 

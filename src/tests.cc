@@ -9843,8 +9843,12 @@ void tests::probabilities()
         .expect("2.24470 86227 3⁳⁹²⁹");
     step("Combination with hardware floating-point")
         .test(CLEAR, "HFP 16 Precision", ENTER, "9999. 555. COMB", ENTER)
-        .error("Argument outside domain")
-        .test(CLEAR, "SFP 24 Precision", ENTER);
+        .error("Argument outside domain");
+    step("Combination with hardware floating-point and symbolic input")
+        .test(CLEAR, "NumericalResults", ENTER, "9999. 555. COMB", ENTER)
+        .error("Argument outside domain");
+    step("Restore software floating point and symbolc results")
+        .test(CLEAR, "SFP 24 Precision SymbolicResults", ENTER).noerror();
     step("Permutations in program with decimal input")
         .test(CLEAR, "42. 37. PERM", ENTER)
         .expect("1.17083 84314 6⁳⁴⁹");

@@ -193,96 +193,40 @@ struct hwfp : hwfp_base
     // ------------------------------------------------------------------------
 
 
+    template <hwfp_p (*code)(hwfp_r, hwfp_r)>
+    static arithmetic_fn target(algebraic_r x, algebraic_r y)
+    // ------------------------------------------------------------------------
+    //  Target function for hwfp objects
+    // ------------------------------------------------------------------------
+    {
+        bool       flt = sizeof(hw) == sizeof(float);
+        object::id ty  = flt ? ID_hwfloat : ID_hwdouble;
+        uint       prc = flt ? 7 : 16;
+        return x->type() == ty && y->type() == ty &&
+            Settings.HardwareFloatingPoint() && Settings.Precision() <= prc
+            ? arithmetic_fn(code) : nullptr;
+    }
+
+
+
     // ========================================================================
     //
     //    Arithmetic
     //
     // ========================================================================
 
-    static hwfp_p neg(hwfp_r x)
-    {
-        return make(-x->value());
-    }
-    static hwfp_p add(hwfp_r x, hwfp_r y)
-    {
-        return make(x->value() + y->value());
-    }
-    static hwfp_p sub(hwfp_r x, hwfp_r y)
-    {
-        return make(x->value() - y->value());
-    }
-
-    static hwfp_p mul(hwfp_r x, hwfp_r y)
-    {
-        return make(x->value() * y->value());
-    }
-
-    static hwfp_p div(hwfp_r x, hwfp_r y)
-    {
-        hw fy = y->value();
-        if (fy == 0.0)
-        {
-            rt.zero_divide_error();
-            return nullptr;
-        }
-        return make(x->value() / fy);
-    }
-
-    static hwfp_p mod(hwfp_r x, hwfp_r y)
-    {
-        hw fy = y->value();
-        if (fy == 0.0)
-        {
-            rt.zero_divide_error();
-            return nullptr;
-        }
-        hw fx = x->value();
-        fx    = ::fmod(fx, fy);
-        if (fx < 0)
-            fx = fy < 0 ? fx - fy : fx + fy;
-        return make(fx);
-    }
-
-    static hwfp_p rem(hwfp_r x, hwfp_r y)
-    {
-        hw fy = y->value();
-        if (fy == 0.0)
-        {
-            rt.zero_divide_error();
-            return nullptr;
-        }
-        return make(std::fmod(x->value(), fy));
-    }
-
-    static hwfp_p pow(hwfp_r x, hwfp_r y)
-    {
-        return make(std::pow(x->value(), y->value()));
-    }
-
-
-    static hwfp_p hypot(hwfp_r x, hwfp_r y)
-    {
-        return make(std::hypot(x->value(), y->value()));
-    }
-
-    static hwfp_p atan2(hwfp_r x, hwfp_r y)
-    {
-        return make(to_angle(std::atan2(x->value(), y->value())));
-    }
-
-    static hwfp_p Min(hwfp_r x, hwfp_r y)
-    {
-        hw fx = x->value();
-        hw fy = y->value();
-        return make(fx < fy ? fx : fy);
-    }
-
-    static hwfp_p Max(hwfp_r x, hwfp_r y)
-    {
-        hw fx = x->value();
-        hw fy = y->value();
-        return make(fx > fy ? fx : fy);
-    }
+    static hwfp_p neg(hwfp_r x);
+    static hwfp_p add(hwfp_r x, hwfp_r y);
+    static hwfp_p sub(hwfp_r x, hwfp_r y);
+    static hwfp_p mul(hwfp_r x, hwfp_r y);
+    static hwfp_p div(hwfp_r x, hwfp_r y);
+    static hwfp_p mod(hwfp_r x, hwfp_r y);
+    static hwfp_p rem(hwfp_r x, hwfp_r y);
+    static hwfp_p pow(hwfp_r x, hwfp_r y);
+    static hwfp_p hypot(hwfp_r x, hwfp_r y);
+    static hwfp_p atan2(hwfp_r x, hwfp_r y);
+    static hwfp_p Min(hwfp_r x, hwfp_r y);
+    static hwfp_p Max(hwfp_r x, hwfp_r y);
 
 
     // ========================================================================
@@ -573,6 +517,8 @@ struct hwdouble : hwfp<double>
     {
         return render(r, o->value(), 'D');
     }
+
+
 };
 
 

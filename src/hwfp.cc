@@ -125,5 +125,180 @@ algebraic_p hwfp<hw>::to_fraction(uint count, uint prec) const
 }
 
 
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::neg(hwfp_r x)
+// ----------------------------------------------------------------------------
+//   Negation
+// ----------------------------------------------------------------------------
+{
+    return make(-x->value());
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::add(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Addition
+// ----------------------------------------------------------------------------
+{
+    add::remember(target<add>);
+    return make(x->value() + y->value());
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::sub(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Subtraction
+// ----------------------------------------------------------------------------
+{
+    sub::remember(target<sub>);
+    return make(x->value() - y->value());
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::mul(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Multiplication
+// ----------------------------------------------------------------------------
+{
+    mul::remember(target<mul>);
+    return make(x->value() * y->value());
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::div(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Division
+// ----------------------------------------------------------------------------
+{
+    div::remember(target<div>);
+    hw fy = y->value();
+    if (fy == 0.0)
+    {
+        rt.zero_divide_error();
+        return nullptr;
+    }
+    return make(x->value() / fy);
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::mod(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Modulo
+// ----------------------------------------------------------------------------
+{
+    mod::remember(target<mod>);
+    hw fy = y->value();
+    if (fy == 0.0)
+    {
+        rt.zero_divide_error();
+        return nullptr;
+    }
+    hw fx = x->value();
+    fx    = ::fmod(fx, fy);
+    if (fx < 0)
+        fx = fy < 0 ? fx - fy : fx + fy;
+    return make(fx);
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::rem(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Remainder
+// ----------------------------------------------------------------------------
+{
+    rem::remember(target<rem>);
+    hw fy = y->value();
+    if (fy == 0.0)
+    {
+        rt.zero_divide_error();
+        return nullptr;
+    }
+    return make(std::fmod(x->value(), fy));
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::pow(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Power
+// ----------------------------------------------------------------------------
+{
+    pow::remember(target<pow>);
+    return make(std::pow(x->value(), y->value()));
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::hypot(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Hypothenuse
+// ----------------------------------------------------------------------------
+{
+    hypot::remember(target<hypot>);
+    return make(std::hypot(x->value(), y->value()));
+}
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::atan2(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Arctangent for two lengths
+// ----------------------------------------------------------------------------
+{
+    atan2::remember(target<atan2>);
+    return make(to_angle(std::atan2(x->value(), y->value())));
+}
+
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::Min(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Minimum
+// ----------------------------------------------------------------------------
+{
+    hw fx = x->value();
+    hw fy = y->value();
+    return make(fx < fy ? fx : fy);
+}
+
+template<typename hw>
+typename hwfp<hw>::hwfp_p hwfp<hw>::Max(hwfp_r x, hwfp_r y)
+// ----------------------------------------------------------------------------
+//   Maximum1
+// ----------------------------------------------------------------------------
+{
+    hw fx = x->value();
+    hw fy = y->value();
+    return make(fx > fy ? fx : fy);
+}
+
+
 template algebraic_p hwfp<float>::to_fraction(uint count, uint prec) const;
 template algebraic_p hwfp<double>::to_fraction(uint count, uint prec) const;
+
+#define ARITH1(name)     ARITH1I(name, float); ARITH1I(name, double)
+#define ARITH1I(name,ty)                                                 \
+    template hwfp<ty>::hwfp_p hwfp<ty>::name(hwfp<ty>::hwfp_r);
+#define ARITH2(name)     ARITH2I(name, float); ARITH2I(name, double)
+#define ARITH2I(name,ty)                                                \
+    template hwfp<ty>::hwfp_p hwfp<ty>::name(hwfp<ty>::hwfp_r,          \
+                                             hwfp<ty>::hwfp_r);
+
+ARITH1(neg);
+ARITH2(add);
+ARITH2(sub);
+ARITH2(mul);
+ARITH2(div);
+ARITH2(mod);
+ARITH2(rem);
+ARITH2(pow);
+ARITH2(hypot);
+ARITH2(atan2);
+ARITH2(Min);
+ARITH2(Max);

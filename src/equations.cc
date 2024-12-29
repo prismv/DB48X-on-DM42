@@ -932,7 +932,7 @@ static const cstring basic_equations[] =
     "'(IB_nA)+(IE_nA)+(IC_nA)=0' "
     "'(ICO_nA)=(ICS_nA)*(1-αF*αR)' "
     "'(ICEO_nA)=(ICO_nA)/(1-αF)' "
-    "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*LN(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))' "
+    "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*IFTE((((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))≤0;0;LN(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))) "
     "}",
 
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
@@ -1039,8 +1039,8 @@ static const cstring basic_equations[] =
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "'(v_(m/s))=√((T_N)/(μ_(kg/m)))' "
-    "'(ffixed-fixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
-    "'(ffixed-free_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
+    "'(ffixedfixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
+    "'(ffixedfree_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",
 
     "Sound Wave Harmonics",  "{ "

@@ -889,7 +889,7 @@ static const cstring basic_equations[] =
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "PN Step Junctions",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=ⓁSiDensity(T_K)' "
     //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
@@ -913,7 +913,7 @@ static const cstring basic_equations[] =
     "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
     //"'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
     "'(φp_V)=-Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=ⓁSiDensity(T_K)' "
     //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
     "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
@@ -938,7 +938,7 @@ static const cstring basic_equations[] =
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "JFETs",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=ⓁSiDensity(T_K)' "
     //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xdmax_μ)=√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm^2)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
@@ -1070,7 +1070,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Relativity", nullptr,
     // ------------------------------------------------------------------------
-    //T#*: 109 vars 105 eqns 23 sims 17 secs
+    //T#*: 110 vars 110 eqns 29 sims 17 secs
     //The primed frame is travelling with speed v in the positive x direction
     // ref.: https://en.wikipedia.org/wiki/Special_relativity
     // https://galileo-unbound.blog/2021/06/03/the-transverse-doppler-effect-and-relativistic-time-dilation/
@@ -1128,6 +1128,12 @@ static const cstring basic_equations[] =
     "'(Bpz_T)=γ*((Bz_T)-β/Ⓒc*(Ey_(N/C)))' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
+    "'(E_(N/C))=√((Ex_(N/C))^2+(Ey_(N/C))^2+(Ez_(N/C))^2)' "
+    "'(Ep_(N/C))=√((Epx_(N/C))^2+(Epy_(N/C))^2+(Epz_(N/C))^2)' "
+    "'(B_(T))=√((Bx_(T))^2+(By_(T))^2+(Bz_(T))^2)' "
+    "'(Bp_(T))=√((Bpx_(T))^2+(Bpy_(T))^2+(Bpz_(T))^2)' "
+    "'EDB=convert((E_(N/C))/(B_(T));1_m/s)' "
+    "'EpDBp=convert((Ep_(N/C))/(Bp_(T));1_m/s)' "
     "}",
 
     "Longitudinal Doppler Effect",  "{ "
@@ -1151,11 +1157,11 @@ static const cstring basic_equations[] =
     "}",
 
     "Energy & Momentum",  "{ "
-    "'(ppx_(kg*(m/s)))=γ*((px_(kg*(m/s)))-v(m/s)*(E_J)/Ⓒc^2)' "
+    "'(ppx_(kg*(m/s)))=γ*((px_(kg*(m/s)))-(v_(m/s))*(E_J)/Ⓒc^2)' "
     "'(ppy_(kg*(m/s)))=(py_(kg*(m/s)))' "
     "'(ppz_(kg*(m/s)))=(pz_(kg*(m/s)))' "
-    "'(Ep_J)=γ*((E_J)-v(m/s)*(px_(kg*(m/s))))' "
-    "'(p_(kg*(m/s)))=γ*(mo_kg)*(v(m/s))' "
+    "'(Ep_J)=γ*((E_J)-(v_m/s)*(px_(kg*(m/s))))' "
+    "'(p_(kg*(m/s)))=γ*(m0_kg)*(v_(m/s))' "
     "'(E_J)=γ*(E0_J)' "
     "'(E0_J)=(m0_kg)*Ⓒc^2' "
     "'(E_J)^2=(p_(kg*(m/s)))^2*Ⓒc^2+(m0_kg)^2*Ⓒc^4' "
@@ -1399,6 +1405,7 @@ static const cstring basic_equations[] =
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
+    // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83) 
 };
 //   clang-format on
 

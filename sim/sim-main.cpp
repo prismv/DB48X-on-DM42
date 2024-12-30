@@ -173,9 +173,9 @@ int main(int argc, char *argv[])
 
             case 'k':
                 if (as[2])
-                    keymap_filename = as + 2;
+                    load_saved_keymap(as + 2);
                 else if (a < argc)
-                    keymap_filename = argv[++a];
+                    load_saved_keymap(argv[++a]);
                 break;
             case 'w':
                 if (as[2])

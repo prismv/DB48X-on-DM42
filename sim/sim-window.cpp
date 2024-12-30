@@ -406,20 +406,12 @@ void MainWindow::keyPressEvent(QKeyEvent * ev)
             "config/42style.48k",
             "config/true42.48k",
         };
-        size_t newmap = 0;
-        size_t max = sizeof(keyboards) / sizeof(keyboards[0]);
-        for (size_t i = 0; i < max; i++)
-        {
-            if (!strcmp(keymap_filename, keyboards[i]))
-            {
-                newmap = (i + 1) % max;
-                break;
-            }
-        }
+
         // HACK - Not thread safe, don't do that while running
         extern user_interface ui;
-        keymap_filename = keyboards[newmap];
-        ui.load_keymap(keymap_filename);
+        static uint newmap = 0;
+        ui.load_keymap(keyboards[newmap++]);
+        newmap %= sizeof(keyboards) / sizeof(keyboards[0]);
     }
 
     if (k == Qt::Key_F9)

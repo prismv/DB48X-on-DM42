@@ -1267,6 +1267,10 @@ uint ui_battery()
 //   Return the battery voltage
 // ----------------------------------------------------------------------------
 {
+    const uint vmax = 3000;
+    const uint vmin = 2600;
+    const uint vlow = (vmax + 3 * vmin) / 4;
+
     uint now = sys_current_ms();
     if (last_battery_ms < now - 1000)
         last_battery_ms = now - 1000;
@@ -1280,8 +1284,8 @@ uint ui_battery()
     else
     {
         battery -= (now - last_battery_ms) / 10;
-        uint v = battery * (BATTERY_VMAX - BATTERY_VMIN) / 1000 + BATTERY_VMIN;
-        if (v < BATTERY_VLOW)
+        uint v = battery * (vmax - vmin) / 1000 + vmin;
+        if (v < vlow)
             charging = true;
     }
 

@@ -46,7 +46,7 @@
 
 #include <cstdio>
 #include <cstring>
-#include <sys/errno.h>
+#include <errno.h>
 
 
 

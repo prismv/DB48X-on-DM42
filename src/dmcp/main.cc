@@ -278,8 +278,47 @@ int db48x_is_beep_mute()
     return Settings.BeepOff();
 }
 
-cstring keymap_default = "config/keymap.48k";
-cstring keymap_filename = keymap_default;
+
+bool load_saved_keymap(cstring name)
+// ----------------------------------------------------------------------------
+//   Load the default system state file
+// ----------------------------------------------------------------------------
+{
+    bool isdefault = false;
+    char keymap_name[80] = { 0 };
+    if (name)
+    {
+        file kcfg("config/keymap.cfg", file::WRITING);
+        if (kcfg.valid())
+            kcfg.write(name, strlen(name));
+    }
+
+    file kcfg("config/keymap.cfg", file::READING);
+    if (kcfg.valid())
+    {
+        kcfg.read(keymap_name, sizeof(keymap_name)-1);
+        for (size_t i = 0; i < sizeof(keymap_name); i++)
+            if (keymap_name[i] == '\n')
+                keymap_name[i] = 0;
+    }
+    else
+    {
+        strncpy(keymap_name, "config/db48x.48k", sizeof(keymap_name));
+        isdefault = true;
+    }
+
+    // Load default keymap
+    if (!ui.load_keymap(keymap_name))
+    {
+        // Fail silently if we try to load a default file
+        if (isdefault)
+            rt.clear_error();
+        else
+            rt.command(command::static_object(object::ID_KeyMap));
+        return false;
+    }
+    return true;
+}
 
 
 extern uint memory_size;
@@ -311,30 +350,7 @@ void program_init()
 
     // Check if we have a state file to load
     load_system_state();
-
-    if (keymap_filename == keymap_default)
-    {
-        char keymapcfg[80] = { 0 };
-        file kcfg("config/keymap.cfg", file::READING);
-        if (kcfg.valid())
-        {
-            kcfg.read(keymapcfg, sizeof(keymapcfg)-1);
-            for (size_t i = 0; i < sizeof(keymapcfg); i++)
-                if (keymapcfg[i] == '\n')
-                    keymapcfg[i] = 0;
-            keymap_filename = keymapcfg;
-        }
-    }
-
-    // Load default keymap
-    if (!ui.load_keymap(keymap_filename))
-    {
-        // Fail silently if we try to load a default file
-        if (keymap_filename == keymap_default)
-            rt.clear_error();
-        else
-            rt.command(command::static_object(object::ID_KeyMap));
-    }
+    load_saved_keymap();
 }
 
 

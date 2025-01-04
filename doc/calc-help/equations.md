@@ -848,7 +848,7 @@ The magnetic field expression differs depending upon whether the point at `r` is
 
 The expression for the magnetic field at the distance r depends on the subtended angles θ1 and θ2 relative to the ends of the wire of finite length L. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
 
-![B Field From Finite Wire](img/B Field From Finite Wire.bmp)
+![B Field From Finite Wire](img/B_Field_From_Finite_Wire.bmp)
 
 
 #### Force Between Wires
@@ -863,7 +863,7 @@ The expression for the magnetic field in the center is approximately valid if th
 
 The expression for the magnetic field in the center depends on the subtended internal angles `α1` and `α2` relative to the top ends of the solenoid of finite length `L`.
 
-![B Field In Finite Solenoid](img/B Field In Finite Solenoid.bmp)
+![B Field In Finite Solenoid](img/B_Field_In_Finite_Solenoid.bmp)
 
 #### B Field In Toroid
 

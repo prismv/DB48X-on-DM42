@@ -70,12 +70,39 @@ color-%:
 
 sim: sim/$(TARGET).mak help/$(TARGET).idx
 	cd sim; $(MAKE) -f $(<F) TARGET=$(shell awk '/^TARGET/ { print $$3; }' sim/$(TARGET).mak)
-sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)
+sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)	\
+					sim/config.qrc		\
+					sim/state.qrc		\
+					sim/library.qrc		\
+					sim/help.qrc		\
+					sim/help/img.qrc
 	cd sim; qmake $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT)) $(COLOR:%=CONFIG+=color)
 
-sim:	recorder/config.h	\
+sim/%.qrc: Makefile
+	mkdir -p $(@D)
+	(echo '<RCC>';								\
+	 echo ' <qresource prefix="/'$*'">';					\
+	 for I in $(wildcard $(QRC_EXT_$*:%=$*/%)); do				\
+		J=$$(basename $$I);						\
+		echo '  <file alias="'$$J'">../'$(QRC_DOT_$*)$*'/'$$J'</file>';	\
+	 done;									\
+	 echo ' </qresource>';							\
+	 echo '</RCC>')								\
+	> $@
+
+sim/help.qrc:			\
 	help/$(TARGET).md	\
-	help/$(TARGET).idx	\
+	help/$(TARGET).idx
+
+
+QRC_EXT_config=*.csv *.cfg *.48k
+QRC_EXT_help=$(TARGET).md $(TARGET).idx
+QRC_EXT_help/img=*.bmp
+QRC_DOT_help/img=../
+QRC_EXT_library=*.48[sS]
+QRC_EXT_state=*.48[sS]
+
+sim:	recorder/config.h	\
 	fonts/EditorFont.cc	\
 	fonts/StackFont.cc	\
 	fonts/ReducedFont.cc	\

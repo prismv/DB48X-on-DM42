@@ -100,7 +100,14 @@ HEADERS +=                                      \
 
 # User interface forms
 FORMS    += sim-window.ui
-RESOURCES += sim.qrc
+RESOURCES +=                    \
+        sim.qrc                 \
+        config.qrc              \
+        state.qrc 		\
+	library.qrc             \
+	help.qrc		\
+	help/img.qrc
+
 
 # Indicate we are on simulator
 DEFINES += SIMULATOR CONFIG_FIXED_BASED_OBJECTS

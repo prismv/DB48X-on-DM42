@@ -50,7 +50,7 @@ bool   run_tests   = false;
 bool   no_copy     = false;
 bool   noisy_tests = false;
 bool   no_beep     = false;
-uint   memory_size = 100; // Memory size in kilobytes
+uint   memory_size = MEMORY; // Memory size in kilobytes
 
 size_t recorder_render_object(intptr_t tracing,
                               const char *UNUSED /* format */,

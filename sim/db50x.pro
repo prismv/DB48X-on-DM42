@@ -35,6 +35,8 @@ DEFINES-=HELPFILE_NAME=\\\"help/db48x.md\\\"
 DEFINES-=HELPINDEX_NAME=\\\"help/db48x.idx\\\"
 DEFINES+=HELPFILE_NAME=\\\"help/db50x.md\\\"
 DEFINES+=HELPINDEX_NAME=\\\"help/db50x.idx\\\"
+DEFINES-=MEMORY=100
+DEFINES+=MEMORY=500
 INCLUDEPATH -= ../src/dm42
 INCLUDEPATH += ../src/dm32
 

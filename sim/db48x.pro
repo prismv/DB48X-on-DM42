@@ -140,3 +140,11 @@ clang:   QMAKE_CXXFLAGS += -Wno-unknown-pragmas
 OBJECTS_DIR=db48x-build
 
 ICON = db48x.icns
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/res/values/libs.xml \
+    android/res/xml/qtprovider_paths.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

@@ -136,6 +136,8 @@ class MainWindow : public QMainWindow
     RPLThread                      rpl;
     TestsThread                    tests;
     Highlight                     *highlight;
+    int                            keyboard_width;
+    int                            keyboard_height;
 
     // Audio support
     QMediaDevices                 *devices = nullptr;

@@ -255,9 +255,9 @@ int main(int argc, char *argv[])
                 break;
             case 's':
                 if (as[2])
-                    MainWindow::devicePixelRatio = atof(as+2);
+                    MainWindow::userScaling = atof(as+2);
                 else if (a < argc)
-                    MainWindow::devicePixelRatio = atof(argv[++a]);
+                    MainWindow::userScaling = atof(argv[++a]);
                 break;
 
             }

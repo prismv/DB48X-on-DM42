@@ -72,7 +72,7 @@ extern bool alt_held;
 #if !WASM
 
 MainWindow *MainWindow::mainWindow = nullptr;
-qreal MainWindow::devicePixelRatio = 1.0;
+qreal MainWindow::userScaling = 1.0;
 
 MainWindow::MainWindow(QWidget *parent)
 // ----------------------------------------------------------------------------
@@ -105,9 +105,12 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this, SIGNAL(keyResizeSignal(const QRect &)),
                      highlight, SLOT(keyResizeSlot(const QRect &)));
 
-    qreal dpratio = qApp->primaryScreen()->devicePixelRatio();
-    dpratio *= devicePixelRatio;
-    resize(210 * dpratio, 370 * dpratio);
+#ifdef ANDROID
+    adjustSize(QApplication::primaryScreen()->availableSize());
+#else
+    QSize sz = size();
+    resize(sz.width() * userScaling, sz.height() * userScaling);
+#endif
 
     // Audio setup
     connect(devices, &QMediaDevices::audioOutputsChanged,

@@ -137,6 +137,7 @@ TESTS(explode,          "Extracting object structure");
 TESTS(regressions,      "Regression checks");
 TESTS(plotting,         "Plotting, graphing and charting");
 TESTS(graphics,         "Graphic commands");
+TESTS(input,            "User input");
 TESTS(help,             "On-line help");
 TESTS(gstack,           "Graphic stack rendering")
 TESTS(hms,              "HMS and DMS operations");
@@ -180,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            auto_simplification();
+            user_input_commands();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -246,6 +247,7 @@ void tests::run(uint onlyCurrent)
         plotting();
         plotting_all_functions();
         graphic_commands();
+        user_input_commands();
         hms_dms_operations();
         date_operations();
         infinity_and_undefined();
@@ -11507,6 +11509,46 @@ void tests::graphic_commands()
         .test(CLEAR, RSHIFT, DOT, "123", F6, F6, LSHIFT, F3, EXIT)
         .image_noheader("graph-integral");
 }
+
+
+void tests::user_input_commands()
+// ----------------------------------------------------------------------------
+//   User input commands (PROMPT, INPUT)
+// ----------------------------------------------------------------------------
+{
+    BEGIN(input);
+
+    step("Prompt with single-line display")
+        .test(CLEAR, EXIT, "\"Enter value\" PROMPT 1 +", ENTER)
+        .image("prompt-display")
+        .test("123")
+        .image("prompt-entry")
+        .test(ENTER)
+        .expect("123")
+        .test(RUNSTOP)
+        .expect("124");
+    step("Prompt with 2 lines display")
+        .test(CLEAR, EXIT, "123 456 \"Enter value\nNow!\" PROMPT 1 +", ENTER)
+        .image("prompt2-display")
+        .test("123")
+        .image("prompt2-entry")
+        .test(ENTER)
+        .expect("123")
+        .test(RUNSTOP)
+        .got("124", "456", "123");
+    step("Multiple prompts")
+        .test(CLEAR, EXIT,
+              "\"Enter first value\" PROMPT "
+              "\"Enter second value\" PROMPT +", ENTER)
+        .image("prompts-display1")
+        .test("123", ENTER)
+        .expect("123")
+        .test(RUNSTOP, "456")
+        .image("prompts-display2")
+        .test(ENTER, RUNSTOP)
+        .got("579");
+}
+
 
 
 // ============================================================================

@@ -659,6 +659,71 @@ COMMAND_BODY(DispXY)
 }
 
 
+COMMAND_BODY(Prompt)
+// ----------------------------------------------------------------------------
+//   Display the given message in the first line, then halt program
+// ----------------------------------------------------------------------------
+{
+    if (object_p msgo = rt.pop())
+    {
+        text_g msg = msgo->as<text>();
+        if (!msg)
+            msg = msgo->as_text();
+
+        if (msg)
+        {
+            using size   = blitter::size;
+            using coord  = blitter::coord;
+
+            coord   y    = 0;
+            coord   x    = 0;
+            bool    clr  = true;
+            size_t  len  = 0;
+            utf8    txt  = msg->value(&len);
+            utf8    last = txt + len;
+            pattern bg   = Settings.Background();
+            pattern fg   = Settings.Foreground();
+            font_p  font = settings::font(Settings.StackFont());
+            size    h    = font->height();
+
+            while (txt < last)
+            {
+                unicode cp = utf8_codepoint(txt);
+                size    w = font->width(cp);
+                txt        = utf8_next(txt);
+                if (cp == '\n' || x + w >= LCD_W)
+                {
+                    x = 0;
+                    y += h;
+                    clr = true;
+                    if (cp == '\n')
+                        continue;
+                }
+                if (cp == '\t')
+                    cp = ' ';
+
+                if (clr)
+                {
+                    Screen.fill(0, y, LCD_W-1, y+h-1, bg);
+                    Screen.fill(0, y+h, LCD_W-1, y+h, fg);
+                    ui.draw_dirty(0, y, LCD_W-1, y+h);
+                    clr = false;
+                }
+                Screen.glyph(x, y, cp, font, fg);
+                x += w;
+            }
+            ui.freeze(1);
+            ui.stack_screen_top(y + h + 1);
+            refresh_dirty();
+            program::halted = true;
+            return OK;
+        }
+
+    }
+    return ERROR;
+}
+
+
 COMMAND_BODY(Show)
 // ----------------------------------------------------------------------------
 //   Show the top-level of the stack graphically, using entire screen

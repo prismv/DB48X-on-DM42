@@ -745,6 +745,8 @@ CMD(MultipleSteps)
 CMD(Continue)
 ALIAS(Continue, "cont")
 CMD(Kill)
+CMD(Prompt)
+CMD(Run)
 
 // Unit conversions
 CMD(Convert)

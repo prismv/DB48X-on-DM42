@@ -152,6 +152,7 @@ struct user_interface
     bool        transient_object(object_p obj);
 
     modes       editing_mode()          { return mode; }
+    void        stack_screen_top(int s) { stackTop = s; }
     int         stack_screen_top()      { return stackTop; }
     int         stack_screen_bottom()   { return stackBottom; }
     int         menu_screen_bottom()    { return menuHeight; }

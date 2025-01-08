@@ -8878,6 +8878,16 @@ to insert breakpoints at specific locations in a program.
 
 The `Kill` instruction stops the execution of the program currently being
 debugged.
+
+
+## Run
+
+The `Run` command is intended to run programs or resume their execution.
+
+* If a program is currently stopped, then it resumes its execution.
+  This can be used to resume execution when a program is waiting for input
+  from the `Prompt` command.
+* Otherwise, `Run` evaluates the top of the stack like `Evaluate`.
 # Variables
 
 Variables are named storage for RPL values.
@@ -12928,16 +12938,22 @@ Compute exp(x)-1
 Compute ln(x+1)
 # User Interface
 
-## COPYCLIP
-Copy an object to the clipboard
+## EditorCopy
+
+Copy the selected text to the clipboard.
+
+## EditorCut
+
+Cut the text selection to the clipboard.
 
 
-## CUTCLIP
-Move an object to the clipboard
+## EditorPaste
 
+Insert the clipboard contents on the command-line.
 
-## PASTECLIP
-Insert the clipboard contents on the stack
+## EditorSearch
+
+Incremental search in the text editor.
 
 
 ## Wait
@@ -12952,12 +12968,46 @@ pressed. The key code for the key that was pressed will be pushed in the
 stack. If the argument is negative, the current menu will be displayed on the
 screen during the wait.
 
+For example, the following program will count for approximately 3 seconds:
+
+```rpl
+1 30 for i
+   i 1 disp
+   0.1 wait
+next
+```
+
+## Prompt
+
+Display a message in the header area, then stop the currently executing program
+to wait for user input. The user should press the `Run` key to resume execution
+once the user has performed the requested operations.
+
+For example, the following program displays a message at the top of the screen,
+then waits for the user to put a number on the stack and hit the `Run` key. The
+program then deposits the next number on the stack.
+
+```rpl
+«
+	"Enter number then press Run" Prompt
+    1 +
+    "Next number" →Tag
+»
+```
+
+Once you run the program, you can type a value, then use the `Run` key left of
+`+` to resume execution:
+
+```rpl
+123
+```
 
 ## KEYEVAL
 Simulate a keypress from within a program
 
 
-## KEY
+## Key
+
 Get instantaneous state of the keyboard
 
 

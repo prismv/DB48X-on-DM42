@@ -890,7 +890,7 @@ MENU(ProgramMenu,
      "[\t]",    ID_SelfInsert,
      "→ \t «»", ID_SelfInsert,
      "→ \t ''", ID_SelfInsert,
-     "Eval",    ID_Eval,
+     "Run",     ID_Run,
 
      "Mem",     ID_MemoryMenu,
      "Test",    ID_TestsMenu,
@@ -924,6 +924,7 @@ MENU(DebugMenu,
      "ErrNum",          ID_errn,
      "ClrErr",          ID_err0,
 
+     "Run",             ID_Run,
      "ErrDbg",          ID_DebugOnError,
      "Prog",            ID_ProgramMenu);
 
@@ -1080,12 +1081,12 @@ MENU(ObjectMenu,
      "→Prog",   ID_ToProgram,
      "→Array",  ID_ToArray,
 
+     "Eval",    ID_Eval,
+     "Run",     ID_Run,
      "Clone",   ID_Clone,
      "DTag",    ID_dtag,
      "Tag→",    ID_FromTag,
-     "Matrix",  ID_MatrixMenu,
-     "List",    ID_ListMenu,
-     "Vector",  ID_VectorMenu);
+     "Tools",   ID_ToolsMenu);
 
 
 MENU(UnitsConversionsMenu,

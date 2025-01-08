@@ -122,7 +122,8 @@ object::result show(object_r obj);
 
 
 COMMAND_DECLARE(Disp,2);
-COMMAND_DECLARE(DispXY,3);
+COMMAND_DECLARE(DispXY, 3);
+COMMAND_DECLARE(Prompt, 1);
 COMMAND_DECLARE(Show,1);
 COMMAND_DECLARE(PixOn,1);
 COMMAND_DECLARE(PixOff, 1);

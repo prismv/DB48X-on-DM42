@@ -443,19 +443,21 @@ void user_interface::clear_editor()
 // ----------------------------------------------------------------------------
 {
     rt.clear();
-    cursor      = 0;
-    select      = ~0U;
-    searching   = ~0U;
-    xoffset     = 0;
-    edRows      = 0;
-    alpha       = false;
-    shift       = false;
-    xshift      = false;
-    lowercase   = false;
-    longpress   = false;
-    repeat      = false;
-    dirtyEditor = true;
-    dirtyStack  = true;
+    cursor       = 0;
+    select       = ~0U;
+    searching    = ~0U;
+    xoffset      = 0;
+    edRows       = 0;
+    alpha        = false;
+    shift        = false;
+    xshift       = false;
+    lowercase    = false;
+    longpress    = false;
+    repeat       = false;
+    freezeHeader = false;
+    freezeMenu   = false;
+    dirtyEditor  = true;
+    dirtyStack   = true;
     clear_help();
     menu_refresh(menu::ID_Catalog, true);
 }
@@ -575,6 +577,9 @@ bool user_interface::key(int key, bool repeating, bool talpha)
            "Key %d shifts %d longpress", key, shift_plane(), longpress);
     repeat = false;
 
+    if (key > 0)
+        freezeStack = false;
+
     if (rt.error())
     {
         if (key && Settings.NoNeedToClearErrors())
@@ -619,9 +624,6 @@ bool user_interface::key(int key, bool repeating, bool talpha)
     {
         shift = false;
         xshift = false;
-        freezeHeader = false;
-        freezeStack = false;
-        freezeMenu = false;
     }
 
     if (!skey)
@@ -1450,7 +1452,6 @@ bool user_interface::freeze(uint flags)
         freezeStack = true;
     if (flags & 4)
         freezeMenu = true;
-    graphics = true;
     return true;
 }
 
@@ -2002,7 +2003,10 @@ bool user_interface::draw_battery(bool now)
 // ----------------------------------------------------------------------------
 {
     if (freezeHeader || graphics)
+    {
+        batteryDrawn = ~time;
         return false;
+    }
 
     font_p      hdr_font   = Settings.header_font();
     size        h          = hdr_font->height() + 1;
@@ -2720,7 +2724,7 @@ bool user_interface::draw_command()
 //   Draw the current command
 // ----------------------------------------------------------------------------
 {
-    if (freezeStack)
+    if (freezeStack || freezeHeader)
         return false;
 
     if (force || dirtyCommand)
@@ -2752,7 +2756,7 @@ void user_interface::draw_user_command(utf8 cmd, size_t len)
 //   Draw the current command
 // ----------------------------------------------------------------------------
 {
-    if (freezeStack)
+    if (freezeStack || freezeHeader)
         return;
 
     font_p font = ReducedFont;

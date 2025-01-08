@@ -1084,7 +1084,7 @@ MENU(ObjectMenu,
      "Eval",    ID_Eval,
      "Run",     ID_Run,
      "Clone",   ID_Clone,
-     "DTag",    ID_dtag,
+     "DTag",    ID_DTag,
      "Tag→",    ID_FromTag,
      "Tools",   ID_ToolsMenu);
 

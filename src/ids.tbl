@@ -605,7 +605,7 @@ NAMED(doerr, "DoError")
 // Rare type functions
 NAMED(ToTag, "→Tag")
 NAMED(FromTag, "Tag→")
-NAMED(dtag, "DeleteTag")
+NAMED(DTag, "DeleteTag")
 
 // Object cycle (often used from keyboard, rarely in programs)
 CMD(Cycle)

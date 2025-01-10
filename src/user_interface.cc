@@ -153,7 +153,8 @@ user_interface::user_interface()
       doubleRelease(false),
       batteryLow(false),
       keymap(),
-      helpfile()
+      helpfile(),
+      validate_input()
 {
     for (uint p = 0; p < NUM_PLANES; p++)
     {
@@ -211,8 +212,9 @@ void user_interface::insert(unicode c, modes m, bool autoclose)
         byte *ed = rt.editor();
         if (mode == PROGRAM || mode == DIRECT ||
             (is_algebraic(mode) && c != '('))
-            if (savec > 0 && ed[savec-1] != ' ' && ed[savec-1] != '=')
-                insert(savec, ' ');
+            if (savec > 0 && c != '"')
+                if (ed[savec-1] != ' ' && ed[savec-1] != '=')
+                    insert(savec, ' ');
         size_t back = insert(cursor, closing);
         cursor -= back;
     }
@@ -373,13 +375,16 @@ bool user_interface::end_edit()
         if (edstr)
         {
             gcutf8 editor = edstr->value();
-            program_g cmds = program::parse(editor, edlen);
-            if (cmds)
+            program_g cmds;
+            bool ok = validate_input
+                ? validate_input(editor, edlen) || program::halted
+                : ((cmds = program::parse(editor, edlen)));
+            if (ok)
             {
                 // We successfully parsed the line
                 editor_save(saved, false);
                 clear_editor();
-                if (editingLevel)
+                if (editingLevel && !validate_input)
                 {
                     bool first = true;
                     for (auto obj : *cmds)
@@ -404,10 +409,21 @@ bool user_interface::end_edit()
                 {
                     editing = nullptr;
                     editingLevel = 0;
-                    if (Settings.SaveStack())
-                        rt.save();
-                    save<bool> no_halt(program::halted, false);
-                    cmds->run();
+                    if (validate_input)
+                    {
+                        validate_input = nullptr;
+                        if (program::halted)
+                            program::halted = false;
+                        else
+                            program::run_loop(0);
+                    }
+                    else
+                    {
+                        if (Settings.SaveStack())
+                            rt.save();
+                        save<bool> no_halt(program::halted, false);
+                        cmds->run();
+                    }
                 }
             }
             else
@@ -425,6 +441,8 @@ bool user_interface::end_edit()
                     select = ~0U;
                 }
                 draw_idle();
+                if (validate_input)
+                    rt.input_validation_error();
                 if (!rt.error())
                     rt.internal_error();
                 return false;
@@ -728,6 +746,9 @@ void user_interface::update_mode()
 //   Scan the command line to check what the state is at the cursor
 // ----------------------------------------------------------------------------
 {
+    if (validate_input)
+        return;
+
     utf8    ed    = rt.editor();
     utf8    last  = ed + cursor;
     uint    progs = 0;
@@ -2923,6 +2944,14 @@ bool user_interface::draw_stack()
 {
     if ((!force && !dirtyStack) || freezeStack)
         return false;
+    if (validate_input)
+    {
+        pattern bg = Settings.Background();
+        Screen.fill(0, stackTop+1, LCD_W-1, stackBottom, bg);
+        draw_dirty(0, stackTop, LCD_W-1, stackBottom);
+        return true;
+    }
+
     draw_busy();
     uint now = sys_current_ms();
     uint top = stackTop + 1;
@@ -2934,6 +2963,7 @@ bool user_interface::draw_stack()
     dirtyStack = false;
     dirtyCommand = true;
     program::stack_display_time += sys_current_ms() - now;
+
     return true;
 }
 
@@ -5549,7 +5579,7 @@ bool user_interface::handle_functions(int key, object_p objp, bool user)
 
         case PROGRAM:
         case MATRIX:
-        unit_application:
+        insert_object:
             if (object::is_program_cmd(ty) || object::is_algebraic(ty) || user)
             {
                 dirtyEditor = true;
@@ -5562,16 +5592,19 @@ bool user_interface::handle_functions(int key, object_p objp, bool user)
             if (ty == object::ID_mul ||
                 ty == object::ID_div ||
                 ty == object::ID_pow)
-                goto unit_application;
+                goto insert_object;
             [[fallthrough]];
 
         case DIRECT:
             if (ty == object::ID_ApplyUnit ||
                 ty == object::ID_ApplyInverseUnit)
-                goto unit_application;
+                goto insert_object;
             [[fallthrough]];
 
         default:
+            if (validate_input)
+                goto insert_object;
+
             // If we have the editor open, need to close it
             if (ty != object::ID_SelfInsert)
             {
@@ -5610,7 +5643,7 @@ bool user_interface::handle_functions(int key, object_p objp, bool user)
     }
     draw_idle();
     dirtyStack = true;
-    if (!imm)
+    if (!imm && (!validate_input || mode != TEXT))
         alpha = false;
     xshift = false;
     shift = false;
@@ -5720,6 +5753,12 @@ bool user_interface::do_exit()
         rt.clear_error();
         dirtyEditor = true;
         dirtyStack = true;
+    }
+    else if (validate_input)
+    {
+        program::halted = true;
+        program::stepping = 0;
+        end_edit();
     }
     else
     {

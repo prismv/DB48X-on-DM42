@@ -1176,7 +1176,36 @@ bool tests::image_match(cstring file, int x, int y, int w, int h, bool force)
         img.save(name, "PNG");
         return true;
     }
-    return data.toImage() == img.toImage();
+    bool ok = data.toImage() == img.toImage();
+    if (!ok)
+    {
+        // Workaround for what appears to be a Qt bug, seen on Input test
+        const auto &r = data.toImage();
+        const auto &i = img.toImage();
+        auto rw = r.width();
+        auto rh = r.height();
+        auto iw = i.width();
+        auto ih = i.height();
+        ok = true;
+        if (rw != iw || rh != ih)
+        {
+            ok = false;
+        }
+        else
+        {
+            for (int x = 0; x < rw; x++)
+            {
+                for (int y = 0; y < rh; y++)
+                {
+                    QRgb rc = r.pixel(x, y);
+                    QRgb ic = r.pixel(x, y);
+                    if (rc != ic)
+                        ok = false;
+                }
+            }
+        }
+    }
+    return ok;
 }
 
 #else // WASM

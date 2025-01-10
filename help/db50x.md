@@ -13002,6 +13002,63 @@ Once you run the program, you can type a value, then use the `Run` key left of
 123
 ```
 
+
+## Input
+
+Prompts for data input to the command line and prevents the user access to stack
+operations.
+
+When `INPUT` is executed, the stack or history area is blanked and program
+execution is suspended for data input to the command line. The contents of the
+prompt argument are displayed at the top of the screen. Depending on the second
+argument, the command line may also contain the contents of a string, or it may
+be empty.
+
+Pressing _ENTER_ resumes program execution and returns the contents of the
+command line in string form.
+
+The command line argument can be a text, which defines the original content of
+the command line, or a list containing up to three elements:
+
+* The object defining the initial content of the command line
+* A cursor position on the command line, the index starting at 1, where 0 is the
+  end of the command-line; or a list or array containing the row and column,
+  starting at 1, where 0 indicates the end of of the row or the last column.
+* A validation object
+
+The validation object indicates how the input is validated. If the validation
+object is a text or symbol, it can be one of the following (the comparison being
+case-insensitive):
+
+* `α`, `alpha` or `text` selects text mode and enable alpha mode. The
+  value is retured as text.
+* `alg`, `algebraic` or `expression` selects algebraic mode, which can be used
+  to to enter an expression. The value is returned as text for `alg` (for
+  compatibility with HP), as an algebraic value (including numbers) if
+  `algebraic` is used, as an expression object for `expression` is used.
+* `value` or `object` checks that the command line describes a single valid RPL
+  program. That object is returned on the stack.
+* `v`, `values` or `objects` checks that the command line describes a valid RPL
+  syntax, which may contain any sequence of objects. The result is returned as
+  text, which can be evaluated using `Obj→`. This mode is compatible with the HP
+  usage.
+* `p`, `prog` or `program` checks that the command line is a valid sequence of
+  commands in RPL syntax, and returns a program object, as if the user input had
+  been surrounded by `«»`
+* `n` or `number` checks that the input is a numerical value, which includes
+  integers, decimal, fractions and complex numbers, and returns the numerical
+  values on the stack.
+* `r` or `real` checks that the input is a real numerical value.
+* `i` or `integer` checks that the input is an integer numerical value, which
+  can be positive or negative.
+* `positive` or `natural` checks that the input is a positive numerical
+  value.
+
+In the more general case, the validation program is a program that returns a
+truth value. The input is only accepted after the program returns a true value.
+
+
+
 ## KEYEVAL
 Simulate a keypress from within a program
 

@@ -178,7 +178,11 @@ object::result program::run_loop(size_t depth)
         if (interrupted())
         {
             obj->defer();
-            if (!halted)
+            if (ui.in_input())
+            {
+                halted = false;
+            }
+            else if (!halted)
             {
                 result = ERROR;
                 rt.interrupted_error().command(obj);
@@ -343,6 +347,7 @@ COMMAND_BODY(Halt)
 // ----------------------------------------------------------------------------
 {
     program::halted = true;
+    program::stepping = 0;
     return OK;
 }
 
@@ -359,6 +364,7 @@ COMMAND_BODY(Debug)
             settings::SaveDebugOnError doe(true);
             rt.pop();
             program::halted = true;
+            program::stepping = 0;
             prog->run_program();
             return OK;
         }
@@ -464,6 +470,7 @@ COMMAND_BODY(Continue)
 {
     settings::SaveDebugOnError doe(true);
     program::halted = false;
+    program::stepping = 0;
     return program::run_loop(0);
 }
 

@@ -745,6 +745,7 @@ CMD(MultipleSteps)
 CMD(Continue)
 ALIAS(Continue, "cont")
 CMD(Kill)
+CMD(Input)
 CMD(Prompt)
 CMD(Run)
 

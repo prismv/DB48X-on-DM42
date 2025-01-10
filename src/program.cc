@@ -376,6 +376,12 @@ COMMAND_BODY(SingleStep)
 //   Single step an instruction
 // ----------------------------------------------------------------------------
 {
+    if (!rt.run_stepping())
+    {
+        rt.no_debugged_program_error();
+        return ERROR;
+    }
+
     settings::SaveDebugOnError doe(true);
     program::stepping = 1;
     program::halted = false;
@@ -388,6 +394,12 @@ COMMAND_BODY(StepOver)
 //   Step over the next instruction
 // ----------------------------------------------------------------------------
 {
+    if (!rt.run_stepping())
+    {
+        rt.no_debugged_program_error();
+        return ERROR;
+    }
+
     if (object_p next = rt.run_next(0))
     {
         settings::SaveDebugOnError doe(true);
@@ -406,6 +418,12 @@ COMMAND_BODY(StepOut)
 //   Step over the next instruction
 // ----------------------------------------------------------------------------
 {
+    if (!rt.run_stepping())
+    {
+        rt.no_debugged_program_error();
+        return ERROR;
+    }
+
     settings::SaveDebugOnError doe(true);
     size_t depth = rt.call_depth();
     save<bool> no_halt(program::halted, false);
@@ -418,6 +436,12 @@ COMMAND_BODY(MultipleSteps)
 //   Step multiple instructions
 // ----------------------------------------------------------------------------
 {
+    if (!rt.run_stepping())
+    {
+        rt.no_debugged_program_error();
+        return ERROR;
+    }
+
     if (object_p obj = rt.top())
     {
         if (uint steps = obj->as_uint32(0, true))

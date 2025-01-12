@@ -10567,7 +10567,7 @@ void tests::check_help_examples()
                     size_t nfailures = failures.size();
                     testing          = false;
                     itest(LENGTHY(20000), ENTER).noerror();
-                    if (rt.depth())
+                    if (rt.depth() && Stack.type() == object::ID_expression)
                         itest(LENGTHY(20000), RUNSTOP).noerror();
                     if (!ref.empty())
                         want(ref.c_str());
@@ -11737,6 +11737,14 @@ void tests::user_input_commands()
         .test("-").editor("-123")
         .test(ENTER).error("Invalid input")
         .test(BSP, BSP, ENTER).type(ID_integer).got("123");
+
+    step("Input command with user-defined validation")
+        .test(CLEAR, EXIT,
+              "\"Enter 42\" { 123 0 « if \"42\" = then 55 end » } INPUT", ENTER)
+        .editor("123")
+        .test(ENTER).error("Invalid input")
+        .test(BSP, "42", UP, UP, BSP, BSP, BSP, ENTER)
+        .type(ID_integer).got("55");
 }
 
 

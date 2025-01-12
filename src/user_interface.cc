@@ -315,6 +315,37 @@ object::result user_interface::insert(utf8 text, modes m)
 }
 
 
+bool user_interface::check_input(gcutf8 &src, size_t len)
+// ----------------------------------------------------------------------------
+//  Check user validation for
+// ----------------------------------------------------------------------------
+{
+    // If user typed EXIT, then accept entry
+    if (program::halted)
+        return true;
+    if (rt.is_user_command(utf8(validate_input)))
+    {
+        error_save ers;
+        size_t depth = rt.depth();
+        text_p cmdline = text::make(src, len);
+        if (!rt.push(cmdline))
+            return false;
+        program_p pgm = program_p(validate_input);
+        if (program::run(pgm, true) != program::OK)
+            return false;
+        bool ok = rt.depth() == depth + 1;
+        if (!ok)
+        {
+            size_t now = rt.depth();
+            if (now > depth)
+                rt.drop(now - depth);
+        }
+        return ok;
+    }
+    return validate_input(src, len);
+}
+
+
 bool user_interface::end_edit()
 // ----------------------------------------------------------------------------
 //   Clear the editor
@@ -377,7 +408,7 @@ bool user_interface::end_edit()
             gcutf8 editor = edstr->value();
             program_g cmds;
             bool ok = validate_input
-                ? validate_input(editor, edlen) || program::halted
+                ? check_input(editor, edlen)
                 : ((cmds = program::parse(editor, edlen)));
             if (ok)
             {

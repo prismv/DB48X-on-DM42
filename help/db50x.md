@@ -13054,8 +13054,9 @@ case-insensitive):
 * `positive` or `natural` checks that the input is a positive numerical
   value.
 
-In the more general case, the validation program is a program that returns a
-truth value. The input is only accepted after the program returns a true value.
+In the more general case, the validation program is a program that drops a value
+on the stack if successful. The input is only accepted after the program pushes
+a single value on the stack.
 
 
 

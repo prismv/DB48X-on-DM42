@@ -1043,6 +1043,10 @@ COMMAND_BODY(Input)
                             }
                         }
                     }
+                    else if (ty == ID_program)
+                    {
+                        validate = (typeof validate) valo;
+                    }
                 }
             }
         }

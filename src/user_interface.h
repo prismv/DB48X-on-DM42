@@ -227,6 +227,7 @@ struct user_interface
     size_t      adjust_cursor(size_t offset, size_t len);
     bool        in_input() const { return validate_input != nullptr; }
     void        input(bool (*fn)(gcutf8 &, size_t)) { validate_input = fn; }
+    bool        check_input(gcutf8 &src, size_t len);
 
     void        load_help(utf8 topic, size_t len = 0);
 

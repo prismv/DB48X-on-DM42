@@ -1116,7 +1116,7 @@ B0=B
 
 The expression for the magnetic field at the distance `r` depends on the subtended angles `θ1` and `θ2` relative to the ends of the wire of finite length `L`. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
 
-![B Field From Finite Wire](img/B Field From Finite Wire.bmp)
+![B Field From Finite Wire](img/B_Field_From_Finite_Wire.bmp)
 
 * **Example 1.** To calculate `[B_T]` (Magnetic field) from 6 known variables:
 ```rpl
@@ -1175,7 +1175,7 @@ B0=B
 
 The expression for the magnetic field in the center depends on the subtended internal angles `α1` and `α2` relative to the top ends of the solenoid of finite length `L`.
 
-![B Field In Finite Solenoid](img/B Field In Finite Solenoid.bmp)
+![B Field In Finite Solenoid](img/B_Field_In_Finite_Solenoid.bmp)
 
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 5 known variables:
 ```rpl
@@ -2667,7 +2667,7 @@ The 43 variables in the Modern Physics section are:
 
 In this section, two comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` & `f2`, or between `f3` & `f4`. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power `ebfafb` and the heat transfer rate `q` from the black-body. Or, For the Planck distribution, one can choose any other values for `fa` & `fb` and compute the corresponding `FrPlab`, `ebfafb` and `q`.
 
-![Planck & Wien Comparison](img/Planck&Wien_Distributions.bmp)
+![Planck & Wien Comparison](img/Planck_and_Wien_Distributions.bmp)
 
 * To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrWn12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrWn34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
 ```rpl
@@ -2681,7 +2681,7 @@ In this section, two comparisons are done between the Planck and Wien spectral d
 
 In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature `T` determines the frequency ranges for integration between `f1` & `f2`, or between `f3` & `f4`. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in `Frfafb`) to compute the corresponding enissive power `ebfafb` and the heat transfer rate `q` from the black-body. Or, For the Planck distribution, one could choose any other values for `fa` & `fb` and computes the corresponding `FrPlab`, `ebfafb` and `q`.
 
-![Planck & Rayleigh-Jeans Comparison](img/Planck&Rayleigh-Jeans_Distributions.bmp)
+![Planck & Rayleigh-Jeans Comparison](img/Planck_and_Rayleigh-Jeans_Distributions.bmp)
 
 * To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrRJ12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrRJ34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Rayleigh‐Jeans emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
 ```rpl

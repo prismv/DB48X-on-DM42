@@ -175,6 +175,14 @@ COMMAND_DECLARE(YRange,2);
 COMMAND_DECLARE(Scale,2);
 COMMAND_DECLARE(XScale,1);
 COMMAND_DECLARE(YScale,1);
-COMMAND_DECLARE(Center,1);
+COMMAND_DECLARE(Center,1);
+
+COMMAND_DECLARE(CompileToAlgebraic,  1);
+COMMAND_DECLARE(CompileToNumber,  1);
+COMMAND_DECLARE(CompileToInteger, 1);
+COMMAND_DECLARE(CompileToPositive, 1);
+COMMAND_DECLARE(CompileToReal, 1);
+COMMAND_DECLARE(CompileToObject, 1);
+COMMAND_DECLARE(CompileToExpression, 1);
 
 #endif // GRAPHICS_H

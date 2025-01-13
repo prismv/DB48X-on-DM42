@@ -1749,4 +1749,12 @@ MENU(TextMenu,
      "C→Code",          ID_CharToUnicode,
 
      "T→Code",          ID_TextToUnicode,
-     "Code→T",          ID_UnicodeToText);
+     "Code→T",          ID_UnicodeToText,
+     "T→Obj",           ID_CompileToObject,
+     "T→Alg",           ID_CompileToAlgebraic,
+     "T→Num",           ID_CompileToNumber,
+     "T→Real",          ID_CompileToReal,
+
+     "T→Expr",          ID_CompileToExpression,
+     "T→Int",           ID_CompileToInteger,
+     "T→Pos",           ID_CompileToPositive);

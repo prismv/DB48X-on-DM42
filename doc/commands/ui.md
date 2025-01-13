@@ -120,7 +120,31 @@ In the more general case, the validation program is a program that drops a value
 on the stack if successful. The input is only accepted after the program pushes
 a single value on the stack.
 
+For example, the following program lets the user enter a number, with a default
+value of `42`, and then adds one to it:
 
+```rpl
+«
+	"Enter number" { 42 0 number } INPUT
+    1 +
+    "Next number" →Tag
+»
+```
+
+The program as written above will reject non-number input values.
+
+The program below shows how to use custom validation. It will only
+accept an input value that is a multiple of 42.
+
+```rpl
+«
+	"Enter multiple of 42"
+    { 42 0 « Text→Integer → x « if x 42 mod 0 = then x end » » }
+    INPUT
+    1 +
+    "Next number" →Tag
+»
+```
 
 ## KEYEVAL
 Simulate a keypress from within a program

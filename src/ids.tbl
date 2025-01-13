@@ -524,6 +524,13 @@ CMD(RuntimeStatistics)          ALIAS(RuntimeStatistics, "RunStats")
 
 // Object commands
 NAMED(Compile, "Text→")         ALIAS(Compile, "Str→")
+NAMED(CompileToAlgebraic,       "Text→Algebraic")
+NAMED(CompileToNumber,          "Text→Number")
+NAMED(CompileToInteger,         "Text→Integer")
+NAMED(CompileToPositive,        "Text→Positive")
+NAMED(CompileToReal,            "Text→Real")
+NAMED(CompileToObject,          "Text→Object")
+NAMED(CompileToExpression,      "Text→Expression")
 NAMED(ToProgram, "→Program")    ALIAS(ToProgram, "→Prg")
 NAMED(ToInteger, "R→I")         ALIAS(ToInteger, "→Integer")
                                 ALIAS(ToInteger, "→Int")

@@ -1080,6 +1080,39 @@ error:
 }
 
 
+static object::result compile_to(bool (*validator)(gcutf8 &src, size_t sz))
+// ----------------------------------------------------------------------------
+//   Process text input to check if it has the expected type
+// ----------------------------------------------------------------------------
+{
+    if (object_p top = rt.pop())
+    {
+        if (text_p srct = top->as<text>())
+        {
+            size_t length = 0;
+            gcutf8 src = srct->value(&length);
+            if (validator(src, length))
+                return object::OK;
+            rt.input_validation_error();
+        }
+        else
+        {
+            rt.type_error();
+        }
+    }
+    return object::ERROR;
+}
+
+
+COMMAND_BODY(CompileToAlgebraic){ return compile_to(validate_algebraic); }
+COMMAND_BODY(CompileToNumber)   { return compile_to(validate_number); }
+COMMAND_BODY(CompileToInteger)  { return compile_to(validate_integer); }
+COMMAND_BODY(CompileToPositive) { return compile_to(validate_positive); }
+COMMAND_BODY(CompileToReal)     { return compile_to(validate_real); }
+COMMAND_BODY(CompileToObject)   { return compile_to(validate_value); }
+COMMAND_BODY(CompileToExpression){ return compile_to(validate_expression); }
+
+
 
 
 // ============================================================================

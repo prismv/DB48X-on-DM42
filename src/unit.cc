@@ -1386,6 +1386,24 @@ unit_p unit::get(object_p obj)
 }
 
 
+unit_p unit::get_after_evaluation(object_p obj)
+// ----------------------------------------------------------------------------
+//   Convert an object to a unit if possible at all, evaluate if necessary
+// ----------------------------------------------------------------------------
+{
+    unit_p u = get(obj);
+    if (!u)
+    {
+        if (algebraic_g alg = obj->as_extended_algebraic())
+            if (algebraic::to_decimal(alg, true))
+                if (unit_p ue = alg->as_quoted<unit>())
+                    return ue;
+
+    }
+    return u;
+}
+
+
 unit_p unit::custom_cycle(symbol_r sym) const
 // ----------------------------------------------------------------------------
 //   If there is an "=Cycle" section in units file, use that
@@ -1782,8 +1800,8 @@ COMMAND_BODY(Convert)
 //   Convert level 2 into unit of level 1
 // ----------------------------------------------------------------------------
 {
-    unit_p y = unit::get(rt.stack(1));
-    unit_p x = unit::get(rt.stack(0));
+    unit_p y = unit::get_after_evaluation(rt.stack(1));
+    unit_p x = unit::get_after_evaluation(rt.stack(0));
     if (!y || !x)
     {
         rt.type_error();
@@ -1803,8 +1821,8 @@ COMMAND_BODY(UBase)
 //   Convert level 1 to the base SI units
 // ----------------------------------------------------------------------------
 {
-    object_p obj = rt.stack(0);
-    if (unit_p x = unit::get(obj))
+    object_g obj = rt.stack(0);
+    if (unit_p x = unit::get_after_evaluation(obj))
     {
         algebraic_g r = x;
         save<bool> ueval(unit::mode, true);
@@ -1850,8 +1868,8 @@ COMMAND_BODY(UFact)
 //   Factor level 1 unit out of level 2 unit
 // ----------------------------------------------------------------------------
 {
-    unit_p x = unit::get(rt.stack(0));
-    unit_p y = unit::get(rt.stack(1));
+    unit_p x = unit::get_after_evaluation(rt.stack(0));
+    unit_p y = unit::get_after_evaluation(rt.stack(1));
     if (!x || !y)
     {
         rt.type_error();
@@ -1896,7 +1914,7 @@ COMMAND_BODY(ToUnit)
 // ----------------------------------------------------------------------------
 {
     object_p y = strip(rt.stack(1));
-    unit_p x = unit::get(rt.stack(0));
+    unit_p x = unit::get_after_evaluation(rt.stack(0));
     if (!x || !y || !y->is_algebraic())
     {
         rt.type_error();

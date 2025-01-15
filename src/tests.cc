@@ -1945,6 +1945,8 @@ void tests::global_variables()
         .test("A", ENTER).expect("57")
         .test(BSP).expect("A='42+3·5'")
         .test(RUNSTOP).expect("A='42+3·5'");
+    step("Assignment with error in evaluation")
+        .test(CLEAR, "A='(42+3*5)/0'", ENTER).error("Divide by zero");
     step("Assignment with evaluated value and PushEvaluatedAssignment")
         .test(CLEAR, "PushEvaluatedAssignment", ENTER)
         .test("A='42+3*5'", ENTER).expect("A=57")
@@ -5269,6 +5271,23 @@ void tests::units_and_conversions()
         .expect ("1")
         .test(CLEAR, "1 ubase", ENTER)
         .expect("1");
+
+    step("Convert when evaluation is needed")
+        .test(CLEAR,
+              "α=0.00729735256434 Urα=1.6E-10 "
+              "μ0='CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)' "
+              "Urμ0='Urα' "
+              "Usμ0='ROUND(Urα*μ0;-2)'", ENTER)
+        .got("Usμ0='Round(Urα·μ0;-2)'",
+             "Urμ0='Urα'",
+             "μ0='Convert(4·π·α·ℏ÷(qe↑2·c);1 H/m)'",
+             "Urα=1.6⁳⁻¹⁰",
+             "α=0.00729 73525 64")
+        .test(CLEAR, "Usμ0", ENTER)
+        .expect("2.⁳⁻¹⁶ H/m");
+
+
+
 }
 
 

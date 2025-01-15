@@ -64,6 +64,7 @@ struct unit : complex
     unit_p custom_cycle(symbol_r sym) const;
 
     static unit_p get(object_p obj);
+    static unit_p get_after_evaluation(object_p obj);
 
     static object_p si_prefixes_variable()
     {

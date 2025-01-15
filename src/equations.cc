@@ -1844,6 +1844,8 @@ EVAL_BODY(assignment)
 
     algebraic_g value = asn->value();
     algebraic_p evalue = value->evaluate();
+    if (!evalue)
+        return ERROR;
     if (evalue != value)
     {
         value = evalue;

@@ -305,49 +305,112 @@ static const cstring basic_constants[] =
 
 
     // ------------------------------------------------------------------------
-    //   Chemistry
+    //   Chemistry Constants Values & Uncertainties
     // ------------------------------------------------------------------------
 
     "Chemistry",     nullptr,
 
-    "NA",       "6.02214076E23_mol⁻¹",     //*Avogadro's number
-    "k",        "1.380649E-23_J/K",        //*Boltzmann
-    "Vm",       "'CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'",//*Molar volume
-    "R",        "'CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'",    //*Universal gas constant
-    "StdT",     "273.15_K",             //*Standard temperature
-    "StdP",     "101.325_kPa",          //*Standard temperature
-    "σ",        "'CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'", //*Stefan-Boltzmann
+    "NA",       "6.02214076E23_mol⁻¹",     //*Avogadro's number-def.
+    "UrNA",     "0"
+    "UsNA",     "0"
+    "k",        "1.380649E-23_J/K",        //*Boltzmann-def.
+    "Urk",      "0"
+    "Usk",      "0"
+    "Vm",       "'CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'",//*Molar volume-calc.
+    "UrVm",     "0"
+    "UsVm",     "0"
+    "R",        "'CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'",    //*Universal gas constant-calc.
+    "UrR",      "0"
+    "UsR",      "0"
+    "StdT",     "273.15_K",             //*Standard temperature-def.
+    "UrStdT",   "0"
+    "UsStdT",   "0"
+    "StdP",     "101.325_kPa",          //*Standard pressure-def.
+    "UrStdP",   "0"
+    "UsStdP",   "0"
+    "σ",        "'CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'", //*Stefan-Boltzmann-calc.
+    "Urσ",      "0"
+    "Usσ",      "0"
 
     // ------------------------------------------------------------------------
-    //   Physics
+    //   Physics Constants Values & Uncertainties
     // ------------------------------------------------------------------------
 
     "Physics",     nullptr,
 
     "ⅉ",         "0+ⅈ1",                 // Imaginary unit in physics
-    "c",        "299792458_m/s",        //*Speed of light
-    "ε0",       "'CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m)'",//*Vaccuum permittivity
-    "μ0",       "'CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)'", //*Vaccuum permeability
-    "g",        "9.80665_m/s²",            //*Acceleration of Earth gravity
-    "G",        "6.67430E-11_m^3/(s^2*kg)",//*Gravitation constant
-    "h",        "6.62607015E-34_J*s",      //*Planck
-    "ℏ",        "'CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)'",   //*Dirac
-    "qe",       "1.602176634E-19_C",       //*Electronic charge
-    "me",       "9.1093837139E-31_kg",     //*Electron mass
-    "mn",       "1.67492750056E-27_kg",    //*Neutron mass
-    "mp",       "1.67262192595E-27_kg",    //*Proton mass
-    "mH",       "1.00782503223_u",         //*Hydrogen mass
-    "u",        "1.66053906892E-27_kg",    //*Mass unit
-    "Da",       "1.66053906892E-27_kg",    //*Mass unit (Dalton)
-    "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg)'",  //*q/me ratio
-    "mpme",     "'Ⓒmp/Ⓒme'",             //*mp/me ratio
-    "α",        "0.0072973525643",        //*fine structure
-    "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      //*Magnetic flux quantum
-    "F",        "'CONVERT(ⒸNA*Ⓒqe;1_C/mol)'",      //*Faraday
-    "R∞",       "10973731.568157_m⁻¹",    //*Rydberg
-    "a0",       "'CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)'",    //*Bohr radius
-    "μB",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)'",  //*Bohr magneton
-    "μN",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)'",  //*Nuclear magneton
+    "c",        "299792458_m/s",        //*Speed of light-def.
+    "Urc",      "0"
+    "Usc",      "0"
+    "ε0",       "'CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m)'",//*Vaccuum permittivity-calc.
+    "Urε0",     "??"
+    "Usε0",     "??"
+    "μ0",       "'CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)'", //*Vaccuum permeability-calc.
+    "Urμ0",     "??"
+    "Usμ0",     "??"
+    "g",        "9.80665_m/s²",            //*Acceleration of Earth gravity-def.
+    "Urg",      "0"
+    "Usg",      "0"
+    "G",        "6.67430E-11_m^3/(s^2*kg)",//*Gravitation constant-measure
+    "UrG",      "2.2E-5"
+    "UsG",      "0.00015E-11_m^3/(s^2*kg)"
+    "h",        "6.62607015E-34_J*s",      //*Planck-def.
+    "Urh",      "0"
+    "Ush",      "0"
+    "ℏ",        "'CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)'",   //*Dirac-def.
+    "Urℏ",      "0"
+    "Usℏ",      "0"
+    "qe",       "1.602176634E-19_C",       //*Electronic charge-def.
+    "Urqe",     "0"
+    "Usqe",     "0"
+    "me",       "9.1093837139E-31_kg",     //*Electron mass-measure
+    "Urme",     "3.1E-10"
+    "Usme",     "0.0000000028E-31_kg"
+    "mn",       "1.67492750056E-27_kg",    //*Neutron mass-measure
+    "Urmn",     "5.1E-10"
+    "Usmn",     "0.00000000085E-27_kg"
+    "mp",       "1.67262192595E-27_kg",    //*Proton mass-measure
+    "Urmp",     "3.1E-10"
+    "Usmp",     "0.00000000052E-27_kg"
+    "mH",       "1.00782503223_u",         //*Hydrogen mass-measure
+    "UrmH",     "'UBASE(UsmH/mH)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *"
+    "UsmH",     "0.00000000009_u"
+//mH=1.00782503223_u UsmH=0.00000000009_u 
+//'UBASE(UsmH/mH)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *
+//UrmH=8.9E-11
+    "u",        "1.66053906892E-27_kg",    //*Mass unit-measure
+    "Uru",      "'UBASE(Usu/u)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *"
+    "Usu",      "0.00000000052E-27_kg"
+//u=1.66053906892E-27_kg Usu=0.00000000052E-27_kg 
+//'UBASE(Usu/u)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *
+//Uru=3.1E-10
+    "Da",       "1.66053906892E-27_kg",    //*Mass unit (Dalton)-measure
+    "UrDa",     "'UBASE(UDa/Da)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *"
+    "UsDa",     "0.00000000052E-27_kg"
+/Da=1.66053906892E-27_kg UsDa=0.00000000052E-27_kg 
+//'UBASE(UDa/Da)' →NUM DUP LOG10 FLOOR DUP 0 SWAP - EXP10 ROT * 1 ROUND SWAP EXP10 *
+//UrDa=3.1E-10
+    "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg)'",  //*q/me ratio-calc.
+    "Urqme",    "??"
+    "Usqme",    "??"
+    "mpme",     "'Ⓒmp/Ⓒme'",             //*mp/me ratio-calc.
+    "Urmpme",   "??"
+    "Usmpme",   "??"
+    "α",        "0.0072973525643",        //*fine structure-measure
+    "Urα",      "1.6E-10"
+    "Usα",      "0.0000000000011"
+    "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      //*Magnetic flux quantum-calc.
+    "Urø",      "0"
+    "Usø",      "0"
+    "F",        "'CONVERT(ⒸNA*Ⓒqe;1_C/mol)'",      //*Faraday-calc.
+    "UrF",      "0"
+    "UsF",      "0"
+    "R∞",       "10973731.568157_m⁻¹",    //*Rydberg-measure
+    "UrR∞",     "1.1E-12"
+    "UsR∞",     "0.000012_m⁻¹"
+    "a0",       "'CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)'",    //*Bohr radius-calc.
+    "μB",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)'",  //*Bohr magneton-calc.
+    "μN",       "'CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)'",  //*Nuclear magneton-calc.
     "λ0",       "'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'",  //*Photon wavelength
     "f0",       "'CONVERT(Ⓒc/Ⓒλ0;1_Hz)'",            //*Photon frequency
     "λc",       "'CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm)'",      //*Electron Compton wavelength

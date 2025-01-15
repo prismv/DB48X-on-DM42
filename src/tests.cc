@@ -1935,6 +1935,8 @@ void tests::global_variables()
         .test("A", ENTER).expect("57")
         .test(BSP).expect("A='42+3·5'")
         .test(RUNSTOP).expect("A='42+3·5'");
+    step("Assignment with error in evaluation")
+        .test(CLEAR, "A='(42+3*5)/0'", ENTER).error("Divide by zero");
     step("Assignment with evaluated value and PushEvaluatedAssignment")
         .test(CLEAR, "PushEvaluatedAssignment", ENTER)
         .test("A='42+3*5'", ENTER).expect("A=57")

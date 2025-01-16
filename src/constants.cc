@@ -358,8 +358,8 @@ static const cstring basic_constants[] =
   // α=0.00729735256434 Urα=1.6E-10 μ0=1.25663706127E-6 H/m => ε0=8.85418 78188E-12 F/m <=>
   //'→NUM(ROUND(CONVERT(1/(μ0*Ⓒc^2);1_F/m);FLOOR(LOG10(UVAL(Urα*CONVERT(1/(μ0*Ⓒc^2);1_F/m))))-FLOOR(LOG10(UVAL(CONVERT(1/(μ0*Ⓒc^2);1_F/m))))-2))'
 //*Vaccuum permeability - Calculation
-    "μ0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(ⒸUrα*CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'",
-    "Usμ0",     "'→NUM(ROUND(UBASE(ⒸUrμ0*Ⓒμ0);-2))'",//=>Usμ0='→NUM(CONVERT(ROUND(UBASE(Urα*μ0);-2);1_H/m))'=2.0E-16 H/m
+    "μ0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(ⒸUrμ0*CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'",
+    "Usμ0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrμ0*Ⓒμ0);-2);1_H/M))'",//=>Usμ0='→NUM(CONVERT(ROUND(UBASE(Urα*μ0);-2);1_H/m))'=2.0E-16 H/m
     "Urμ0",     "'ⒸUrα'",
   // α=0.00729735256434 Urα=1.6E-10 => μ0=1.25663706127E-6 H/m <=>
   //'→NUM(ROUND(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(Urα*CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'
@@ -388,7 +388,7 @@ static const cstring basic_constants[] =
     "me",       "9.1093837139E-31_kg",     
     "Usme",     "0.0000000028E-31_kg",
     "Urme",     "'→NUM(ROUND(UBASE(ⒸUsme/Ⓒme);-2))'",
-  // me=9.1093837139E-31_kg Usme=0.0000000028E-31_kg '→NUM(ROUND(UBASE(Usme/me);-2))' => Urme=3.1E-10
+  // Usme=0.0000000028E-31_kg '→NUM(ROUND(UBASE(Usme/Ⓒme);-2))' => Urme=3.1E-10
 //*Neutron mass - Measurement
     "mn",       "1.67492750056E-27_kg",    
     "Usmn",     "0.00000000085E-27_kg",
@@ -415,13 +415,24 @@ static const cstring basic_constants[] =
     "UrDa",     "'→NUM(ROUND(UBASE(ⒸUsDa/ⒸDa);-2))'",
   // Da=1.66053906892E-27_kg UsDa=0.00000000052E-27_kg '→NUM(ROUND(UBASE(UsDa/Da);-2))' => UrDa=3.1E-10
 //*q/me ratio - Calculation
-    "qme",      "'CONVERT(Ⓒqe/Ⓒme;1_C/kg)'",  
-    "Usqme",    "??",
+    "qme",      "'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);FLOOR(LOG10(UVAL(ⒸUrqme*CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-2))'",  
+    "Usqme",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrqme*Ⓒqme);-2);1_C/kg))'",//=>Usqme='→NUM(CONVERT(ROUND(UBASE(Urme*Ⓒqme);-2);1_C/kg))'=55. C/kg
     "Urqme",    "'ⒸUrme'",
+  // Urme=3.1E-10 me=9.1093837139E-31_kg => qme=1.75882 00083 8E11 C/kg <=>
+  //'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);FLOOR(LOG10(UVAL(Urme*CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-2))'
 //*mp/me ratio - Calculation
-    "mpme",     "'Ⓒmp/Ⓒme'",             
-    "Usmpme",   "??",
+    "mpme",     "'→NUM(ROUND(UBASE(Ⓒmp/Ⓒme);FLOOR(LOG10(→NUM(ⒸUrmpme*UBASE(Ⓒmp/Ⓒme))))-FLOOR(LOG10(→NUM(UBASE(Ⓒmp/Ⓒme))))-2))'",             
+    "Usmpme",   "'→NUM(ROUND(UBASE(ⒸUrmpme*Ⓒmpme);-2))'",//'→NUM(ROUND(UBASE(Urmpme*Ⓒmpme);-2))'=
     "Urmpme",   "'ⒸUrme+ⒸUrmp'",                                  // => Urmpme=6.2E-10
+  // Urmpme=6.2E-10 => mpme=  <=> 1836.1526734
+  //'→NUM(ROUND(UBASE(Ⓒmp/Ⓒme);FLOOR(LOG10(→NUM(Urmpme*UBASE(Ⓒmp/Ⓒme))))-FLOOR(LOG10(→NUM(UBASE(Ⓒmp/Ⓒme))))-2))' 
+******
+    "μ0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(ⒸUrμ0*CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'",
+    "Usμ0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrμ0*Ⓒμ0);-2);1_H/M))'",//=>Usμ0='→NUM(CONVERT(ROUND(UBASE(Urα*μ0);-2);1_H/m))'=2.0E-16 H/m
+    "Urμ0",     "'ⒸUrα'",
+  // α=0.00729735256434 Urα=1.6E-10 => μ0=1.25663706127E-6 H/m <=> 'CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)'
+  //'→NUM(ROUND(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(Urμ0*CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'
+******
 //*fine structure - Measurement
     "α",        "0.00729735256434",        
     "Usα",      "0.00000000000114",

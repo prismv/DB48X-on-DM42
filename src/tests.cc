@@ -9570,7 +9570,7 @@ void tests::constants_menu()
     step("Rydberg constant")
         .test(NOSHIFT, F6)
         .test(CLEAR, NOSHIFT, F1).expect("R∞")
-        .test(LSHIFT, F1).expect("10 973 731.568 m⁻¹");
+        .test(LSHIFT, F1).expect("10 973 731.5682 m⁻¹");
     step("Bohr radius")
         .test(CLEAR, NOSHIFT, F2).expect("a0")
         .test(LSHIFT, F2).expect("0.05291 77210 55 nm");

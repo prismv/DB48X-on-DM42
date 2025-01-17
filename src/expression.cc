@@ -2551,6 +2551,12 @@ list_p expression::current_equation(bool all, bool error)
                 obj = list_p(obj)->at(0);
             break;
         case ID_expression:
+            if (equation_p eq = obj->as_quoted<equation>())
+            {
+                obj = eq;
+                break;
+            }
+
         case ID_polynomial:
             more = false;
             break;

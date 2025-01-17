@@ -6493,7 +6493,7 @@ L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_f
 ```rpl
 L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf
  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ θ=-8.76317 82526 7⁳⁻² ° ]
+@ Expecting [ θ=-0.08763 17825 27 ° ]
 'ROOT(ⒺSimple Slope;[θ];[0_°])'
 ```
 
@@ -6708,7 +6708,7 @@ end
 Verify relative difference under condition `5_cm << 3_m` with the example of [E Field Infinite Line](#E Field Infinite Line)
 ```rpl
 Er0 Er %Ch
-@ Expecting [ -5.55093 02084 6⁳⁻² ]
+@ Expecting -5.55093 02084 6⁳⁻²
 @ % of relative difference
 ```
 
@@ -6914,10 +6914,8 @@ L=500_mH  C=8_μF  R=10_Ω
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
-@ Failing [ d=8.00418 57882 3⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=3. V ]
-@ C#1 NOT OK. MSOLVER: "NO solution?", the same when SOLVE seperately for d (giving d=1_cm as a trial value), then giving the right affectation
-@ for d (d=8.00418 57882 3⁳⁻⁹ cm), SOLVE works fine to compute the expected values of the remaining Ein, ΔV & σ
-'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
+@ Expecting [ d=80.04185 77261 pm σ=750 000. μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=2.99999 99941 4 V ]
+'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_pm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
 ### Cylindrical Capacitor

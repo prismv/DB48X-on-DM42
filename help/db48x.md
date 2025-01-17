@@ -6928,7 +6928,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[L_mH]` (Inductance) from 4 known variables:
 ```rpl
 μr=2.5  n=40_1/cm  A=0.2_cm^2  h=3_cm
-@ Expecting [ L=3.01592 89470 3⁳⁻² mH ]
+@ Expecting [ L=0.03015 92894 7 mH ]
 'ROOT(ⒺSolenoid Inductance;[L];[1_mH])'
 ```
 
@@ -6957,7 +6957,7 @@ Vmax=110_V  t=30_μs  f=60_Hz  φ=15_°
 * To calculate `[I_A;f_Hz]` (Current; Frequency) from 4 known variables:
 ```rpl
 t=3.2_s  Imax=10_A  ω=636_r/s  φ=30_°
-@ Expecting [ f=101.22254 3806 Hz I=-2.84369 16568⁳⁻¹ A ]
+@ Expecting [ f=101.22254 3806 Hz I=-0.28436 91656 8 A ]
 'ROOT(ⒺSinusoidal Current;[f;I];[1_Hz;1_A])'
 ```
 

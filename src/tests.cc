@@ -12126,7 +12126,7 @@ tests &tests::refreshed(uint extrawait)
         screen_refreshed(extrawait);
 
         uint available = Stack.available();
-        record(errors, "Stack available = %u", available);
+        record(tests, "Stack available = %u", available);
         if (!available)
         {
             sys_delay(refresh_delay_time);

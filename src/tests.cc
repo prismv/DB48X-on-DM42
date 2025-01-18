@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            user_input_commands();
+            units_and_conversions();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -949,12 +949,12 @@ void tests::data_types()
     step("Parsing text in an algebraic expression")
         .test(CLEAR, "'SIZE(\"Hello\")'", ENTER)
         .expect("'Size \"Hello\"'")
-        .test(ID_Eval)
+        .test(ID_Run)
         .expect("5");
     step("Parsing arrays in an algebraic expression")
         .test(CLEAR, "'SIZE([1;2;3;4])'", ENTER)
         .expect("'Size [1;2;3;4]'")
-        .test(ID_Eval)
+        .test(ID_Run)
         .expect("{ 4 }");
 
     step("Fractions");
@@ -5252,12 +5252,12 @@ void tests::units_and_conversions()
     step("Ubase in arithmetic expression (#1321)")
         .test(CLEAR, "'UBASE(100_km)'", ENTER)
         .expect("'BaseUnits 100 km'")
-        .test(ID_Eval)
+        .test(ID_Run)
         .expect("100 000 m");
     step("Ubase on numerical values (#1322)")
         .test(CLEAR, "'ubase(1)'", ENTER)
         .expect("'BaseUnits 1'")
-        .test(ID_Eval)
+        .test(ID_Run)
         .expect ("1")
         .test(CLEAR, "1 ubase", ENTER)
         .expect("1");
@@ -5275,6 +5275,21 @@ void tests::units_and_conversions()
              "α=0.00729 73525 64")
         .test(CLEAR, "Usμ0", ENTER)
         .expect("2.⁳⁻¹⁶ H/m");
+
+    step("Convert arguments to add")
+        .test(CLEAR,
+              DIRECT("'1_m/s+(1_A)÷((8.5⁳28_(m↑3)⁻¹)·Ⓒqe·Ⓒπ·(0.01_cm↑2))'"),
+              ENTER)
+        .expect("'1 m/s+1 A÷(8.5⁳²⁸ (m↑3)⁻¹·qe·π·0.01 cm↑2)'")
+        .test(ID_Run)
+        .expect("0.00010 00023 37 A·m↑3/(C·cm↑2)");
+    step("Convert arguments to sub")
+        .test(CLEAR,
+              DIRECT("'1_m/s-(1_A)÷((8.5⁳28_(m↑3)⁻¹)·Ⓒqe·Ⓒπ·(0.01_cm↑2))'"),
+              ENTER)
+        .expect("'1 m/s-1 A÷(8.5⁳²⁸ (m↑3)⁻¹·qe·π·0.01 cm↑2)'")
+        .test(ID_Run)
+        .expect("0.00009 99976 63 A·m↑3/(C·cm↑2)");
 }
 
 

@@ -191,7 +191,7 @@ algebraic_p arithmetic::non_numeric<add>(algebraic_r x, algebraic_r y)
                 return daf;
         }
 
-        if (unit_g yu = unit::get(y))
+        if (unit_g yu = unit::get_after_evaluation(y))
         {
             if (yu->convert(xu))
             {
@@ -206,14 +206,14 @@ algebraic_p arithmetic::non_numeric<add>(algebraic_r x, algebraic_r y)
         rt.inconsistent_units_error();
         return nullptr;
     }
-    else if (y->type() == ID_unit)
+    else if (unit_g yu = unit::get(y))
     {
         if (!unit::nodates)
-            if (algebraic_p daf = days_after(y, x, false))
+            if (algebraic_p daf = days_after(yu, x, false))
                 return daf;
 
         save<bool> sumode(unit::mode, true);
-        algebraic_g ubased = y->evaluate();
+        algebraic_g ubased = yu->evaluate();
         if (!ubased || ubased->type() == ID_unit)
         {
             rt.inconsistent_units_error();
@@ -343,7 +343,7 @@ algebraic_p arithmetic::non_numeric<sub>(algebraic_r x, algebraic_r y)
         if (!unit::nodates)
             if (algebraic_p dbef = days_before(x, y, false))
                 return dbef;
-        if (unit_g yu = unit::get(y))
+        if (unit_g yu = unit::get_after_evaluation(y))
         {
             if (!unit::nodates)
                 if (algebraic_p ddays = days_between_dates(x, y, false))
@@ -361,10 +361,10 @@ algebraic_p arithmetic::non_numeric<sub>(algebraic_r x, algebraic_r y)
         rt.inconsistent_units_error();
         return nullptr;
     }
-    else if (y->type() == ID_unit)
+    else if (unit_g yu = unit::get(y))
     {
         save<bool> sumode(unit::mode, true);
-        algebraic_g ubased = y->evaluate();
+        algebraic_g ubased = yu->evaluate();
         if (!ubased || ubased->type() == ID_unit)
         {
             rt.inconsistent_units_error();

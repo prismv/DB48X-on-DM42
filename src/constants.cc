@@ -380,17 +380,17 @@ static const cstring basic_constants[] =
     "Usc",      "0_m/s",
     "Urc",      "0",
 //*Vaccuum permittivity - Calculation from measurement
-    "ε0",       "'→NUM(ROUND(CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m);FLOOR(LOG10(UVAL(Urα*CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m))))-FLOOR(LOG10(UVAL(CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m))))-2))'",
+    "ε0",       "'→NUM(ROUND(CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m);XPON(UVAL(ⒸUrε0*CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m)))-XPON(UVAL(CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m)))-2))'",
     "Usε0",     "'→NUM(ROUND(UBASE(ⒸUrε0*Ⓒε0);-2))'",//=>Usε0='→NUM(CONVERT(ROUND(UBASE(Urα*ε0);-2);1_F/m))'=1.4E-21 F/m
     "Urε0",     "'ⒸUrα'",
-  // α=0.00729735256434 Urα=1.6E-10 μ0=1.25663706127E-6 H/m => ε0=8.85418 78188E-12_F/m <=>
-  //'→NUM(ROUND(CONVERT(1/(μ0*Ⓒc^2);1_F/m);FLOOR(LOG10(UVAL(Urα*CONVERT(1/(μ0*Ⓒc^2);1_F/m))))-FLOOR(LOG10(UVAL(CONVERT(1/(μ0*Ⓒc^2);1_F/m))))-2))'
+  // α=0.00729735256434 Urε0=1.6E-10 μ0=1.25663706127E-6 H/m => ε0=8.8541878188E-12_F/m <=>
+  //'→NUM(ROUND(CONVERT(1/(μ0*Ⓒc^2);1_F/m);XPON(UVAL(Urε0*CONVERT(1/(μ0*Ⓒc^2);1_F/m)))-XPON(UVAL(CONVERT(1/(μ0*Ⓒc^2);1_F/m)))-2))'
 //*Vaccuum permeability - Calculation from measurement
-    "μ0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(ⒸUrμ0*CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'",
+    "μ0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);XPON(UVAL(ⒸUrμ0*CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)))-XPON(UVAL(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)))-2))'",
     "Usμ0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrμ0*Ⓒμ0);-2);1_H/M))'",//=>Usμ0='→NUM(CONVERT(ROUND(UBASE(Urα*μ0);-2);1_H/m))'=2.0E-16 H/m
     "Urμ0",     "'ⒸUrα'",
   // α=0.00729735256434 Urα=1.6E-10 Urμ0=1.6E-10 => μ0=1.25663706127E-6 H/m <=>
-  //'→NUM(ROUND(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);FLOOR(LOG10(UVAL(Urα*CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m))))-2))'
+  //'→NUM(ROUND(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m);XPON(UVAL(Urμ0*CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)))-XPON(UVAL(CONVERT(4*Ⓒπ*α*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)))-2))'
 //*Acceleration of Earth gravity - Definition convention
     "g",        "9.80665_m/s²",            
     "Usg",      "0_m/s²",
@@ -415,7 +415,7 @@ static const cstring basic_constants[] =
 //*Electron mass - Calculation from measurement
     "me",       "'→NUM(ROUND(CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg);XPON(UVAL(ⒸUrme*CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg)))-XPON(UVAL(CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg)))-2))'",     
     "Usme",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrme*Ⓒme);-2);1_kg))'",//=>Usme='→NUM(CONVERT(ROUND(UBASE(Urme*me);-2);1_kg))'=2.8E-40 kg
-    "Urme",      "3.1E-10",  //Urme≈'2*Urα+UrR∞' measured value
+    "Urme",     "3.1E-10",  //Urme≈'2*Urα+UrR∞' measured value
   // Urme=3.1E-10 R∞=10973731.568157_m⁻¹ α=0.00729735256434 => me=9.1093837139E-31 kg <=>
   //'→NUM(ROUND(CONVERT(2*Ⓒh*R∞/((α^2)*Ⓒc);1_kg);XPON(UVAL(Urme*CONVERT(2*Ⓒh*R∞/((α^2)*Ⓒc);1_kg)))-XPON(UVAL(CONVERT(2*Ⓒh*R∞/((α^2)*Ⓒc);1_kg)))-2))'
 //*Neutron mass - Measurement
@@ -444,11 +444,11 @@ static const cstring basic_constants[] =
     "UsDa",     "'Usu'",
     "UrDa",     "'Uru'",
 //*q/me ratio - Calculation from measurement
-    "qme",      "'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);FLOOR(LOG10(UVAL(ⒸUrqme*CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-2))'",  
+    "qme",      "'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);XPON(UVAL(ⒸUrqme*CONVERT(Ⓒqe/Ⓒme;1_C/kg)))-XPON(UVAL(CONVERT(Ⓒqe/Ⓒme;1_C/kg)))-2))'",  
     "Usqme",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrqme*Ⓒqme);-2);1_C/kg))'",//=>Usqme='→NUM(CONVERT(ROUND(UBASE(Urme*Ⓒqme);-2);1_C/kg))'=55. C/kg
     "Urqme",    "'ⒸUrme'",
-  // Urme=3.1E-10 me=9.1093837139E-31_kg => qme=1.75882 00083 8E11 C/kg <=>
-  //'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);FLOOR(LOG10(UVAL(Urme*CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe/Ⓒme;1_C/kg))))-2))'
+  // Urme=3.1E-10 me=9.1093837139E-31_kg => qme=1.75882000838E11_C/kg <=>
+  //'→NUM(ROUND(CONVERT(Ⓒqe/me;1_C/kg);XPON(UVAL(Urme*CONVERT(Ⓒqe/me;1_C/kg)))-XPON(UVAL(CONVERT(Ⓒqe/me;1_C/kg)))-2))'
 //*mp/me ratio - Measurement
     "mpme",     "1836.152673426",             
     "Usmpme",   "0.000000032",
@@ -473,23 +473,23 @@ static const cstring basic_constants[] =
     "UrR∞",     "'→NUM(ROUND(UBASE(ⒸUsR∞/ⒸR∞);-2))'",
   // R∞=10973731.568157_m⁻¹ UsR∞=0.000012_m⁻¹ '→NUM(ROUND(UBASE(UsR∞/R∞);-2))' => UrR∞=1.1E-12
 //*Bohr radius - Calculation from measurement
-    "a0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);FLOOR(LOG10(UVAL(ⒸUra0*CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm))))-2))'",    
+    "a0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);XPON(UVAL(ⒸUra0*CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)))-XPON(UVAL(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)))-2))'",    
     "Usa0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUsα/Ⓒα*Ⓒa0);-2);1_nm))",//=>Usa0='→NUM(CONVERT(ROUND(UBASE((Usα/α)*a0);-2);1_nm))'=8.3E-12 nm
     "Ura0",     "'ⒸUrα'",                                    // Ura0=1.6E-10  
   // ε0=8.85418 78188E-12_F/m Ura0=1.6E-10 α=0.00729735256434 Usα=0.00000000000114 => a0=0.0529177210544 nm <=>
-  //'→NUM(ROUND(CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);FLOOR(LOG10(UVAL(Ura0*CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm))))-2))'
+  //'→NUM(ROUND(CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);XPON(UVAL(Ura0*CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)))-XPON(UVAL(CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)))-2))'
 //*Bohr magneton - Calculation from measurement
-    "μB",       "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);FLOOR(LOG10(UVAL(ⒸUrμB*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T))))-2))'",  
+    "μB",       "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);XPON(UVAL(ⒸUrμB*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)))-XPON(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)))-2))'",  
     "UsμB",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrμB*ⒸμB);-2);1_J/T))'",//=>UsμB='→NUM(CONVERT(ROUND(UBASE(UrμB*μB);-2);1_J/T))'=2.9E-33 J/T
     "UrμB",     "'ⒸUrme'",                                    // UrμB=3.1E-10
   // UrμB=3.1E-10 => μB=9.27401 00657E-24 J/T 
-  //'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);FLOOR(LOG10(UVAL(UrμB*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T))))-2))'
+  //'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);XPON(UVAL(UrμB*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)))-XPON(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)))-2))'
 //*Nuclear magneton - Calculation from measurement
-    "μN",       "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);FLOOR(LOG10(UVAL(ⒸUrμN*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T))))-2))'",  
+    "μN",       "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);XPON(UVAL(ⒸUrμN*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)))-XPON(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)))-2))'",  
     "UsμN",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrμN*ⒸμN);-2);1_J/T))'",//=>UsμN='→NUM(CONVERT(ROUND(UBASE(UrμN*μN);-2);1_J/T))'=1.6E-36 J/T
     "UrμN",     "'ⒸUrmp'",                                    // UrμN=3.1E-10
   // UrμN=3.1E-10 => μN=5.05078 37393E-27 J/T <=>
-  //'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);FLOOR(LOG10(UVAL(UrμN*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T))))-2))'
+  //'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);XPON(UVAL(UrμN*CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)))-XPON(UVAL(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)))-2))'
 //*Photon wavelength - Exact calculation
     "λ0",       "'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'",  
     "Usλ0",     "0_nm",
@@ -499,23 +499,23 @@ static const cstring basic_constants[] =
     "Usf0",     "0_Hz",
     "Urf0",     "0",
 //*Electron Compton wavelength - Calculation from measurement
-    "λc",       "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);FLOOR(LOG10(UVAL(ⒸUrλc*CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm))))-2))'",      
+    "λc",       "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);XPON(UVAL(ⒸUrλc*CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm)))-2))'",      
     "Usλc",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrλc*Ⓒλc);-2);1_nm))'",//=>Usλc='→NUM(CONVERT(ROUND(UBASE(Urλc*λc);-2);1_nm))'=7.5E-13 nm
     "Urλc",     "'ⒸUrme'",                                   // Urλc=3.1E-10
-  // Urλc=3.1E-10 => λc=0.00242 63102 3538 nm <=>
-  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);FLOOR(LOG10(UVAL(Urλc*CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm))))-2))'
+  // Urλc=3.1E-10 => λc=0.00242631023538 nm <=>
+  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);XPON(UVAL(Urλc*CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm)))-2))'
 //*Proton Compton wavelength - Calculation from measurement
-    "λcp",      "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);FLOOR(LOG10(UVAL(ⒸUrλcp*CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm))))-2))'",      
+    "λcp",      "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);XPON(UVAL(ⒸUrλcp*CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)))-2))'",      
     "Usλcp",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrλcp*Ⓒλcp);-2);1_nm))'",//=>Usλcp='→NUM(CONVERT(ROUND(UBASE(Urλcp*λcp);-2);1_nm))'=4.1E-16 nm
     "Urλcp",    "'ⒸUrmp'",                                   // Urλcp=3.1E-10
   // Urλcp=3.1E-10 => λcp=0.00000132140985360 nm <=>
-  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);FLOOR(LOG10(UVAL(Urλcp*CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm))))-2))'
+  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);XPON(UVAL(Urλcp*CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)))-2))'
 //*Neutron Compton wavelength - Calculation from measurement
-    "λcn",      "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);FLOOR(LOG10(UVAL(ⒸUrλcn*CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm))))-2))'",      
+    "λcn",      "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);XPON(UVAL(ⒸUrλcn*CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)))-2))'",      
     "Usλcn",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrλcn*Ⓒλcn);-2);1_nm))'",//=>Usλcn='→NUM(CONVERT(ROUND(UBASE(Urλcn*λcn);-2);1_nm))'=6.7E-16 nm
     "Urλcn",    "'ⒸUrmn'",                                   // Urλcn=5.1E-10
   // Urλcn=5.1E-10 => λcn=1.31959090382E-6 nm <=>
-  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);FLOOR(LOG10(UVAL(Urλcn*CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm))))-2))'
+  //'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);XPON(UVAL(Urλcn*CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)))-2))'
 //*Muon Compton wavelength - Calculation from measurement
     "λcμ",      "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm);XPON(UVAL(ⒸUrλcμ*CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm)))-2))'",      
     "Usλcμ",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrλcμ*Ⓒλcμ);-2);1_nm))'",//=>Usλcμ='→NUM(CONVERT(ROUND(UBASE(Urλcμ*λcμ);-2);1_nm))'=2.6E-13 nm
@@ -528,6 +528,16 @@ static const cstring basic_constants[] =
     "Urλcτ",    "'ⒸUrmτ'",                                   // Urλcτ=6.8E-5
   // mτ=1.90754_u Usmτ=0.00013_u Urλcτ=6.8E-5 => λcτ=6.97770E-7 nm <=>
   //'→NUM(ROUND(CONVERT(Ⓒh/(mτ*Ⓒc);1_nm);XPON(UVAL(Urλcτ*CONVERT(Ⓒh/(mτ*Ⓒc);1_nm)))-XPON(UVAL(CONVERT(Ⓒh/(mτ*Ⓒc);1_nm)))-2))'
+//*First radiation constant - Exact calculation
+    "c1",       "'CONVERT(2*Ⓒπ*Ⓒh*Ⓒc^2;1_(W*m^2))'",   
+    "Usc1",     "0_(W*m^2)",
+    "Urc1",     "0",
+  // c1=3.7417718521928E-16 W·m↑2
+//*Second radiation constant - Exact calculation
+    "c2",       "'CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'",   
+    "Usc2",     "0_(m*K)",
+    "Urc2",     "0",
+  // c2=1.4387768775039E-2 m·K
 //*Wien's constant - Theory approximation
     "c3",       "2.897771955185172661_mm*K",       
     "Usc3",     "0_mm*K",
@@ -536,24 +546,25 @@ static const cstring basic_constants[] =
     "kq",       "'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'",   
     "Uskq",     "0_J/(K*C)",
     "Urkq",     "0",
+  // kq=8.6173332621452E-5 J/(K·C)
 //* ε0/q - Calculation from measurement
-    "ε0q",      "'→NUM(ROUND(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C));FLOOR(LOG10(UVAL(ⒸUrε0q*CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C)))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C)))))-2))'",  
+    "ε0q",      "'→NUM(ROUND(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C));XPON(UVAL(ⒸUrε0q*CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C))))-XPON(UVAL(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C))))-2))'",  
     "Usε0q",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrε0q*Ⓒε0q);-2);1_F/(m*C)))'",//=>Usε0q='→NUM(CONVERT(ROUND(UBASE(Urε0q*ε0q);-2);1_F/(m*C)))'=0.0088 F/(m·C)
     "Urε0q",    "'Urε0'",                                    // Urε0q=1.6E-10
   // Urε0q=1.6E-10 ε0=8.8541878188E-12_F/m => ε0q=55263493.6180 F/(m·C)  <=>
-  //'→NUM(ROUND(CONVERT(ε0/Ⓒqe;1_F/(m*C));FLOOR(LOG10(UVAL(Urε0q*CONVERT(ε0/Ⓒqe;1_F/(m*C)))))-FLOOR(LOG10(UVAL(CONVERT(ε0/Ⓒqe;1_F/(m*C)))))-2))'
+  //'→NUM(ROUND(CONVERT(ε0/Ⓒqe;1_F/(m*C));XPON(UVAL(Urε0q*CONVERT(ε0/Ⓒqe;1_F/(m*C))))-XPON(UVAL(CONVERT(ε0/Ⓒqe;1_F/(m*C))))-2))'
 //* q*ε0 - Calculation from measurement
-    "qε0",      "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m);FLOOR(LOG10(UVAL(ⒸUrqε0*CONVERT(Ⓒqe*Ⓒε0;1_F*C/m))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m))))-2))'",    
+    "qε0",      "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m);XPON(UVAL(ⒸUrqε0*CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)))-XPON(UVAL(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)))-2))'",    
     "Usqε0",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrqε0*Ⓒqε0);-2);1_F*C/m))'",//=>Usqε0='→NUM(CONVERT(ROUND(UBASE(Urqε0*qε0);-2);1_F*C/m))'=2.3E-40 F·C/m
     "Urqε0",    "'Urε0'",                                    // Urqε0=1.6e-10
   // Urqε0=1.6e-10 ε0=8.8541878188E-12_F/m => qε0=1.41859728363E-30 F·C/m  <=> 
-  //'→NUM(ROUND(CONVERT(Ⓒqe*ε0;1_F*C/m);FLOOR(LOG10(UVAL(Urqε0*CONVERT(Ⓒqe*ε0;1_F*C/m))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒqe*ε0;1_F*C/m))))-2))'
+  //'→NUM(ROUND(CONVERT(Ⓒqe*ε0;1_F*C/m);XPON(UVAL(Urqε0*CONVERT(Ⓒqe*ε0;1_F*C/m)))-XPON(UVAL(CONVERT(Ⓒqe*ε0;1_F*C/m)))-2))'
 //*Coulomb constant - Calculation from measurement
-    "ke",     "'→NUM(ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2));FLOOR(LOG10(UVAL(ⒸUrke*CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2)))))-FLOOR(LOG10(UVAL(CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2)))))-2))'",   
+    "ke",     "'→NUM(ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2));XPON(UVAL(ⒸUrke*CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2))))-XPON(UVAL(CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2))))-2))'",   
     "Uske",   "'→NUM(CONVERT(ROUND(UBASE(ⒸUrke*Ⓒke);-2);1_(N*(m/C)^2)))'",//=>Uske='→NUM(CONVERT(ROUND(UBASE(Urke*ke);-2);1_(N*(m/C)^2)))'=1.4 N·m↑2/C↑2
     "Urke",   "'Urε0'",                                    // Urke=1.6e-10
   // Urke=1.6e-10 ε0=8.8541878188E-12_F/m => ke=8987551786.2 N·m↑2/C↑2 <=>
-  //'→NUM(ROUND(CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2));FLOOR(LOG10(UVAL(Urke*CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2)))))-FLOOR(LOG10(UVAL(CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2)))))-2))'
+  //'→NUM(ROUND(CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2));XPON(UVAL(Urke*CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2))))-XPON(UVAL(CONVERT(1/(4*Ⓒπ*ε0);1_(N*(m/C)^2))))-2))'
 // Dielectric constant - Definition convention
     "εsi",      "11.9",                 
     "Usεsi",    "0",
@@ -567,11 +578,11 @@ static const cstring basic_constants[] =
     "UsI0",     "0_W/m^2",
     "UrI0",     "0",
 //*Vacuum characteristic impedance - Calculation from measurement
-    "Z0",       "'→NUM(ROUND(CONVERT(Ⓒμ0*Ⓒc;1_Ω);FLOOR(LOG10(UVAL(ⒸUrZ0*CONVERT(Ⓒμ0*Ⓒc;1_Ω))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒμ0*Ⓒc;1_Ω))))-2))'",   
+    "Z0",       "'→NUM(ROUND(CONVERT(Ⓒμ0*Ⓒc;1_Ω);XPON(UVAL(ⒸUrZ0*CONVERT(Ⓒμ0*Ⓒc;1_Ω)))-XPON(UVAL(CONVERT(Ⓒμ0*Ⓒc;1_Ω)))-2))'",   
     "UsZ0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrZ0*ⒸZ0);-2);1_Ω))'",//=>UsZ0='→NUM(CONVERT(ROUND(UBASE(UrZ0*Z0);-2);1_Ω))'=0.000000060 Ω
     "UrZ0",     "'ⒸUrμ0'",                                    // UrZ0=1.6e-10 
   // UrZ0=1.6e-10 μ0=1.25663706127E-6 H/m => Z0=376.730313412 Ω  <=>
-  //'→NUM(ROUND(CONVERT(μ0*Ⓒc;1_Ω);FLOOR(LOG10(UVAL(UrZ0*CONVERT(μ0*Ⓒc;1_Ω))))-FLOOR(LOG10(UVAL(CONVERT(μ0*Ⓒc;1_Ω))))-2))'
+  //'→NUM(ROUND(CONVERT(μ0*Ⓒc;1_Ω);XPON(UVAL(UrZ0*CONVERT(μ0*Ⓒc;1_Ω)))-XPON(UVAL(CONVERT(μ0*Ⓒc;1_Ω)))-2))'
 //*Deuterium mass - Measurement
     "mD",       "2.01410177812_u",           
     "UsmD",     "0.00000000012_u",
@@ -610,22 +621,22 @@ static const cstring basic_constants[] =
     "UsKJ",     "0_Hz/V",
     "UrKJ",     "0",
 //*Classical electron radius - Calculation from measurement
-    "re",       "'→NUM(ROUND(CONVERT(Ⓒα^2*Ⓒa0;1_m);FLOOR(LOG10(UVAL(ⒸUrre*CONVERT(Ⓒα^2*Ⓒa0;1_m))))-FLOOR(LOG10(UVAL(CONVERT(Ⓒα^2*Ⓒa0;1_m))))-2))'",       
+    "re",       "'→NUM(ROUND(CONVERT(Ⓒα^2*Ⓒa0;1_m);XPON(UVAL(ⒸUrre*CONVERT(Ⓒα^2*Ⓒa0;1_m)))-XPON(UVAL(CONVERT(Ⓒα^2*Ⓒa0;1_m)))-2))'",       
     "Usre",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrre*Ⓒre);-2);1_m))'",//=>Usre='→NUM(CONVERT(ROUND(UBASE(Urre*(2.8179403205E-15_m));-2);1_m))'=1.3E-24 m
     "Urre",     "'→NUM(ROUND(3*Usα/α;-2))'",                                    // Urre≈'3*Usα/α'
   // Urre=4.7E-10 α=0.00729735256434 a0=0.0529177210544 nm => re=2.8179403205E-15_m <=> 
-  //'→NUM(ROUND(CONVERT(α^2*a0;1_m);FLOOR(LOG10(UVAL(Urre*CONVERT(α^2*a0;1_m))))-FLOOR(LOG10(UVAL(CONVERT(α^2*a0;1_m))))-2))'
+  //'→NUM(ROUND(CONVERT(α^2*a0;1_m);XPON(UVAL(Urre*CONVERT(α^2*a0;1_m)))-XPON(UVAL(CONVERT(α^2*a0;1_m)))-2))'
 //*Proton charge radius - Measurement
     "rp",       "8.4075-16_m",    
     "Usrp",     "0.0064-16_m",
     "Urrp",     "'→NUM(ROUND(UBASE(ABS(ⒸUsrp/Ⓒrp));-2))'",
   // rp=8.4075-16_m Usrp=0.0064-16_m '→NUM(ROUND(UBASE(ABS(Usrp/rp));-2))' => Urrp=7.6E-4
 //*Thomson cross-section - Calculation from measurement
-    "σe",       "'→NUM(ROUND(CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2);FLOOR(LOG10(UVAL(ⒸUrσe*CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2))))-FLOOR(LOG10(UVAL(CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2))))-2))'", 
+    "σe",       "'→NUM(ROUND(CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2);XPON(UVAL(ⒸUrσe*CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)))-XPON(UVAL(CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)))-2))'", 
     "Usσe",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrσe*Ⓒσe);-2);1_m^2))'",//=>Usσe='→NUM(CONVERT(ROUND(UBASE(Urσe*σe);-2);1_m^2))'=6.3E-38 m↑2
     "Urσe",     "'→NUM(ROUND(6*ⒸUsα/Ⓒα;-2))'",                  // Urσe≈2*Urre='6*Usα/α';9.3E-10
   // Urσe=9.4E-10 re=(2.8179403205E-15_m) => σe=6.6524587052E-29 m↑2  <=> 
-  //'→NUM(ROUND(CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2);FLOOR(LOG10(UVAL(Urσe*CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2))))-FLOOR(LOG10(UVAL(CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2))))-2))'
+  //'→NUM(ROUND(CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2);XPON(UVAL(Urσe*CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2)))-XPON(UVAL(CONVERT(8*Ⓒπ*(2.8179403205E-15_m)^2/3;1_m^2)))-2))'
 //*Electron magnetic moment - Measurement
     "μe",       "'(-1)*9.2847646917E-24_J/T'",    
     "Usμe",     "0.0000000029E-24_J/T",
@@ -652,35 +663,35 @@ static const cstring basic_constants[] =
     "Urge",     "'→NUM(ROUND(UBASE(ABS(ⒸUsge/Ⓒge));-2))'",
   // ge=-2.00231930436092 Usge=0.00000000000036 '→NUM(ROUND(UBASE(ABS(Usge/ge));-2))' => Urge=1.8E-13
 //*Planck mass - Calculation from measurement
-    "Mpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg);FLOOR(LOG10(UVAL(ⒸUrMpl*CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg))))-2))'",       
+    "Mpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg);XPON(UVAL(ⒸUrMpl*CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg)))-XPON(UVAL(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg)))-2))'",       
     "UsMpl",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrMpl*ⒸMpl);-2);1_kg))'",//=>UsMpl='→NUM(CONVERT(ROUND(UBASE(UrMpl*Mpl);-2);1_kg))'=2.4E-13 kg
     "UrMpl",    "'ⒸUrG/2'",                                 // UrMpl=1.1E-5
   // UrMpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Mpl=2.176434E-8 kg <=>
-  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg);FLOOR(LOG10(UVAL(UrMpl*CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg))))-2))'
+  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg);XPON(UVAL(UrMpl*CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg)))-XPON(UVAL(CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg)))-2))'
 //*Planck temperature - Calculation from measurement
-    "T°pl",     "'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);FLOOR(LOG10(UVAL(ⒸUrT°pl*CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K))))-FLOOR(LOG10(UVAL(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K))))-2))'",
+    "T°pl",     "'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);XPON(UVAL(ⒸUrT°pl*CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)))-XPON(UVAL(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)))-2))'",
     "UsT°pl",   "'→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'",//=>UsT°pl='→NUM(CONVERT(ROUND(UBASE(UrT°pl*T°pl);-2);1_K))'=1.6E27 K
     "UrT°pl",   "'ⒸUrG/2'",                                 // UrT°pl=1.1E-5
   // UrT°pl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => T°pl=1.416784E32 K <=>
-  //'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K);FLOOR(LOG10(UVAL(UrT°pl*CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K))))-FLOOR(LOG10(UVAL(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K))))-2))'
+  //'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K);XPON(UVAL(UrT°pl*CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K)))-XPON(UVAL(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K)))-2))'
 //*Planck length - Calculation from measurement
-    "Lpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m);FLOOR(LOG10(UVAL(ⒸUrLpl*CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m))))-2))'",      
+    "Lpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m);XPON(UVAL(ⒸUrLpl*CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m)))-XPON(UVAL(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m)))-2))'",      
     "UsLpl",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrLpl*ⒸLpl);-2);1_m))'",//=>UsLpl='→NUM(CONVERT(ROUND(UBASE(UrLpl*Lpl);-2);1_m))'=1.8E-40 m
     "UrLpl",    "'ⒸUrG/2'",                                 // UrLpl=1.1E-5
   // UrLpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Lpl=1.616255E-35 m <=>
-  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m);FLOOR(LOG10(UVAL(UrLpl*CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m))))-2))'
+  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m);XPON(UVAL(UrLpl*CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m)))-XPON(UVAL(CONVERT(√(Ⓒℏ*G/Ⓒc^3);1_m)))-2))'
 //*Planck time - Calculation from measurement
-    "Tpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s);FLOOR(LOG10(UVAL(ⒸUrTpl*CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s))))-2))'",      
+    "Tpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s);XPON(UVAL(ⒸUrTpl*CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s)))-XPON(UVAL(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s)))-2))'",      
     "UsTpl",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrTpl*ⒸTpl);-2);1_s))'",//=>UsTpl='→NUM(CONVERT(ROUND(UBASE(UrTpl*Tpl);-2);1_s))'=5.9E-49 s
     "UrTpl",    "'ⒸUrG/2'",                                 // UrTpl=1.1E-5
   // UrTpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) UsG=0.00015E-11_m^3/(s^2*kg) => Tpl=5.391246E-44 s <=> 
-  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s);FLOOR(LOG10(UVAL(UrTpl*CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s))))-FLOOR(LOG10(UVAL(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s))))-2))'
+  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s);XPON(UVAL(UrTpl*CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s)))-XPON(UVAL(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s)))-2))'
 //*Hartree energy - Calculation from measurement
-    "Eh",       "'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);FLOOR(LOG10(UVAL(ⒸUrEh*CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J))))-FLOOR(LOG10(UVAL(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J))))-2))'",        
+    "Eh",       "'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);XPON(UVAL(ⒸUrEh*CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J)))-XPON(UVAL(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J)))-2))'",        
     "UsEh",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrEh*ⒸEh);-2);1_J))'",//=>UsEh='→NUM(CONVERT(ROUND(UBASE(UrEh*Eh);-2);1_J))'=4.8E-30 J
     "UrEh",     "'ⒸUrR∞'",                                  // UrEh=1.1E-12
   // UrEh=1.1E-12 R∞=10973731.568157_m⁻¹ => Eh=4.3597447222060E-18 J <=> 
-  //'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*R∞;1_J);FLOOR(LOG10(UVAL(UrEh*CONVERT(2*Ⓒh*Ⓒc*R∞;1_J))))-FLOOR(LOG10(UVAL(CONVERT(2*Ⓒh*Ⓒc*R∞;1_J))))-2))'
+  //'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*R∞;1_J);XPON(UVAL(UrEh*CONVERT(2*Ⓒh*Ⓒc*R∞;1_J)))-XPON(UVAL(CONVERT(2*Ⓒh*Ⓒc*R∞;1_J)))-2))'
 //*Electron gyromagnetic ratio - Calculation from measurement
     "γe",       "'→NUM(ROUND(CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1);XPON(UVAL(ⒸUrγe*CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1)))-XPON(UVAL(CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1)))-2))'", 
     "Usγe",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrγe*Ⓒγe);-2);1_(s*T)^-1))'",//=>Usγe='→NUM(CONVERT(ROUND(UBASE(Urγe*γe);-2);1_(s*T)^-1))'=55._(s·T)⁻¹

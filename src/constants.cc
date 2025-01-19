@@ -346,15 +346,15 @@ static const cstring basic_constants[] =
   //'→NUM(ROUND(CONVERT(NA*u;1_kg/mol);XPON(UVAL(UrMu*NA*u))-XPON(UVAL(NA*u))-2))'
   //'→NUM(ROUND(CONVERT(NA*u;1_kg/mol);XPON(UrMu*NA*u)-XPON(NA*u)-2))' Doesn't work: UVAL is required
 //*C12 Molar Mass - Calculation from measurement
-    "MC12",      "'→NUM(ROUND(CONVERT(ⒸNA*Ⓒu;1_kg/mol);XPON(UVAL(ⒸUrMu*ⒸNA*Ⓒu))-XPON(UVAL(ⒸNA*Ⓒu))-2))'",      
+    "MC12",      "'→NUM(ROUND(CONVERT(12*ⒸMu;1_kg/mol);XPON(UVAL(ⒸUrMC12*12*ⒸMu))-XPON(UVAL(12*ⒸMu))-2))'",      
     "UsMC12",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrMC12*ⒸMC12);-2);1_kg/mol))'",//=>UsMC12='→NUM(CONVERT(ROUND(UBASE(UrMC12*MC12);-2);1_kg/mol))'=3.7E-12 kg/mol
-    "UrMC12",    "'ⒸUru'",                                   // UrMu=3.1E-10
+    "UrMC12",    "'ⒸUrMu'",                                   // UrMu=3.1E-10
   // UrMC12=3.1E-10 NA=6.02214076E23_mol⁻¹ u=1.66053906892E-27_kg => MC12=12.0000000126E-3 kg/mol
-  //'→NUM(ROUND(CONVERT(12*NA*u;1_kg/mol);XPON(UVAL(UrMC12*12*NA*u))-XPON(UVAL(12*NA*u))-2))'
+  //'→NUM(ROUND(CONVERT(12*Mu;1_kg/mol);XPON(UVAL(UrMC12*12*Mu))-XPON(UVAL(12*Mu))-2))'
 //*Electron relative atomic mass - Measurement
     "Are",       "5.485799090441E-4",     
     "UsAre",     "0.000000000097E-4",
-    "UrAre",     "'→NUM(ROUND(UBASE(ⒸUsme/Ⓒme);-2))'",
+    "UrAre",     "'→NUM(ROUND(UBASE(ⒸUsAre/ⒸAre);-2))'",
   // Are=5.485799090441E-4 UsAre=0.000000000097E-4 '→NUM(ROUND(UBASE(UsAre/Are);-2))' => UrAre=1.8E-11
 //*Loschmidt constant - Exact calculation
     "n0",        "'CONVERT(ⒸNA/ⒸVm;1_m^-3)'", 

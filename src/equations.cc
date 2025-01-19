@@ -289,9 +289,9 @@ static const cstring basic_equations[] =
     // ("*" instead of"-") but not in HP50G
     // WARNING doesn't work on the native HP50G
     "Bernoulli Equation",  "{ "
-    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v2_(m/s))^2-(v1_(m/s))^2)/2+Ⓒg*(Δy_m)=0' "
-    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v2_(m/s))^2)*(1-((A2_(m^2))/(A1_(m^2)))^2)/2+Ⓒg*(Δy_m)=0' "
-    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v1_(m/s))^2)*(((A1_(m^2))/(A2_(m^2)))^2-1)/2+Ⓒg*(Δy_m)=0' "
+    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v2_(m/s))^2-(v1_(m/s))^2)/2+Ⓒg*(Δy_m)' "
+    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v2_(m/s))^2)*(1-((A2_(m^2))/(A1_(m^2)))^2)/2+Ⓒg*(Δy_m)' "
+    "  '(ΔP_Pa)/(ρ_(kg/m^3))+((v1_(m/s))^2)*(((A1_(m^2))/(A2_(m^2)))^2-1)/2+Ⓒg*(Δy_m)' "
     "  '(ΔP_Pa)=(P2_Pa)-(P1_Pa)' "
     "  '(Δy_m)=(y2_m)-(y1_m)' "
     "  '(M_(kg/s))=(ρ_(kg/m^3))*(Q_(m^3/s))' "
@@ -1147,7 +1147,7 @@ static const cstring basic_equations[] =
     "'γ=1/√(1-β^2)' "
     "}",
 // Ref.: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.fisica.net/formulas/The-Cambridge-Handbook-of-Physics-Formulas.pdf
-// Name of var fp changed to fpr 
+// Name of var fp changed to fpr
     "Light Propagation",  "{ "
     "'(fpr_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
     "'COS(θp_°)=(COS(θ_°)-β)/(1-β*COS(θ_°))' "
@@ -1194,7 +1194,7 @@ static const cstring basic_equations[] =
     "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Remp_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
-// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6 
+// Ref https://mathpages.com/rr/s6-06/6-06.htm; Adding ' at the end of eqn 1; Modifs to euns 5 & 6
     "Circumnavigating Airplanes",  "{ "
     "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
     "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
@@ -1285,7 +1285,7 @@ static const cstring basic_equations[] =
     "'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
     "'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
     "}",
-    
+
     "Photoelectric Effect",  "{ "
     // All eqns modified INPUT: f_Hz;φ_eV
     "'f_Hz=Ⓒc/(λ_nm)' "
@@ -1294,7 +1294,7 @@ static const cstring basic_equations[] =
     "'λ0_nm=Ⓒc/(f0_Hz)' "
     "'Kmax_eV=IFTE(f_Hz>f0_Hz;Ⓒh*(f_Hz)-(φ_eV);0)' "
     "'Kmax_eV=Ⓒqe*(Vo_V)' "
-    "'vmax_m/s=√((2*Kmax_J)/Ⓒme)' "    
+    "'vmax_m/s=√((2*Kmax_J)/Ⓒme)' "
     "}",
     // All eqns modified INPUT: λp_nm;θ_° OUTPUT: K_J;γ;β;v_m/s;p_(kg*m/s);φ_°
     "Compton Scattering",  "{ "
@@ -1404,8 +1404,8 @@ static const cstring basic_equations[] =
     "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
-    // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82) 
-    // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83) 
+    // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
+    // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)
 };
 //   clang-format on
 

@@ -7296,7 +7296,7 @@ These equations adapt the ideal gas law to emulate real-gas behavior.
 * To calculate `[Z_1;n_mol;m_kg]` (Gas compressibility correction factor; Number of mole; Mass) from 7 known variables:
 ```rpl
 Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
-@ Expecting [ Z=0.99977 57972 69 n=0.01727 69390 32 mol m=0.00110 57240 98 kg ]
+@ Expecting [ Z=0.99977 57972 69 n=0.01727 69390 32 mol m=1.10572 40980 5⁳⁻³ kg ]
 'ROOT(ⒺReal Gas Law;[Z;n;m];[1;1_mol;1_kg])'
 ```
 

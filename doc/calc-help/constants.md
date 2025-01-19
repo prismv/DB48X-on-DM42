@@ -45,27 +45,55 @@ The undefined constant is used to represent undefined values, such as the result
 
 ### NA constant
 
-Avogradro constant is the number of constituent particles per mole.
+Avogradro constant is the number of constituent particles per mole. Since the redefinition of the mole in 2019, as being the amount of substance containing exactly `NA` particles, the `NA` constant is therefore defined as the following exact value:
+```rpl
+    12 SIG  NA=6.02214076E23_mol⁻¹
+```
+without uncertainty:
+```rpl
+    12 SIG  UsNA=0_mol⁻¹  UrNa=0
+```
 
 ### k constant
 
 The Boltzmann constant is the proportionality factor that relates the average
 relative thermal energy of particles in a gas with the thermodynamic temperature
-of the gas.
+of the gas. Since the redefinition of the SI units in 2019, the `k` constant is exactly defined as the following exact value:
+```rpl
+    12 SIG  k=1.380649E-23_J/K
+```
+without uncertainty:
+```rpl
+    12 SIG  Usk=0_J/K  Urk=0
+```
 
 ### Vm constant
 
-Molar volume of an ideal gas at 1 atmosphere of pressure and 0°C.
+Molar volume of an ideal gas at 1 atmosphere of pressure and 0°C. By convention, it is chosen as the result of the following exact calculation:
+```rpl
+    12 SIG Vm='CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'
+```
+without uncertainty:
+```rpl
+    12 SIG  UsVm=0_m^3/mol  UrVm=0
+```
 
 ### R constant
 
 The universal gas constant is the molar equivalent to the Boltzmann constant,
 expressed in units of energy per temperature increment per amount of substance,
-rather than energy per temperature increment per particle.
+rather than energy per temperature increment per particle. Since the redefinition of the SI units in 2019, it is chosen as the result of the following exact calculation:
+```rpl
+    12 SIG R='CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'
+```
+without uncertainty:
+```rpl
+    12 SIG  UsR=0_J/(mol*K)  UrR=0
+```
 
 ### StdT constant
 
-Standard temperature as defined by IUPAC in 1982.
+Standard temperature as defined by IUPAC in 1982. 
 
 Standard temperature and pressure (STP) or Standard conditions for temperature
 and pressure are various standard sets of conditions for experimental
@@ -73,11 +101,18 @@ measurements used to allow comparisons to be made between different sets of
 data. The most used standards are those of the International Union of Pure and
 Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
-definitions.
+definitions. By convention, it is chosen as the following exact value:
+```rpl
+    12 SIG StdT=273.15_K
+```
+without uncertainty:
+```rpl
+    12 SIG  UsStdT=0_K  UrStdT=0
+```
 
 ### StdP constant
 
-Standard pressure as defined by IUPAC in 1982, corresponding to 1 atm
+Standard pressure as defined by IUPAC in 1982, corresponding to 1 atm.
 
 Standard temperature and pressure (STP) or Standard conditions for temperature
 and pressure are various standard sets of conditions for experimental
@@ -85,7 +120,14 @@ measurements used to allow comparisons to be made between different sets of
 data. The most used standards are those of the International Union of Pure and
 Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
-definitions.
+definitions. By convention, it is chosen as the following exact value:
+```rpl
+    12 SIG StdP=101.325_kPa
+```
+without uncertainty:
+```rpl
+    12 SIG  UsStdP=0_kPa  UrStdP=0
+```
 
 ### σ constant
 
@@ -96,7 +138,72 @@ of that matter's temperature.
 For an ideal absorber/emitter or black body, the Stefan–Boltzmann law states
 that the total energy radiated per unit surface area per unit time (also known
 as the radiant exitance) is directly proportional to the fourth power of the
-black body's temperature, T:`M°=σ·T⁴`
+black body's temperature, `T`:`M°=σ·T⁴`.  Since the redefinition of the SI units in 2019, the `σ` constant has an exact value resulting from the following calculation:
+```rpl
+    12 SIG σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'
+```
+without uncertainty:
+```rpl
+    12 SIG  Usσ=0_J/(mol*K)  Urσ=0
+```
+
+#### Mu Molar Mass Constant
+
+The molar mass constant is a physical constant defined as one twelfth of the molar mass of carbon-12: `MC12/12`. The molar mass of an element or compound is its relative atomic mass (atomic weight) or relative molecular mass multiplied by the molar mass constant. Since 2019, the SI definition of mole changed such that the molar mass constant remains nearly but no longer exactly 1 g/mol. For internal consistency this value depends therefore on the mass unit `u` and is calculated by the following expression:
+```rpl
+    12 SIG Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
+```
+Due to its expression, the relative uncertainty of the molar mass is the same as the one of the mass unit `u`:
+```rpl
+    12 SIG  UsMu='→NUM(CONVERT(ROUND(UBASE(ⒸUrMu*ⒸMu);-2);1_kg/mol))'  UrMu='ⒸUru'
+```
+
+#### MC12 Molar Mass of carbon-12
+
+Since 1960, mole is the amount of substance of a system which contains as many elementary entities as there are atoms in 12 gram of carbon-12. Since 2019, the SI definition of mole changed such that the molar mass of carbone-12 remains nearly but no longer exactly 12 g/mol. For internal consistency this value depends therefore on the mass unit `u` and is calculated by the following expression:
+```rpl
+    12 SIG MC12='CONVERT(12*ⒸMu;1_kg/mol)'
+```
+Due to its expression, the relative uncertainty of the molar mass is the same as the one of the molar mass `Mu`:
+```rpl
+    12 SIG  UsMC12='→NUM(CONVERT(ROUND(UBASE(ⒸUrMC12*ⒸMC12);-2);1_kg/mol))'  UrMC12='ⒸUrMu'
+```
+
+#### Are Electron relative atomic mass
+
+The experimental value of the electron relative atomic mass is an important constant (usually noted as `Ar(e))`) which is needed to calculate the unit mass value `u`. According yo COTATA2022, it is a dimensionless value measured as:
+```rpl
+    12 SIG Are=5.485799090441E-4
+```
+Its absolute and relative uncertainties come from measurement:
+```rpl
+    12 SIG  UsAre=0.000000000097E-4  UrAre='→NUM(ROUND(UBASE(ⒸUsAre/ⒸAre);-2))'
+```
+
+#### n0 Loschmidt constant
+
+The Loschmidt constant or Loschmidt's number is the number of particles (atoms or molecules) of an ideal gas per volume (the number density), and usually quoted at standard temperature and pressure. Since 2019 with the redifinition of the mole, it is calculated exactly as:
+```rpl
+    12 SIG n0='CONVERT(ⒸNA/ⒸVm;1_m^-3)'
+```
+without uncertainty:
+```rpl
+    12 SIG  Usn0=0_m^-3  Urn0=0
+```
+
+#### SoR Sakur-Tetrode constant
+
+The Sakur-Tetrode constant gives the absolute entropy at an absolute temperature of `T=1_K` and standard atmospheric pressure `StdP=101.325_kPa` for one mole of an ideal monoatomic gas composed of particles of mass equal to the atomic mass constant. It is used in the general expression of the entropy of an ideal monoatomic gas of relative atomic mass `Ar` at a pressure `p_kPa` and a temperature `T_K`, which is given by:
+`S=ⒸR*(SoR+3/2*LN(Ar)−LN((p_kPa)/ⒸStdP)+5/2*LN((T_K)/(1_K)))`. 
+
+The SoR constant is calculated from the measured value of the unit mass `u`.
+```rpl
+    12 SIG  S0R='5/2+LN(UBASE(u*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)'
+```
+The uncertainties are evaluated as:
+```rpl
+    12 SIG  UsSoR='ROUND(UBASE(ⒸUrSoR*ABS(ⒸSoR));-2)'  UrSoR=4.0E-10
+```
 
 
 ## Physics constants

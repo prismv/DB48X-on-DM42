@@ -10588,6 +10588,9 @@ void tests::check_help_examples()
                 closecheck = 0;
                 if (testing)
                 {
+                    bool keep =
+                        ubuf.find("@ Keep") != ubuf.npos ||
+                        ubuf.find("@ Save") != ubuf.npos;
                     itest(DIRECT(ubuf));
                     ubuf.clear();
 
@@ -10611,6 +10614,8 @@ void tests::check_help_examples()
                     }
                     ref      = "";
                     skiptest = false;
+                    if (!keep)
+                        itest(DIRECT("variables purge"), ENTER);
                 }
             }
         }

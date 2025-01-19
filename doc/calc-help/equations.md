@@ -258,6 +258,7 @@ The expression for the radial electric field at the distance `r` is approximatel
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 5 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
+@ Keep
 ```
 
 The code below saves the reference value for comparison with the example in [E Field Finite Line](#E Field Finite Line):
@@ -279,6 +280,7 @@ r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 892 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
+@ Keep
 ```
 
 * **Example 2.** To show that the infinite line of the previous section can approximate the finite case (if `r << L` realised when `r < L/10`), we calculate `[λ_C/m;Er_N/C]` with the angles `θ1=ATAN((L/2)/r)` and `θ2=360°-θ1` (see figure):
@@ -289,6 +291,7 @@ if 'r < L/10' then
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 4 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
+@ Keep
 ```
 
 ```rpl
@@ -782,7 +785,7 @@ The variables in the Heat Transfer section are:
 
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
-@ Expecting [ α=9.⁳⁻⁴ K⁻¹ Ti=10. °C ]
+@ Expecting [ α=6.66666 66666 7⁳⁻⁵ K⁻¹ Ti=10. °C ]
 'ROOT(ⒺThermal Expansion;[α;Ti];[1_K^-1;1_°C])'
 ```
 
@@ -808,7 +811,7 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ qr=6.91646 19164 6 W Tc=300. °C U=-2.82304 56801 9⁳⁻³ W/(m↑2·K) ]
+@ Expecting [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
 'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
 ```
 

@@ -7423,8 +7423,7 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 * To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission; Total emissive power; Fraction of emissive power between λ1 & λ2; Emissive power between λ1 & λ2; Heat transfer rate) from 4 known variables:
 ```rpl
 T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
-@ Failing [ λmax=2 276.06484 325 nm eb=148 980.70811 W/m↑2 f=0.00360 91140 47 eb12=537.68836 6343 W/m↑2 q=14.89807 0811 W ]
-@ C#7 NOT OK: MSOLVER: "Inconsistent units" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
+@ Expecting [ λmax=2 276.06484 325 nm eb=148 980.70811 W/m↑2 f=3.60911 40468 1⁳⁻³ eb12=537.68836 6343 W/m↑2 q=14.89807 0811 W ]
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
 

@@ -7318,10 +7318,7 @@ These equations describe properties of an ideal gas.
 * To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity; Number of mole; Mean free path) from 7 known variables:
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
-@ Expecting [ vrms=644.76595 0487 m/s n=0.08018 15700 28 mol m=0.00144 32682 61 kg λ=1 nm ]
-@ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
-@ C#6 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the
-@ computation of λ is wrong
+@ Expecting [ vrms=644.76595 0487 m/s n=8.01815 70028 5⁳⁻² mol m=1.44326 82605 1⁳⁻³ kg λ=1 nm ]
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
 ```
 

@@ -6973,16 +6973,8 @@ t=3.2_s  Imax=10_A  ω=636_r/s  φ=30_°
 
 * To calculate `[vd_m/s;J_(A/m^2);E_(V/m)]` (Drift speed; Current density; E field) from 5 known variables:
 ```rpl
-@ C#2 First trial #1 where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT algebraics: OK
 I=1_A  n=8.5e28_(m^-3)  r=0.1_cm  A='Ⓒπ*(r_cm)^2'  ρ='Ⓒqe*n' σ='CONVERT(→NUM(Ⓒqe*(n_(m^-3))*40_(cm^2/(V*s)));1_S/m)'
-@ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
-'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
-```
-```rpl
-@ Second working trial #2 where the input variables A, ρ & σ are a priori calculated with
-@ A='Ⓒπ*(0.1_cm)^2'  ρ='Ⓒqe*n'  σ='CONVERT(→NUM(Ⓒqe*(n_(m^-3))*40_(cm^2/(V*s)));1_S/m)'
-I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 9⁳⁻² cm↑2 ρ=1.36185 01389E10_C/m↑3 σ=54 474 005.556_S/m
-@ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
+@ Expect [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
 ```
 

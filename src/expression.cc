@@ -2532,6 +2532,7 @@ list_p expression::current_equation(bool all, bool error)
     bool more = true;
     while (more)
     {
+        obj = strip(obj);
         if (!obj)
         {
             if (error && !rt.error())
@@ -2556,10 +2557,20 @@ list_p expression::current_equation(bool all, bool error)
                 obj = eq;
                 break;
             }
-
         case ID_polynomial:
             more = false;
             break;
+        case ID_symbol:
+            if (object_p named =  directory::recall_all(obj, false))
+            {
+                // Make sure we can exit from an infinite loop
+                if (!program::interrupted())
+                {
+                    obj = named;
+                    continue;
+                }
+            }
+
         default:
             rt.type_error();
             return nullptr;

@@ -10497,8 +10497,9 @@ void tests::check_help_examples()
         .test("ExamplesTest", ENTER)
         .noerror();
     step("Set higher significant digits")
-        .test(CLEAR, "11 MinimumSignificantDigits", ENTER)
-        .noerror();
+        .test(CLEAR, "11 MinimumSignificantDigits", ENTER).noerror();
+    step("Set higher rendering limit for text")
+        .test(CLEAR, "2048 TextRenderingSizeLimit", ENTER).noerror();
 
     step("Opening help file").test(CLEAR);
     FILE *f = fopen(HELPFILE_NAME, "r");
@@ -10663,6 +10664,8 @@ void tests::check_help_examples()
         .noerror();
     step("Restore MinimumSignificantDigits")
         .test(CLEAR, "'MinimumSignificantDigits' PURGE", ENTER);
+    step("Restore TextRenderingSizeLimit")
+        .test(CLEAR, "'TextRenderingSizeLimit' PURGE", ENTER);
 }
 
 

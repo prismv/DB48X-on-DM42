@@ -7124,7 +7124,7 @@ force ([Law of Gravitation](#Law of Gravitation)), or Drag force ([Drag force](#
 * To calculate `[F_lbf;Ki_ft*lbf;vf_ft/s;Kf_ft*lbf;W_ft*lbf;x_ft;Pavg_hp]` (Force at `x`; Initial kinetic energy; Final speed; Final kinetic energy; Work; Average Power) from 4 known variables:
 ```rpl
 t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
-@ Expecting [ F=19.42559 38572 lbf Ki=-1.2⁳⁻²³ ft·lbf vf=125. ft/s Kf=12 140.99616 08 ft·lbf W=12 140.99616 08 ft·lbf x=625. ft Pavg=2.20745 38474 1 hp ]
+@ Expecting [ F=19.42559 38572 lbf Ki=-2.⁳⁻²³ ft·lbf vf=125. ft/s Kf=12 140.99616 08 ft·lbf W=12 140.99616 08 ft·lbf x=625. ft Pavg=2.20745 38474 1 hp ]
 @ Note Ki is approximately 0
 'ROOT(ⒺLinear Mechanics;[F;Ki;vf;Kf;W;x;Pavg];[1_lbf;1_ft*lbf;1_ft/s;1_ft*lbf;1_ft*lbf;1_ft;1_hp])'
 ```

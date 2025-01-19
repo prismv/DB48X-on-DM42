@@ -7479,14 +7479,14 @@ The magnetic field expression differs depending upon whether the point at `r` is
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 4 known variables:
 ```rpl
 μr=1  rw=0.25_cm  r=0.2_cm  I=25_A
-@ Expecting [ B=0.0016 T ]
+@ Expecting [ B=1.59999 99997 8⁳⁻³ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 ```
 
 * **Example 2.** Outside the wire, to calculate `[B_T]` (Magnetic field) from 4 known variables:
 ```rpl
 μr=1  rw=0.25_cm  r=5_cm  I=25_A
-@ Expecting [ B=0.0001 T ]
+@ Expecting [ B=9.99999 99986 2⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 ```
 

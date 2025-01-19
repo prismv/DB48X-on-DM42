@@ -184,7 +184,8 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
 
     // Initialize starting value
     x = lx;
-    record(solve, "Initial range %t to %t", +lx, +hx);
+    record(solve, "Solving %t for %t with guess %t", +pgm, +goal, +guess);
+    record(solve, "Initial range for %t is %t to %t", +goal, +lx, +hx);
 
     // We will run programs, do not save stack, etc.
     settings::PrepareForFunctionEvaluation willEvaluateFunctions;

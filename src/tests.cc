@@ -10552,7 +10552,6 @@ void tests::check_help_examples()
 
         if (is_utf8_first(c))
         {
-            uidx         = 0;
             ubuf[uidx++] = c;
             continue;
         }
@@ -10561,12 +10560,10 @@ void tests::check_help_examples()
             ubuf[uidx++] = c;
             continue;
         }
-        else
-        {
-            ubuf[uidx++] = c;
-            ubuf[uidx++] = 0;
-            uidx         = 0;
-        }
+
+        ubuf[uidx++] = c;
+        ubuf[uidx++] = 0;
+        uidx         = 0;
 
         if (testing && c != '`')
             itest(DIRECT(cstring(ubuf)));

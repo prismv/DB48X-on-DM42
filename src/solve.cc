@@ -846,18 +846,13 @@ COMMAND_BODY(NextEq)
     object_p obj = directory::recall_all(eqname, false);
     if (obj)
     {
-        id ty = obj->type();
-        if (ty == ID_equation)
-        {
-            obj = equation_p(obj)->value();
-            if (obj)
-                ty = obj->type();
-        }
+        if (equation_p eq = obj->as_quoted<equation>())
+            obj = eq->value();
 
-        if (is_array_or_list(ty))
+        if (list_p lst = obj->as_array_or_list())
         {
             size_t sz = 0;
-            if (list_p(obj)->expand_without_size(&sz))
+            if (lst->expand_without_size(&sz))
             {
                 rt.roll(sz);
                 list_g now = list::list_from_stack(sz);

@@ -7480,6 +7480,7 @@ The magnetic field expression differs depending upon whether the point at `r` is
 μr=1  rw=0.25_cm  r=5_cm  I=25_A
 @ Expecting [ B=9.99999 99986 2⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
+@ Save B for later
 ```
 
 The code below saves the reference value for comparison with the example 2 in [B Field Finite Wire](#B Field Finite Wire):
@@ -7499,6 +7500,7 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ1=30_°  θ2=150_°
 @ Expecting [ B=8.66025 40366 5⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
+@ Save for test below
 ```
 
 * **Example 2.** When 'r << L' which means 'r < L/10', we can verify that the value of B for a infinite wire approximates the exact value calculated for a finite wire of length 'L'.
@@ -7508,11 +7510,12 @@ if 'r < L/10' then
 @ Expecting [ B=9.99965 27944 8⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
 end
+@ Save for test below
 ```
 Verify relative difference under condition `5_cm << 3_m` with the example 2 of [Straight Wire Infinite](#Straight Wire Infinite)
 ```rpl
 B0 B %Ch
-@ Expecting [ -3.47204 13877 8⁳⁻³ ]
+@ Expecting -3.47204 13877 8⁳⁻³
 @ % of relative difference
 ```
 

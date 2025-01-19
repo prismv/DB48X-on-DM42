@@ -5290,6 +5290,19 @@ void tests::units_and_conversions()
         .expect("'1 m/s-1 A÷(8.5⁳²⁸ (m↑3)⁻¹·qe·π·0.01 cm↑2)'")
         .test(ID_Run)
         .expect("0.00009 99976 63 A·m↑3/(C·cm↑2)");
+
+    step("Convert dimensionless argument to add")
+        .test(CLEAR, "'1_km/in+3'", ENTER, ID_Run)
+        .expect("39 373 ¹⁰/₁₂₇");
+    step("Convert dimensionless argument to add")
+        .test(CLEAR, "'3+1_km/in'", ENTER, ID_Run)
+        .expect("39 373 ¹⁰/₁₂₇");
+    step("Convert dimensionless argument to sub")
+        .test(CLEAR, "'1_km/in-3'", ENTER, ID_Run)
+        .expect("39 367 ¹⁰/₁₂₇");
+    step("Convert dimensionless argument to sub")
+        .test(CLEAR, "'3-1_km/in'", ENTER, ID_Run)
+        .expect("-39 367 ¹⁰/₁₂₇");
 }
 
 
@@ -13228,7 +13241,9 @@ tests &tests::editor(cstring text, uint extrawait)
         if (rt.error())
         {
             explain("Expected editor [", text, "], "
-                    "got error [", rt.error(), "] instead");
+                    "got error [",
+                    rt.error(),
+                    "] instead");
             return fail();
         }
 
@@ -13241,16 +13256,30 @@ tests &tests::editor(cstring text, uint extrawait)
     }
 
     if (!ed)
-        explain("Expected editor to contain [", text, "], "
+        explain("Expected editor to contain [",
+                text,
+                "], "
                 "but it's empty");
     if (sz != strlen(text))
-        explain("Expected ", strlen(text), " characters in editor"
-                " [", text, "], "
-                "but got ", sz, " characters "
-                " [", std::string(cstring(ed), sz), "]");
+        explain("Expected ",
+                strlen(text),
+                " characters in editor"
+                " [",
+                text,
+                "], "
+                "but got ",
+                sz,
+                " characters "
+                " [",
+                std::string(cstring(ed), sz),
+                "]");
     if (memcmp(ed, text, sz))
-        explain("Expected editor to contain [", text, "], "
-                "but it contains [", std::string(cstring(ed), sz), "]");
+        explain("Expected editor to contain [",
+                text,
+                "], "
+                "but it contains [",
+                std::string(cstring(ed), sz),
+                "]");
 
     fail();
     return *this;
@@ -13264,8 +13293,10 @@ tests &tests::cursor(size_t csr, uint extrawait)
 {
     nokeys(extrawait);
     return check(ui.cursor == csr,
-                 "Expected cursor to be at position ", csr,
-                 " but it's at position ", ui.cursor);
+                 "Expected cursor to be at position ",
+                 csr,
+                 " but it's at position ",
+                 ui.cursor);
 }
 
 
@@ -13291,8 +13322,12 @@ tests &tests::error(cstring msg, uint extrawait)
     if (msg && !err)
         explain("Expected error message [", msg, "], got none");
     if (msg && err && strcmp(cstring(err), msg) != 0)
-        explain("Expected error message [", msg, "], "
-                "got [", err, "]");
+        explain("Expected error message [",
+                msg,
+                "], "
+                "got [",
+                err,
+                "]");
     fail();
     return *this;
 }
@@ -13303,14 +13338,14 @@ tests &tests::command(cstring ref, uint extrawait)
 //   Check that the command result matches expectations
 // ----------------------------------------------------------------------------
 {
-    utf8   cmd  = nullptr;
+    utf8 cmd = nullptr;
     nokeys(extrawait);
 
     uint start     = sys_current_ms();
     uint wait_time = image_wait_time + extrawait;
     while (sys_current_ms() - start < wait_time)
     {
-        size_t   sz   = 0;
+        size_t sz = 0;
         if (object_p cmdo = rt.command())
             if (text_p cmdt = cmdo->as_text())
                 cmd = cmdt->value(&sz);
@@ -13356,8 +13391,12 @@ tests &tests::source(cstring ref, uint extrawait)
     if (ref && !src)
         explain("Expected source [", ref, "], got none");
     if (ref && src && strcmp(ref, cstring(src)) != 0)
-        explain("Expected source [", ref, "], "
-                "got [", src, "]");
+        explain("Expected source [",
+                ref,
+                "], "
+                "got [",
+                src,
+                "]");
 
     fail();
     return *this;

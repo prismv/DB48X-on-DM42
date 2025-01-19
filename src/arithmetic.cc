@@ -203,8 +203,14 @@ algebraic_p arithmetic::non_numeric<add>(algebraic_r x, algebraic_r y)
             }
             return nullptr;
         }
-        rt.inconsistent_units_error();
-        return nullptr;
+        save<bool> sumode(unit::mode, true);
+        algebraic_g ubased = xu->evaluate();
+        if (!ubased || ubased->type() == ID_unit)
+        {
+            rt.inconsistent_units_error();
+            return nullptr;
+        }
+        return add::evaluate(ubased, y);
     }
     else if (unit_g yu = unit::get(y))
     {
@@ -358,8 +364,14 @@ algebraic_p arithmetic::non_numeric<sub>(algebraic_r x, algebraic_r y)
                 return unit::simple(xv, ye);
             }
         }
-        rt.inconsistent_units_error();
-        return nullptr;
+        save<bool> sumode(unit::mode, true);
+        algebraic_g ubased = xu->evaluate();
+        if (!ubased || ubased->type() == ID_unit)
+        {
+            rt.inconsistent_units_error();
+            return nullptr;
+        }
+        return sub::evaluate(ubased, y);
     }
     else if (unit_g yu = unit::get(y))
     {

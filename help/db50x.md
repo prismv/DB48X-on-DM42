@@ -7315,8 +7315,8 @@ This equation adapts the ideal gas state-change equation to emulate real-gas beh
 * To calculate `[Zi_1;Zf_1;Vf_l]` (Initial & Final gas compressibility correction factor; Final volume) from 7 known variables:
 ```rpl
 Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
-@ Expecting [ Zi=0.99550 62096 36 Zf=0.99938 68303 14 Vf=30.17028 92974 l ]
-'ROOT(ⒺReal Gas State Change;[Zi;Zf;Vf];[1;1;Vf_l])'
+@ Expecting [ Zi=0.99550 62096 36 Zf=0.99938 68303 14 Vf=30.17028 92973 l ]
+'ROOT(ⒺReal Gas State Change;[Zi;Zf;Vf];[1;1;1_l])'
 ```
 
 ### Kinetic Theory

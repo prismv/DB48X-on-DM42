@@ -6676,6 +6676,7 @@ The expression for the radial electric field at the distance `r` is approximatel
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 5 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
+@ Keep
 ```
 The code below saves the reference value for comparison with the example 2 in [E Field Finite Line](#E Field Finite Line):
 ```rpl
@@ -6695,6 +6696,7 @@ r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 892 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
+@ Keep
 ```
 
 * **Example 2.** To show that the infinite line of the previous section can approximate the finite case (if `r << L` realised when `r < L/10`), we calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) with the angles `θ1=ATAN((L/2)/r)` and `θ2=360°-θ1` (see figure):
@@ -6704,6 +6706,7 @@ if 'r < L/10' then
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 4 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
+@ Keep
 ```
 Verify relative difference under condition `5_cm << 3_m` with the example of [E Field Infinite Line](#E Field Infinite Line)
 ```rpl
@@ -7385,7 +7388,7 @@ The 31 variables in the Heat Transfer section are:
 * To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient; Initial temperature) from 4 known variables:
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
-@ Expecting [ α=0.00004 K⁻¹ Ti=10. °C ]
+@ Expecting [ α=6.66666 66666 7⁳⁻⁵ K⁻¹ Ti=10. °C ]
 'ROOT(ⒺThermal Expansion;[α;Ti];[1_K^-1;1_°C])'
 ```
 
@@ -7420,8 +7423,8 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 * To calculate `[Tc_°C;qr_W;U_W/(m^2*K)]` (Cold surface temperature; Heat transfer rate; Overall heat transfer coefficient) from 11 known variables:
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ Tc=20. °C qr=8.59950 85995 1 W U=0.02457 00245 7 W/(m↑2·K) ]
-'ROOT(ⒺConduction & Convection;[Tc;qr;U];[1_°C;1_W;1_W/(m^2*K)])'
+@ Expecting [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
+'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
 ```
 
 ### Black Body Radiation
@@ -14844,6 +14847,7 @@ alpha mode, use the following code:
 ```rpl
 { "α" 21.5 "β" 22.5 "γ" 23.5 "δ" 24.5 "ε" 25.5 "φ" 26.5 }
 STOKEYS
+@ Save for RecallKeys below
 ```
 
 ## RecallKeys

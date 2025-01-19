@@ -10511,9 +10511,8 @@ void tests::check_help_examples()
     uint        tidx       = 0;
     bool        intopic    = false;
     bool        skiptest   = false;
-    uint        uidx       = 0;
-    byte        ubuf[8];
     char        topic[80];
+    std::string ubuf;
     std::string ref;
 
     while (true)
@@ -10523,7 +10522,6 @@ void tests::check_help_examples()
             break;
         byte c = ci;
         ASSERT(tidx < sizeof(topic));
-        ASSERT(uidx < sizeof(ubuf));
 
         if (c == '#' && (hadcr || intopic))
             intopic = true;
@@ -10550,26 +10548,8 @@ void tests::check_help_examples()
             }
         }
 
-        if (is_utf8_first(c))
-        {
-            uidx         = 0;
-            ubuf[uidx++] = c;
-            continue;
-        }
-        else if (is_utf8_next(c) && uidx < 4)
-        {
-            ubuf[uidx++] = c;
-            continue;
-        }
-        else
-        {
-            ubuf[uidx++] = c;
-            ubuf[uidx++] = 0;
-            uidx         = 0;
-        }
-
         if (testing && c != '`')
-            itest(DIRECT(cstring(ubuf)));
+            ubuf += c;
 
         if (c == open[opencheck])
         {
@@ -10595,6 +10575,9 @@ void tests::check_help_examples()
                 closecheck = 0;
                 if (testing)
                 {
+                    itest(DIRECT(ubuf));
+                    ubuf.clear();
+
                     size_t nfailures = failures.size();
                     testing          = false;
                     itest(LENGTHY(20000), ENTER).noerror();

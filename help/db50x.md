@@ -7136,10 +7136,8 @@ t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
 
 * To calculate `[τ_ft*lbf;Ki_ft*lbf;W_ft*lbf;Kf_ft*lbf;at_ft/s^2;Ni_rpm;ωf_r/min;t_min;Nf_rpm;Pavg_hp]` (Torque; Initial kinetic energy; Work; Final kinetic energy; Tangential acceleration; Initial rotational speed; Final angular velocity; Time; Final rotational speed; Average power) from 5 known variables:
 ```rpl
-I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
-@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=7.69119 81602 9⁳⁻⁴ ft·lbf Kf=7.69119 81602 9⁳⁻⁴ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=3.82893 79358 7 r/min t=0.36466 07557 97 min Nf=9.69881 30938 9⁳⁻² rpm Pavg=6.39132 69309 3⁳⁻⁸ hp ]
-@ Failing [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=0.29096 43928 17 rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
-@ C#5  NOT OK MSOLVER hallucinates too imprecise values starting with W, Kf, ωf, Nf & Pavg
+I=1750_lb*in^2  θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
+@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=0.29096 43928 17 rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
 'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
 ```
 

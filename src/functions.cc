@@ -955,6 +955,8 @@ FUNCTION_BODY(mant)
     if (x->is_symbolic())
         return symbolic(ID_mant, x);
     algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
     if (!decimal_promotion(a))
     {
         rt.type_error();
@@ -978,6 +980,8 @@ FUNCTION_BODY(xpon)
     if (x->is_symbolic())
         return symbolic(ID_xpon, x);
     algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
     if (!decimal_promotion(a))
     {
         rt.type_error();

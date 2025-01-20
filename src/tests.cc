@@ -3367,6 +3367,15 @@ void tests::decimal_numerical_functions()
     step("Assignment with functions")
         .test(CLEAR, "x=3 TAN", ENTER).noerror().expect("-0.14254 65430 74")
         .test(CLEAR, "'x' PURGE", ENTER);
+
+    step("xpon function")
+        .test(CLEAR, "12.345E37 XPON", ENTER).expect("38");
+    step("mant function")
+        .test(CLEAR, "12.345E37 MANT", ENTER).expect("1.2345");
+    step("xpon function with unit")
+        .test(CLEAR, "12.345E37_cm XPON", ENTER).expect("38");
+    step("mant function with unit")
+        .test(CLEAR, "12.345E37_cm MANT", ENTER).expect("1.2345");
 }
 
 

@@ -8012,9 +8012,7 @@ k=20_N/m  m=5_kg
 * To calculate `[ω_(r/s);Treal_s;T_s;f_Hz]` (Angular frequency; Real period for large amplitude; Period for small amplitude; Frequency) from 2 known variables:
 ```rpl
 L=15_cm  θmax=80_°
-@ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
-@ c#11 NOT OK MSOLVER & SOLVE: "Bad argument type". However Treal can be calculated alone with θmax or (θmax_°) by the following
-@ sum: Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
+@ Expecting [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
 'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
 ```
 ```rpl

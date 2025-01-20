@@ -782,7 +782,7 @@ static const cstring basic_equations[] =
     "'(ωu_(r/s))²=(ω0_(r/s))²*(1-((γ_(r/s))/(2*(ω0_(r/s))))²)' "
     "'(xp_m)²=((1_r)²*((Fd_N)/(m_kg)))²/(((ω0_(r/s))²-(ω_(r/s))²)²+((γ_(r/s))*(ω_(r/s)))²)' "
     "'TAN(φ_°)=-((γ_(r/s))*(ω_(r/s)))/((ω0_(r/s))²-(ω_(r/s))²)' "
-// The next 7th equn doesn't appear (is not drawn on the screen) when doing NextEq in the SOLVER, but it goes on the stack with Eq
+    // The next 7th eqn doesn't fit on the screen, but it goes on the stack with Eq
     "'(v_(m/s))=-(xp_m)*(ω_(r/s))/(1_r)*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))/(1_r)*(t_s)/2)*(-((γ_(r/s))/(1_r)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))-(ωu_(r/s))/(1_r)*SIN((ωu_(r/s))*(t_s)+(θ_°)))' "
     "'(a_(m²/s))=-(((ω0_(r/s))/(1_r))²*(x_m)+(γ_(r/s))/(1_r)*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
     "'(E_J)=(1/2)*(k_(N/m))*(x_m)²+(1/2)*(m_kg)*(v_(m/s))²' "

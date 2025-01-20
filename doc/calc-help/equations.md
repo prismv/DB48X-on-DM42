@@ -1654,12 +1654,14 @@ We are considering here a damped mass-spring oscillator having the natural angul
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
 @ Expecting [ m=0.04444 44444 44 kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=0.05640 00148 35 J Q=3.33333 33333 3 ]
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
+@ Save E for later use
 ```
 
 The code below saves the reference value for comparison with the example in [Driven Damped Oscillations](#Driven Damped Oscillations):
 ```rpl
 @ Save the reference value for comparison below
 E0=E
+@ Save E0 for later
 ```
 
 #### Driven Damped Oscillations
@@ -1674,6 +1676,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 @ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  φ=-89.74526 88301 °  xp=3.00197 16654 8⁳⁻¹ m  x=-21.44064 71859 cm  v=314.96199 4059 cm/s  a=47.58321 09983 m/s↑2  E=0.45029 74707 68 J  Q=3.33333 33333 3  ]
 @ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 3) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
+@ Save E for comparison
 ```
 
 Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)

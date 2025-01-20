@@ -7941,7 +7941,7 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 * To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
-@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88932 1⁳⁻² W/m↑2 E0=86.80210 98142 V/m ]
+@ Expecting [ I=7.5 W/m↑2 Ix=0.06751 63889 32 W/m↑2 E0=86.80210 98142 V/m ]
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 

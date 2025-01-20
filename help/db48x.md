@@ -8052,10 +8052,7 @@ We are considering here a damped mass-spring oscillator having the natural angul
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
-@ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  x=9.06100 06640 3 cm  v=-83.10906 53488 cm/s  a=-1 664.73435 534 cm/s↑2  E=5.64000 14834 9⁳⁻² J  Q=3.33333 33333 3 ]
-@ C#13 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be
-@ computed. NOTE it's not possible to solve for m alone in its simple eqn (see ISSUE #1334). SOLVE fails for a:
-@ "Inconsistent units" neither for Q: "idem"
+@ Expecting [ m=0.04444 44444 44 kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=0.05640 00148 35 J Q=3.33333 33333 3 ]
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 

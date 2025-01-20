@@ -7541,13 +7541,15 @@ The expression for the magnetic field in the center is approximately valid if th
 * To calculate `[B_T]` (Magnetic field) from 3 known variables:
 ```rpl
 μr=10  nl=5000_m^-1  I=1.25_A
-@ Expecting [ B=0.07853 98163 29 T ]
+@ Expecting [ B=7.85398 16328 9⁳⁻² T ]
 'ROOT(ⒺB Field In Infinite Solenoid;[B];[1_T])'
+@ Save B for later use
 ```
 The code below saves the reference value for comparison with the example 2 in [B Field Finite Solenoid](#B Field Finite Solenoid):
 ```rpl
 @ Save the reference value for comparison below
 B0=B
+@ Save B0 for later use
 ```
 
 #### B Field In Finite Solenoid
@@ -7561,6 +7563,7 @@ The expression for the magnetic field in the center depends on the subtended int
 μr=10  nl=5_mm^-1  I=1.25_A  α1=150_°  α2=30_°
 @ Expecting [ B=0.06801 74761 49 T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
+@ Save variables for later use
 ```
 
 * **Example 2.** When `r << L` which means `r < L/10`, we can verify that the value of `B` for a infinite solenoid approximates the exact value calculated for a finite solenoid of length `L`.
@@ -7570,11 +7573,12 @@ if 'r < L/10' then
 @ Expecting [ B=0.07852 89102 93 T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 end
+@ Save variables for later use
 ```
 Verify relative difference under condition 10_cm << 3_m with the example of [B Field In Infinite Solenoid](#B Field In Infinite Solenoid)
 ```rpl
 B0 B %Ch
-@ Expecting [ -0.01388 59960 4 ]
+@ Expecting -0.01388 59960 4
 @ % of relative difference
 ```
 
@@ -7613,7 +7617,7 @@ Under the perpendicular magnetic field, the moving charge has a circular traject
 * To calculate `[Rc_m;fc_Hz;T_s]` (Radius of the circular path; Cyclotron frequency; Period) from 4 known variables:
 ```rpl
 m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s
-@ Expecting [ Rc=6.00281 88341 5⁳⁻¹ m fc=12 196 149.1501 Hz T=8.19930 93696 5⁳⁻⁸ s ]
+@ Expecting [ Rc=0.60028 18834 15 m fc=12 196 149.1501 Hz T=8.19930 93696 5⁳⁻⁸ s ]
 'ROOT(ⒺCyclotron Motion;[Rc;fc;T];[1_m;1_Hz;1_s])'
 ```
 
@@ -7626,7 +7630,7 @@ Under the magnetic field lines (at angle `θ` with the speed vector), the moving
 * To calculate `[Rc_m;T_s;Dpitch_m]` (Radius of the circular path; Period, pitch of the helicoidal motion) from 4 known variables:
 ```rpl
 m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=30_°
-@ Expecting [ Rc=3.00140 94170 8⁳⁻¹ m T=8.19930 93696 5⁳⁻⁸ s Dpitch=3.26637 26955 m ]
+@ Expecting [ Rc=0.30014 09417 08 m T=8.19930 93696 5⁳⁻⁸ s Dpitch=3.26637 26955 m ]
 'ROOT(ⒺHelicoidal Motion;[Rc;T;Dpitch];[1_m;1_s;1_m])'
 ```
 
@@ -7721,7 +7725,7 @@ x0=0_ft  y0=0_ft  θ0=45_°  v0=200_ft/s  t=10_s
 * To calculate `[ω_r/min;Θ_°]` (Angular velocity at time `t`; Angular position at time `t`) from 4 known variables:
 ```rpl
 θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
-@ Expecting [ ω=7.5⁳⁻¹ r/min θ=10.74295 86587 ° ]
+@ Expecting [ ω=0.75 r/min θ=10.74295 86587 ° ]
 'ROOT(ⒺAngular Motion;[ω;θ];[1_r/min;1_°])'
 ```
 
@@ -7742,10 +7746,6 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 ```rpl
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 @ Expecting [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s ]
-@ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#8 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)'=1 117.39339 246 ft=xfr
-@'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
 ```
 
@@ -7753,10 +7753,6 @@ Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 ```rpl
 Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
 @ Expecting [ vt=95.13182 74789 m/s v=45.10777 55851 m/s tfr=17.76964 17471 s ]
-@ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
-@ C#8 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)'=1 074.15231 681 m=xfr
-@ 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
@@ -7766,25 +7762,15 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 
 * **Example 1**. For a golf ball falling in water, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 8 known variables:
 ```rpl
-@ input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
 Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
-@ Failing [ vt=2.94590 60115 1⁳⁻¹ m/s v=0.22419 40616 41 m/s tfr=5.50264 78343 2⁳⁻² s ]
-@ Expecting [ vt=2.94590 60115 1⁳⁻¹ m/s v=0.22419 40616 41 m/s tfr=5.50264 78343 2⁳⁻² s xfr=1.03003 49562 7⁳⁻² m ]
-@ C#9 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(2.94590 60115 1⁳⁻¹ m/s)*∫(0;5.50264 78343 2⁳⁻²;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)'=1.03003 49562 7⁳⁻² m=xfr
-@'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+@ Expecting [ vt=0.29459 06011 51 m/s v=0.22419 40616 41 m/s tfr=0.05502 64783 43 s ]
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
 * **Example 2**. For a CO2 bubble in a glass of champagne, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 8 known variables:
 ```rpl
-@ input data: Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=0.1_s  fr=0.95
 Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
-@ Expecting [ vt=-1.14234 81034 5 m/s v=-7.94463 76986 8⁳⁻¹ m/s tfr=2.13378 81429⁳⁻¹ s ]
-@ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-1.54885 62775 1⁳⁻¹ m ]
-@ C#9 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(-1.14234 81034 5_m/s)*∫(0;2.13378 81429⁳⁻¹;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)'=-1.54885 62775 1⁳⁻¹ m=xfr < 0
-'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+@ Expecting [ vt=-1.14234 81034 5 m/s v=-0.79446 37698 68 m/s tfr=0.21337 88142 9 s ]
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
@@ -7891,7 +7877,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 n1=1  n2=1.5
 @ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
 @ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails for the eqn: 'θB+θ2=90'!!
-'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
+'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ22];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
 #### Spherical Reflection

@@ -102,9 +102,11 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
 // ----------------------------------------------------------------------------
 {
     // Check if the guess is an algebraic or if we need to extract one
-    algebraic_g x, dx, lx, hx, nx, px;
-    algebraic_g y, dy, ly, hy;
-    id  gty = guess->type();
+    algebraic_g x, dx, lx, hx;  // Current, delta, low, high for x
+    algebraic_g y, dy, ly, hy;  // Current, delta, low, high for f(x)
+    algebraic_g nx, px;         // x where f(x) is negative and positive
+    algebraic_g sy;
+    id          gty = guess->type();
     save<bool>  nodates(unit::nodates, true);
 
     // Convert A=B+C into A-(B+C)
@@ -215,6 +217,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
     bool             is_valid    = false;
     uint             max         = Settings.SolverIterations();
     algebraic_g      two         = integer::make(2);
+    algebraic_g      maxscale    = integer::make(63);
     int              degraded    = 0;
 
     for (uint i = 0; i < max && !program::interrupted(); i++)
@@ -261,8 +264,12 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 store(x);
                 return nullptr;
             }
+
+            // If we got an error, we probably ran out of the domain.
+            // Chances are that the domain is between known good values
+            // if we had them, outside if we had none.
             if (!degraded)
-                degraded = -1;                          // Look outside
+                degraded = hy && ly ? 1 : -1;
         }
         else
         {
@@ -290,12 +297,6 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 x  = hx;
                 continue;
             }
-            else if (!hy)
-            {
-                record(solve, "Setting high %t=f(%t)", +y, +x);
-                hy = y;
-                hx = x;
-            }
             else if (smaller_magnitude(y, ly))
             {
                 // Smaller than the smallest
@@ -305,6 +306,12 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 lx = x;
                 ly = y;
                 degraded = 0;
+            }
+            else if (!hy)
+            {
+                record(solve, "Setting high %t=f(%t)", +y, +x);
+                hy = y;
+                hx = x;
             }
             else if (smaller_magnitude(y, hy))
             {
@@ -338,6 +345,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
 
             if (!degraded)
             {
+                // This was an improvement over at least one end
                 // Check if cross zero (change sign)
                 if (dy->is_negative(false))
                     nx = x;
@@ -384,13 +392,21 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 }
                 else
                 {
-                    // Interpolate to find new position
+                    // Strong slope: Interpolate to find new position
                     record(solve, "[%u] Moving to %t - %t * %t / %t",
                            i, +lx, +y, +dx, +dy);
                     is_constant = false;
-                    x = lx - (y / dy) * dx;
-                    record(solve, "[%u] Moved to %t [%t, %t]",
-                           i, +x, +lx, +hx);
+
+                    sy = y / dy;
+                    if (!sy || smaller_magnitude(maxscale, sy))
+                    {
+                        // Very weak slope: Avoid going deep into the woods
+                        record(solve, "[%u] Slow moving from %t scale %t",
+                               i, +x, + sy);
+                        sy = sy && sy->is_negative() ? -two : two;
+                    }
+                    x = lx - sy * dx;
+                    record(solve, "[%u] Moved to %t [%t, %t]", i, +x, +lx, +hx);
                 }
             }
 

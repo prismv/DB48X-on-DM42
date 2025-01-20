@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            units_and_conversions();
+            solver_testing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -6309,15 +6309,22 @@ void tests::solver_testing()
         .noerror().expect("X=1.73205 08075 7")
         .test("X", ENTER)
         .expect("1.73205 08075 7")
-        .test("'X'", ENTER, NOSHIFT, BSP, F2)
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
         .noerror();
     step("Solver without solution")
         .test(CLEAR, "'sq(x)+3=0' 'X' 1 ROOT", ENTER)
         .error("No solution?")
         .test(CLEAR, "X", ENTER)
-        .expect("0.00000 00712 63")
-        .test("'X'", ENTER, NOSHIFT, BSP, F2)
+        .expect("-2.19049 50593 6⁳⁻¹³")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
         .noerror();
+    step("Solver with slow slope")
+        .test(CLEAR, "'tan(x)=224' 'x' 1 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+    step("Solver with slow slope 2")
+        .test(CLEAR, "'tan(x)=224' 'x' 0 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+
 
     step("Solving menu")
         .test(CLEAR, "'A²+B²=C²'", ENTER)
@@ -6326,7 +6333,7 @@ void tests::solver_testing()
         .expect("C=5.");
     step("Evaluate equation case Left=Right")
         .test(F1)
-        .expect("'25=25.-4.⁳⁻²²'");
+        .expect("'25=25.-7.8⁳⁻²¹'");
 
     step("Verify that we display the equation after entering value")
         .test(CLEAR, "42", F4)
@@ -6450,17 +6457,17 @@ void tests::eqnlib_columns_and_beams()
         .test(NOSHIFT, F1)
         .expect("'676.60192 6324 kN"
                 "=6.76601 92632 4⁳¹⁴ kPa·mm↑4/m↑2"
-                "-0.00000 0001 kPa·mm↑4/m↑2'");
+                "-0.00000 0003 kPa·mm↑4/m↑2'");
     step("Solving Elastic Buckling third equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F2)
         .expect("σcr=127 428.24437 8 kPa")
         .test(NOSHIFT, F1)
-        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2+1.⁳⁻²² kN/cm↑2'");
+        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2-9.⁳⁻²² kN/cm↑2'");
     step("Solving Elastic Buckling fourth equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
         .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
-        .expect("'4.1148 cm=411.48 mm↑2/cm+6.13⁳⁻¹⁹ mm↑2/cm'");
+        .expect("'4.1148 cm=411.48 mm↑2/cm-5.8⁳⁻²⁰ mm↑2/cm'");
 
     step("Solving Eccentric Columns")
         .test(CLEAR, ID_EquationsMenu, F2, RSHIFT, F2)
@@ -13424,12 +13431,8 @@ tests &tests::source(cstring ref, uint extrawait)
     if (ref && !src)
         explain("Expected source [", ref, "], got none");
     if (ref && src && strcmp(ref, cstring(src)) != 0)
-        explain("Expected source [",
-                ref,
-                "], "
-                "got [",
-                src,
-                "]");
+        explain("Expected source [", ref, "], "
+                "got [", src, "]");
 
     fail();
     return *this;

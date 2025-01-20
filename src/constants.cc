@@ -383,7 +383,7 @@ static const cstring basic_constants[] =
 //*Vaccuum permittivity - Calculation from measurement
     "ε0",       "'→NUM(ROUND(CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m);XPON(UVAL(ⒸUrε0/(Ⓒμ0*Ⓒc^2)))-XPON(UVAL(1/(Ⓒμ0*Ⓒc^2)))-2))'",
     "Usε0",     "'→NUM(ROUND(UBASE(ⒸUrε0*Ⓒε0);-2))'",//=>Usε0='→NUM(CONVERT(ROUND(UBASE(Urα*ε0);-2);1_F/m))'=1.4E-21 F/m
-    "Urε0",     "'ⒸUrα'",
+    "Urε0",     "'ⒸUrμ0'",
   // α=0.00729735256434 Urε0=1.6E-10 μ0=1.25663706127E-6 H/m => ε0=8.8541878188E-12_F/m <=>
   //'→NUM(ROUND(CONVERT(1/(μ0*Ⓒc^2);1_F/m);XPON(UVAL(Urε0/(μ0*Ⓒc^2)))-XPON(UVAL(1/(μ0*Ⓒc^2)))-2))'
 //*Vaccuum permeability - Calculation from measurement
@@ -409,6 +409,7 @@ static const cstring basic_constants[] =
     "ℏ",        "'CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)'",   
     "Usℏ",      "0_J*s",
     "Urℏ",      "0",
+  // ℏ='CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)'=1.05457 18176 46156⁳⁻³⁴ J·s
 //*Electronic charge - Exact definition
     "qe",       "1.602176634E-19_C",       
     "Usqe",     "0_C",
@@ -416,9 +417,11 @@ static const cstring basic_constants[] =
 //*Electron mass - Calculation from measurement
     "me",       "'→NUM(ROUND(CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg);XPON(UVAL(ⒸUrme*2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc)))-XPON(UVAL(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc)))-2))'",     
     "Usme",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrme*Ⓒme);-2);1_kg))'",//=>Usme='→NUM(CONVERT(ROUND(UBASE(Urme*me);-2);1_kg))'=2.8E-40 kg
-    "Urme",     "3.1E-10",  //Urme≈'2*Urα+UrR∞' measured value
+    "Urme",     "'ⒸUru'",  //Urme≈'2*Urα+UrR∞' or 'Urmu+UrAre' measured value 3.1E-10
   // Urme=3.1E-10 R∞=10973731.568157_m⁻¹ α=0.00729735256434 => me=9.1093837139E-31 kg <=>
   //'→NUM(ROUND(CONVERT(2*Ⓒh*R∞/((α^2)*Ⓒc);1_kg);XPON(UVAL(Urme*2*Ⓒh*R∞/((α^2)*Ⓒc)))-XPON(UVAL(2*Ⓒh*R∞/((α^2)*Ⓒc)))-2))'
+  // Urme=3.1E-10 Are=5.485799090441E-4 u=1.66053906892E-27 kg => me=9.1093837139E-31 kg <=>
+  //'→NUM(ROUND(CONVERT(Are*u;1_kg);XPON(UVAL(Urme*Are*u))-XPON(UVAL(Are*u))-2))'
 //*Neutron mass - Measurement
     "mn",       "1.67492750056E-27_kg",    
     "Usmn",     "0.00000000085E-27_kg",
@@ -464,10 +467,13 @@ static const cstring basic_constants[] =
     "ø",        "'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'",      
     "Usø",      "0_Wb",
     "Urø",      "0",
+  // ø='CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'=2.06783 38484 61929⁳⁻¹⁵ Wb
 //*Faraday - Exact calculation
     "F",        "'CONVERT(ⒸNA*Ⓒqe;1_C/mol)'",      
     "UsF",      "0_C/mol",
     "UrF",      "0",
+  // F='CONVERT(ⒸNA*Ⓒqe;1_C/mol)'=96 485.33212 33100 2 C/mol
+// F='CONVERT(ⒸNA*Ⓒqe;1_C/mol)'=96 485.33212 33100 2 C/mol
 //*Rydberg - Measurement
     "R∞",       "10973731.568157_m⁻¹",    
     "UsR∞",     "0.000012_m⁻¹",
@@ -495,10 +501,12 @@ static const cstring basic_constants[] =
     "λ0",       "'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'",  
     "Usλ0",     "0_nm",
     "Urλ0",     "0",
-//*Photon frequency - Exact calculation
+  // λ0='CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'=
+//*Photon frequency - Exact calculation1 239.84198 43320 03 nm
     "f0",       "'CONVERT(Ⓒc/Ⓒλ0;1_Hz)'",            
     "Usf0",     "0_Hz",
     "Urf0",     "0",
+  // f0='CONVERT(Ⓒc/Ⓒλ0;1_Hz)'=2.41798 92420 84918⁳¹⁴ Hz
 //*Electron Compton wavelength - Calculation from measurement
     "λc",       "'→NUM(ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);XPON(UVAL(ⒸUrλc*Ⓒh/(Ⓒme*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒme*Ⓒc)))-2))'",      
     "Usλc",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrλc*Ⓒλc);-2);1_nm))'",//=>Usλc='→NUM(CONVERT(ROUND(UBASE(Urλc*λc);-2);1_nm))'=7.5E-13 nm
@@ -533,21 +541,21 @@ static const cstring basic_constants[] =
     "c1",       "'CONVERT(2*Ⓒπ*Ⓒh*Ⓒc^2;1_(W*m^2))'",   
     "Usc1",     "0_(W*m^2)",
     "Urc1",     "0",
-  // c1=3.7417718521928E-16 W·m↑2
+  // c1='CONVERT(2*Ⓒπ*Ⓒh*Ⓒc^2;1_(W*m^2))'=3.7417718521928E-16 W·m↑2
 //*Second radiation constant - Exact calculation
-    "c2",       "'CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'",   
+    "c2",       "'CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'",
     "Usc2",     "0_(m*K)",
     "Urc2",     "0",
-  // c2=1.4387768775039E-2 m·K
+  // c2='CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'=1.4387768775039E-2 m·K
 //*Wien's constant - Theory approximation
-    "c3",       "2.897771955185172661_mm*K",       
+    "c3",       "2.897771955185172661478605448092885_mm*K",
     "Usc3",     "0_mm*K",
     "Urc3",     "0",
 //* k/q - Exact calculation
     "kq",       "'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'",   
     "Uskq",     "0_J/(K*C)",
     "Urkq",     "0",
-  // kq=8.6173332621452E-5 J/(K·C)
+  // kq='CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'=8.6173332621452E-5 J/(K·C)
 //* ε0/q - Calculation from measurement
     "ε0q",      "'→NUM(ROUND(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C));XPON(UVAL(ⒸUrε0q*Ⓒε0/Ⓒqe))-XPON(UVAL(Ⓒε0/Ⓒqe))-2))'",  
     "Usε0q",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrε0q*Ⓒε0q);-2);1_F/(m*C)))'",//=>Usε0q='→NUM(CONVERT(ROUND(UBASE(Urε0q*ε0q);-2);1_F/(m*C)))'=0.0088 F/(m·C)
@@ -613,14 +621,17 @@ static const cstring basic_constants[] =
     "G0",       "'CONVERT(Ⓒqe^2/(Ⓒπ*Ⓒℏ);1_S)'",  
     "UsG0",     "0_S",
     "UrG0",     "0",
+  // G0='CONVERT(Ⓒqe^2/(Ⓒπ*Ⓒℏ);1_S)'=7.74809 17298 63651⁳⁻⁵ S
 //*von Klitzing constant - Exact calculation
     "Rk",       "'CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe^2;1_Ω)'",  
     "UsRk",     "0_Ω",
     "UrRk",     "0",
+  // Rk='CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe^2;1_Ω)'=25 812.80745 93045 1 Ω
 //*Josephson constant - Exact calculation
     "KJ",       "'CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)'",    
     "UsKJ",     "0_Hz/V",
     "UrKJ",     "0",
+  // KJ='CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)'-4.83597 84841 69836⁳¹⁴ Hz/V
 //*Classical electron radius - Calculation from measurement
     "re",       "'→NUM(ROUND(CONVERT(Ⓒα^2*Ⓒa0;1_m);XPON(UVAL(ⒸUrre*Ⓒα^2*Ⓒa0))-XPON(UVAL(Ⓒα^2*Ⓒa0))-2))'",       
     "Usre",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrre*Ⓒre);-2);1_m))'",//=>Usre='→NUM(CONVERT(ROUND(UBASE(Urre*(2.8179403205E-15_m));-2);1_m))'=1.3E-24 m
@@ -715,6 +726,7 @@ static const cstring basic_constants[] =
     "θw",       "'CONVERT(ASIN(√(0.22305));1_r)'",     
     "Usθw",     "0_r",
     "Urθw",     "0",
+  // θw='CONVERT(ASIN(√(0.22305));1_r)'=4.91877 56573 35179⁳⁻¹ r
 //*Cs hyperfine transition - Exact definition
     "ΔfCs",     "9192631770_Hz",                
     "UsΔfCs",   "0_Hz",

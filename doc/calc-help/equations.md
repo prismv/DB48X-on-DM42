@@ -1477,7 +1477,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 n1=1  n2=1.5
 @ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
 @ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails for the eqn: 'θB+θ2=90'!!
-'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ22];[1_m/s;1_m/s;1_°;1_°])'
+'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
 #### Spherical Reflection

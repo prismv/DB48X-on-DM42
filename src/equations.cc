@@ -673,7 +673,7 @@ static const cstring basic_equations[] =
 
     "Brewster’s Law",  "{ "
        "'TAN(θB_°)=n2/n1' "
-       "'(θB_°)+(θ2_°)=90°' "
+       "'(θB_°)+(θ2_°)=90_°' "
        "'n1=Ⓒc/(v1_(m/s))' "
        "'n2=Ⓒc/(v2_(m/s))' "
     "}",

@@ -385,14 +385,9 @@ object::result function::evaluate(algebraic_fn op, bool mat)
 //   Perform the operation from the stack, using a C++ operation
 // ----------------------------------------------------------------------------
 {
-    if (object_p top = rt.top())
+    if (object_p top = strip(rt.top()))
     {
         id topty = top->type();
-        while(topty == ID_tag)
-        {
-            top = tag_p(top)->tagged_object();
-            topty = top->type();
-        }
         if (topty == ID_polynomial)
         {
             if (op == algebraic_fn(sq::evaluate) ||

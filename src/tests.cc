@@ -3363,6 +3363,10 @@ void tests::decimal_numerical_functions()
         .test(CLEAR, "0 →Frac", ENTER).noerror().expect("0")
         .test(CLEAR, "1 →Frac", ENTER).noerror().expect("1")
         .test(CLEAR, "-123 →Frac", ENTER).noerror().expect("-123");
+
+    step("Assignment with functions")
+        .test(CLEAR, "x=3 TAN", ENTER).noerror().expect("-0.14254 65430 74")
+        .test(CLEAR, "'x' PURGE", ENTER);
 }
 
 

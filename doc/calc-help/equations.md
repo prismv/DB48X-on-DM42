@@ -1641,8 +1641,7 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 * To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
-@ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-20.38835 7933 m/s↑2  m=4.44444 44444 4⁳⁻² kg  E=0.05 J ]
-@ C#12 NOT OK MSOLVER: "No solution?" SOLVE for m: "No solution?" unable to isolate m in: 'ω0=1 r·√(k÷m)' !!
+@ Expecting [ x=9.06149 24146 7 cm v=-63.44371 46156 cm/s a=-20.38835 7933 m/s↑2 m=0.04444 44444 44 kg E=0.05 J ]
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 

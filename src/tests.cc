@@ -3369,13 +3369,25 @@ void tests::decimal_numerical_functions()
         .test(CLEAR, "'x' PURGE", ENTER);
 
     step("xpon function")
-        .test(CLEAR, "12.345E37 XPON", ENTER).expect("38");
+        .test(ID_PartsMenu)
+        .test(CLEAR, "12.345E37", ID_xpon).expect("38");
     step("mant function")
-        .test(CLEAR, "12.345E37 MANT", ENTER).expect("1.2345");
+        .test(CLEAR, "12.345E37", ID_mant).expect("1.2345");
+    step("SigDig function")
+        .test(CLEAR, "0", ID_SigDig).expect("0")
+        .test(CLEAR, "1", ID_SigDig).expect("1")
+        .test(CLEAR, "12", ID_SigDig).expect("2")
+        .test(CLEAR, "1.23", ID_SigDig).expect("3")
+        .test(CLEAR, "1.234", ID_SigDig).expect("4")
+        .test(CLEAR, "1.2345", ID_SigDig).expect("5")
+        .test(CLEAR, "123456", ID_SigDig).expect("6")
+        .test(CLEAR, "123.4567", ID_SigDig).expect("7");
     step("xpon function with unit")
         .test(CLEAR, "12.345E37_cm XPON", ENTER).expect("38");
     step("mant function with unit")
         .test(CLEAR, "12.345E37_cm MANT", ENTER).expect("1.2345");
+    step("SigDig function")
+        .test(CLEAR, "12.345E7_nm SIGDIG", ENTER).expect("5");
 }
 
 

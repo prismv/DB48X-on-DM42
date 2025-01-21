@@ -992,6 +992,28 @@ FUNCTION_BODY(xpon)
 }
 
 
+FUNCTION_BODY(SigDig)
+// ----------------------------------------------------------------------------
+//   Return number of significant digits in object
+// ----------------------------------------------------------------------------
+{
+    if (!x)
+        return nullptr;
+    if (x->is_symbolic())
+        return symbolic(ID_SigDig, x);
+    algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
+    if (!decimal_promotion(a))
+    {
+        rt.type_error();
+        return nullptr;
+    }
+    decimal_p d = decimal_p(+a);
+    return integer::make(d->significant_digits());
+}
+
+
 static decimal_p round(decimal_p value, int digits)
 // ----------------------------------------------------------------------------
 //   Round to given number of digits, in the manner of HP48 RND function

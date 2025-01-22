@@ -41,6 +41,19 @@ Its numerical value is an arbitrary large number that is not really infinite.
 
 The undefined constant is used to represent undefined values, such as the result of undefined operations.
 
+### rad constant
+
+One radian.
+
+### twoπ constant
+
+Two π radian (one full circle).
+
+### angl constant
+
+Half turn in degrees.
+
+
 ## Chemistry constant
 
 ### NA constant
@@ -50,7 +63,7 @@ the redefinition of the mole in 2019, as being the amount of substance
 containing exactly `NA` particles, the `NA` constant is therefore defined 
 as the following exact value:
 ```rpl
-    12 SIG  NA=6.02214 076E23_mol⁻¹  UsNA=0_mol⁻¹  UrNa=0
+    12 SIG  NA=6.02214076E23_mol⁻¹  UsNA=0_mol⁻¹  UrNa=0
 ```
 
 ### k constant
@@ -129,7 +142,7 @@ black body's temperature, `T`:`M°=σ·T⁴`.
 Since the redefinition of the SI units in 2019, the `σ` constant has an exact
 value resulting from the following calculation:
 ```rpl
-    12 SIG σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'  Usσ=0_J/(mol*K)  Urσ=0
+    12 SIG σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'  Usσ=0_W/(m^2*K^4)  Urσ=0
 ```
 
 #### Mu Molar Mass Constant
@@ -198,14 +211,15 @@ temperature of `T=1_K` and standard atmospheric pressure `StdP=101.325_kPa`
 for one mole of an ideal monoatomic gas composed of particles of mass equal 
 to the atomic mass constant. It is used in the general expression of the 
 entropy of an ideal monoatomic gas of relative atomic mass `Ar` at a pressure 
-`p_kPa` and a temperature `T_K`, which is given by:
+`p_kPa` and a temperature `T_K` which is given by:
 `S=ⒸR*(SoR+3/2*LN(Ar)−LN((p_kPa)/ⒸStdP)+5/2*LN((T_K)/(1_K)))`. 
 
-The SoR constant is calculated from the measured value of the unit mass `u`.
+The dimensionless SoR constant is calculated from the measured value of 
+the unit mass `u`.
 ```rpl
-    12 SIG  SoR='5/2+LN(UBASE(u*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)'
+    12 SIG  SoR='5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)'
 ```
-The uncertainties are evaluated as:
+The standard and relative uncertainties are evaluated as:
 ```rpl
     12 SIG  UsSoR='ROUND(UBASE(ⒸUrSoR*ABS(ⒸSoR));-2)'  UrSoR=4.0E-10
 ```
@@ -237,7 +251,7 @@ devised by the primary author of DB48X.
 
 Its value is exactly defined as
 ```rpl
-    12 SIG  c=299 792 458_m/s  Usc=0_m/s  Urc=0
+    12 SIG  c=299792458_m/s  Usc=0_m/s  Urc=0
 ```
 
 
@@ -317,7 +331,7 @@ Planck constant divided by the associated particle momentum `p` (`λ=h/p`).
 
 Since the 2019 SI redefinition, it is exactly defined as:
 ```rpl
-    12 SIG  h=6.62607 015E-34_J*s  Ush=0_J*s  Urh=0  
+    12 SIG  h=6.62607015E-34_J*s  Ush=0_J*s  Urh=0  
 ```
 
 ### ℏ constant
@@ -340,7 +354,7 @@ as `qe=1.60217 6634⁳⁻¹⁹` coulombs. Since the 2019 redefinition of SI ba
 the seven SI base units are defined by seven fundamental physical constants, of
 which the elementary charge is one. As a consequence of this change, the value
 of that constant in DB48X differs from the value in the HP50G, which named it 
-`q`, with value `1.60217 733⁳⁻¹⁹` coulombs. 
+`q`, with value `1.60217733⁳⁻¹⁹` coulombs. 
 
 The exact value of `qe` is then:
 ```rpl
@@ -364,7 +378,7 @@ on the fine structure constant `α` and the Rysberg constant `R∞`:
 Its relative uncertainty is therefore on the same order either of the sum 
 `2*Urα+UrR∞` or is the same as the relative uncertainty of the unit mass:
 ```rpl
-    12 SIG  Usme='ⒸUru'
+    12 SIG  Usme='→NUM(CONVERT(ROUND(UBASE(ⒸUrme*Ⓒme);-2);1_kg))'  Urme='ⒸUru'
 ```
 
 ### mn constant
@@ -388,8 +402,8 @@ with absolute and relative uncertainties:
 Mass of the proton. Being the hydrogen nucleus, discovered and named 
 by Ernest Rutherford, the proton was considered at first to be an 
 elementary particle. It is now recognized as being composed of two 
-valence up quarks of charge `+⁠2/3e` each, and one valence down quark
-of charge `−⁠1/3⁠e`. The rest masses of quarks contribute only about 1% 
+valence up quarks of charge `+⁠2/3qe` each, and one valence down quark
+of charge `−⁠1/3⁠qe`. The rest masses of quarks contribute only about 1% 
 of a proton's mass and 99% is quantum chromodynamics binding energy
 including gluons field energy and quarks kinetic relativistic energy.
 
@@ -405,7 +419,7 @@ with absolute and relative uncertainties:
 
 ### mH constant
 
-Mass of the neutral hydrogen atom. The electrically neutral hydrogen
+Mass of the neutral hydrogen atom. The electrically neutral hydrogen H-1
 atom contains a single positively charged proton in the nucleus, and 
 a single negatively charged electron bound to the nucleus by the Coulomb 
 force. Atomic hydrogen constitutes about 75% of the baryonic mass of the 
@@ -419,29 +433,60 @@ with absolute and relative uncertainties:
     12 SIG  UsmH=0.00000000009_u  UrmH='→NUM(ROUND(UBASE(ⒸUsmH/ⒸmH);-2))'
 ```
 
-### mD constant
+### Mass unit (u)
 
-Mass of the neutral hydrogen atom. The electrically neutral hydrogen
-atom contains a single positively charged proton in the nucleus, and 
-a single negatively charged electron bound to the nucleus by the Coulomb 
-force. Atomic hydrogen constitutes about 75% of the baryonic mass of the 
-Universe. Precise measurements of hydrogen is obtained by spectrometry. 
-Its measured value is:
+Unified atomic mass unit (AMU) or dalton, in physics and chemistry, a unit 
+for expressing masses of atoms, molecules, or subatomic particles. An atomic 
+mass unit is equal to 1/12 the mass of a single atom of carbon-12. Being 
+affected by the bonding energy of the nucleons in the nucleus, the mass in 
+daltons of an atom is in general numerically close but not exactly equal to 
+the number of nucleons in its nucleus. The atomic mass unit is determined 
+from the calculation of the electron rest mass `me` and the measurement of
+the electron relative atomic mass `Ar(e)` (that is, the mass of electron 
+divided by the atomic mass constant). It is calculated by:
 ```rpl
-    12 SIG  mH=1.00782503223_u
+    12 SIG  u='CONVERT(Ⓒme/ⒸAre;1_kg)'
 ```
-with absolute and relative uncertainties:
+the relative uncertainty is evaluated as:
 ```rpl
-    12 SIG  UsmH=0.00000000009_u  UrmH='→NUM(ROUND(UBASE(ⒸUsmH/ⒸmH);-2))'
+    12 SIG  Usu='→NUM(CONVERT(ROUND(UBASE(ⒸUru*Ⓒu);-2);1_kg))'  Uru=3.1E-10
 ```
 
-### qme constant
+### Dalton (Da)
 
-Ratio between the electron charge and its mass.
+Dalton or unified atomic mass unit (u) design the same constant, see
+[Mass unit (u)](#Mass unit (u)). It is obtained by:
+```rpl
+    12 SIG  Da='Ⓒu'
+```
+the standard and relative uncertainties are:
+```rpl
+    12 SIG  UsDa='ⒸUsu'  UrDa='ⒸUru'
+```
 
-### mpme constant
+### qme ratio
 
-Ratio between the mass of the proton and the mass of the electron.
+Ratio between the electron charge `qe` and its mass `me`. 
+It depends on the calculated value of the electron mass:
+```rpl
+    12 SIG  qme='CONVERT(Ⓒqe/Ⓒme;1_C/kg)'
+```
+its relative uncertainty is the same as the electron mass:
+```rpl
+    12 SIG  Usqme='→NUM(CONVERT(ROUND(UBASE(ⒸUrqme*Ⓒqme);-2);1_C/kg))'  Urqme='ⒸUrme'
+```
+
+### mpme Ratio
+
+Ratio between the mass of the proton `mp` and the mass of the
+electron `me`. It is a measured dimensionless quantity:
+```rpl
+    12 SIG  mpme=1836.152673426
+```
+its standard and relative uncertainties are:
+```rpl
+    12 SIG  Usmpme=0.000000032  Urmpme='→NUM(ROUND(UBASE(ⒸUsmpme/Ⓒmpme);-2))'
+```
 
 ### α constant
 
@@ -452,47 +497,95 @@ electromagnetic interaction between elementary charged particles.
 
 It is a dimensionless quantity, independent of the system of units used, which
 is related to the strength of the coupling of an elementary charge e with the
-electromagnetic field.
+electromagnetic field. It is a measured quantity:
+```rpl
+    11 SIG  α=0.00729735256434
+```
+its standard and relative uncertainties are:
+```rpl
+    2 SIG  Usα=0.00000000000114  Urα='→NUM(ROUND(UBASE(ⒸUsα/Ⓒα);-2))'
+```
 
 ### ø constant
 
 Magnetic flux quantum. The (superconducting) magnetic flux quantum is a
-combination of fundamental physical constants: the Planck constant h and the
-electron charge e. Its value is, therefore, the same for any superconductor.
+combination of fundamental physical constants: the Planck constant `h` 
+and the electron charge `qe`. Its value is, therefore, the same for 
+any superconductor. It is exactly calculated by:
+```rpl
+    12 SIG  ø='CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)'"  Usø=0_Wb  Urø=0
+```
 
 ### F constant
 
-Faraday constant. In physical chemistry, the Faraday constant is a physical
-constant defined as the quotient of the total electric charge (q) by the amount
-(n) of elementary charge carriers in any given sample of matter
+Faraday constant. In physical chemistry, the Faraday constant is a 
+physical constant defined as the quotient of the total electric charge 
+(`q`) by the amount (`n`) of elementary charge carriers in any given 
+sample of matter. It is exactly calculated by:
+```rpl
+    12 SIG  F='CONVERT(ⒸNA*Ⓒqe;1_C/mol)'  UsF=0_C/mol  UrF=0
+```
 
 ### R∞ constant
 
-Rydberg constant. In spectroscopy, the Rydberg constant is a physical constant
-relating to the electromagnetic spectra of an atom. The constant first arose as
-an empirical fitting parameter in the Rydberg formula for the hydrogen spectral
-series, but Niels Bohr later showed that its value could be calculated from more
-fundamental constants according to his model of the atom.
+Rydberg constant. In spectroscopy, the Rydberg constant is a physical 
+constantrelating to the electromagnetic spectra of an atom. The constant 
+first arose asan empirical fitting parameter in the Rydberg formula for 
+the hydrogen spectral series, but Niels Bohr later showed that its value 
+is related to more fundamental constants according to his model of the 
+atom. The Rydberg constant value is inferred from measurements of atomic 
+transition frequencies in three different atoms (hydrogen, deuterium, 
+and antiprotonic helium). It is measured as:
+  ```rpl
+    12 SIG R∞=10973731.568157_m⁻¹
+```
+The Rydberg constant is one of the most precisely determined physical 
+constants, with the following standard and relative uncertainties:
+```rpl
+    12 SIG  UsR∞=0.000012_m⁻¹  UrR∞='→NUM(ROUND(UBASE(ⒸUsR∞/ⒸR∞);-2))'
+```
 
 ### a0 constant
 
-Bohr radius. The Bohr radius is a physical constant, approximately equal to the
-most probable distance between the nucleus and the electron in a hydrogen atom
-in its ground state.
+Bohr radius. The Bohr radius is a physical constant, approximately equal 
+to the most probable distance between the nucleus and the electron in a 
+hydrogen atom in its ground state. Its value depends on the vacuum electric 
+permittivity `ε0` and it is calculated by:
+```rpl
+    12 SIG  a0='CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)'
+```
+through `ε0`, its relative uncertainty is the same as the fine structure 
+constant:
+```rpl
+    12 SIG  Usqa0='→NUM(CONVERT(ROUND(UBASE(ⒸUsα/Ⓒα*Ⓒa0);-2);1_nm))'  Urqme='ⒸUrα'
+```
 
 ### μB constant
 
-Bohr magneton. In atomic physics, the Bohr magneton is a physical constant and
-the natural unit for expressing the magnetic moment of an electron caused by its
-orbital or spin angular momentum. In SI units, the Bohr magneton is defined as
-`μB=qe*ℏ/(2·me)`.
-
+Bohr magneton. In atomic physics, the Bohr magneton is a physical constant 
+and the natural unit for expressing the magnetic moment of an electron caused 
+by its orbital or spin angular momentum. In SI units, the Bohr magneton 
+depends on the calculated value of the electron mass `me`. It is calculated as:
+```rpl
+    12 SIG  μB='CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T)'
+```
+its relative uncertainty is the same as the electron mass:
+```rpl
+    12 SIG  UsμB='→NUM(CONVERT(ROUND(UBASE(ⒸUrμB*ⒸμB);-2);1_J/T))'  UrμB='ⒸUrme'
+```
 
 ### μN constant
 
-The nuclear magneton is a physical constant of magnetic moment, defined in SI
-units by `μN=qe·ℏ/(2·mp)`.
-
+The nuclear magneton is a physical constant of magnetic moment. Defined 
+in SI units, it depends on the measured value of the proton mass `mp`. 
+It is calculated as:
+```rpl
+    12 SIG  μN='CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)'
+```
+its relative uncertainty is the same as the proton mass:
+```rpl
+    12 SIG  UsμN='→NUM(CONVERT(ROUND(UBASE(ⒸUrμN*ⒸμN);-2);1_J/T))'  UrμB='ⒸUrmp'
+```
 
 ### λ0 constant
 
@@ -502,32 +595,117 @@ researchers often discuss photon energies in units of eV (or keV for hard
 X-rays) out of convenience.  The SI definition for 1 eV derives from the
 [definitional value of the electron charge](#me-constant). Photon energy `E` in
 eV can be computed from wavelength `l` in nm as: `E=λ0/l`.
+Is is exactly calculated by:
+```rpl
+    12 SIG  λ0='CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'  Usλ0=0_nm  Urλ0=0
+```
 
 ### f0 constant
 
 Photon frequency. This is the frequency associated to the
 [photon wavelength λ0][#λ0-constant].
+Is is exactly calculated by:
+```rpl
+    12 SIG  f0='CONVERT(Ⓒc/Ⓒλ0;1_Hz)'  Usf0=0_Hz  Urf0=0
+```
 
 ### λc constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property of a
-particle, defined as the wavelength of a photon whose energy is the same as the
-rest energy of that particle (based on the mass–energy equivalence).
+Compton wavelength. The Compton wavelength is a quantum mechanical property 
+of a particle, defined as the wavelength of a photon whose energy is the 
+same as the rest energy of that particle (based on the mass–energy 
+equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
+is given by `λ=h/(m·c)`. Since it is defined here for the electron, it 
+depends on the calculated value of the electron mass `me` by:
+```rpl
+    12 SIG  λc='CONVERT(Ⓒh/(Ⓒme*Ⓒc)'
+```
+its relative uncertainty is the same as the electron mass:
+```rpl
+    12 SIG  Usλc='→NUM(CONVERT(ROUND(UBASE(ⒸUrλc*Ⓒλc);-2);1_nm))'  Urλc='ⒸUrme'
+```
 
-The standard Compton wavelength `λ` of a particle of mass `m` is given by
-`λ=h/(m·c)`
+### λcp constant
 
-### rad constant
+Compton wavelength. The Compton wavelength is a quantum mechanical property 
+of a particle, defined as the wavelength of a photon whose energy is the 
+same as the rest energy of that particle (based on the mass–energy 
+equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
+is given by `λ=h/(m·c)`. Since it is defined here for the proton, it 
+depends on the measured value of the proton mass `mp` by:
+```rpl
+    12 SIG  λcp='CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)'
+```
+its relative uncertainty is the same as the proton mass:
+```rpl
+    12 SIG  Usλcp='→NUM(CONVERT(ROUND(UBASE(ⒸUrλcp*Ⓒλcp);-2);1_nm))'  Urλcp='ⒸUrmp'
+```
 
-One radian.
+### λcn constant
 
-### twoπ constant
+Compton wavelength. The Compton wavelength is a quantum mechanical property 
+of a particle, defined as the wavelength of a photon whose energy is the 
+same as the rest energy of that particle (based on the mass–energy 
+equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
+is given by `λ=h/(m·c)`. Since it is defined here for the neutron, it 
+depends on the measured value of the neutron mass `mn` by:
+```rpl
+    12 SIG  λcn='CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)'
+```
+its relative uncertainty is the same as the neutron mass:
+```rpl
+    12 SIG  Usλcn='→NUM(CONVERT(ROUND(UBASE(ⒸUrλcn*Ⓒλcn);-2);1_nm))'  Urλcn='ⒸUrmn'
+```
 
-Two π radian (one full circle).
+### λcμ constant
 
-### angl constant
+Compton wavelength. The Compton wavelength is a quantum mechanical property 
+of a particle, defined as the wavelength of a photon whose energy is the 
+same as the rest energy of that particle (based on the mass–energy 
+equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
+is given by `λ=h/(m·c)`. Since it is defined here for the muon particle, it 
+depends on the measured value of the muon mass `mμ` by:
+```rpl
+    12 SIG  λcμ='CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm)'
+```
+its relative uncertainty is the same as the muon mass:
+```rpl
+    12 SIG  Usλcμ='→NUM(CONVERT(ROUND(UBASE(ⒸUrλcμ*Ⓒλcμ);-2);1_nm))'  Urλcμ='ⒸUrmμ'
+```
 
-Half turn in degrees.
+### λτ constant
+
+Compton wavelength. The Compton wavelength is a quantum mechanical property 
+of a particle, defined as the wavelength of a photon whose energy is the 
+same as the rest energy of that particle (based on the mass–energy 
+equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
+is given by `λ=h/(m·c)`. Since it is defined here for the tau particle, it 
+depends on the measured value of the tau mass `mτ` by:
+```rpl
+    12 SIG  λcτ='CONVERT(Ⓒh/(Ⓒmτ*Ⓒc);1_nm)'
+```
+its relative uncertainty is the same as the tau mass:
+```rpl
+    12 SIG  Usλcτ='→NUM(CONVERT(ROUND(UBASE(ⒸUrλcτ*Ⓒλcτ);-2);1_nm))'  Urλcτ='ⒸUrmτ'
+```
+
+### c1 constant
+
+First radiation constant. This constant appears in the Radiance 
+expression of the Planck's law: `Bλ(λ;T)=c1/λ^5/EXPM1(c2/λT)`.
+Is is exactly calculated by:
+```rpl
+    12 SIG  c1='CONVERT(2*Ⓒπ*Ⓒh*Ⓒc^2;1_(W*m^2))'  Usc1=0_(W*m^2)  Urc1=0
+```
+
+### c2 constant
+
+Second radiation constant. This constant appears in the Radiance 
+expression of the Planck's law: `Bλ(λ;T)=c1/λ^5/EXPM1(c2/λT)`.
+Is is exactly calculated by:
+```rpl
+    12 SIG  c2='CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'  Usc2=0_(m*K)  Urc2=0
+```
 
 ### c3 constant
 
@@ -544,45 +722,355 @@ toward shorter wavelengths as temperature increases.
 Formally, the wavelength version of Wien's displacement law states that the
 spectral radiance of black-body radiation per unit wavelength, peaks at the
 wavelength `λpeak=c3/T` where `T` is absolute temperature.
+From a theoretic expression, it is approximately given by:
+```rpl
+    12 SIG  c3=2.897771955185172661478605448092885_mm*K  Usc3=0_mm*K  Urc3=0
+```
 
 ### kq constant
 
 Ratio of the [Boltzman constant](#k-constant) by the
-[elementary charge](#qe-constant): `kq=k/qe`.
+[elementary charge](#qe-constant): `kq=k/qe`. It is exactly 
+calculated by:
+```rpl
+    12 SIG  kq='CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'  Uskq=0_J/(K*C)  Urkq=0
+```
 
 ### ε0q constant
 
-Ratio of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `ε0q=ε0/qe`.
-
+Ratio of the [vacuum permittivity](#ε0-constant) by the
+[elementary charge](#qe-constant): `ε0q=ε0/qe`. It is exactly 
+calculated as:
+```rpl
+    12 SIG  ε0q='CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C))'
+```
+Its relative uncertainty is the same as the vacuum permittivity: 
+```rpl
+    12 SIG  Usε0q='→NUM(CONVERT(ROUND(UBASE(ⒸUrε0q*Ⓒε0q);-2);1_F/(m*C)))'  Urε0q='ⒸUrε0'
+```
 
 ### qε0 constant
 
 Product of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `qε0=ε0·qe`.
+[elementary charge](#qe-constant): `qε0=ε0·qe`. It is calculated as:
+```rpl
+    12 SIG  qε0='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
+```
+Its relative uncertainty is the same as the vacuum permittivity: 
+```rpl
+    12 SIG  Usqε0='→NUM(CONVERT(ROUND(UBASE(ⒸUrqε0*Ⓒqε0);-2);1_F*C/m))'  Urqε0='ⒸUrε0'
+```
+
+### ke constant
+
+Coulomb constant as it appears in the expression of the Coulomb
+force: `Fe=ke·q1·q2/r^2`. It is calculated by:
+```rpl
+    12 SIG  ke='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
+```
+Its relative uncertainty is the same as the vacuum permittivity: 
+```rpl
+    12 SIG  Uske='→NUM(CONVERT(ROUND(UBASE(ⒸUrke*Ⓒke);-2);1_(N*(m/C)^2)))'  Urke='ⒸUrε0'
+```
 
 ### εsi constant
 
 Dielectric constant of silicon. The dielectric constant (or relative
 permittivity), is a material property that measures how well an applied electric
 field can penetrate a dielectric medium compared to a vacuum. A higher value
-corresponds to a lower penetration.
+corresponds to a lower penetration. Its exact value is given by convention as:
+```rpl
+    12 SIG  εsi=11.9  Usεsi=0  Urεsi=0
+```
 
 ### εox constant
 
 SiO2 dielectric constant. The dielectric constant (or relative
 permittivity), is a material property that measures how well an applied electric
 field can penetrate a dielectric medium compared to a vacuum. A higher value
-corresponds to a lower penetration.
+corresponds to a lower penetration. Its exact value is given by convention as:
+```rpl
+    12 SIG  εox=3.9  Usεox=0  Urεox=0
+```
 
 ### I0 constant
 
 Reference sound intensity. Sound intensity level or acoustic intensity level is
 the level of the intensity of a sound relative to a reference value. It is a
 logarithmic quantity, most often expressed in decibels dB. I0 is the sound
-intensity used as a reference, corresponding to 0dB.
+intensity used as a reference, corresponding to `β=0_dB` due to the definition 
+of the sound pressure level `β=10·LOG10(I/I0)` where `I=I0`. Its exact value  
+is given by convention as:
+```rpl
+    12 SIG  εox=0.000000000001_W/m^2  UsI0=0_W/m^2  UrI0=0
+```
 
+### Z0 constant
 
+Vacuum characteristic impedance constant. It is a physical constant 
+relating the magnitudes of the electric `E` and magnetic `H` fields 
+of electromagnetic radiation travelling through free space. With
+'Zo=|E|/|H|'. It depends on the vacuum permittivity and is calculated 
+by:
+```rpl
+    12 SIG  Z0='CONVERT(Ⓒμ0*Ⓒc;1_Ω)'
+```
+Its relative uncertainty is the same as the vacuum permittivity: 
+```rpl
+    12 SIG  UsZ0='→NUM(CONVERT(ROUND(UBASE(ⒸUrZ0*ⒸZ0);-2);1_Ω))'  UrZ0='ⒸUrμ0'
+```
+
+### mD constant
+
+Mass of the neutral deuterium atom which is a stable isotope of hydrogen. 
+The electrically neutral deuterium atom H-2 (also known as heavy hydrogen) 
+contains a single positively charged proton and a neutron in the nucleus,
+and a single negatively charged electron bound to the nucleus by the 
+Coulomb force. It accounts for about 0.0156% by number (0.0312% by mass) 
+of all hydrogen in the ocean. Precise measurements of hydrogen is obtained 
+by spectrometry. Its measured value is:
+```rpl
+    12 SIG  mD=2.01410177812_u",           
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  UsmD=0.00000000012_u  UrmD='→NUM(ROUND(UBASE(ⒸUsmD/ⒸmD);-2))'
+```
+
+### mT constant
+
+Mass of the neutral tritium atom which is a unstable isotope of hydrogen. 
+The electrically neutral tritium atom H-3 is rare and radioactive with a 
+half-life of ~12.3 years, Its nucleus contains a single positively charged
+proton and two neutrons, surrounded by a single negatively charged electron
+bound to the nucleus by the Coulomb force. Trace amounts are found in the 
+atmosphere due to interaction of its gases with cosmic rays. Precise 
+measurements of hydrogen is obtained by spectrometry. Its measured value is:
+```rpl
+    12 SIG  mT=3.0160492779_u"                       
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  UsmT=0.0000000024_u  UrmT='→NUM(ROUND(UBASE(ⒸUsmT/ⒸmT);-2))'
+```
+
+### mHe constant
+
+Mass of the neutral helium atom. The electrically neutral helium atom 
+He-4 contains two positively charged protons and two neutrons, and two
+negatively charged electrons bound to the nucleus by the Coulomb force. 
+Atomic helium constitutes about 24% of the total elemental mass of the 
+Universe. Precise measurements of helium is obtained by spectrometry. 
+Its measured value is: 
+```rpl
+    12 SIG  mHe=4.00260325413_u
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  UsmHe=0.00000000006_u  UrmHe='→NUM(ROUND(UBASE(ⒸUsmHe/ⒸmHe);-2))'
+```
+
+### Muon mass
+
+Mass of the muon which is an elementary particle similar to the 
+electron, with an electric charge of `−qe` and spin -1/2, but with 
+a much greater mass. Classified as a lepton and it is an unstable
+subatomic particle with a lifetime of 2.2 μs. Precise measurements
+of the muon mass is deduced from energy conservation budget in pair 
+creation reaction. Its measured value is: 
+```rpl
+    12 SIG  mμ=0.1134289257_u
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usmμ=0.0000000025_u  Urmμ='→NUM(ROUND(UBASE(ⒸUsmμ/Ⓒmμ);-2))'4.00260325413_u
+```
+
+### Tau mass
+
+Mass of the tau which is an elementary particle similar to the 
+electron, with an electric charge of `−qe` and spin -1/2, but it is
+heaviest of leptons. It is an unstable subatomic particle with a 
+lifetime of 2.9e-13 s. Precise measurements of the tau mass is 
+deduced from energy conservation budget in pair creation reaction.
+Its measured value is: 
+```rpl
+    12 SIG  mμ=1.90754_u
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usmτ=0.00013_u  Urmτ='→NUM(ROUND(UBASE(ⒸUsmμ/Ⓒmμ);-2))'
+```
+
+### G0 constant
+
+Conductance quantum constant. It is the quantized unit of electrical 
+conductance. It is required when measuring the conductance of a quantum 
+point contact, and also, it appears explicitly in the Landauer formula: 
+'G(μ)=G0·ΣTn(μ) over n' which relates the electrical conductance of a 
+quantum conductor to its quantum properties. It is exactly calculated 
+by:
+```rpl
+    12 SIG  G0='CONVERT(Ⓒqe^2/(Ⓒπ*Ⓒℏ);1_S)'  UsG0=0_S  UrkG0=0
+```
+
+### Rk constant
+
+Von Klitzing constant. It appears in the expression of the Hall 
+resistance `Rxy=Rk/ν` (`ν` being either an integer or a fraction) 
+of the quantum Hall effect, a quantized version of the Hall effect 
+which is observed in two-dimensional electron systems subjected to 
+low temperatures and strong magnetic fields. It is exactly 
+calculated by:
+```rpl
+    12 SIG  Rk='CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe^2;1_Ω)'  UsRk=0_Ω  UrRk=0
+```
+
+### KJ constant
+
+Josephson constant. The Josephson constant is a constant of 
+proportionality that relates the potential difference across a 
+Josephson junction to the frequency of irradiation. It's also 
+the inverse of the magnetic flux quantum. It is exactly 
+calculated by:
+```rpl
+    12 SIG  KJ='CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)'  UsKJ=0_Hz/V  UrKJ=0
+```
+
+### re constant
+
+The classical electron radius. Through the Bohr radius `a0`, it depends on fine structure constant and is calculated by:
+```rpl
+    12 SIG  re='CONVERT(Ⓒα^2*Ⓒa0;1_m)'
+```
+Its relative uncertainty is three times the one of the fine structure constant: 
+```rpl
+    12 SIG  Usre='→NUM(CONVERT(ROUND(UBASE(ⒸUrre*Ⓒre);-2);1_m))'  Urre='→NUM(ROUND(3*Usα/α;-2))'
+```
+
+### rp constant
+
+Proton charge radius. A direct measure of the proton radius. Since 2010,
+the measure was done using either spectroscopy method with muonic hydrogen, 
+and then with deuterium atom, or either using a more recent electron-proton 
+scattering experiment. Its measured value is: 
+```rpl
+    12 SIG  mrp=8.4075-16_m
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usrp=0.0064-16_m  Urrp='→NUM(ROUND(UBASE(ABS(ⒸUsrp/Ⓒrp));-2))'
+```
+
+### σe constant
+
+The Thomson cross-section. This type of scattering is valid when the field
+energy `hν` is much less than the rest mass of the electron `m0·c^2`, the 
+electric field of the incident wave accelerates the charged target-particle, 
+causing it, in turn, to emit radiation at the same frequency as the incident 
+wave, hence the scattering of the wave. This explains why Thomson scattering
+is important in plasma physics. Through the classical electron radius `re`, 
+it depends on fine structure constant and is calculated by:
+```rpl
+    12 SIG  σe='CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'
+```
+Its relative uncertainty is six times the one of the fine structure constant: 
+```rpl
+    12 SIG  Usσe='→NUM(CONVERT(ROUND(UBASE(ⒸUrσe*Ⓒσe);-2);1_m^2))'  Urσe='→NUM(ROUND(6*ⒸUsα/Ⓒα;-2))'
+```
+
+### μe constant
+
+Electron magnetic moment. The electron magnetic moment, or more 
+specifically the electron magnetic dipole moment, is the magnetic 
+moment of an electron resulting from its intrinsic properties of spin 
+and electric charge. Its angular momentum comes from two types of 
+rotation: spin and orbital motion. Therefore an external magnetic field
+exerts a torque on the electron magnetic moment revealing its exixtence. 
+Its measured value is: 
+```rpl
+    12 SIG  μe=-9.2847646917E-24_J/T,
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usμe=0.0000000029E-24_J/T  Urμe='→NUM(ROUND(UBASE(ABS(ⒸUsμe/Ⓒμe));-2))'
+```
+
+### μp constant
+
+Proton magnetic moment. It is the magnetic dipole moment of the proton 
+resulting from its intrinsic properties of spin and electric charge. Its 
+angular momentum comes from two types of rotation: spin and orbital motion. 
+Therefore an external magnetic field exerts a torque on the proton magnetic 
+moment revealing its existence. 
+Its measured value is: 
+```rpl
+    12 SIG  μp=1.41060679545E-26_J/T
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usμp=0.00000000060E-26_J/T  Urμp='→NUM(ROUND(UBASE(ABS(ⒸUsμp/Ⓒμp));-2))'
+```
+
+### μn constant
+
+Neutron magnetic moment. It is the magnetic dipole moment of the meutron 
+resulting from its intrinsic properties of spin. Normally it sould be 
+zero for an elementary neutral particle because of zero charge. The fact
+that it was non-vanishing prooves that the neutron is a composite particle. 
+Its angular momentum comes from two types of rotation: spin and orbital 
+motion. Therefore an external magnetic field exerts a torque on the 
+neutron magnetic moment revealing its existence. Its measured value is: 
+```rpl
+    12 SIG  μμ=-4.49044830E-26_J/T
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usμμ=0.00000010E-26_J/T  Urμμ='→NUM(ROUND(UBASE(ABS(ⒸUsμμ/Ⓒμμ));-2))'
+```
+
+### μμ constant
+
+Muon magnetic moment. It is the magnetic dipole moment of the meutron 
+resulting from its intrinsic properties of spin and electric charge. 
+Its angular momentum comes from two types of rotation: spin and orbital 
+motion. Therefore an external magnetic field exerts a torque on the muon 
+magnetic moment revealing its existence. Its measured value is: 
+```rpl
+    12 SIG  μn=-9.6623653E-27_J/T
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usμn=0.0000023E-27_J/T  Urμn='→NUM(ROUND(UBASE(ABS(ⒸUsμn/Ⓒμn));-2))'
+```
+
+### ge constant
+
+Electron g-factor. It is a dimensionless quantity that characterizes 
+the magnetic moment and angular momentum of an electron. It is the 
+ratio of the magnetic moment (or, equivalently, the gyromagnetic ratio) 
+of the electron to that expected of a classical particle of the same 
+charge and angular momentum. The electron g-factor is one of the most 
+precisely measured values in physics. Its measured value is: 
+```rpl
+    12 SIG  ge=-2.00231930436092
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usge=0.00000000000036  Urge='→NUM(ROUND(UBASE(ABS(ⒸUsge/Ⓒge));-2))'
+```
+
+### Mpl constant
+
+The Planck mass. This type of scattering is valid when the field
+energy `hν` is much less than the rest mass of the electron `m0·c^2`, the 
+electric field of the incident wave accelerates the charged target-particle, 
+causing it, in turn, to emit radiation at the same frequency as the incident 
+wave, hence the scattering of the wave. This explains why Thomson scattering
+is important in plasma physics. Through the classical electron radius `re`, 
+it depends on fine structure constant and is calculated by:
+```rpl
+    12 SIG  Mpl='CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'
+```
+Its relative uncertainty is six times the one of the fine structure constant: 
+```rpl
+    12 SIG  Usσe='→NUM(CONVERT(ROUND(UBASE(ⒸUrσe*Ⓒσe);-2);1_m^2))'  Urσe='→NUM(ROUND(6*ⒸUsα/Ⓒα;-2))'
+```
+
+kkk
 ## Dates Constants
 
 ### BastilleDay constant

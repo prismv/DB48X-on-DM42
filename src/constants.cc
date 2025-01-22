@@ -437,23 +437,25 @@ static const cstring basic_constants[] =
     "UsmH",     "0.00000000009_u",
     "UrmH",     "'→NUM(ROUND(UBASE(ⒸUsmH/ⒸmH);-2))'",
   // mH=1.00782503223_u UsmH=0.00000000009_u '→NUM(ROUND(UBASE(UsmH/mH);-2))' => UrmH=8.9E-11
-//*Mass unit - Calculation from measurement
-    "u",        "'→NUM(ROUND(CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc*ⒸAre);1_kg);XPON(UVAL(ⒸUru*2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc*ⒸAre)))-XPON(UVAL(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc*ⒸAre)))-2))'",    
+//*Mass unit (u) - Calculation from measurement
+    "u",        "'→NUM(ROUND(CONVERT(Ⓒme/ⒸAre;1_kg);XPON(UVAL(ⒸUru*Ⓒme/ⒸAre))-XPON(UVAL(Ⓒme/ⒸAre))-2))''",    
     "Usu",      "'→NUM(CONVERT(ROUND(UBASE(ⒸUru*Ⓒu);-2);1_kg))'",//=>Usu='→NUM(CONVERT(ROUND(UBASE(Uru*u);-2);1_kg))'=5.1E-37 kg
     "Uru",      "3.1E-10",  //Uru≈'2*Urα+UrR∞+UrAre' measured value
+  // Uru=3.1E-10 me=9.1093837139E-31 kg Are=5.485799090441E-4 => u=1.66053906892E-27 kg <=>
+  //'→NUM(ROUND(CONVERT(me/Are;1_kg);XPON(UVAL(Uru*me/Are))-XPON(UVAL(me/Are))-2))'
   // Uru=3.1E-10 R∞=10973731.568157_m⁻¹ α=0.00729735256434 Are=5.485799090441E-4 => u=1.66053906892E-27 kg <=>
   //'→NUM(ROUND(CONVERT(2*Ⓒh*R∞/((α^2)*Ⓒc*Are);1_kg);XPON(UVAL(Uru*2*Ⓒh*R∞/((α^2)*Ⓒc*Are)))-XPON(UVAL(2*Ⓒh*R∞/((α^2)*Ⓒc*Are)))-2))'
 //*Mass unit (Dalton) - Calculation from measurement
-    "Da",       "'u'",    
-    "UsDa",     "'Usu'",
-    "UrDa",     "'Uru'",
-//*q/me ratio - Calculation from measurement
+    "Da",       "'Ⓒu'",    
+    "UsDa",     "'ⒸUsu'",
+    "UrDa",     "'ⒸUru'",
+//*qme constant - Calculation from measurement
     "qme",      "'→NUM(ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);XPON(UVAL(ⒸUrqme*Ⓒqe/Ⓒme))-XPON(UVAL(Ⓒqe/Ⓒme))-2))'",  
     "Usqme",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrqme*Ⓒqme);-2);1_C/kg))'",//=>Usqme='→NUM(CONVERT(ROUND(UBASE(Urme*Ⓒqme);-2);1_C/kg))'=55. C/kg
     "Urqme",    "'ⒸUrme'",
   // Urme=3.1E-10 me=9.1093837139E-31_kg => qme=1.75882000838E11_C/kg <=>
   //'→NUM(ROUND(CONVERT(Ⓒqe/me;1_C/kg);XPON(UVAL(Urme*Ⓒqe/me))-XPON(UVAL(Ⓒqe/me))-2))'
-//*mp/me ratio - Measurement
+//*mpme constant - Measurement
     "mpme",     "1836.152673426",             
     "Usmpme",   "0.000000032",
     "Urmpme",   "'→NUM(ROUND(UBASE(ⒸUsmpme/Ⓒmpme);-2))'",
@@ -481,7 +483,7 @@ static const cstring basic_constants[] =
   // R∞=10973731.568157_m⁻¹ UsR∞=0.000012_m⁻¹ '→NUM(ROUND(UBASE(UsR∞/R∞);-2))' => UrR∞=1.1E-12
 //*Bohr radius - Calculation from measurement
     "a0",       "'→NUM(ROUND(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);XPON(UVAL(ⒸUra0*4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2)))-XPON(UVAL(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2)))-2))'",    
-    "Usa0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUsα/Ⓒα*Ⓒa0);-2);1_nm))",//=>Usa0='→NUM(CONVERT(ROUND(UBASE((Usα/α)*a0);-2);1_nm))'=8.3E-12 nm
+    "Usa0",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUsα/Ⓒα*Ⓒa0);-2);1_nm))'",//=>Usa0='→NUM(CONVERT(ROUND(UBASE((Usα/α)*a0);-2);1_nm))'=8.3E-12 nm
     "Ura0",     "'ⒸUrα'",                                    // Ura0=1.6E-10  
   // ε0=8.85418 78188E-12_F/m Ura0=1.6E-10 α=0.00729735256434 Usα=0.00000000000114 => a0=0.0529177210544 nm <=>
   //'→NUM(ROUND(CONVERT(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm);XPON(UVAL(Ura0*4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2)))-XPON(UVAL(4*Ⓒπ*ε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2)))-2))'
@@ -551,18 +553,18 @@ static const cstring basic_constants[] =
     "c3",       "2.897771955185172661478605448092885_mm*K",
     "Usc3",     "0_mm*K",
     "Urc3",     "0",
-//* k/q - Exact calculation
+//* kq - Exact calculation
     "kq",       "'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'",   
     "Uskq",     "0_J/(K*C)",
     "Urkq",     "0",
   // kq='CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'=8.6173332621452E-5 J/(K·C)
-//* ε0/q - Calculation from measurement
+//* ε0q - Calculation from measurement
     "ε0q",      "'→NUM(ROUND(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C));XPON(UVAL(ⒸUrε0q*Ⓒε0/Ⓒqe))-XPON(UVAL(Ⓒε0/Ⓒqe))-2))'",  
     "Usε0q",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrε0q*Ⓒε0q);-2);1_F/(m*C)))'",//=>Usε0q='→NUM(CONVERT(ROUND(UBASE(Urε0q*ε0q);-2);1_F/(m*C)))'=0.0088 F/(m·C)
     "Urε0q",    "'Urε0'",                                    // Urε0q=1.6E-10
   // Urε0q=1.6E-10 ε0=8.8541878188E-12_F/m => ε0q=55263493.6180 F/(m·C)  <=>
   //'→NUM(ROUND(CONVERT(ε0/Ⓒqe;1_F/(m*C));XPON(UVAL(Urε0q*ε0/Ⓒqe))-XPON(UVAL(ε0/Ⓒqe))-2))'
-//* q*ε0 - Calculation from measurement
+//* qε0 - Calculation from measurement
     "qε0",      "'→NUM(ROUND(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m);XPON(UVAL(ⒸUrqε0*Ⓒqe*Ⓒε0))-XPON(UVAL(Ⓒqe*Ⓒε0))-2))'",    
     "Usqε0",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrqε0*Ⓒqε0);-2);1_F*C/m))'",//=>Usqε0='→NUM(CONVERT(ROUND(UBASE(Urqε0*qε0);-2);1_F*C/m))'=2.3E-40 F·C/m
     "Urqε0",    "'Urε0'",                                    // Urqε0=1.6e-10
@@ -698,6 +700,12 @@ static const cstring basic_constants[] =
     "UrTpl",    "'ⒸUrG/2'",                                 // UrTpl=1.1E-5
   // UrTpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) UsG=0.00015E-11_m^3/(s^2*kg) => Tpl=5.391246E-44 s <=> 
   //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s);XPON(UVAL(UrTpl*√(Ⓒℏ*G/Ⓒc^5)))-XPON(UVAL(√(Ⓒℏ*G/Ⓒc^5)))-2))'
+//*Planck energy - Calculation from measurement
+    "Epl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV);XPON(UVAL(ⒸUrEpl*√(Ⓒℏ*Ⓒc^5/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/ⒸG)))-2))'",       
+    "UsEpl",    "'→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'",//=>UsEpl='→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'=1.4E14 GeV
+    "UrEpl",    "'ⒸUrG/2'",                                 // UrEpl=1.1E-5 'ROUND(CONVERT(UBASE(UrEpl*Epl);1_GeV);-2)'
+  // UrEpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Epl=1.22089E19 GeV <=> 
+  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/G);1_GeV);XPON(UVAL(UrEpl*√(Ⓒℏ*Ⓒc^5/G)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/G)))-2))'
 //*Hartree energy - Calculation from measurement
     "Eh",       "'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);XPON(UVAL(ⒸUrEh*2*Ⓒh*Ⓒc*ⒸR∞))-XPON(UVAL(2*Ⓒh*Ⓒc*ⒸR∞))-2))'",        
     "UsEh",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrEh*ⒸEh);-2);1_J))'",//=>UsEh='→NUM(CONVERT(ROUND(UBASE(UrEh*Eh);-2);1_J))'=4.8E-30 J

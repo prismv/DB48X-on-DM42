@@ -73,7 +73,7 @@ relative thermal energy of particles in a gas with the thermodynamic temperature
 of the gas. 
 
 Since the 2019 redefinition of the SI units, the `k` constant is exactly defined 
-as the following exact value:
+as the following:
 ```rpl
     12 SIG  k=1.38064 9E-23_J/K  Usk=0_J/K  Urk=0
 ```
@@ -145,7 +145,7 @@ value resulting from the following calculation:
     12 SIG σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'  Usσ=0_W/(m^2*K^4)  Urσ=0
 ```
 
-#### Mu Molar Mass Constant
+#### Mu Constant
 
 The molar mass constant is a physical constant defined as one twelfth of 
 the molar mass of carbon-12: `MC12/12`. The molar mass of an element or 
@@ -163,14 +163,14 @@ the same as the one of the mass unit `u`:
     12 SIG  UsMu='→NUM(CONVERT(ROUND(UBASE(ⒸUrMu*ⒸMu);-2);1_kg/mol))'  UrMu='ⒸUru'
 ```
 
-#### MC12 Molar Mass of carbon-12
+#### MC12 constant
 
-Since 1960, mole is the amount of substance of a system which contains
-as many elementary entities as there are atoms in 12 gram of carbon-12. 
-Since 2019, the SI definition of mole changed such that the molar mass of 
-carbone-12 remains nearly but no longer exactly 12 g/mol. For internal 
-consistency this value depends therefore on the mass unit `u` and is 
-calculated by the following expression:
+Molar Mass of carbon-12. Since 1960, mole is the amount of substance of 
+a system which contains as many elementary entities as there are atoms in 
+12 gram of carbon-12. Since 2019, the SI definition of mole changed such 
+that the molar mass of carbone-12 remains nearly but no longer exactly 
+12 g/mol. For internal consistency this value depends therefore on the 
+mass unit `u` and is calculated by the following expression:
 ```rpl
     12 SIG MC12='CONVERT(12*ⒸMu;1_kg/mol)'
 ```
@@ -180,12 +180,11 @@ the same as the one of the molar mass `Mu`:
     12 SIG  UsMC12='→NUM(CONVERT(ROUND(UBASE(ⒸUrMC12*ⒸMC12);-2);1_kg/mol))'  UrMC12='ⒸUrMu'
 ```
 
-#### Are Electron relative atomic mass
-
-The experimental value of the electron relative atomic mass is an 
-important constant (usually noted as `Ar(e))`) which is needed to 
-calculate the unit mass value `u`. According to COTATA2022, it is 
-a dimensionless value measured as:
+#### Are constant
+Electron relative atomic mass. The experimental value of the electron 
+relative atomic mass is an important constant (usually noted as 
+`Ar(e))`) which is needed to calculate the unit mass value `u`. 
+According to COTATA2022, it is a dimensionless value measured as:
 ```rpl
     12 SIG Are=5.485799090441E-4
 ```
@@ -194,7 +193,7 @@ Its absolute and relative uncertainties come from measurement:
     12 SIG  UsAre=0.000000000097E-4  UrAre='→NUM(ROUND(UBASE(ⒸUsAre/ⒸAre);-2))'
 ```
 
-#### n0 Loschmidt constant
+#### n0 constant
 
 The Loschmidt constant or Loschmidt's number is the number of particles
 (atoms or molecules) of an ideal gas per volume (the number density), 
@@ -204,7 +203,7 @@ the redifinition of the mole, it is calculated exactly as:
     12 SIG n0='CONVERT(ⒸNA/ⒸVm;1_m^-3)'  Usn0=0_m^-3  Urn0=0
 ```
 
-#### SoR Sakur-Tetrode constant
+#### SoR constant
 
 The Sakur-Tetrode constant gives the absolute entropy at an absolute 
 temperature of `T=1_K` and standard atmospheric pressure `StdP=101.325_kPa` 
@@ -227,14 +226,10 @@ The standard and relative uncertainties are evaluated as:
 
 ## Physics constants
 
-### ⅉ constant
-
-Notation often used in physics for the imaginary verifying ⅉ²=-1.
-
 ### c constant
 
 Speed of light in vaccuum, a universal physical constant that is exactly equal
-to 299 792 458 metres per second (by definition of the metre).
+to 299792458 metres per second (by definition of the metre).
 
 According to the [special theory of relativity](http://en.wikipedia.org/wiki/Special_relativity),
 `c` is the upper limit for the speed at which conventional matter or energy
@@ -349,7 +344,7 @@ of the negative electric charge carried by a single electron, which has charge
 `−qe`.
 
 In the SI system of units, the value of the elementary charge is exactly defined
-as `qe=1.60217 6634⁳⁻¹⁹` coulombs. Since the 2019 redefinition of SI base units,
+as `qe=1.602176634⁳⁻¹⁹` coulombs. Since the 2019 redefinition of SI base units,
 the seven SI base units are defined by seven fundamental physical constants, of
 which the elementary charge is one. As a consequence of this change, the value
 of that constant in DB48X differs from the value in the HP50G, which named it 
@@ -432,7 +427,7 @@ with absolute and relative uncertainties:
     12 SIG  UsmH=0.00000000009_u  UrmH='→NUM(ROUND(UBASE(ⒸUsmH/ⒸmH);-2))'
 ```
 
-### Mass unit (u)
+### u constant
 
 Unified atomic mass unit (AMU) or dalton, in physics and chemistry, a unit 
 for expressing masses of atoms, molecules, or subatomic particles. An atomic 
@@ -451,10 +446,10 @@ the relative uncertainty is evaluated as:
     12 SIG  Usu='→NUM(CONVERT(ROUND(UBASE(ⒸUru*Ⓒu);-2);1_kg))'  Uru=3.1E-10
 ```
 
-### Dalton (Da)
+### Da constant
 
 Dalton or unified atomic mass unit (u) design the same constant, see
-[Mass unit (u)](#Mass unit (u)). It is obtained by:
+[Mass unit (u)](#u constant). It is obtained by:
 ```rpl
     12 SIG  Da='Ⓒu'
 ```
@@ -463,7 +458,7 @@ the standard and relative uncertainties are:
     12 SIG  UsDa='ⒸUsu'  UrDa='ⒸUru'
 ```
 
-### qme ratio
+### qme constant
 
 Ratio between the electron charge `qe` and its mass `me`. 
 It depends on the calculated value of the electron mass:
@@ -475,7 +470,7 @@ its relative uncertainty is the same as the electron mass:
     12 SIG  Usqme='→NUM(CONVERT(ROUND(UBASE(ⒸUrqme*Ⓒqme);-2);1_C/kg))'  Urqme='ⒸUrme'
 ```
 
-### mpme Ratio
+### mpme constant
 
 Ratio between the mass of the proton `mp` and the mass of the
 electron `me`. It is a measured dimensionless quantity:
@@ -495,7 +490,7 @@ fundamental physical constant which quantifies the strength of the
 electromagnetic interaction between elementary charged particles.
 
 It is a dimensionless quantity, independent of the system of units used, which
-is related to the strength of the coupling of an elementary charge e with the
+is related to the strength of the coupling of an elementary charge `qe` with the
 electromagnetic field. It is a measured quantity:
 ```rpl
     11 SIG  α=0.00729735256434
@@ -593,8 +588,8 @@ as the electronvolt (eV) or the Joule (J). For short wavelength sources,
 researchers often discuss photon energies in units of eV (or keV for hard
 X-rays) out of convenience.  The SI definition for 1 eV derives from the
 [definitional value of the electron charge](#me-constant). Photon energy `E` in
-eV can be computed from wavelength `l` in nm as: `E=λ0/l`.
-Is is exactly calculated by:
+eV can be computed from wavelength `λ` in nm as: `E=λ0/λ`.
+It is exactly calculated by:
 ```rpl
     12 SIG  λ0='CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'  Usλ0=0_nm  Urλ0=0
 ```
@@ -602,20 +597,21 @@ Is is exactly calculated by:
 ### f0 constant
 
 Photon frequency. This is the frequency associated to the
-[photon wavelength λ0][#λ0-constant].
-Is is exactly calculated by:
+[photon wavelength λ0][#λ0 constant].
+It is exactly calculated by:
 ```rpl
     12 SIG  f0='CONVERT(Ⓒc/Ⓒλ0;1_Hz)'  Usf0=0_Hz  Urf0=0
 ```
 
 ### λc constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property 
-of a particle, defined as the wavelength of a photon whose energy is the 
-same as the rest energy of that particle (based on the mass–energy 
-equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
-is given by `λ=h/(m·c)`. Since it is defined here for the electron, it 
-depends on the calculated value of the electron mass `me` by:
+Electron Compton wavelength. The Compton wavelength is a quantum 
+mechanical property of a particle, defined as the wavelength of a 
+photon whose energy is the same as the rest energy of that particle 
+(based on the mass–energy equivalence). The standard Compton wavelength 
+`λ` of a particle of mass `m` is given by `λ=h/(m·c)`. Since it is 
+defined here for the electron, it depends on the calculated value of 
+the electron mass `me` by:
 ```rpl
     12 SIG  λc='CONVERT(Ⓒh/(Ⓒme*Ⓒc)'
 ```
@@ -626,12 +622,13 @@ its relative uncertainty is the same as the electron mass:
 
 ### λcp constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property 
-of a particle, defined as the wavelength of a photon whose energy is the 
-same as the rest energy of that particle (based on the mass–energy 
-equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
-is given by `λ=h/(m·c)`. Since it is defined here for the proton, it 
-depends on the measured value of the proton mass `mp` by:
+Proton Compton wavelength. The Compton wavelength is a quantum 
+mechanical property of a particle, defined as the wavelength of 
+a photon whose energy is the same as the rest energy of that particle 
+(based on the mass–energy equivalence). The standard Compton wavelength 
+`λ` of a particle of mass `m` is given by `λ=h/(m·c)`. Since it is 
+defined here for the proton, it depends on the measured value of the 
+proton mass `mp` by:
 ```rpl
     12 SIG  λcp='CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm)'
 ```
@@ -642,12 +639,13 @@ its relative uncertainty is the same as the proton mass:
 
 ### λcn constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property 
-of a particle, defined as the wavelength of a photon whose energy is the 
-same as the rest energy of that particle (based on the mass–energy 
-equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
-is given by `λ=h/(m·c)`. Since it is defined here for the neutron, it 
-depends on the measured value of the neutron mass `mn` by:
+Neutron Compton wavelength. The Compton wavelength is a quantum 
+mechanical property of a particle, defined as the wavelength of 
+a photon whose energy is the same as the rest energy of that particle 
+(based on the mass–energy equivalence). The standard Compton wavelength 
+`λ` of a particle of mass `m` is given by `λ=h/(m·c)`. Since it is 
+defined here for the neutron, it depends on the measured value of the 
+neutron mass `mn` by:
 ```rpl
     12 SIG  λcn='CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm)'
 ```
@@ -658,12 +656,13 @@ its relative uncertainty is the same as the neutron mass:
 
 ### λcμ constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property 
-of a particle, defined as the wavelength of a photon whose energy is the 
-same as the rest energy of that particle (based on the mass–energy 
-equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
-is given by `λ=h/(m·c)`. Since it is defined here for the muon particle, it 
-depends on the measured value of the muon mass `mμ` by:
+Muon Compton wavelength. The Compton wavelength is a quantum 
+mechanical property of a particle, defined as the wavelength of 
+a photon whose energy is the same as the rest energy of that particle 
+(based on the mass–energy equivalence). The standard Compton wavelength 
+`λ` of a particle of mass `m` is given by `λ=h/(m·c)`. Since it is 
+defined here for the muon particle, it depends on the measured value of 
+the muon mass `mμ` by:
 ```rpl
     12 SIG  λcμ='CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm)'
 ```
@@ -674,12 +673,13 @@ its relative uncertainty is the same as the muon mass:
 
 ### λτ constant
 
-Compton wavelength. The Compton wavelength is a quantum mechanical property 
-of a particle, defined as the wavelength of a photon whose energy is the 
-same as the rest energy of that particle (based on the mass–energy 
-equivalence). The standard Compton wavelength `λ` of a particle of mass `m`
-is given by `λ=h/(m·c)`. Since it is defined here for the tau particle, it 
-depends on the measured value of the tau mass `mτ` by:
+Tau Compton wavelength. The Compton wavelength is a quantum 
+mechanical property of a particle, defined as the wavelength of
+a photon whose energy is the same as the rest energy of that particle 
+(based on the mass–energy equivalence). The standard Compton wavelength 
+`λ` of a particle of mass `m` is given by `λ=h/(m·c)`. Since it is 
+defined here for the tau particle, it depends on the measured value of 
+the tau mass `mτ` by:
 ```rpl
     12 SIG  λcτ='CONVERT(Ⓒh/(Ⓒmτ*Ⓒc);1_nm)'
 ```
@@ -692,7 +692,7 @@ its relative uncertainty is the same as the tau mass:
 
 First radiation constant. This constant appears in the Radiance 
 expression of the Planck's law: `Bλ(λ;T)=c1/λ^5/EXPM1(c2/λT)`.
-Is is exactly calculated by:
+It is exactly calculated by:
 ```rpl
     12 SIG  c1='CONVERT(2*Ⓒπ*Ⓒh*Ⓒc^2;1_(W*m^2))'  Usc1=0_(W*m^2)  Urc1=0
 ```
@@ -701,7 +701,7 @@ Is is exactly calculated by:
 
 Second radiation constant. This constant appears in the Radiance 
 expression of the Planck's law: `Bλ(λ;T)=c1/λ^5/EXPM1(c2/λT)`.
-Is is exactly calculated by:
+It is exactly calculated by:
 ```rpl
     12 SIG  c2='CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))'  Usc2=0_(m*K)  Urc2=0
 ```
@@ -738,8 +738,8 @@ calculated by:
 ### ε0q constant
 
 Ratio of the [vacuum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `ε0q=ε0/qe`. It is exactly 
-calculated as:
+[elementary charge](#qe-constant): `ε0q=ε0/qe`. Since it depends on the
+vacuum permittivity `ε0`, it is calculated as:
 ```rpl
     12 SIG  ε0q='CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C))'
 ```
@@ -751,7 +751,8 @@ Its relative uncertainty is the same as the vacuum permittivity:
 ### qε0 constant
 
 Product of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `qε0=ε0·qe`. It is calculated as:
+[elementary charge](#qe-constant): `qε0=ε0·qe`. Since it depends on
+the vacuum permittivity `ε0`, it is calculated as:
 ```rpl
     12 SIG  qε0='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
 ```
@@ -763,7 +764,8 @@ Its relative uncertainty is the same as the vacuum permittivity:
 ### ke constant
 
 Coulomb constant as it appears in the expression of the Coulomb
-force: `Fe=ke·q1·q2/r^2`. It is calculated by:
+force: `Fe=ke·q1·q2/r^2`. Since it depends on the vacuum permittivity 
+`ε0`, it is calculated as:
 ```rpl
     12 SIG  ke='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
 ```
@@ -785,7 +787,7 @@ corresponds to a lower penetration. Its exact value is given by convention as:
 ### εox constant
 
 SiO2 dielectric constant. The dielectric constant (or relative
-permittivity), is a material property that measures how well an applied electric
+permittivity) is a material property that measures how well an applied electric
 field can penetrate a dielectric medium compared to a vacuum. A higher value
 corresponds to a lower penetration. Its exact value is given by convention as:
 ```rpl
@@ -809,12 +811,13 @@ is given by convention as:
 Vacuum characteristic impedance constant. It is a physical constant 
 relating the magnitudes of the electric `E` and magnetic `H` fields 
 of electromagnetic radiation travelling through free space. With
-'Zo=|E|/|H|'. It depends on the vacuum permittivity and is calculated 
-by:
+'Zo=|E|/|H|'. Since it depends on the vacuum permittivity `μ0`, it 
+is calculated by:
 ```rpl
     12 SIG  Z0='CONVERT(Ⓒμ0*Ⓒc;1_Ω)'
 ```
-Its relative uncertainty is the same as the vacuum permittivity: 
+Its relative uncertainty is the same as the one of the vacuum 
+permittivity `μ0`: 
 ```rpl
     12 SIG  UsZ0='→NUM(CONVERT(ROUND(UBASE(ⒸUrZ0*ⒸZ0);-2);1_Ω))'  UrZ0='ⒸUrμ0'
 ```
@@ -838,13 +841,14 @@ with absolute and relative uncertainties:
 
 ### mT constant
 
-Mass of the neutral tritium atom which is a unstable isotope of hydrogen. 
+Mass of the neutral tritium atom which is an unstable isotope of hydrogen. 
 The electrically neutral tritium atom H-3 is rare and radioactive with a 
 half-life of ~12.3 years, Its nucleus contains a single positively charged
 proton and two neutrons, surrounded by a single negatively charged electron
 bound to the nucleus by the Coulomb force. Trace amounts are found in the 
 atmosphere due to interaction of its gases with cosmic rays. Precise 
-measurements of hydrogen is obtained by spectrometry. Its measured value is:
+measurements of hydrogen mass is obtained by spectrometry. Its measured 
+value is:
 ```rpl
     12 SIG  mT=3.0160492779_u"                       
 ```
@@ -859,7 +863,7 @@ Mass of the neutral helium atom. The electrically neutral helium atom
 He-4 contains two positively charged protons and two neutrons, and two
 negatively charged electrons bound to the nucleus by the Coulomb force. 
 Atomic helium constitutes about 24% of the total elemental mass of the 
-Universe. Precise measurements of helium is obtained by spectrometry. 
+Universe. Precise measurements of helium mass is obtained by spectrometry. 
 Its measured value is: 
 ```rpl
     12 SIG  mHe=4.00260325413_u
@@ -869,7 +873,7 @@ with absolute and relative uncertainties:
     12 SIG  UsmHe=0.00000000006_u  UrmHe='→NUM(ROUND(UBASE(ⒸUsmHe/ⒸmHe);-2))'
 ```
 
-### Muon mass
+### mμ constant
 
 Mass of the muon which is an elementary particle similar to the 
 electron, with an electric charge of `−qe` and spin -1/2, but with 
@@ -885,7 +889,7 @@ with absolute and relative uncertainties:
     12 SIG  Usmμ=0.0000000025_u  Urmμ='→NUM(ROUND(UBASE(ⒸUsmμ/Ⓒmμ);-2))'4.00260325413_u
 ```
 
-### Tau mass
+### mτ constant
 
 Mass of the tau which is an elementary particle similar to the 
 electron, with an electric charge of `−qe` and spin -1/2, but it is
@@ -894,7 +898,7 @@ lifetime of 2.9e-13 s. Precise measurements of the tau mass is
 deduced from energy conservation budget in pair creation reaction.
 Its measured value is: 
 ```rpl
-    12 SIG  mμ=1.90754_u
+    12 SIG  mτ=1.90754_u
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usmτ=0.00013_u  Urmτ='→NUM(ROUND(UBASE(ⒸUsmμ/Ⓒmμ);-2))'
@@ -985,7 +989,7 @@ specifically the electron magnetic dipole moment, is the magnetic
 moment of an electron resulting from its intrinsic properties of spin 
 and electric charge. Its angular momentum comes from two types of 
 rotation: spin and orbital motion. Therefore an external magnetic field
-exerts a torque on the electron magnetic moment revealing its exixtence. 
+exerts a torque on the electron magnetic moment revealing its existence. 
 Its measured value is: 
 ```rpl
     12 SIG  μe=-9.2847646917E-24_J/T,
@@ -1094,9 +1098,8 @@ units system, the Planck units are combinations of basic universal constants.
 It is the highest temperature that conventional physics can describe. It's a 
 fundamental limit of quantum mechanics and is considered the temperature of 
 the universe during the Big Bang when dominant quantum gravity effects were
-present. Its value depends on the measured value of the gravitational 
+dominant. Its value depends on the measured value of the gravitational 
 constant `G` and is calculated by: 
-by:
 ```rpl
     12 SIG  T°pl='CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)'
 ```
@@ -1109,7 +1112,7 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 The Planck length. As an attempt to devise a universal and natural units 
 system, the Planck units are combinations of basic universal constants. It 
-is is the smallest distance that can be measured, and it represents the 
+is the smallest distance that can be measured, and it represents the 
 scale at which quantum gravity effects become dominant. It is the distance
 travelled by light during one Planck time `Tpl`. Its value depends on the 
 measured value of the gravitational constant `G` and is calculated by:
@@ -1125,7 +1128,7 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 The Planck time. As an attempt to devise a universal and natural units 
 system, the Planck units are combinations of basic universal constants. 
-It is the shortest time interval that can be measured, and it is fundamental
+It is the shortest time interval that can be measured and it is fundamental
 in the study of the universe beginning. It is the time required for light
 to travel one Planck length `Lpl`. Its value depends on the measured value 
 of the gravitational constant `G` and is calculated by:

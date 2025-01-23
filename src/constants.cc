@@ -362,7 +362,7 @@ static const cstring basic_constants[] =
     "Ur0",      "0",
   // n0=2.68678 01118E25_(m↑3)⁻¹
 //*Sakur-Tetrode constant - Calculation from measurement
-    "SoR",      "'→NUM(ROUND((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP));XPON(UrSoR*(5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)))-XPON((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)))-2))'", 
+    "SoR",      "'→NUM(ROUND((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP));XPON(ⒸUrSoR*(5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)))-XPON((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)))-2))'", 
     "UsSoR",    "'ROUND(UBASE(ⒸUrSoR*ABS(ⒸSoR));-2)'",//=>UsSoR='ROUND(UBASE(UrSoR*ABS(SoR));-2)'=4.7E-10
     "UrSoR",    "4.0E-10",        //UrSoR=4.0E-10
   // UrSoR=4.0E-10 u=1.66053906892E-27_kg => SoR=-1.16487052149 <=>
@@ -682,6 +682,12 @@ static const cstring basic_constants[] =
     "UrMpl",    "'ⒸUrG/2'",                                 // UrMpl=1.1E-5
   // UrMpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Mpl=2.176434E-8 kg <=> 
   //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc/G);1_kg);XPON(UVAL(UrMpl*√(Ⓒℏ*Ⓒc/G)))-XPON(UVAL(√(Ⓒℏ*Ⓒc/G)))-2))'
+//*Planck energy - Calculation from measurement
+    "Epl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV);XPON(UVAL(ⒸUrEpl*√(Ⓒℏ*Ⓒc^5/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/ⒸG)))-2))'",
+    "UsEpl",    "'→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'",//=>UsEpl='→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'=1.4E14 GeV
+    "UrEpl",    "'ⒸUrG/2'",                                 // UrEpl=1.1E-5 'ROUND(CONVERT(UBASE(UrEpl*Epl);1_GeV);-2)'
+  // UrEpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Epl=1.22089E19 GeV <=> 
+  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/G);1_GeV);XPON(UVAL(UrEpl*√(Ⓒℏ*Ⓒc^5/G)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/G)))-2))'
 //*Planck temperature - Calculation from measurement
     "T°pl",     "'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);XPON(UVAL(ⒸUrT°pl*√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-2))'",
     "UsT°pl",   "'→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'",//=>UsT°pl='→NUM(CONVERT(ROUND(UBASE(UrT°pl*T°pl);-2);1_K))'=1.6E27 K
@@ -700,12 +706,6 @@ static const cstring basic_constants[] =
     "UrTpl",    "'ⒸUrG/2'",                                 // UrTpl=1.1E-5
   // UrTpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) UsG=0.00015E-11_m^3/(s^2*kg) => Tpl=5.391246E-44 s <=> 
   //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s);XPON(UVAL(UrTpl*√(Ⓒℏ*G/Ⓒc^5)))-XPON(UVAL(√(Ⓒℏ*G/Ⓒc^5)))-2))'
-//*Planck energy - Calculation from measurement
-    "Epl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV);XPON(UVAL(ⒸUrEpl*√(Ⓒℏ*Ⓒc^5/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/ⒸG)))-2))'",       
-    "UsEpl",    "'→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'",//=>UsEpl='→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'=1.4E14 GeV
-    "UrEpl",    "'ⒸUrG/2'",                                 // UrEpl=1.1E-5 'ROUND(CONVERT(UBASE(UrEpl*Epl);1_GeV);-2)'
-  // UrEpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Epl=1.22089E19 GeV <=> 
-  //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/G);1_GeV);XPON(UVAL(UrEpl*√(Ⓒℏ*Ⓒc^5/G)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/G)))-2))'
 //*Hartree energy - Calculation from measurement
     "Eh",       "'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);XPON(UVAL(ⒸUrEh*2*Ⓒh*Ⓒc*ⒸR∞))-XPON(UVAL(2*Ⓒh*Ⓒc*ⒸR∞))-2))'",        
     "UsEh",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrEh*ⒸEh);-2);1_J))'",//=>UsEh='→NUM(CONVERT(ROUND(UBASE(UrEh*Eh);-2);1_J))'=4.8E-30 J
@@ -734,7 +734,7 @@ static const cstring basic_constants[] =
     "θw",       "'CONVERT(ASIN(√(0.22305));1_r)'",     
     "Usθw",     "0_r",
     "Urθw",     "0",
-  // θw='CONVERT(ASIN(√(0.22305));1_r)'=4.91877 56573 35179⁳⁻¹ r
+  // θw='CONVERT(ASIN(√(0.22305));1_r)'=4.91877 56573 35179E-1 r
 //*Cs hyperfine transition - Exact definition
     "ΔfCs",     "9192631770_Hz",                
     "UsΔfCs",   "0_Hz",

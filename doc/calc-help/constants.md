@@ -254,7 +254,6 @@ Its value is exactly defined as
     12 SIG  c=299792458_m/s  Usc=0_m/s  Urc=0
 ```
 
-
 ### ε0 constant
 
 Vacuum permittivity, commonly denoted `ε0` (pronounced "epsilon nought" or
@@ -366,7 +365,7 @@ The exact value of `qe` is then:
 Electron mass. In particle physics, the electron mass is the mass of a
 stationary electron, also known as the invariant mass of the electron. It is one
 of the fundamental constants of physics. Its value is closely related to the unit
-mass measurement through the electron relative atomic mass: `me=u*Ar(e)` where 
+mass measurement through the electron relative atomic mass: `me=u·Ar(e)` where 
 `Ar(e)` is determined iteratively by frequency measurements using Penning trap. 
 
 According to https://en.wikipedia.org/wiki/Electron_mass this is equivalent to
@@ -529,8 +528,8 @@ sample of matter. It is exactly calculated by:
 ### R∞ constant
 
 Rydberg constant. In spectroscopy, the Rydberg constant is a physical 
-constantrelating to the electromagnetic spectra of an atom. The constant 
-first arose asan empirical fitting parameter in the Rydberg formula for 
+constant relating to the electromagnetic spectra of an atom. The constant 
+first arose as an empirical fitting parameter in the Rydberg formula for 
 the hydrogen spectral series, but Niels Bohr later showed that its value 
 is related to more fundamental constants according to his model of the 
 atom. The Rydberg constant value is inferred from measurements of atomic 
@@ -938,11 +937,13 @@ calculated by:
 
 ### re constant
 
-The classical electron radius. Through the Bohr radius `a0`, it depends on fine structure constant and is calculated by:
+The classical electron radius. Through the Bohr radius `a0`, it 
+depends on fine structure constant and is calculated by:
 ```rpl
     12 SIG  re='CONVERT(Ⓒα^2*Ⓒa0;1_m)'
 ```
-Its relative uncertainty is three times the one of the fine structure constant: 
+Its relative uncertainty is three times the one of the fine structure 
+constant: 
 ```rpl
     12 SIG  Usre='→NUM(CONVERT(ROUND(UBASE(ⒸUrre*Ⓒre);-2);1_m))'  Urre='→NUM(ROUND(3*Usα/α;-2))'
 ```
@@ -963,12 +964,12 @@ with absolute and relative uncertainties:
 ### σe constant
 
 The Thomson cross-section. This type of scattering is valid when the field
-energy `hν` is much less than the rest mass of the electron `m0·c^2`, the 
+energy `h·ν` is much less than the rest mass of the electron `m0·c^2`, the 
 electric field of the incident wave accelerates the charged target-particle, 
-causing it, in turn, to emit radiation at the same frequency as the incident 
-wave, hence the scattering of the wave. This explains why Thomson scattering
-is important in plasma physics. Through the classical electron radius `re`, 
-it depends on fine structure constant and is calculated by:
+causing it, in turn, to emit radiation at the same frequency `ν` as the 
+incident wave, hence the scattering of the wave. This explains why Thomson 
+scattering is important in plasma physics. Through the classical electron 
+radius `re`, it depends on fine structure constant and is calculated by:
 ```rpl
     12 SIG  σe='CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'
 ```
@@ -999,8 +1000,7 @@ Proton magnetic moment. It is the magnetic dipole moment of the proton
 resulting from its intrinsic properties of spin and electric charge. Its 
 angular momentum comes from two types of rotation: spin and orbital motion. 
 Therefore an external magnetic field exerts a torque on the proton magnetic 
-moment revealing its existence. 
-Its measured value is: 
+moment revealing its existence. Its measured value is: 
 ```rpl
     12 SIG  μp=1.41060679545E-26_J/T
 with absolute and relative uncertainties:
@@ -1045,7 +1045,7 @@ the magnetic moment and angular momentum of an electron. It is the
 ratio of the magnetic moment (or, equivalently, the gyromagnetic ratio) 
 of the electron to that expected of a classical particle of the same 
 charge and angular momentum. The electron g-factor is one of the most 
-precisely measured values in physics. Its measured value is: 
+precisely measured values in physics, which is: 
 ```rpl
     12 SIG  ge=-2.00231930436092
 with absolute and relative uncertainties:
@@ -1055,22 +1055,178 @@ with absolute and relative uncertainties:
 
 ### Mpl constant
 
-The Planck mass. This type of scattering is valid when the field
-energy `hν` is much less than the rest mass of the electron `m0·c^2`, the 
-electric field of the incident wave accelerates the charged target-particle, 
-causing it, in turn, to emit radiation at the same frequency as the incident 
-wave, hence the scattering of the wave. This explains why Thomson scattering
-is important in plasma physics. Through the classical electron radius `re`, 
-it depends on fine structure constant and is calculated by:
+The Planck mass. As an attempt to devise a universal and natural units
+system, the Planck units are combinations of basic universal constants. 
+It can be viewed as the mass of a black hole with a Swarzhchild radius
+of 2 Planck lengths (`rs=2·Lpl`) or, the minimum mass of a black hole 
+is one half of the Planck mass, the latter having a Planck Length radius. 
+Its value depends on the measured value of the gravitational constant 
+`G` and is calculated by:
 ```rpl
-    12 SIG  Mpl='CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'
+    12 SIG  Mpl='CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg)'
 ```
-Its relative uncertainty is six times the one of the fine structure constant: 
+Its relative uncertainty is half the one of the gravitational constant: 
 ```rpl
-    12 SIG  Usσe='→NUM(CONVERT(ROUND(UBASE(ⒸUrσe*Ⓒσe);-2);1_m^2))'  Urσe='→NUM(ROUND(6*ⒸUsα/Ⓒα;-2))'
+    12 SIG  UsMpl='→NUM(CONVERT(ROUND(UBASE(ⒸUrMpl*ⒸMpl);-2);1_kg))'  UrMpl='ⒸUrG/2'
 ```
 
-kkk
+### Epl constant
+
+The Planck energy. As an attempt to devise a universal and natural units
+system, the Planck units are combinations of basic universal constants. 
+According to the mass-energy equivalence: `Epl=Mpl·c^2` it is the energy 
+equivalent to the Planck mass. Nowadays, it is interpreted as the energy
+scale from which the quantum gravity would be dominant. Its value depends 
+on the measured value of the gravitational constant `G` and is calculated 
+by:
+```rpl
+    12 SIG  Epl='→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV)'
+```
+Its relative uncertainty is half the one of the gravitational constant: 
+```rpl
+    12 SIG  UsEpl='→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'  UrEpl='ⒸUrG/2'
+```
+
+### T°pl constant
+
+The Planck temperature. As an attempt to devise a universal and natural 
+units system, the Planck units are combinations of basic universal constants. 
+It is the highest temperature that conventional physics can describe. It's a 
+fundamental limit of quantum mechanics and is considered the temperature of 
+the universe during the Big Bang when dominant quantum gravity effects were
+present. Its value depends on the measured value of the gravitational 
+constant `G` and is calculated by: 
+by:
+```rpl
+    12 SIG  T°pl='CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)'
+```
+Its relative uncertainty is half the one of the gravitational constant: 
+```rpl
+    12 SIG  UsT°pl='→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'  UrT°pl='ⒸUrG/2'
+```
+
+### Lpl constant
+
+The Planck length. As an attempt to devise a universal and natural units 
+system, the Planck units are combinations of basic universal constants. It 
+is is the smallest distance that can be measured, and it represents the 
+scale at which quantum gravity effects become dominant. It is the distance
+travelled by light during one Planck time `Tpl`. Its value depends on the 
+measured value of the gravitational constant `G` and is calculated by:
+```rpl
+    12 SIG  Lpl='CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m)'
+```
+Its relative uncertainty is half the one of the gravitational constant: 
+```rpl
+    12 SIG  UsLpl='→NUM(CONVERT(ROUND(UBASE(ⒸUrLpl*ⒸLpl);-2);1_m))'  UrLpl='ⒸUrG/2'
+```
+
+### Tpl constant
+
+The Planck time. As an attempt to devise a universal and natural units 
+system, the Planck units are combinations of basic universal constants. 
+It is the shortest time interval that can be measured, and it is fundamental
+in the study of the universe beginning. It is the time required for light
+to travel one Planck length `Lpl`. Its value depends on the measured value 
+of the gravitational constant `G` and is calculated by:
+```rpl
+    12 SIG  Tpl='CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s)'
+```
+Its relative uncertainty is half the one of the gravitational constant: 
+```rpl
+    12 SIG  UsTpl='→NUM(CONVERT(ROUND(UBASE(ⒸUrTpl*ⒸTpl);-2);1_s))'  UrTpl='ⒸUrG/2'
+```
+
+### Eh constant
+
+Hartree energy constant. It is a unit of energy used in atomic physics 
+and computational chemistry, which is also used in molecular orbital 
+calculations. It is approximately the negative electric potential energy 
+of an electron in a hydrogen atom's ground state, and also approximately 
+twice the ionization energy of a hydrogen atom. Its value depends on the 
+measured value of the Rydberg constant `R∞` and is calculated by:
+```rpl
+    12 SIG  Eh='CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J)'
+```
+Its relative uncertainty is the same as the one of the Rydberg constant: 
+```rpl
+    12 SIG  UsEh='→NUM(CONVERT(ROUND(UBASE(ⒸUrEh*ⒸEh);-2);1_J))'  UrEh='ⒸUrR∞'
+```
+
+### γe constant
+
+Electron gyromagnetic ratio. It is the ratio of the electron's magnetic 
+moment to its angular momentum. It can be used to determine the direction 
+of precession and the resonance frequency of an electron in a magnetic 
+field. Its value depends on the electron magnetic moment 'μe' and is 
+calculated by: 
+```rpl
+    12 SIG  γe='CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1)'
+its relative uncertainty is the same as the electron magnetic moment
+'μe':
+```rpl
+    12 SIG  Usγe='→NUM(CONVERT(ROUND(UBASE(ⒸUrγe*Ⓒγe);-2);1_(s*T)^-1))'  Urγe='ⒸUrμe'
+```
+
+### γp constant
+
+Proton gyromagnetic ratio. It is the ratio of the proton's magnetic 
+moment to its angular momentum. It can be used to determine the direction 
+of precession and the resonance frequency of a proton in a magnetic field. 
+The proton gyromagnetic ratio is used in nuclear magnetic resonance (NMR) 
+imaging, such as in MRI scans.  Its value depends on the proton magnetic 
+moment 'μp' and is calculated by: 
+```rpl
+    12 SIG  γp='CONVERT(2*ABS(Ⓒμp)/Ⓒℏ;1_(s*T)^-1)'
+its relative uncertainty is the same as the proton magnetic moment
+'μp':
+```rpl
+    12 SIG  Usγp='→NUM(CONVERT(ROUND(UBASE(ⒸUrγp*Ⓒγp);-2);1_(s*T)^-1))'  Urγp='ⒸUrμp'
+```
+
+### γn constant
+
+Neutron gyromagnetic ratio. It is the ratio of the Neutron's magnetic 
+moment to its angular momentum. It is a characteristic of the neutron's 
+nuclear spin and its sign determines the direction of precession. It is 
+used in nuclear magnetic resonance (NMR) applications, such as MRI imaging. 
+In NMR spectroscopy, it is used to measure detection sensitivity. Its 
+value depends on the neutron magnetic moment 'μn' and is calculated by: 
+```rpl
+    12 SIG  γn='CONVERT(2*ABS(Ⓒμn)/Ⓒℏ;1_(s*T)^-1)'
+its relative uncertainty is the same as the neutron magnetic moment
+'μn':
+```rpl
+    12 SIG  Usγn='→NUM(CONVERT(ROUND(UBASE(ⒸUrγn*Ⓒγn);-2);1_(s*T)^-1))'  Urγn='ⒸUrμn'
+```
+
+### θw constant
+
+The weak mixing angle or Weinberg angle. It is a parameter in the 
+Weinberg–Salam theory of the electroweak interaction, part of the 
+Standard Model of particle physics. It is the angle by which 
+spontaneous symmetry breaking rotates the original W0 and B0 vector 
+boson plane, producing as a result the Z0 boson, and the photon. Its 
+value is obtained as: 
+```rpl
+    12 SIG  θw='CONVERT(ASIN(√(0.22305));1_r)'
+without uncertainties by convention:
+```rpl
+    12 SIG  Usθw=0_r  Urθw=0
+```
+
+### ΔfCs constant
+
+Caesium (Cs) hyperfine transition. It is the transition between the two 
+hyperfine ground states of the caesium atom. The frequency `ΔfCs` of this 
+transition is used to define the second as the official time unit of the 
+International System of Units (SI). Its exact value (without uncertainty) 
+is given by convention as: 
+```rpl
+    12 SIG  ΔfCs=9192631770_Hz  UsΔfCs=0_Hz  UrΔfCs=0
+```
+
+
 ## Dates Constants
 
 ### BastilleDay constant

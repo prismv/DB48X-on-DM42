@@ -153,7 +153,7 @@ compound is its relative atomic mass (atomic weight) or relative molecular
 mass multiplied by the molar mass constant. Since 2019, the SI definition 
 of mole changed such that the molar mass constant remains nearly but no 
 longer exactly 1 g/mol. For internal consistency this value depends
-therefore on the mass unit `u` [u constant](#u constant) and is calculated 
+therefore on the mass unit `u` [u-constant](#u-constant) and is calculated 
 by the following expression:
 ```rpl
     12 SIG Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
@@ -171,7 +171,7 @@ a system which contains as many elementary entities as there are atoms in
 12 gram of carbon-12. Since 2019, the SI definition of mole changed such 
 that the molar mass of carbone-12 remains nearly but no longer exactly 
 12 g/mol. For internal consistency this value depends therefore on the 
-mass unit `u` [u constant](#u constant) and is calculated by the following 
+mass unit `u` [u-constant](#u-constant) and is calculated by the following 
 expression:
 ```rpl
     12 SIG MC12='CONVERT(12*ⒸMu;1_kg/mol)'
@@ -186,7 +186,7 @@ the same as the one of the molar mass `Mu`:
 Electron relative atomic mass. The experimental value of the electron 
 relative atomic mass is an important constant (usually noted as 
 `Ar(e)`) which is needed to calculate the unit mass value `u` 
-[u constant](#u constant). According to COTATA2022, it is a dimensionless 
+[u-constant](#u-constant). According to COTATA2022, it is a dimensionless 
 quantity which is determined iteratively by frequency measurements using 
 Penning trap. Its value is measured as:
 ```rpl
@@ -365,7 +365,8 @@ Electron mass. In particle physics, the electron mass is the mass of a
 stationary electron, also known as the invariant mass of the electron. It is one
 of the fundamental constants of physics. Its value is closely related to the unit
 mass measurement through the electron relative atomic mass: `me=u·Ar(e)` where 
-`Ar(e)` is determined iteratively by frequency measurements using Penning trap. 
+`Ar(e)` [Are-constant](#Are-constant) is determined iteratively by frequency 
+measurements using Penning trap. 
 
 According to https://en.wikipedia.org/wiki/Electron_mass this is equivalent to
 determine its experimental value by the following calculation where it depends 
@@ -440,7 +441,7 @@ affected by the bonding energy of the nucleons in the nucleus, the mass in
 daltons of an atom is in general numerically close but not exactly equal to 
 the number of nucleons in its nucleus. The atomic mass unit is determined 
 from the calculation of the electron rest mass `me` and the measurement of
-the electron relative atomic mass `Ar(e)` [Are constant](#Are constant) 
+the electron relative atomic mass `Ar(e)` [Are-constant](#Are-constant) 
 (that is, the mass of electron divided by the atomic mass constant). It is 
 calculated by:
 ```rpl
@@ -454,7 +455,7 @@ the relative uncertainty is evaluated as:
 ### Da constant
 
 Dalton or unified atomic mass unit (u) design the same constant, see
-Mass unit (u) [u constant](#u constant). It is obtained by:
+Mass unit (u) [u-constant](#u-constant). It is obtained by:
 ```rpl
     12 SIG  Da='Ⓒu'
 ```
@@ -676,7 +677,7 @@ its relative uncertainty is the same as the muon mass:
     12 SIG  Usλcμ='→NUM(CONVERT(ROUND(UBASE(ⒸUrλcμ*Ⓒλcμ);-2);1_nm))'  Urλcμ='ⒸUrmμ'
 ```
 
-### λτ constant
+### λcτ constant
 
 Tau Compton wavelength. The Compton wavelength is a quantum 
 mechanical property of a particle, defined as the wavelength of

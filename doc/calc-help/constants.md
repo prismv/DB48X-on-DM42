@@ -153,7 +153,8 @@ compound is its relative atomic mass (atomic weight) or relative molecular
 mass multiplied by the molar mass constant. Since 2019, the SI definition 
 of mole changed such that the molar mass constant remains nearly but no 
 longer exactly 1 g/mol. For internal consistency this value depends
-therefore on the mass unit `u` and is calculated by the following expression:
+therefore on the mass unit `u` [u constant](#u constant) and is calculated 
+by the following expression:
 ```rpl
     12 SIG Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
 ```
@@ -170,7 +171,8 @@ a system which contains as many elementary entities as there are atoms in
 12 gram of carbon-12. Since 2019, the SI definition of mole changed such 
 that the molar mass of carbone-12 remains nearly but no longer exactly 
 12 g/mol. For internal consistency this value depends therefore on the 
-mass unit `u` and is calculated by the following expression:
+mass unit `u` [u constant](#u constant) and is calculated by the following 
+expression:
 ```rpl
     12 SIG MC12='CONVERT(12*ⒸMu;1_kg/mol)'
 ```
@@ -183,8 +185,10 @@ the same as the one of the molar mass `Mu`:
 #### Are constant
 Electron relative atomic mass. The experimental value of the electron 
 relative atomic mass is an important constant (usually noted as 
-`Ar(e))`) which is needed to calculate the unit mass value `u`. 
-According to COTATA2022, it is a dimensionless value measured as:
+`Ar(e))`) which is needed to calculate the unit mass value `u` 
+[u constant](#u constant). According to COTATA2022, it is a dimensionless 
+quantity which is determined iteratively by frequency measurements using 
+Penning trap. Its value is measured as:
 ```rpl
     12 SIG Are=5.485799090441E-4
 ```
@@ -436,8 +440,9 @@ affected by the bonding energy of the nucleons in the nucleus, the mass in
 daltons of an atom is in general numerically close but not exactly equal to 
 the number of nucleons in its nucleus. The atomic mass unit is determined 
 from the calculation of the electron rest mass `me` and the measurement of
-the electron relative atomic mass `Ar(e)` (that is, the mass of electron 
-divided by the atomic mass constant). It is calculated by:
+the electron relative atomic mass `Ar(e)` [Are constant](#Are constant) 
+(that is, the mass of electron divided by the atomic mass constant). It is 
+calculated by:
 ```rpl
     12 SIG  u='CONVERT(Ⓒme/ⒸAre;1_kg)'
 ```
@@ -449,7 +454,7 @@ the relative uncertainty is evaluated as:
 ### Da constant
 
 Dalton or unified atomic mass unit (u) design the same constant, see
-[Mass unit (u)](#u constant). It is obtained by:
+Mass unit (u) [u constant](#u constant). It is obtained by:
 ```rpl
     12 SIG  Da='Ⓒu'
 ```
@@ -728,18 +733,18 @@ From a theoretic expression, it is approximately given by:
 
 ### kq constant
 
-Ratio of the [Boltzman constant](#k-constant) by the
-[elementary charge](#qe-constant): `kq=k/qe`. It is exactly 
-calculated by:
+Ratio of the Boltzman constant [k-constant](#k-constant) by the
+elementary charge [qe-constant](#qe-constant): `kq=k/qe`. It is 
+exactly calculated by:
 ```rpl
     12 SIG  kq='CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'  Uskq=0_J/(K*C)  Urkq=0
 ```
 
 ### ε0q constant
 
-Ratio of the [vacuum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `ε0q=ε0/qe`. Since it depends on the
-vacuum permittivity `ε0`, it is calculated as:
+Ratio of the vacuum permittivity [ε0-constant](#ε0-constant) by the
+elementary charge [qe-constant](#qe-constant): `ε0q=ε0/qe`. Since it
+depends on the vacuum permittivity `ε0`, it is calculated as:
 ```rpl
     12 SIG  ε0q='CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C))'
 ```
@@ -750,9 +755,9 @@ Its relative uncertainty is the same as the vacuum permittivity:
 
 ### qε0 constant
 
-Product of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `qε0=ε0·qe`. Since it depends on
-the vacuum permittivity `ε0`, it is calculated as:
+Product of the vaccum permittivity [ε0-constant](#ε0-constant) by the
+elementary charge [qe-constant](#qe-constant): `qε0=ε0·qe`. Since it 
+depends on the vacuum permittivity `ε0`, it is calculated as:
 ```rpl
     12 SIG  qε0='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
 ```
@@ -767,7 +772,7 @@ Coulomb constant as it appears in the expression of the Coulomb
 force: `Fe=ke·q1·q2/r^2`. Since it depends on the vacuum permittivity 
 `ε0`, it is calculated as:
 ```rpl
-    12 SIG  ke='CONVERT(Ⓒqe*Ⓒε0;1_F*C/m)'
+    12 SIG  ke='CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)^2))'
 ```
 Its relative uncertainty is the same as the vacuum permittivity: 
 ```rpl
@@ -922,8 +927,8 @@ Von Klitzing constant. It appears in the expression of the Hall
 resistance `Rxy=Rk/ν` (`ν` being either an integer or a fraction) 
 of the quantum Hall effect, a quantized version of the Hall effect 
 which is observed in two-dimensional electron systems subjected to 
-low temperatures and strong magnetic fields. It is exactly 
-calculated by:
+low temperatures and strong magnetic fields. It is exactly calculated 
+by:
 ```rpl
     12 SIG  Rk='CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe^2;1_Ω)'  UsRk=0_Ω  UrRk=0
 ```
@@ -942,12 +947,12 @@ calculated by:
 ### re constant
 
 The classical electron radius. Through the Bohr radius `a0`, it 
-depends on fine structure constant and is calculated by:
+depends on fine structure constant `α` and is calculated by:
 ```rpl
     12 SIG  re='CONVERT(Ⓒα^2*Ⓒa0;1_m)'
 ```
-Its relative uncertainty is three times the one of the fine structure 
-constant: 
+Through its dependance to `a0` and `α`, its relative uncertainty is three 
+times the one of the fine structure constant: 
 ```rpl
     12 SIG  Usre='→NUM(CONVERT(ROUND(UBASE(ⒸUrre*Ⓒre);-2);1_m))'  Urre='→NUM(ROUND(3*Usα/α;-2))'
 ```
@@ -973,7 +978,7 @@ electric field of the incident wave accelerates the charged target-particle,
 causing it, in turn, to emit radiation at the same frequency `ν` as the 
 incident wave, hence the scattering of the wave. This explains why Thomson 
 scattering is important in plasma physics. Through the classical electron 
-radius `re`, it depends on fine structure constant and is calculated by:
+radius `re`, it depends on fine structure constant `α` and is calculated by:
 ```rpl
     12 SIG  σe='CONVERT(8*Ⓒπ*Ⓒre^2/3;1_m^2)'
 ```
@@ -1059,7 +1064,7 @@ with absolute and relative uncertainties:
 
 ### Mpl constant
 
-The Planck mass. As an attempt to devise a universal and natural units
+Planck mass unit. As an attempt to devise a universal and natural units
 system, the Planck units are combinations of basic universal constants. 
 It can be viewed as the mass of a black hole with a Swarzhchild radius
 of 2 Planck lengths (`rs=2·Lpl`) or, the minimum mass of a black hole 
@@ -1076,13 +1081,16 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 ### Epl constant
 
-The Planck energy. As an attempt to devise a universal and natural units
+Planck energy unit. As an attempt to devise a universal and natural units
 system, the Planck units are combinations of basic universal constants. 
 According to the mass-energy equivalence: `Epl=Mpl·c^2` it is the energy 
-equivalent to the Planck mass. Nowadays, it is interpreted as the energy
-scale from which the quantum gravity would be dominant. Its value depends 
-on the measured value of the gravitational constant `G` and is calculated 
-by:
+equivalent to the Planck mass. Considered to be the smallest possible unit 
+of energy, which is theoretically meaningful within the framework of quantum 
+gravity, where both effects of quantum mechanics and general relativity 
+become significant; and also the energy scale at which the universe is thought 
+to have existed at times near the start of the Big Bang, characterized by 
+extremely high densities and temperatures. Its value depends on the measured 
+value of the gravitational constant `G` and is calculated by:
 ```rpl
     12 SIG  Epl='→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV)'
 ```
@@ -1093,7 +1101,7 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 ### T°pl constant
 
-The Planck temperature. As an attempt to devise a universal and natural 
+Planck temperature unit. As an attempt to devise a universal and natural 
 units system, the Planck units are combinations of basic universal constants. 
 It is the highest temperature that conventional physics can describe. It's a 
 fundamental limit of quantum mechanics and is considered the temperature of 
@@ -1110,7 +1118,7 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 ### Lpl constant
 
-The Planck length. As an attempt to devise a universal and natural units 
+Planck length unit. As an attempt to devise a universal and natural units 
 system, the Planck units are combinations of basic universal constants. It 
 is the smallest distance that can be measured, and it represents the 
 scale at which quantum gravity effects become dominant. It is the distance
@@ -1126,7 +1134,7 @@ Its relative uncertainty is half the one of the gravitational constant:
 
 ### Tpl constant
 
-The Planck time. As an attempt to devise a universal and natural units 
+Planck time unit. As an attempt to devise a universal and natural units 
 system, the Planck units are combinations of basic universal constants. 
 It is the shortest time interval that can be measured and it is fundamental
 in the study of the universe beginning. It is the time required for light

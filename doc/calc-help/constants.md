@@ -185,7 +185,7 @@ the same as the one of the molar mass `Mu`:
 #### Are constant
 Electron relative atomic mass. The experimental value of the electron 
 relative atomic mass is an important constant (usually noted as 
-`Ar(e))`) which is needed to calculate the unit mass value `u` 
+`Ar(e)`) which is needed to calculate the unit mass value `u` 
 [u constant](#u constant). According to COTATA2022, it is a dimensionless 
 quantity which is determined iteratively by frequency measurements using 
 Penning trap. Its value is measured as:

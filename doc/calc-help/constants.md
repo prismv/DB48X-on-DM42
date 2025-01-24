@@ -83,7 +83,7 @@ as the following:
 Molar volume of an ideal gas at 1 atmosphere of pressure and 0°C. By convention, 
 it is chosen as the result of the following exact calculation:
 ```rpl
-    12 SIG Vm='CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'  UsVm=0_m^3/mol  UrVm=0
+    12 SIG  Vm='CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'  UsVm=0_m^3/mol  UrVm=0
 ```
 
 ### R constant
@@ -95,7 +95,7 @@ rather than energy per temperature increment per particle.
 Since the 2019 redefinition of the SI units, it is chosen as the result of 
 the following exact calculation:
 ```rpl
-    12 SIG R='CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'  UsR=0_J/(mol*K)  UrR=0
+    12 SIG  R='CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'  UsR=0_J/(mol*K)  UrR=0
 ```
 
 ### StdT constant
@@ -110,7 +110,7 @@ Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
 definitions. By convention, it is chosen as the following exact value:
 ```rpl
-    12 SIG StdT=273.15_K  UsStdT=0_K  UrStdT=0
+    12 SIG  StdT=273.15_K  UsStdT=0_K  UrStdT=0
 ```
 
 ### StdP constant
@@ -125,7 +125,7 @@ Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
 definitions. By convention, it is chosen as the following exact value:
 ```rpl
-    12 SIG StdP=101.325_kPa  UsStdP=0_kPa  UrStdP=0
+    12 SIG  StdP=101.325_kPa  UsStdP=0_kPa  UrStdP=0
 ```
 
 ### σ constant
@@ -142,7 +142,7 @@ black body's temperature, `T`:`M°=σ·T⁴`.
 Since the redefinition of the SI units in 2019, the `σ` constant has an exact
 value resulting from the following calculation:
 ```rpl
-    12 SIG σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'  Usσ=0_W/(m^2*K^4)  Urσ=0
+    12 SIG  σ='CONVERT(Ⓒπ^2/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc^2);1_W/(m^2*K^4))'  Usσ=0_W/(m^2*K^4)  Urσ=0
 ```
 
 #### Mu Constant
@@ -156,7 +156,7 @@ longer exactly 1 g/mol. For internal consistency this value depends
 therefore on the mass unit `u` [u-constant](#u-constant) and is calculated 
 by the following expression:
 ```rpl
-    12 SIG Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
+    12 SIG  Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
 ```
 Due to its expression, the relative uncertainty of the molar mass is 
 the same as the one of the mass unit `u`:
@@ -174,7 +174,7 @@ that the molar mass of carbone-12 remains nearly but no longer exactly
 mass unit `u` [u-constant](#u-constant) and is calculated by the following 
 expression:
 ```rpl
-    12 SIG MC12='CONVERT(12*ⒸMu;1_kg/mol)'
+    12 SIG  MC12='CONVERT(12*ⒸMu;1_kg/mol)'
 ```
 Due to its expression, the relative uncertainty of the molar mass is 
 the same as the one of the molar mass `Mu`:
@@ -190,7 +190,7 @@ relative atomic mass is an important constant (usually noted as
 quantity which is determined iteratively by frequency measurements using 
 Penning trap. Its value is measured as:
 ```rpl
-    12 SIG Are=5.485799090441E-4
+    12 SIG  Are=5.485799090441E-4
 ```
 Its absolute and relative uncertainties come from measurement:
 ```rpl
@@ -204,7 +204,7 @@ The Loschmidt constant or Loschmidt's number is the number of particles
 and usually quoted at standard temperature and pressure. Since 2019 with 
 the redifinition of the mole, it is calculated exactly as:
 ```rpl
-    12 SIG n0='CONVERT(ⒸNA/ⒸVm;1_m^-3)'  Usn0=0_m^-3  Urn0=0
+    12 SIG  n0='CONVERT(ⒸNA/ⒸVm;1_m^-3)'  Usn0=0_m^-3  Urn0=0
 ```
 
 #### SoR constant
@@ -375,7 +375,7 @@ on the fine structure constant `α` and the Rysberg constant `R∞`:
     12 SIG  me=CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg)
 ```
 Its relative uncertainty is therefore on the same order either of the sum 
-`2*Urα+UrR∞` or is the same as the relative uncertainty of the unit mass:
+`2*Urα+UrR∞`, or is the same as the relative uncertainty of the unit mass:
 ```rpl
     12 SIG  Usme='→NUM(CONVERT(ROUND(UBASE(ⒸUrme*Ⓒme);-2);1_kg))'  Urme='ⒸUru'
 ```
@@ -385,7 +385,8 @@ Its relative uncertainty is therefore on the same order either of the sum
 Neutron mass. Being electrically neutral, the neutron emission, wrongly 
 interpreted at the beginning as some sort of γ radiation was correctly 
 identified in 1932 by Chadwick as the neutron hypothesized by Rutherford
-as a neutral particule having about the same mass as the proton. 
+as a neutral particule having about the same mass as the proton. Free 
+neutrons have a half-life of 613.9 seconds.
 
 The value of its mass is determined experimentally by mass spectrometry as:
 ```rpl
@@ -478,8 +479,11 @@ its relative uncertainty is the same as the electron mass:
 
 ### mpme constant
 
-Ratio between the mass of the proton `mp` and the mass of the
-electron `me`. It is a measured dimensionless quantity:
+Ratio between the mass of the proton `mp` and the mass of the electron 
+`me`. Currently, the most precise measurements of the charge-to-mass 
+ratio of a proton still use a magnetic field like Thompson did, but 
+rely on measuring (cyclotron) frequencies rather than deflection. It 
+is a measured dimensionless quantity:
 ```rpl
     12 SIG  mpme=1836.152673426
 ```
@@ -493,11 +497,15 @@ its standard and relative uncertainties are:
 Fine-structure constant. In physics, the fine-structure constant, also known as
 the Sommerfeld constant, commonly denoted by α (the Greek letter alpha), is a
 fundamental physical constant which quantifies the strength of the
-electromagnetic interaction between elementary charged particles.
+electromagnetic interaction between elementary charged particles. It is measured 
+by observing the recoil frequency of atoms, like cesium or rubidium, when they 
+absorb a photon, essentially gauging how strongly the atoms recoil, which 
+provides an accurate determination of the constant's value using high precision 
+measurements achieved through techniques like matter-wave interferometry.
 
 It is a dimensionless quantity, independent of the system of units used, which
 is related to the strength of the coupling of an elementary charge `qe` with the
-electromagnetic field. It is a measured quantity:
+electromagnetic field. Its measured value is:
 ```rpl
     11 SIG  α=0.00729735256434
 ```
@@ -536,8 +544,8 @@ is related to more fundamental constants according to his model of the
 atom. The Rydberg constant value is inferred from measurements of atomic 
 transition frequencies in three different atoms (hydrogen, deuterium, 
 and antiprotonic helium). It is measured as:
-  ```rpl
-    12 SIG R∞=10973731.568157_m⁻¹
+```rpl
+    12 SIG  R∞=10973731.568157_m⁻¹
 ```
 The Rydberg constant is one of the most precisely determined physical 
 constants, with the following standard and relative uncertainties:
@@ -905,6 +913,7 @@ deduced from energy conservation budget in pair creation reaction.
 Its measured value is: 
 ```rpl
     12 SIG  mτ=1.90754_u
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usmτ=0.00013_u  Urmτ='→NUM(ROUND(UBASE(ⒸUsmμ/Ⓒmμ);-2))'
@@ -966,6 +975,7 @@ and then with deuterium atom, or either using a more recent electron-proton
 scattering experiment. Its measured value is: 
 ```rpl
     12 SIG  mrp=8.4075-16_m
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usrp=0.0064-16_m  Urrp='→NUM(ROUND(UBASE(ABS(ⒸUsrp/Ⓒrp));-2))'
@@ -999,6 +1009,7 @@ exerts a torque on the electron magnetic moment revealing its existence.
 Its measured value is: 
 ```rpl
     12 SIG  μe=-9.2847646917E-24_J/T,
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usμe=0.0000000029E-24_J/T  Urμe='→NUM(ROUND(UBASE(ABS(ⒸUsμe/Ⓒμe));-2))'
@@ -1013,6 +1024,7 @@ Therefore an external magnetic field exerts a torque on the proton magnetic
 moment revealing its existence. Its measured value is: 
 ```rpl
     12 SIG  μp=1.41060679545E-26_J/T
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usμp=0.00000000060E-26_J/T  Urμp='→NUM(ROUND(UBASE(ABS(ⒸUsμp/Ⓒμp));-2))'
@@ -1029,6 +1041,7 @@ motion. Therefore an external magnetic field exerts a torque on the
 neutron magnetic moment revealing its existence. Its measured value is: 
 ```rpl
     12 SIG  μμ=-4.49044830E-26_J/T
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usμμ=0.00000010E-26_J/T  Urμμ='→NUM(ROUND(UBASE(ABS(ⒸUsμμ/Ⓒμμ));-2))'
@@ -1043,6 +1056,7 @@ motion. Therefore an external magnetic field exerts a torque on the muon
 magnetic moment revealing its existence. Its measured value is: 
 ```rpl
     12 SIG  μn=-9.6623653E-27_J/T
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usμn=0.0000023E-27_J/T  Urμn='→NUM(ROUND(UBASE(ABS(ⒸUsμn/Ⓒμn));-2))'
@@ -1058,6 +1072,7 @@ charge and angular momentum. The electron g-factor is one of the most
 precisely measured values in physics, which is: 
 ```rpl
     12 SIG  ge=-2.00231930436092
+```
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usge=0.00000000000036  Urge='→NUM(ROUND(UBASE(ABS(ⒸUsge/Ⓒge));-2))'
@@ -1174,6 +1189,7 @@ field. Its value depends on the electron magnetic moment 'μe' and is
 calculated by: 
 ```rpl
     12 SIG  γe='CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1)'
+```
 its relative uncertainty is the same as the electron magnetic moment
 'μe':
 ```rpl
@@ -1190,6 +1206,7 @@ imaging, such as in MRI scans.  Its value depends on the proton magnetic
 moment 'μp' and is calculated by: 
 ```rpl
     12 SIG  γp='CONVERT(2*ABS(Ⓒμp)/Ⓒℏ;1_(s*T)^-1)'
+```
 its relative uncertainty is the same as the proton magnetic moment
 'μp':
 ```rpl
@@ -1206,6 +1223,7 @@ In NMR spectroscopy, it is used to measure detection sensitivity. Its
 value depends on the neutron magnetic moment 'μn' and is calculated by: 
 ```rpl
     12 SIG  γn='CONVERT(2*ABS(Ⓒμn)/Ⓒℏ;1_(s*T)^-1)'
+```
 its relative uncertainty is the same as the neutron magnetic moment
 'μn':
 ```rpl
@@ -1222,6 +1240,7 @@ boson plane, producing as a result the Z0 boson, and the photon. Its
 value is obtained as: 
 ```rpl
     12 SIG  θw='CONVERT(ASIN(√(0.22305));1_r)'
+```
 without uncertainties by convention:
 ```rpl
     12 SIG  Usθw=0_r  Urθw=0

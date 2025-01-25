@@ -385,14 +385,9 @@ object::result function::evaluate(algebraic_fn op, bool mat)
 //   Perform the operation from the stack, using a C++ operation
 // ----------------------------------------------------------------------------
 {
-    if (object_p top = rt.top())
+    if (object_p top = strip(rt.top()))
     {
         id topty = top->type();
-        while(topty == ID_tag)
-        {
-            top = tag_p(top)->tagged_object();
-            topty = top->type();
-        }
         if (topty == ID_polynomial)
         {
             if (op == algebraic_fn(sq::evaluate) ||
@@ -960,6 +955,8 @@ FUNCTION_BODY(mant)
     if (x->is_symbolic())
         return symbolic(ID_mant, x);
     algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
     if (!decimal_promotion(a))
     {
         rt.type_error();
@@ -983,6 +980,8 @@ FUNCTION_BODY(xpon)
     if (x->is_symbolic())
         return symbolic(ID_xpon, x);
     algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
     if (!decimal_promotion(a))
     {
         rt.type_error();
@@ -990,6 +989,28 @@ FUNCTION_BODY(xpon)
     }
     decimal_p d = decimal_p(+a);
     return integer::make(d->exponent() - 1LL);
+}
+
+
+FUNCTION_BODY(SigDig)
+// ----------------------------------------------------------------------------
+//   Return number of significant digits in object
+// ----------------------------------------------------------------------------
+{
+    if (!x)
+        return nullptr;
+    if (x->is_symbolic())
+        return symbolic(ID_SigDig, x);
+    algebraic_g a = x;
+    if (unit_p u = unit::get(a))
+        a = u->value();
+    if (!decimal_promotion(a))
+    {
+        rt.type_error();
+        return nullptr;
+    }
+    decimal_p d = decimal_p(+a);
+    return integer::make(d->significant_digits());
 }
 
 

@@ -3363,6 +3363,31 @@ void tests::decimal_numerical_functions()
         .test(CLEAR, "0 →Frac", ENTER).noerror().expect("0")
         .test(CLEAR, "1 →Frac", ENTER).noerror().expect("1")
         .test(CLEAR, "-123 →Frac", ENTER).noerror().expect("-123");
+
+    step("Assignment with functions")
+        .test(CLEAR, "x=3 TAN", ENTER).noerror().expect("-0.14254 65430 74")
+        .test(CLEAR, "'x' PURGE", ENTER);
+
+    step("xpon function")
+        .test(ID_PartsMenu)
+        .test(CLEAR, "12.345E37", ID_xpon).expect("38");
+    step("mant function")
+        .test(CLEAR, "12.345E37", ID_mant).expect("1.2345");
+    step("SigDig function")
+        .test(CLEAR, "0", ID_SigDig).expect("0")
+        .test(CLEAR, "1", ID_SigDig).expect("1")
+        .test(CLEAR, "12", ID_SigDig).expect("2")
+        .test(CLEAR, "1.23", ID_SigDig).expect("3")
+        .test(CLEAR, "1.234", ID_SigDig).expect("4")
+        .test(CLEAR, "1.2345", ID_SigDig).expect("5")
+        .test(CLEAR, "123456", ID_SigDig).expect("6")
+        .test(CLEAR, "123.4567", ID_SigDig).expect("7");
+    step("xpon function with unit")
+        .test(CLEAR, "12.345E37_cm XPON", ENTER).expect("38");
+    step("mant function with unit")
+        .test(CLEAR, "12.345E37_cm MANT", ENTER).expect("1.2345");
+    step("SigDig function")
+        .test(CLEAR, "12.345E7_nm SIGDIG", ENTER).expect("5");
 }
 
 
@@ -5045,6 +5070,10 @@ void tests::complex_promotion()
     step("log(-2) succeeds in complex mode")
         .test(CLEAR, "-2 log", ENTER)
         .expect("0.69314 71805 6+3.14159 26535 9ⅈ");
+
+    step("Restore complex mode")
+        .test(CLEAR, "'ComplexResults' purge", ENTER).noerror()
+        .test("-103 FS?", ENTER).expect("False");
 }
 
 
@@ -6267,6 +6296,9 @@ void tests::solver_testing()
     step("Enter directory for solving")
         .test(CLEAR, "'SLVTST' CRDIR SLVTST", ENTER);
 
+    step("Select purely numerical solver")
+        .test(CLEAR, "SolveNumericallyOnly", ENTER).noerror();
+
     step("Solver with expression")
         .test(CLEAR, "'X+3' 'X' 0 ROOT", ENTER)
         .noerror().expect("X=-3.");
@@ -6284,15 +6316,22 @@ void tests::solver_testing()
         .noerror().expect("X=1.73205 08075 7")
         .test("X", ENTER)
         .expect("1.73205 08075 7")
-        .test("'X'", ENTER, NOSHIFT, BSP, F2)
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
         .noerror();
     step("Solver without solution")
         .test(CLEAR, "'sq(x)+3=0' 'X' 1 ROOT", ENTER)
         .error("No solution?")
         .test(CLEAR, "X", ENTER)
-        .expect("0.00000 00712 63")
-        .test("'X'", ENTER, NOSHIFT, BSP, F2)
+        .expect("-2.19049 50593 6⁳⁻¹³")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
         .noerror();
+    step("Solver with slow slope")
+        .test(CLEAR, "'tan(x)=224' 'x' 1 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+    step("Solver with slow slope 2")
+        .test(CLEAR, "'tan(x)=224' 'x' 0 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+
 
     step("Solving menu")
         .test(CLEAR, "'A²+B²=C²'", ENTER)
@@ -6301,7 +6340,7 @@ void tests::solver_testing()
         .expect("C=5.");
     step("Evaluate equation case Left=Right")
         .test(F1)
-        .expect("'25=25.-4.⁳⁻²²'");
+        .expect("'25=25.-7.8⁳⁻²¹'");
 
     step("Verify that we display the equation after entering value")
         .test(CLEAR, "42", F4)
@@ -6321,12 +6360,86 @@ void tests::solver_testing()
         .test(LSHIFT, A, LSHIFT, A)
         .expect("0.5 m");
 
-    step("Solving with large values (#1179")
+    step("Solving with large values (#1179)")
         .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
         .expect("x=30.");
-    step("Solving equation containing a zero side (#1179")
+    step("Solving equation containing a zero side (#1179)")
         .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
         .expect("x=2.82143 93721 2");
+
+
+    step("Select algebraically-assisted solver")
+        .test(CLEAR, "SolveSymbolicallyThenNumerically", ENTER).noerror();
+
+    step("Solver with expression")
+        .test(CLEAR, "'X+3' 'X' 0 ROOT", ENTER)
+        .noerror().expect("X=-3");
+    step("Solver with arithmetic syntax")
+        .test(CLEAR, "'ROOT(X+3;X;0)'", ENTER)
+        .expect("'Root(X+3;X;0)'")
+        .test(RUNSTOP)
+        .expect("X=-3")
+        .test("X", ENTER)
+        .expect("-3")
+        .test("'X' purge", ENTER)
+        .noerror();
+    step("Solver with equation")
+        .test(CLEAR, "'sq(x)=3' 'X' 0 ROOT", ENTER)
+        .noerror().expect("X=1.73205 08075 7")
+        .test("X", ENTER)
+        .expect("1.73205 08075 7")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
+    step("Solver without solution")
+        .test(CLEAR, "'sq(x)+3=0' 'X' 1 ROOT", ENTER)
+        .error("Argument outside domain")
+        .test(CLEAR, "X", ENTER)
+        .expect("'X'")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
+    step("Solver with slow slope")
+        .test(CLEAR, "'tan(x)=224' 'x' 1 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+    step("Solver with slow slope 2")
+        .test(CLEAR, "'tan(x)=224' 'x' 0 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+
+
+    step("Solving menu")
+        .test(CLEAR, "{ A B C } PURGE", ENTER).noerror()
+        .test(CLEAR, "'A²+B²=C²'", ENTER)
+        .test(LSHIFT, KEY7, LSHIFT, F1, F6)
+        .test("3", NOSHIFT, F2, "4", NOSHIFT, F3, LSHIFT, F4)
+        .expect("C=5.");
+    step("Evaluate equation case Left=Right")
+        .test(F1)
+        .expect("'25=25.-3.⁳⁻²²'");
+
+    step("Verify that we display the equation after entering value")
+        .test(CLEAR, "42", F4)
+        .image_noheader("solver-eqdisplay");
+    step("Evaluate equation case Left=Right")
+        .test("4", F4, F1)
+        .expect("'25=16+9'");
+    step("Evaluate equation case Left=Right")
+        .test("7", F4, F1)
+        .expect("'25=49-24'");
+
+    step("Solving with units")
+        .test("30_cm", NOSHIFT, F2, ".4_m", NOSHIFT, F3, "100_in", NOSHIFT, F4)
+        .test(LSHIFT, F4)
+        .expect("C=0.5 m")
+        .test(LSHIFT, KEY5, F4, LSHIFT, F1)
+        .test(LSHIFT, A, LSHIFT, A)
+        .expect("0.5 m");
+
+    step("Solving with large values (#1179)")
+        .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
+        .expect("x=30.");
+    step("Solving equation containing a zero side (#1179)")
+        .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
+        .expect("x=2.82143 93721 2");
+
 
     step("Exit: Clear variables")
         .test(CLEAR, "UPDIR 'SLVTST' PURGE", ENTER);
@@ -6425,17 +6538,17 @@ void tests::eqnlib_columns_and_beams()
         .test(NOSHIFT, F1)
         .expect("'676.60192 6324 kN"
                 "=6.76601 92632 4⁳¹⁴ kPa·mm↑4/m↑2"
-                "-0.00000 0001 kPa·mm↑4/m↑2'");
+                "-0.00000 0003 kPa·mm↑4/m↑2");
     step("Solving Elastic Buckling third equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F2)
         .expect("σcr=127 428.24437 8 kPa")
         .test(NOSHIFT, F1)
-        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2+1.⁳⁻²² kN/cm↑2'");
+        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2-9.⁳⁻²² kN/cm↑2'");
     step("Solving Elastic Buckling fourth equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
         .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
-        .expect("'4.1148 cm=411.48 mm↑2/cm+6.13⁳⁻¹⁹ mm↑2/cm'");
+        .expect("'4.1148 cm=411.48 mm↑2/cm+6.09⁳⁻¹⁹ mm↑2/cm'");
 
     step("Solving Eccentric Columns")
         .test(CLEAR, ID_EquationsMenu, F2, RSHIFT, F2)
@@ -13399,12 +13512,8 @@ tests &tests::source(cstring ref, uint extrawait)
     if (ref && !src)
         explain("Expected source [", ref, "], got none");
     if (ref && src && strcmp(ref, cstring(src)) != 0)
-        explain("Expected source [",
-                ref,
-                "], "
-                "got [",
-                src,
-                "]");
+        explain("Expected source [", ref, "], "
+                "got [", src, "]");
 
     fail();
     return *this;

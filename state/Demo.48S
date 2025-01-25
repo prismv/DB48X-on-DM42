@@ -1093,25 +1093,5 @@ Use the VAR key to access Demos.
 
 VariablesMenu
 
-«
- « { 25 25 } RANM SIN » TEVAL 2 DISP GC 1 DISP
- « { 25 25 } RANM SIN » TEVAL 4 DISP GC 3 DISP
- « * » TEVAL DUP 6 DISP
-»
-'STUFF' STO
-
-[a b][c d]
-[[a b][c d]][e f]
-[[a b][c d]] [[e f][g h]]
-[[a b c][d e f]] [[x y][z t][u v]]
-
-[
- [[ 1 2 ][3 4]]
- [[ 1 2 ][3 4]]
-]
-[
- [[ 1 2 ][3 4]]
- [[ 1 2 ][3 4]]
-]
-
-[ [1 2] [3 4] ]
+ω=14.99_r/s  ω0=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
+'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'

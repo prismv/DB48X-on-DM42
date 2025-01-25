@@ -6538,7 +6538,7 @@ void tests::eqnlib_columns_and_beams()
         .test(NOSHIFT, F1)
         .expect("'676.60192 6324 kN"
                 "=6.76601 92632 4⁳¹⁴ kPa·mm↑4/m↑2"
-                "-0.00000 0003 kPa·mm↑4/m↑2");
+                "-0.00000 0003 kPa·mm↑4/m↑2'");
     step("Solving Elastic Buckling third equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F2)
         .expect("σcr=127 428.24437 8 kPa")

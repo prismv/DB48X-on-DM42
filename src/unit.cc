@@ -1192,6 +1192,20 @@ bool unit::convert_to_linear(algebraic_g &value, algebraic_g &uexpr)
 }
 
 
+algebraic_p unit::convert_to_real() const
+// ----------------------------------------------------------------------------
+//   Cnvert a unit to real if possible
+// ----------------------------------------------------------------------------
+{
+    algebraic_g u = this;
+    if (algebraic_g one = integer::make(1))
+        if (unit_g unity = unit::make(one, one))
+            if (unity->convert(u))
+                return u;
+    return nullptr;
+}
+
+
 unit_p unit::cycle() const
 // ----------------------------------------------------------------------------
 //   Cycle the unit SI prefix across the closest appropriate ones

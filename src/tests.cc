@@ -5070,6 +5070,10 @@ void tests::complex_promotion()
     step("log(-2) succeeds in complex mode")
         .test(CLEAR, "-2 log", ENTER)
         .expect("0.69314 71805 6+3.14159 26535 9ⅈ");
+
+    step("Restore complex mode")
+        .test(CLEAR, "'ComplexResults' purge", ENTER).noerror()
+        .test("-103 FS?", ENTER).expect("False");
 }
 
 
@@ -6292,6 +6296,9 @@ void tests::solver_testing()
     step("Enter directory for solving")
         .test(CLEAR, "'SLVTST' CRDIR SLVTST", ENTER);
 
+    step("Select purely numerical solver")
+        .test(CLEAR, "SolveNumericallyOnly", ENTER).noerror();
+
     step("Solver with expression")
         .test(CLEAR, "'X+3' 'X' 0 ROOT", ENTER)
         .noerror().expect("X=-3.");
@@ -6353,12 +6360,86 @@ void tests::solver_testing()
         .test(LSHIFT, A, LSHIFT, A)
         .expect("0.5 m");
 
-    step("Solving with large values (#1179")
+    step("Solving with large values (#1179)")
         .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
         .expect("x=30.");
-    step("Solving equation containing a zero side (#1179")
+    step("Solving equation containing a zero side (#1179)")
         .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
         .expect("x=2.82143 93721 2");
+
+
+    step("Select algebraically-assisted solver")
+        .test(CLEAR, "SolveSymbolicallyThenNumerically", ENTER).noerror();
+
+    step("Solver with expression")
+        .test(CLEAR, "'X+3' 'X' 0 ROOT", ENTER)
+        .noerror().expect("X=-3");
+    step("Solver with arithmetic syntax")
+        .test(CLEAR, "'ROOT(X+3;X;0)'", ENTER)
+        .expect("'Root(X+3;X;0)'")
+        .test(RUNSTOP)
+        .expect("X=-3")
+        .test("X", ENTER)
+        .expect("-3")
+        .test("'X' purge", ENTER)
+        .noerror();
+    step("Solver with equation")
+        .test(CLEAR, "'sq(x)=3' 'X' 0 ROOT", ENTER)
+        .noerror().expect("X=1.73205 08075 7")
+        .test("X", ENTER)
+        .expect("1.73205 08075 7")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
+    step("Solver without solution")
+        .test(CLEAR, "'sq(x)+3=0' 'X' 1 ROOT", ENTER)
+        .error("Argument outside domain")
+        .test(CLEAR, "X", ENTER)
+        .expect("'X'")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
+    step("Solver with slow slope")
+        .test(CLEAR, "'tan(x)=224' 'x' 1 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+    step("Solver with slow slope 2")
+        .test(CLEAR, "'tan(x)=224' 'x' 0 ROOT", ENTER)
+        .expect("x=89.74421 69693");
+
+
+    step("Solving menu")
+        .test(CLEAR, "{ A B C } PURGE", ENTER).noerror()
+        .test(CLEAR, "'A²+B²=C²'", ENTER)
+        .test(LSHIFT, KEY7, LSHIFT, F1, F6)
+        .test("3", NOSHIFT, F2, "4", NOSHIFT, F3, LSHIFT, F4)
+        .expect("C=5.");
+    step("Evaluate equation case Left=Right")
+        .test(F1)
+        .expect("'25=25.-3.⁳⁻²²'");
+
+    step("Verify that we display the equation after entering value")
+        .test(CLEAR, "42", F4)
+        .image_noheader("solver-eqdisplay");
+    step("Evaluate equation case Left=Right")
+        .test("4", F4, F1)
+        .expect("'25=16+9'");
+    step("Evaluate equation case Left=Right")
+        .test("7", F4, F1)
+        .expect("'25=49-24'");
+
+    step("Solving with units")
+        .test("30_cm", NOSHIFT, F2, ".4_m", NOSHIFT, F3, "100_in", NOSHIFT, F4)
+        .test(LSHIFT, F4)
+        .expect("C=19.68503 93701 in")
+        .test(LSHIFT, KEY5, F4, LSHIFT, F1)
+        .test(LSHIFT, A, LSHIFT, A)
+        .expect("0.5 m");
+
+    step("Solving with large values (#1179)")
+        .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
+        .expect("x=30.");
+    step("Solving equation containing a zero side (#1179)")
+        .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
+        .expect("x=2.82143 93721 2");
+
 
     step("Exit: Clear variables")
         .test(CLEAR, "UPDIR 'SLVTST' PURGE", ENTER);

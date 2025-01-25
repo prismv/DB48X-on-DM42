@@ -111,8 +111,8 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
 
     // Convert A=B+C into A-(B+C)
     program_g eq = pgm;
-    if (eq->type() == ID_expression)
-        if (expression_g diff = expression_p(+eq)->as_difference_for_solve())
+    if (expression_p eqeq = expression::get(eq))
+        if (expression_g diff = eqeq->as_difference_for_solve())
             if (+diff != +eq)
                 eq = +diff;
 
@@ -209,6 +209,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
             return nullptr;
         }
     }
+
     save<symbol_g *> iref(expression::independent, &name);
     int              prec = Settings.Precision() - Settings.SolverImprecision();
     algebraic_g      yeps  = decimal::make(1, prec <= 0 ? -1 : -prec);
@@ -219,6 +220,35 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
     algebraic_g      two         = integer::make(2);
     algebraic_g      maxscale    = integer::make(63);
     int              degraded    = 0;
+
+    // Check if we can isolate the variable algebraically
+    if (Settings.SolveSymbolicallyThenNumerically())
+    {
+        if (expression_p eqeq = eq->as<expression>())
+        {
+            settings::SavePrincipalSolution sps(true);
+            if (expression_p isol = eqeq->isolate(name))
+            {
+                expression_g left, right;
+                if (isol->split_equation(left, right))
+                {
+                    if (symbol_p lname = left->as_quoted<symbol>())
+                    {
+                        if (lname->is_same_as(name))
+                        {
+                            settings::SaveComplexResults scr(is_complex);
+                            save<bool> ueval(unit::mode, true);
+                            algebraic_g value = right->evaluate();
+                            if (uname)
+                                uname->convert(value);
+                            store(value);
+                            return value;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     for (uint i = 0; i < max && !program::interrupted(); i++)
     {

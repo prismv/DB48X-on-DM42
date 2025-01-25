@@ -149,12 +149,12 @@ value resulting from the following calculation:
 
 The molar mass constant is a physical constant defined as one twelfth of 
 the molar mass of carbon-12: `MC12/12`. The molar mass of an element or 
-compound is its relative atomic mass (atomic weight) or relative molecular 
-mass multiplied by the molar mass constant. Since 2019, the SI definition 
-of mole changed such that the molar mass constant remains nearly but no 
-longer exactly 1 g/mol. For internal consistency this value depends
-therefore on the mass unit `u` [u-constant](#u-constant) and is calculated 
-by the following expression:
+compound is its relative atomic mass (or atomic weight, noted `Ar`) or 
+relative molecular mass multiplied by the molar mass constant. Since 2019, 
+the SI definition of mole changed such that the molar mass constant remains 
+nearly but no longer exactly 1 g/mol. For internal consistency this value 
+depends therefore on the mass unit `u` [u-constant](#u-constant) and is 
+calculated by the following expression:
 ```rpl
     12 SIG  Mu='CONVERT(ⒸNA*Ⓒu;1_kg/mol)'
 ```
@@ -176,8 +176,8 @@ expression:
 ```rpl
     12 SIG  MC12='CONVERT(12*ⒸMu;1_kg/mol)'
 ```
-Due to its expression, the relative uncertainty of the molar mass is 
-the same as the one of the molar mass `Mu`:
+Due to its expression, the relative uncertainty of the molar mass of
+carbon-12 is the same as the one of the molar mass `Mu`:
 ```rpl
     12 SIG  UsMC12='→NUM(CONVERT(ROUND(UBASE(ⒸUrMC12*ⒸMC12);-2);1_kg/mol))'  UrMC12='ⒸUrMu'
 ```
@@ -217,8 +217,8 @@ entropy of an ideal monoatomic gas of relative atomic mass `Ar` at a pressure
 `p_kPa` and a temperature `T_K` which is given by:
 `S=ⒸR*(SoR+3/2*LN(Ar)−LN((p_kPa)/ⒸStdP)+5/2*LN((T_K)/(1_K)))`. 
 
-The dimensionless SoR constant is calculated from the measured value of 
-the unit mass `u`.
+The dimensionless `SoR` constant is calculated from the measured 
+value of the unit mass `u`.
 ```rpl
     12 SIG  SoR='5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ^2))^1.5*Ⓒk*(1_K)/ⒸStdP)'
 ```
@@ -263,7 +263,8 @@ ideal (baseline) physical constant. It is a measure of how dense of an electric
 field is "permitted" to form in response to electric charges and relates the
 units for electric charge to mechanical quantities such as length and force.
 
-Its value depends on the vaccuum permeability constant and is calculated with:
+Its value depends on the vaccuum permeability constant `μ0` and is 
+calculated with:
 ```rpl
     12 SIG  ε0='CONVERT(1/(Ⓒμ0*Ⓒc^2);1_F/m)'
 ```
@@ -280,7 +281,8 @@ permeability in a classical vacuum. It is a physical constant, conventionally
 written as `μ0` (pronounced "mu nought" or "mu zero"). It quantifies the strength
 of the magnetic field induced by an electric current.
 
-Its value depends on the fine structure constant measurement and is calculated with:
+Its value depends on the fine structure constant measurement `α` and is 
+calculated with:
 ```rpl
     12 SIG  μ0='CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe^2*Ⓒc);1_H/m)'
 ```
@@ -375,26 +377,9 @@ on the fine structure constant `α` and the Rysberg constant `R∞`:
     12 SIG  me=CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα^2)*Ⓒc);1_kg)
 ```
 Its relative uncertainty is therefore on the same order either of the sum 
-`2*Urα+UrR∞`, or is the same as the relative uncertainty of the unit mass:
+`2*Urα+UrR∞`, or is the same as the relative uncertainty of the unit mass `u`:
 ```rpl
     12 SIG  Usme='→NUM(CONVERT(ROUND(UBASE(ⒸUrme*Ⓒme);-2);1_kg))'  Urme='ⒸUru'
-```
-
-### mn constant
-
-Neutron mass. Being electrically neutral, the neutron emission, wrongly 
-interpreted at the beginning as some sort of γ radiation was correctly 
-identified in 1932 by Chadwick as the neutron hypothesized by Rutherford
-as a neutral particule having about the same mass as the proton. Free 
-neutrons have a half-life of 613.9 seconds.
-
-The value of its mass is determined experimentally by mass spectrometry as:
-```rpl
-    12 SIG  mn=1.67492750056E-27_kg
-```
-with absolute and relative uncertainties:
-```rpl
-    12 SIG  Usmn=0.00000000085E-27_kg  Urmn='→NUM(ROUND(UBASE(ⒸUsmn/Ⓒmn);-2))'
 ```
 
 ### mp constant
@@ -415,6 +400,23 @@ experiments. Its measured value is:
 with absolute and relative uncertainties:
 ```rpl
     12 SIG  Usmp=0.00000000052E-27_kg  Urmp='→NUM(ROUND(UBASE(ⒸUsmp/Ⓒmp);-2))'
+```
+
+### mn constant
+
+Neutron mass. Being electrically neutral, the neutron emission, wrongly 
+interpreted at the beginning as some sort of γ radiation was correctly 
+identified in 1932 by Chadwick as the neutron hypothesized by Rutherford
+as a neutral particule having about the same mass as the proton. Free 
+neutrons have a half-life of 613.9 seconds.
+
+The value of its mass is determined experimentally by mass spectrometry as:
+```rpl
+    12 SIG  mn=1.67492750056E-27_kg
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  Usmn=0.00000000085E-27_kg  Urmn='→NUM(ROUND(UBASE(ⒸUsmn/Ⓒmn);-2))'
 ```
 
 ### mH constant
@@ -456,7 +458,7 @@ the relative uncertainty is evaluated as:
 ### Da constant
 
 Dalton or unified atomic mass unit (u) design the same constant, see
-Mass unit (u) [u-constant](#u-constant). It is obtained by:
+Mass unit `u` [u-constant](#u-constant). It is obtained by:
 ```rpl
     12 SIG  Da='Ⓒu'
 ```
@@ -562,8 +564,8 @@ permittivity `ε0` and it is calculated by:
 ```rpl
     12 SIG  a0='CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ^2/(Ⓒme*Ⓒqe^2);1_nm)'
 ```
-through `ε0`, its relative uncertainty is the same as the fine structure 
-constant:
+through `ε0`, its relative uncertainty is the same as the one of the fine 
+structure constant `α`:
 ```rpl
     12 SIG  Usqa0='→NUM(CONVERT(ROUND(UBASE(ⒸUsα/Ⓒα*Ⓒa0);-2);1_nm))'  Urqme='ⒸUrα'
 ```
@@ -584,9 +586,12 @@ its relative uncertainty is the same as the electron mass:
 
 ### μN constant
 
-The nuclear magneton is a physical constant of magnetic moment. Defined 
-in SI units, it depends on the measured value of the proton mass `mp`. 
-It is calculated as:
+The nuclear magneton is a physical constant of magnetic moment. It 
+is the standard unit used to measure the magnetic dipole moment of 
+atomic nuclei and nucleons (protons and neutrons), essentially acting 
+as a scale to quantify their magnetic strength. Defined in SI units, 
+it depends on the measured value of the proton mass `mp`. It is 
+calculated as:
 ```rpl
     12 SIG  μN='CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T)'
 ```
@@ -597,13 +602,13 @@ its relative uncertainty is the same as the proton mass:
 
 ### λ0 constant
 
-Photon wavelength. Photon energy can be expressed using any unit of energy such
-as the electronvolt (eV) or the Joule (J). For short wavelength sources,
+Photon wavelength. Photon energy can be expressed using any unit of energy 
+such as the electronvolt (eV) or the Joule (J). For short wavelength sources,
 researchers often discuss photon energies in units of eV (or keV for hard
 X-rays) out of convenience.  The SI definition for 1 eV derives from the
-[definitional value of the electron charge](#me-constant). Photon energy `E` in
-eV can be computed from wavelength `λ` in nm as: `E=λ0/λ`.
-It is exactly calculated by:
+[definitional value of the electron charge](#me-constant). Photon energy `E` 
+in eV can be computed from wavelength `λ` in nm as: `E=λ0/λ`. It is exactly 
+calculated by:
 ```rpl
     12 SIG  λ0='CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)'  Usλ0=0_nm  Urλ0=0
 ```
@@ -722,27 +727,28 @@ It is exactly calculated by:
 
 ### c3 constant
 
-Wien's constant. In physics, Wien's displacement law states that the black-body
-radiation curve for different temperatures will peak at different wavelengths
-that are inversely proportional to the temperature. The shift of that peak is a
-direct consequence of the Planck radiation law, which describes the spectral
-brightness or intensity of black-body radiation as a function of wavelength at
-any given temperature. However, it had been discovered by German physicist
-Wilhelm Wien several years before Max Planck developed that more general
-equation, and describes the entire shift of the spectrum of black-body radiation
-toward shorter wavelengths as temperature increases.
+Wien's constant also knowm as the third radiation constant. In physics, Wien's 
+displacement law states that the black-body radiation curve for different 
+temperatures will peak at different wavelengths that are inversely proportional 
+to the temperature. The shift of that peak is a direct consequence of the 
+Planck radiation law, which describes the spectral brightness or intensity of 
+black-body radiation as a function of wavelength at any given temperature. 
+However, it had been discovered by German physicist Wilhelm Wien several years 
+before Max Planck developed that more general equation, and describes the 
+entire shift of the spectrum of black-body radiation toward shorter 
+wavelengths as temperature increases.
 
 Formally, the wavelength version of Wien's displacement law states that the
 spectral radiance of black-body radiation per unit wavelength, peaks at the
-wavelength `λpeak=c3/T` where `T` is absolute temperature.
-From a theoretic expression, it is approximately given by:
+wavelength `λpeak=c3/T` where `T` is absolute temperature. From a theoretic 
+expression (using Lambert function), it is approximately given by:
 ```rpl
-    12 SIG  c3=2.897771955185172661478605448092885_mm*K  Usc3=0_mm*K  Urc3=0
+    34 SIG  c3=2.897771955185172661478605448092885_mm*K  Usc3=0_mm*K  Urc3=0
 ```
 
 ### kq constant
 
-Ratio of the Boltzman constant [k-constant](#k-constant) by the
+Ratio of the Boltzman constant [k-constant](#k-constant) to the
 elementary charge [qe-constant](#qe-constant): `kq=k/qe`. It is 
 exactly calculated by:
 ```rpl
@@ -751,7 +757,7 @@ exactly calculated by:
 
 ### ε0q constant
 
-Ratio of the vacuum permittivity [ε0-constant](#ε0-constant) by the
+Ratio of the vacuum permittivity [ε0-constant](#ε0-constant) to the
 elementary charge [qe-constant](#qe-constant): `ε0q=ε0/qe`. Since it
 depends on the vacuum permittivity `ε0`, it is calculated as:
 ```rpl
@@ -817,7 +823,7 @@ intensity used as a reference, corresponding to `β=0_dB` due to the definition
 of the sound pressure level `β=10·LOG10(I/I0)` where `I=I0`. Its exact value  
 is given by convention as:
 ```rpl
-    12 SIG  εox=0.000000000001_W/m^2  UsI0=0_W/m^2  UrI0=0
+    12 SIG  I0=0.000000000001_W/m^2  UsI0=0_W/m^2  UrI0=0
 ```
 
 ### Z0 constant
@@ -825,7 +831,7 @@ is given by convention as:
 Vacuum characteristic impedance constant. It is a physical constant 
 relating the magnitudes of the electric `E` and magnetic `H` fields 
 of electromagnetic radiation travelling through free space. With
-'Zo=|E|/|H|'. Since it depends on the vacuum permittivity `μ0`, it 
+`Zo=|E|/|H|`. Since it depends on the vacuum permittivity `μ0`, it 
 is calculated by:
 ```rpl
     12 SIG  Z0='CONVERT(Ⓒμ0*Ⓒc;1_Ω)'
@@ -908,7 +914,7 @@ with absolute and relative uncertainties:
 Mass of the tau which is an elementary particle similar to the 
 electron, with an electric charge of `−qe` and spin -1/2, but it is
 heaviest of leptons. It is an unstable subatomic particle with a 
-lifetime of 2.9e-13 s. Precise measurements of the tau mass is 
+lifetime of 2.9E-13 s. Precise measurements of the tau mass is 
 deduced from energy conservation budget in pair creation reaction.
 Its measured value is: 
 ```rpl
@@ -924,7 +930,7 @@ with absolute and relative uncertainties:
 Conductance quantum constant. It is the quantized unit of electrical 
 conductance. It is required when measuring the conductance of a quantum 
 point contact, and also, it appears explicitly in the Landauer formula: 
-'G(μ)=G0·ΣTn(μ) over n' which relates the electrical conductance of a 
+`G(μ)=G0·ΣTn(μ) over n` which relates the electrical conductance of a 
 quantum conductor to its quantum properties. It is exactly calculated 
 by:
 ```rpl
@@ -948,7 +954,7 @@ by:
 Josephson constant. The Josephson constant is a constant of 
 proportionality that relates the potential difference across a 
 Josephson junction to the frequency of irradiation. It's also 
-the inverse of the magnetic flux quantum. It is exactly 
+the inverse of the magnetic flux quantum `ø`. It is exactly 
 calculated by:
 ```rpl
     12 SIG  KJ='CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)'  UsKJ=0_Hz/V  UrKJ=0
@@ -1040,11 +1046,11 @@ Its angular momentum comes from two types of rotation: spin and orbital
 motion. Therefore an external magnetic field exerts a torque on the 
 neutron magnetic moment revealing its existence. Its measured value is: 
 ```rpl
-    12 SIG  μμ=-4.49044830E-26_J/T
+    12 SIG  μn=-9.6623653E-27_J/T
 ```
 with absolute and relative uncertainties:
 ```rpl
-    12 SIG  Usμμ=0.00000010E-26_J/T  Urμμ='→NUM(ROUND(UBASE(ABS(ⒸUsμμ/Ⓒμμ));-2))'
+    12 SIG  Usμn=0.0000023E-27_J/T  Urμn='→NUM(ROUND(UBASE(ABS(ⒸUsμn/Ⓒμn));-2))'
 ```
 
 ### μμ constant
@@ -1055,11 +1061,11 @@ Its angular momentum comes from two types of rotation: spin and orbital
 motion. Therefore an external magnetic field exerts a torque on the muon 
 magnetic moment revealing its existence. Its measured value is: 
 ```rpl
-    12 SIG  μn=-9.6623653E-27_J/T
+    12 SIG  μμ=-4.49044830E-26_J/T
 ```
 with absolute and relative uncertainties:
 ```rpl
-    12 SIG  Usμn=0.0000023E-27_J/T  Urμn='→NUM(ROUND(UBASE(ABS(ⒸUsμn/Ⓒμn));-2))'
+    12 SIG  Usμμ=0.00000010E-26_J/T  Urμμ='→NUM(ROUND(UBASE(ABS(ⒸUsμμ/Ⓒμμ));-2))'
 ```
 
 ### ge constant
@@ -1185,7 +1191,7 @@ Its relative uncertainty is the same as the one of the Rydberg constant:
 Electron gyromagnetic ratio. It is the ratio of the electron's magnetic 
 moment to its angular momentum. It can be used to determine the direction 
 of precession and the resonance frequency of an electron in a magnetic 
-field. Its value depends on the electron magnetic moment 'μe' and is 
+field. Its value depends on the electron magnetic moment `μe` and is 
 calculated by: 
 ```rpl
     12 SIG  γe='CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1)'
@@ -1203,7 +1209,7 @@ moment to its angular momentum. It can be used to determine the direction
 of precession and the resonance frequency of a proton in a magnetic field. 
 The proton gyromagnetic ratio is used in nuclear magnetic resonance (NMR) 
 imaging, such as in MRI scans.  Its value depends on the proton magnetic 
-moment 'μp' and is calculated by: 
+moment `μp` and is calculated by: 
 ```rpl
     12 SIG  γp='CONVERT(2*ABS(Ⓒμp)/Ⓒℏ;1_(s*T)^-1)'
 ```
@@ -1220,7 +1226,7 @@ moment to its angular momentum. It is a characteristic of the neutron's
 nuclear spin and its sign determines the direction of precession. It is 
 used in nuclear magnetic resonance (NMR) applications, such as MRI imaging. 
 In NMR spectroscopy, it is used to measure detection sensitivity. Its 
-value depends on the neutron magnetic moment 'μn' and is calculated by: 
+value depends on the neutron magnetic moment `μn` and is calculated by: 
 ```rpl
     12 SIG  γn='CONVERT(2*ABS(Ⓒμn)/Ⓒℏ;1_(s*T)^-1)'
 ```
@@ -1234,16 +1240,19 @@ its relative uncertainty is the same as the neutron magnetic moment
 
 The weak mixing angle or Weinberg angle. It is a parameter in the 
 Weinberg–Salam theory of the electroweak interaction, part of the 
-Standard Model of particle physics. It is the angle by which 
-spontaneous symmetry breaking rotates the original W0 and B0 vector 
-boson plane, producing as a result the Z0 boson, and the photon. Its 
-value is obtained as: 
+Standard Model of particle physics. It is the angle by which spontaneous 
+symmetry breaking rotates the original W0 and B0 vector boson plane, 
+producing as a result the Z0 boson, and the photon. From the mesurement 
+of the following dimensionless parameter (for the W and Z bosons): 
+`(sinθw)^2 = 1 - (mW/mZ)^2 = 0.22305 ± 0.00023` 
+the value of the angle `θw` is then calculated as: 
 ```rpl
-    12 SIG  θw='CONVERT(ASIN(√(0.22305));1_r)'
+    5 SIG  θw='CONVERT(ASIN(√(0.22305));1_°)'
 ```
-without uncertainties by convention:
+With the following uncertainties:
 ```rpl
-    12 SIG  Usθw=0_r  Urθw=0
+    5 SIG  Usθw='→NUM(CONVERT(ROUND(ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023));-2);1_°))'
+           Urθw='→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'
 ```
 
 ### ΔfCs constant

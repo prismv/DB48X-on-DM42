@@ -384,9 +384,9 @@ Its relative uncertainty is therefore on the same order either of the sum
 
 ### mp constant
 
-Mass of the proton. Being the hydrogen nucleus, discovered and named 
-by Ernest Rutherford, the proton was considered at first to be an 
-elementary particle. It is now recognized as being composed of two 
+Mass of the proton. Being the hydrogen H-1 nucleus, discovered and  
+named by Ernest Rutherford, the proton was considered at first to be
+an elementary particle. It is now recognized as being composed of two 
 valence up quarks of charge `+⁠2/3qe` each, and one valence down quark
 of charge `−⁠1/3⁠qe`. The rest masses of quarks contribute only about 1% 
 of a proton's mass and 99% is quantum chromodynamics binding energy
@@ -849,7 +849,7 @@ The electrically neutral deuterium atom H-2 (also known as heavy hydrogen)
 contains a single positively charged proton and a neutron in the nucleus,
 and a single negatively charged electron bound to the nucleus by the 
 Coulomb force. It accounts for about 0.0156% by number (0.0312% by mass) 
-of all hydrogen in the ocean. Precise measurements of hydrogen is obtained 
+of all hydrogen in the ocean. Precise measurements of deuterium is obtained 
 by spectrometry. Its measured value is:
 ```rpl
     12 SIG  mD=2.01410177812_u",           
@@ -867,7 +867,7 @@ half-life of ~12.3 years, Its nucleus contains a single positively charged
 proton and two neutrons, surrounded by a single negatively charged electron
 bound to the nucleus by the Coulomb force. Trace amounts are found in the 
 atmosphere due to interaction of its gases with cosmic rays. Precise 
-measurements of hydrogen mass is obtained by spectrometry. Its measured 
+measurements of tritium mass is obtained by spectrometry. Its measured 
 value is:
 ```rpl
     12 SIG  mT=3.0160492779_u"                       
@@ -1127,7 +1127,7 @@ Planck temperature unit. As an attempt to devise a universal and natural
 units system, the Planck units are combinations of basic universal constants. 
 It is the highest temperature that conventional physics can describe. It's a 
 fundamental limit of quantum mechanics and is considered the temperature of 
-the universe during the Big Bang when dominant quantum gravity effects were
+the universe during the Big Bang when quantum gravity effects became
 dominant. Its value depends on the measured value of the gravitational 
 constant `G` and is calculated by: 
 ```rpl

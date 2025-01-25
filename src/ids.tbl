@@ -946,6 +946,7 @@ FLAG(GCStatsClearAfterRead,     GCStatsKeepAfterRead)
 FLAG(RunStatsClearAfterRead,    RunStatsKeepAfterRead)
 FLAG(GCTemporariesCleanup,      AutomaticTemporariesCleanup)
 FLAG(SoftwareDisplayRefresh,    DMCPDisplayRefresh)
+FLAG(SolveNumericallyOnly,      SolveSymbolicallyThenNumerically)
 
 
 ALIAS(HardwareFloatingPoint,    "HFP")

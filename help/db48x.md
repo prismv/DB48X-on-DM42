@@ -6909,7 +6909,7 @@ L=500_mH  C=8_μF  R=10_Ω
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
-@ Expecting [ d=80.04185 77261 pm σ=750 000. μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=2.99999 99941 4 V ]
+@ Expecting [ d=80.04180 5841 pm σ=750 000. μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=2.99999 80494 7 V ]
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_pm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -7703,7 +7703,7 @@ By definition, an object in free fall only experiences local gravitational accel
 * To calculate `[t_s;v_ft/s;r_m;gearth_m/s^2]` (Time; Velocity at time `t`; Radius; Acceleration of gravity at latitude `φ` & altitude `h`) from 7 known variables:
 ```rpl
 y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.9722e24_kg
-@ Expecting [ t=7.88428 18533 5 s v=-253.66926 7182 ft/s r=6 375 305.41311 m gearth=9.80321 00310 8 m/s↑2 ]
+@ Expecting [ t=7.88428 18533 5 s v=-253.66926 7182 ft/s r=6 375 429.15433 m gearth=9.80321 00310 8 m/s↑2 ]
 'ROOT(ⒺObject In Free Fall;[t;v;r;gearth];[1_s;1_ft/s;1_m;1_m/s^2])'
 ```
 
@@ -7840,7 +7840,7 @@ For reflection and refraction problems, the focal length and radius of curvature
 * To calculate `[θ2_°;v1_m/s;v2_m/s]` (Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 3 known variables:
 ```rpl
 n1=1  n2=1.333  θ1=45_°
-@ Expecting [ θ2=32.03672 30399 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
+@ Expecting [ θ2=32.03672 30399 ° v1=299 792 458. m/s v2=224 900 568.637 m/s ]
 'ROOT(ⒺRefraction Law;[θ2;v1;v2];[1_°;1_m/s;1_m/s])'
 ```
 
@@ -7851,7 +7851,7 @@ n1=1  n2=1.333  θ1=45_°
 * To calculate `[θc_°;v1_m/s;v2_m/s]` (Critical angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
-@ Expecting [ θc=41.81031 48958 ° v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
+@ Expecting [ θc=41.81031 48958 ° v1=299 792 458. m/s v2=199 861 638.666 m/s ]
 'ROOT(ⒺCritical Angle;[θc;v1;v2];[1_°;1_m/s;1_m/s])'
 ```
 
@@ -7862,7 +7862,7 @@ n1=1  n2=1.5
 * To calculate `[vf0_m/s;vf1_m/s;vf2_m/s;NA;θ0_°]` (Speed of light in media of refraction index `n1f` & `n2f`; Numerical aperture; Acceptance angle) from 3 known variables:
 ```rpl
 nf0=1.2  nf1=1.5  nf2=1.45
-@ Expecting [ vf0=249 827 048.333 m/s vf1=199 861 638.66 m/s vf2=206 753 419.294 m/s NA=0.32004 77394 95 θ0=18.66581 19909 ° ]
+@ Expecting [ vf0=249 827 048.333 m/s vf1=199 861 638.666 m/s vf2=206 753 419.31 m/s NA=0.32004 77394 95 θ0=18.66581 19909 ° ]
 'ROOT(ⒺFiber Optic;[vf0;vf1;vf2;NA;θ0];[1_m/s;1_m/s;1_m/s;1;1_°])'
 ```
 
@@ -7887,7 +7887,7 @@ n1=1  n2=1.5
 * To calculate `[m;f_cm]` (Magnification; Focal distance) from 3 known variables:
 ```rpl
 u=10_cm  v=300_cm  r=19.35_cm
-@ Expecting [ m=-30. f=9.67741 93548 4 cm ]
+@ Expecting [ m=-30 f=9.67741 93548 4 cm ]
 'ROOT(ⒺSpherical Reflection;[m;f];[1;1_cm])'
 ```
 
@@ -7898,7 +7898,7 @@ u=10_cm  v=300_cm  r=19.35_cm
 * To calculate `[n2;v1_m/s;v2_m/s]` (Refraction index in medium 2, speed of light in media of refraction index `n1`, `n2`) from 4 known variables:
 ```rpl
 u=8_cm  v=12_cm  r=2_cm  n1=1
-@ Expecting [ n2=1.5 v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
+@ Expecting [ n2=1.5 v1=299 792 458. m/s v2=199 861 638.666 m/s ]
 'ROOT(ⒺSpherical Refraction;[n2;v1;v2];[1;1_m/s;1_m/s])'
 ```
 
@@ -7909,7 +7909,7 @@ u=8_cm  v=12_cm  r=2_cm  n1=1
 * To calculate `[f_cm;v_cm;m;vn_m/s]` (Focal distance, distance to image, magnification, speed of light in media of refraction index `n`) from 4 known variables:
 ```rpl
 r1=5_cm  r2=20_cm  n=1.5  u=50_cm
-@ Expecting [ f=13.33333 33333 cm v=18.18181 81818 cm m=-0.36363 63636 36 vn=199 861 638.66 m/s ]
+@ Expecting [ f=13.33333 33333 cm v=18.18181 81818 cm m=-0.36363 63636 36 vn=199 861 638.666 m/s ]
 'ROOT(ⒺThin Lens;[f;v;m;vn];[1_cm;1_cm;1;1_m/s])'
 ```
 
@@ -8041,7 +8041,7 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 * To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
-@ Expecting [ x=9.06149 24146 7 cm v=-63.44371 46156 cm/s a=-20.38835 7933 m/s↑2 m=0.04444 44444 44 kg E=0.05 J ]
+@ Expecting [ x=9.06149 24146 7 cm v=-63.44371 46156 cm/s a=-20.38835 7933 m/s↑2 m=4.44444 44444 4⁳⁻² kg E=5.⁳⁻² J ]
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
@@ -8052,7 +8052,7 @@ We are considering here a damped mass-spring oscillator having the natural angul
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
-@ Expecting [ m=0.04444 44444 44 kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=0.05640 00148 35 J Q=3.33333 33333 3 ]
+@ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=0.05640 00148 35 J Q=3.33333 33333 3 ]
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 @ Save E for later use
 ```
@@ -8073,8 +8073,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Phase angle; Resulting amplitude; Displacement; Velocity & Acceleration at `t`; Total energy at `t`; Quality factor) from 9 known variables which correspond to the values of the previous section:
 ```rpl
 ω=14.99_r/s  ω0=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
-@ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  φ=-89.74526 88301 °  xp=3.00197 16654 8⁳⁻¹ m  x=-21.44064 71859 cm  v=314.96199 4059 cm/s  a=47.58321 09983 m/s↑2  E=0.45029 74707 68 J  Q=3.33333 33333 3  ]
-@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 3) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
+@ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s φ=-89.74526 88301 ° xp=0.30019 71665 48 m x=-22.26611 11734 cm v=301.81823 6224 cm/s a=50.03197 40728 m/s↑2 E=0.45032 15149 87 J Q=3.33333 33333 3 ]
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 @ Save E for comparison
 ```
@@ -8082,7 +8081,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)
 ```rpl
 E0 E %Ch
-@ Expecting [ 698.39956 0862 ]
+@ Expecting
 @ % of relative augmentation which illustrates the huge energy gain due to the driving force acting very near the resonance frequency.
 ```
 
@@ -8164,7 +8163,7 @@ n=8  L=0.5_yd
 * To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 ro=4_μm  ri=25_Å  d=0.1_mil
-@ Expecting [ A=5.02654 62822 5e-7 cm↑2 I=2.01061 92983e-10 mm↑4 J=4.02123 85965 9e-10 mm↑4 Id=5.25354 58977 5e-10 mm↑4 ]
+@ Expecting [ A=5.02654 62822 5⁳⁻⁷ cm↑2 I=2.01061 92983⁳⁻¹⁰ mm↑4 J=4.02123 85965 9⁳⁻¹⁰ mm↑4 Id=5.25354 58977 5⁳⁻¹⁰ mm↑4 ]
 @ Note these answers are OK, the manual HP50g_AUR (p.5-46) is definitively in error (as calculated  directly)
 'ROOT(ⒺCircular Ring;[A;I;J;Id];[1_cm^2;1_mm^4;1_mm^4;1_mm^4])'
 ```
@@ -8204,7 +8203,7 @@ The 12 variables in the Solid Geometry section are:
 * To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume; Area; Moment of inertia about `x` axis & `z` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
-@ Expecting [ V=641.40850 0108 cm↑3 A=468.99530 2857 cm↑2 Ixx=0.01618 14843 75 kg·m↑2 Izz=1.80075⁳⁻² kg·m↑2 Id=3.11877 34375⁳⁻² kg·m↑2 ]
+@ Expecting [ V=641.40850 0108 cm↑3 A=468.99530 2857 cm↑2 Ixx=0.01618 14843 75 kg·m↑2 Izz=0.01800 75 kg·m↑2 Id=0.03118 77343 75 kg·m↑2 ]
 'ROOT(ⒺCone;[V;A;Ixx;Izz;Id];[1_cm^3;1_cm^2;1_kg*m^2;1_kg*m^2;1_kg*m^2])'
 ```
 
@@ -8237,8 +8236,8 @@ b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
 * To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis; Radius; Volume; Area) from 3 known variables:
 ```rpl
 d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
-@ Expecting [ I=6.88691 91393 3⁳⁻² kg·m↑2 r=8.43593 34656 2 in V=41 208.72679 31 cm↑3 A=5 769.57188 64 cm↑2 ]
-'ROOT(ⒺSphere;[I;r;V;A];[1_kg*m^2;r_cm;1_cm^3;1_cm^2])'
+@ Expecting [ I=0.06886 91913 93 kg·m↑2 r=21.42727 10027 cm V=41 208.72679 31 cm↑3 A=5 769.57188 64 cm↑2 ]
+'ROOT(ⒺSphere;[I;r;V;A];[1_kg*m^2;1_cm;1_cm^3;1_cm^2])'
 ```
 
 

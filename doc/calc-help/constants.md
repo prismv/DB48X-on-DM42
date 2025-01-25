@@ -597,7 +597,7 @@ calculated as:
 ```
 its relative uncertainty is the same as the proton mass:
 ```rpl
-    12 SIG  UsμN='→NUM(CONVERT(ROUND(UBASE(ⒸUrμN*ⒸμN);-2);1_J/T))'  UrμB='ⒸUrmp'
+    12 SIG  UsμN='→NUM(CONVERT(ROUND(UBASE(ⒸUrμN*ⒸμN);-2);1_J/T))'  UrμN='ⒸUrmp'
 ```
 
 ### λ0 constant

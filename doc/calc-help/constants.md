@@ -1121,23 +1121,6 @@ Its relative uncertainty is half the one of the gravitational constant:
     12 SIG  UsEpl='→NUM(ROUND(CONVERT(ROUND(UBASE(UrEpl*Epl);-2);1_GeV);-2))'  UrEpl='ⒸUrG/2'
 ```
 
-### T°pl constant
-
-Planck temperature unit. As an attempt to devise a universal and natural 
-units system, the Planck units are combinations of basic universal constants. 
-It is the highest temperature that conventional physics can describe. It's a 
-fundamental limit of quantum mechanics and is considered the temperature of 
-the universe during the Big Bang when quantum gravity effects became
-dominant. Its value depends on the measured value of the gravitational 
-constant `G` and is calculated by: 
-```rpl
-    12 SIG  T°pl='CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)'
-```
-Its relative uncertainty is half the one of the gravitational constant: 
-```rpl
-    12 SIG  UsT°pl='→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'  UrT°pl='ⒸUrG/2'
-```
-
 ### Lpl constant
 
 Planck length unit. As an attempt to devise a universal and natural units 
@@ -1168,6 +1151,23 @@ of the gravitational constant `G` and is calculated by:
 Its relative uncertainty is half the one of the gravitational constant: 
 ```rpl
     12 SIG  UsTpl='→NUM(CONVERT(ROUND(UBASE(ⒸUrTpl*ⒸTpl);-2);1_s))'  UrTpl='ⒸUrG/2'
+```
+
+### T°pl constant
+
+Planck temperature unit. As an attempt to devise a universal and natural 
+units system, the Planck units are combinations of basic universal constants. 
+It is the highest temperature that conventional physics can describe. It's a 
+fundamental limit of quantum mechanics and is considered the temperature of 
+the universe during the Big Bang when quantum gravity effects became
+dominant. Its value depends on the measured value of the gravitational 
+constant `G` and is calculated by: 
+```rpl
+    12 SIG  T°pl='CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K)'
+```
+Its relative uncertainty is half the one of the gravitational constant: 
+```rpl
+    12 SIG  UsT°pl='→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'  UrT°pl='ⒸUrG/2'
 ```
 
 ### Eh constant
@@ -1236,6 +1236,24 @@ its relative uncertainty is the same as the neutron magnetic moment
     12 SIG  Usγn='→NUM(CONVERT(ROUND(UBASE(ⒸUrγn*Ⓒγn);-2);1_(s*T)^-1))'  Urγn='ⒸUrμn'
 ```
 
+### Kc constant
+
+Quantum of circulation constant. It represents the discrete unit of 
+circulation in a superfluid, meaning that such circulation around a 
+vortex can only occur in multiples of this value. The existence of 
+quantum vortices was first predicted by Lars Onsager in 1949 in 
+connection with superfluid helium. It is defined as the ratio of 
+Planck's constant `h` to the mass of the relevant particle `m` 
+chosen here as the electron. It is calculated by: 
+```rpl
+    12 SIG  Kc='CONVERT(Ⓒπ*Ⓒℏ/Ⓒme;1_m^2/s)'
+```
+its relative uncertainty is the same as the one of the electron
+mass 'me':
+```rpl
+    12 SIG  UsKc='→NUM(CONVERT(ROUND(UBASE(ⒸUrKc*ⒸKc);-2);1_m^2/s))'  UrKc='ⒸUrme'
+```
+
 ### θw constant
 
 The weak mixing angle or Weinberg angle. It is a parameter in the 
@@ -1255,13 +1273,32 @@ With the following uncertainties:
            Urθw='→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'
 ```
 
+### G0F constant
+
+Fermi reduced coupling constant. It is a fundamental physical constant 
+that represents the strength of the weak nuclear interaction, essentially 
+indicating how readily particles can interact via the weak force; a 
+larger value signifies a stronger interaction, and it is a key parameter 
+in the Standard Model of particle physics, primarily used to calculate 
+the decay rates of particles involved in weak interactions like beta 
+decay. Its measured value is: 
+```rpl
+    12 SIG  G0F=1.1663787E-5_GeV^-2
+```
+with absolute and relative uncertainties:
+```rpl
+    12 SIG  UsG0F=0.0000006E-5_GeV^-2  UrG0F='→NUM(ROUND(UBASE(ABS(ⒸUsG0F/ⒸG0F));-2))'
+```
+
 ### ΔfCs constant
 
 Caesium (Cs) hyperfine transition. It is the transition between the two 
 hyperfine ground states of the caesium atom. The frequency `ΔfCs` of this 
 transition is used to define the second as the official time unit of the 
-International System of Units (SI). Its exact value (without uncertainty) 
-is given by convention as: 
+International System of Units (SI): one second is therefore the duration 
+of 9192631770 cycles of this radiation. It represents the "tick" of an 
+extremely accurate atomic clock based on the properties of the Caesium 
+atom. Its exact value (without uncertainty) is given by convention as: 
 ```rpl
     12 SIG  ΔfCs=9192631770_Hz  UsΔfCs=0_Hz  UrΔfCs=0
 ```

@@ -925,14 +925,14 @@ static const cstring basic_equations[] =
     // WARNING HP50G has precedence here for the presence of αF instead of αR in
     // 3rd eqn (contrary to HP50G_AUR)
     "Bipolar Transistors",  "{ "
-    "'(IE_mA)=-(IES_nA)*(exp((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)+αR*(ICS_nA)*(EXP((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)' "
-    "'(IC_mA)=-(ICS_nA)*(exp((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)+αF*(IES_nA)*(EXP((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)' "
+    "'(IE_mA)=-(IES_nA)*(exp((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)+αR*(IES_nA)*(EXP((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)' "
+    "'(IC_mA)=-(ICS_nA)*(exp((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)+αF*(ICS_nA)*(EXP((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)' "
     "'(IS_nA)=αF*(IES_nA)' "
     "'(IS_nA)=αR*(ICS_nA)' "
-    "'(IB_nA)+(IE_nA)+(IC_nA)=0' "
+    "'(IB_nA)+(IE_nA)+(IC_nA)=0_nA' "
     "'(ICO_nA)=(ICS_nA)*(1-αF*αR)' "
     "'(ICEO_nA)=(ICO_nA)/(1-αF)' "
-    "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*IFTE((((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))≤0;0;LN(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF)))))' "
+    "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*LN(MAX(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF)));1E-100))' "
     "}",
 
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)

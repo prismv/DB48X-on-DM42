@@ -310,23 +310,23 @@ static const cstring basic_constants[] =
 
     "Chemistry",     nullptr,
 
-//*NA constant; Avogadro's number - Exact definition
+//NA constant; *Avogadro's number - Exact definition
     "NA",       "6.02214076E23_mol⁻¹",     
     "UsNA",     "0_mol⁻¹",
     "UrNA",     "0",
-//*K constant; Boltzmann - Exact definition
+//K constant; *Boltzmann - Exact definition
     "k",        "1.380649E-23_J/K",        
     "Usk",      "0_J/K",
     "Urk",      "0",
-//*Vm constant; Molar volume - Calculation convention
+//Vm constant; *Molar volume - Calculation convention
     "Vm",       "'CONVERT(ⒸR*ⒸStdT/ⒸStdP;1_m^3/mol)'",
     "UsVm",     "0_m^3/mol",
     "UrVm",     "0",
-//*R constant; Universal gas constant - Exact calculation
+//R constant; *Universal gas constant - Exact calculation
     "R",        "'CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))'",    
     "UsR",      "0_J/(mol*K)",
     "UrR",      "0",
-//*StdT constant; Standard temperature - Definition convention
+//StdT constant; *Standard temperature - Definition convention
     "StdT",     "273.15_K",             
     "UsStdT",   "0_K",
     "UrStdT",   "0",
@@ -688,12 +688,6 @@ static const cstring basic_constants[] =
     "UrEpl",    "'ⒸUrG/2'",                                 // UrEpl=1.1E-5 'ROUND(CONVERT(UBASE(UrEpl*Epl);1_GeV);-2)'
   // UrEpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => Epl=1.22089E19 GeV <=> 
   //'→NUM(ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/G);1_GeV);XPON(UVAL(UrEpl*√(Ⓒℏ*Ⓒc^5/G)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/G)))-2))'
-//T°pl constant; *Planck temperature - Calculation from measurement
-    "T°pl",     "'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);XPON(UVAL(ⒸUrT°pl*√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-2))'",
-    "UsT°pl",   "'→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'",//=>UsT°pl='→NUM(CONVERT(ROUND(UBASE(UrT°pl*T°pl);-2);1_K))'=1.6E27 K
-    "UrT°pl",   "'ⒸUrG/2'",                                 // UrT°pl=1.1E-5
-  // UrT°pl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => T°pl=1.416784E32 K <=>
-  //'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K);XPON(UVAL(UrT°pl*√((Ⓒℏ*Ⓒc^5/G))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk))-2))'
 //Lpl constant; *Planck length - Calculation from measurement
     "Lpl",      "'→NUM(ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m);XPON(UVAL(ⒸUrLpl*√(Ⓒℏ*ⒸG/Ⓒc^3)))-XPON(UVAL(√(Ⓒℏ*ⒸG/Ⓒc^3)))-2))'",      
     "UsLpl",    "'→NUM(CONVERT(ROUND(UBASE(ⒸUrLpl*ⒸLpl);-2);1_m))'",//=>UsLpl='→NUM(CONVERT(ROUND(UBASE(UrLpl*Lpl);-2);1_m))'=1.8E-40 m
@@ -706,6 +700,12 @@ static const cstring basic_constants[] =
     "UrTpl",    "'ⒸUrG/2'",                                 // UrTpl=1.1E-5
   // UrTpl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) UsG=0.00015E-11_m^3/(s^2*kg) => Tpl=5.391246E-44 s <=> 
   //'→NUM(ROUND(CONVERT(√(Ⓒℏ*G/Ⓒc^5);1_s);XPON(UVAL(UrTpl*√(Ⓒℏ*G/Ⓒc^5)))-XPON(UVAL(√(Ⓒℏ*G/Ⓒc^5)))-2))'
+//T°pl constant; *Planck temperature - Calculation from measurement
+    "T°pl",     "'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);XPON(UVAL(ⒸUrT°pl*√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-2))'",
+    "UsT°pl",   "'→NUM(CONVERT(ROUND(UBASE(ⒸUrT°pl*ⒸT°pl);-2);1_K))'",//=>UsT°pl='→NUM(CONVERT(ROUND(UBASE(UrT°pl*T°pl);-2);1_K))'=1.6E27 K
+    "UrT°pl",   "'ⒸUrG/2'",                                 // UrT°pl=1.1E-5
+  // UrT°pl=1.1E-5 G=6.67430E-11_m^3/(s^2*kg) => T°pl=1.416784E32 K <=>
+  //'→NUM(ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk;1_K);XPON(UVAL(UrT°pl*√((Ⓒℏ*Ⓒc^5/G))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/G))/Ⓒk))-2))'
 //Eh constant; *Hartree energy - Calculation from measurement
     "Eh",       "'→NUM(ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);XPON(UVAL(ⒸUrEh*2*Ⓒh*Ⓒc*ⒸR∞))-XPON(UVAL(2*Ⓒh*Ⓒc*ⒸR∞))-2))'",        
     "UsEh",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrEh*ⒸEh);-2);1_J))'",//=>UsEh='→NUM(CONVERT(ROUND(UBASE(UrEh*Eh);-2);1_J))'=4.8E-30 J
@@ -730,12 +730,23 @@ static const cstring basic_constants[] =
     "Urγn",     "'ⒸUrμn'",                             // Urγn=2.4e-7 
   // Urγn=2.4E-7 μn=-9.6623653E-27_J/T => γn=183247175._(s·T)⁻¹ <=>
   //'→NUM(ROUND(CONVERT(2*ABS(μn)/Ⓒℏ;1_(s*T)^-1);XPON(UVAL(Urγn*2*ABS(μn)/Ⓒℏ))-XPON(UVAL(2*ABS(μn)/Ⓒℏ))-2))'
+//Kc constant; *Quantum of circulation - Calculation from measurement
+    "Kc",       "'→NUM(ROUND(CONVERT(Ⓒπ*Ⓒℏ/Ⓒme;1_m^2/s);XPON(UVAL(ⒸUrKc*Ⓒπ*Ⓒℏ/Ⓒme))-XPON(UVAL(Ⓒπ*Ⓒℏ/Ⓒme))-2))'", 
+    "UsKc",     "'→NUM(CONVERT(ROUND(UBASE(ⒸUrKc*ⒸKc);-2);1_m^2/s))'",//=>UsKc='→NUM(CONVERT(ROUND(UBASE(UrKc*Kc);-2);1_m^2/s))'=1.1E-13 m↑2/s
+    "UrKc",     "'ⒸUrme'",                             // UrKc=3.1E-10 
+  // UrKc=3.1E-10 me=9.1093837139E-31_kg => Kc=3.6369475467S-4 m↑2/s <=>
+  //'→NUM(ROUND(CONVERT(Ⓒπ*Ⓒℏ/me;1_m^2/s);XPON(UVAL(UrKc*Ⓒπ*Ⓒℏ/me))-XPON(UVAL(Ⓒπ*Ⓒℏ/me))-2))'
 //θw constant; *Weak mixing angle - Measurement
     "θw",       "'→NUM(ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(ⒸUrθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2))'",     
     "Usθw",     "'→NUM(CONVERT(ROUND(ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023));-2);1_°))'",//Usθw=0.032 °
     "Urθw",     "'→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'",//Urθw='→NUM(ROUND(UBASE(ABS(Usθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'=0.0011
   // θw='CONVERT(ASIN(√(0.22305));1_°)' => θw=28.18250 85537 °  Urθw=0.0011 θw=28.183 ° 
   //'→NUM(ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(Urθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2))'
+//G0F constant; *Fermi reduced coupling constant - Measurement
+    "G0F",       "1.1663787E-5_GeV^-2",        
+    "UsG0F",     "0.0000006E-5_GeV^-2",
+    "UrG0F",     "'→NUM(ROUND(UBASE(ABS(ⒸUsG0F/ⒸG0F));-2))'",
+  // G0F=1.1663787E-5_GeV^-2 UsG0F=0.0000006E-5_GeV^-2 '→NUM(ROUND(UBASE(ABS(UsG0F/G0F));-2))' => UrG0F=5.1E-7
 //ΔfCs constant; *Cs hyperfine transition - Exact definition
     "ΔfCs",     "9192631770_Hz",                
     "UsΔfCs",   "0_Hz",

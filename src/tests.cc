@@ -3258,7 +3258,7 @@ void tests::decimal_numerical_functions()
         .test(CLEAR, "-1.23 -2.34", ID_pow).error("Argument outside domain")
         .test(CLEAR, "-1.23 23", ID_pow).expect("-116.90082 15014 43291 74653 48578 88750 679")
         .test(CLEAR, "-1.23 -2.34", ID_pow).error("Argument outside domain")
-        .test(CLEAR, "1.234 SIN 2.34", ID_pow).expect("0.00012 57743 10956 55759 81666 83961 25288 114")
+        .test(CLEAR, "1.234 SIN 2.34", ID_pow).expect("0.00012 57743 10956 55759 81666 83961 25288 1331")
         .test(CLEAR, "1.23 COS -2.34", ID_pow).expect("1.00053 93880 00606 36152 22273 75863 57849")
         .test(CLEAR, "-1.23 TAN 23", ID_pow).expect("-4.29073 45139 05064 31475 52781 67797 518⁳⁻³⁹")
         .test(CLEAR, "-1.23 TAN 2.34", ID_pow).error("Argument outside domain")
@@ -3363,6 +3363,10 @@ void tests::decimal_numerical_functions()
     step("atan2 neg / neg quadrant")
         .test(CLEAR, "-3.21 -1.23 atan2", ENTER)
         .expect("-1.93671 70284 36984 00445 39742 77784 19616 r");
+
+    step("ln for very small value")
+        .test(CLEAR, "1E-100 LN", ENTER)
+        .expect("-230.25850 92994 04568 40179 91454 68436 426");
 
     step("Restore default 24-digit precision");
     test(CLEAR, "24 PRECISION 12 SIG", ENTER).noerror();

@@ -498,7 +498,7 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 * To calculate `[ω0;Qs;Qp;f0]` (Resonant angular velocity; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
-@ Expecting [ ω0=500. r/s Qs=25. Qp=4.⁳⁻² f0=79.57747 15459 Hz ]
+@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
 
@@ -1934,8 +1934,7 @@ These equations for an NPN silicon bipolar transistor are based on large-signal 
 ```rpl
 IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
 @ Expecting [ VBE=-7.81873 4911⁳⁻² V IS=-2.⁳⁻²³ nA ICO=-2.⁳⁻²³ nA ICEO=-2.⁳⁻²³ nA IE=-2.⁳⁻²³ mA IB=-2.⁳⁻²³ mA VCEsat=-2.⁳⁻²³ V ]
-@ Failing [ VBE=6.55313 00304 1⁳⁻¹ V V IS=9.8⁳⁻⁶ nA ICO=1.0396⁳⁻⁵ nA ICEO=5.198⁳⁻⁴ nA IE=-1.02040 81632 5 mA IB=2.04081 63254 7⁳⁻² mA VCEsat=0 V ]
-@ C#16 NOT OK MSOLVE: hallucinates all values. SOLVE works
+'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
 ```
 
 #### JFETs

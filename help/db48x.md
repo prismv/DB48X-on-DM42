@@ -8307,9 +8307,7 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 * To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
 ```rpl
 ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=1.01814 13959 2 V xd=5.25780 92138 7 μ Cj=2 003.96839 745 pF/cm↑2 Emax=7 995 018.66308 V/m BV=358.08260 5883 V J=-1.⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
-@ C#14 NOT OK MSOLVE: "Unable to solve for all variables" for absolutely no discernable reason. It worked in v0.8.7!!
-@ CLUE: It seems that the call to the SIDENS function fails.
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=1.01379 20414 3 V xd=5.25726 51776 8 μ Cj=2 004.17577 358 pF/cm↑2 Emax=79 941.91402 27 V/cm BV=358.08260 5883 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
 'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_cm^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
 ```
 
@@ -8322,8 +8320,7 @@ These equations for a silicon NMOS transistor use a two-port network model. They
 * To calculate `[ni_(cm^-3);We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Silicon density; Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
 ```rpl
 tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=3.72479 81530 9⁳⁻¹ V↑(1/2) φp=-0.30072 81952 95 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 5 mA/V ]
-@ C#15 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute. And here also, it appears that the call to the SIDENS function fails.
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=1 V↑(¹/₂) φp=-0.29855 35180 52 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 6 mA/V ]
 'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_cm^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
 ```
 

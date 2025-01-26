@@ -2770,7 +2770,7 @@ PARSE_BODY(funcall)
     id nty = p.out->type();
     if (nty != ID_symbol && nty != ID_local &&
         nty != ID_expression && nty != ID_funcall &&
-        nty != ID_list && nty != ID_array)
+        nty != ID_list && nty != ID_array && nty != ID_xlib)
         return SKIP;
 
     // Cannot parse functions while parsing a unit

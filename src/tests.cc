@@ -1188,6 +1188,14 @@ void tests::editor_operations()
         .test(RUNSTOP).expect("'F'")
         .test("DEPTH TOLIST", ENTER)
         .expect("{ 1 5 1 024 'x' 'y' 'z' 'G' 'F' }");
+    step("Library function call")
+        .test(CLEAR, "'ⓁSiDensity(273_K)'", ENTER)
+        .expect("'SiDensity(273 K)'")
+        .test(DOWN).editor("'ⓁSiDensity(273_K)'")
+        .test(ENTER)
+        .expect("'SiDensity(273 K)'")
+        .test(RUNSTOP)
+        .expect("799 498 575.637 (cm↑3)⁻¹");
 
     step("Implicit multiplication")
         .test(CLEAR, "'2X'", ENTER).expect("'2·X'");

@@ -1188,6 +1188,14 @@ void tests::editor_operations()
         .test(RUNSTOP).expect("'F'")
         .test("DEPTH TOLIST", ENTER)
         .expect("{ 1 5 1 024 'x' 'y' 'z' 'G' 'F' }");
+    step("Library function call")
+        .test(CLEAR, "'ⓁSiDensity(273_K)'", ENTER)
+        .expect("'SiDensity(273 K)'")
+        .test(DOWN).editor("'ⓁSiDensity(273_K)'")
+        .test(ENTER)
+        .expect("'SiDensity(273 K)'")
+        .test(RUNSTOP)
+        .expect("799 498 575.637 (cm↑3)⁻¹");
 
     step("Implicit multiplication")
         .test(CLEAR, "'2X'", ENTER).expect("'2·X'");
@@ -6428,7 +6436,7 @@ void tests::solver_testing()
     step("Solving with units")
         .test("30_cm", NOSHIFT, F2, ".4_m", NOSHIFT, F3, "100_in", NOSHIFT, F4)
         .test(LSHIFT, F4)
-        .expect("C=0.5 m")
+        .expect("C=19.68503 93701 in")
         .test(LSHIFT, KEY5, F4, LSHIFT, F1)
         .test(LSHIFT, A, LSHIFT, A)
         .expect("0.5 m");

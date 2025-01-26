@@ -237,11 +237,16 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                         if (lname->is_same_as(name))
                         {
                             settings::SaveComplexResults scr(is_complex);
-                            save<bool> ueval(unit::mode, true);
                             algebraic_g value = right->evaluate();
-                            if (uname)
-                                uname->convert(value);
-                            store(value);
+                            if (value)
+                            {
+                                if (uexpr)
+                                    unit_p(+lx)->convert(value);
+                                else if (unit_g uv = value->as<unit>())
+                                    if (algebraic_p num = uv->convert_to_real())
+                                        value = num;
+                                store(value);
+                            }
                             return value;
                         }
                     }

@@ -1269,7 +1269,7 @@ the value of the angle `θw` is then calculated as:
 ```
 With the following uncertainties:
 ```rpl
-    5 SIG  Usθw='→NUM(CONVERT(ROUND(ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023));-2);1_°))'
+    5 SIG  Usθw='→NUM(CONVERT(ROUND((ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023)))/2;-2);1_°))'
            Urθw='→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'
 ```
 

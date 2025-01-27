@@ -6822,6 +6822,19 @@ void tests::numerical_integration_testing()
         .noerror().expect("0.69314 71805 6")
         .test(KEY2, ID_log, ID_sub).expect("-3.9⁳⁻²³");
 
+    step("Integration with error on low bound")
+        .test(CLEAR, "0 1 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Divide by zero");
+    step("Integration with error on high bound")
+        .test(CLEAR, "1 0 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Divide by zero");
+    step("Integration with error on difference")
+        .test(CLEAR, "1_m 1_h 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Inconsistent units");
+
     step("Integrate with symbols")
         .test(CLEAR, "A B '1/X' 'X' ∫", ENTER)
         .expect("'∫(A;B;1÷X;X)'")

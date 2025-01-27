@@ -738,9 +738,9 @@ static const cstring basic_constants[] =
   //'→NUM(ROUND(CONVERT(Ⓒπ*Ⓒℏ/me;1_m^2/s);XPON(UVAL(UrKc*Ⓒπ*Ⓒℏ/me))-XPON(UVAL(Ⓒπ*Ⓒℏ/me))-2))'
 //θw constant; *Weak mixing angle - Measurement
     "θw",       "'→NUM(ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(ⒸUrθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2))'",     
-    "Usθw",     "'→NUM(CONVERT(ROUND(ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023));-2);1_°))'",//Usθw=0.032 °
-    "Urθw",     "'→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'",//Urθw='→NUM(ROUND(UBASE(ABS(Usθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'=0.0011
-  // θw='CONVERT(ASIN(√(0.22305));1_°)' => θw=28.18250 85537 °  Urθw=0.0011 θw=28.183 ° 
+    "Usθw",     "'→NUM(CONVERT(ROUND((ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023)))/2;-2);1_°))'",//Usθw=0.016 °
+    "Urθw",     "'→NUM(ROUND(UBASE(ABS(ⒸUsθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'",//Urθw='→NUM(ROUND(UBASE(ABS(Usθw/CONVERT(ASIN(√(0.22305));1_°)));-2))'=0.00057
+  // θw='CONVERT(ASIN(√(0.22305));1_°)' => θw=28.18250 85537 °  Urθw=0.00057 θw=28.183 ° 
   //'→NUM(ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(Urθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2))'
 //G0F constant; *Fermi reduced coupling constant - Measurement
     "G0F",       "1.1663787E-5_GeV^-2",        

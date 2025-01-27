@@ -6560,7 +6560,7 @@ void tests::eqnlib_columns_and_beams()
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
         .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
-        .expect("'4.1148 cm=411.48 mm↑2/cm+6.09⁳⁻¹⁹ mm↑2/cm'");
+        .expect("'4.1148 cm=411.48 mm↑2/cm-5.8⁳⁻²⁰ mm↑2/cm'");
 
     step("Solving Eccentric Columns")
         .test(CLEAR, ID_EquationsMenu, F2, RSHIFT, F2)
@@ -6821,6 +6821,19 @@ void tests::numerical_integration_testing()
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .noerror().expect("0.69314 71805 6")
         .test(KEY2, ID_log, ID_sub).expect("-3.9⁳⁻²³");
+
+    step("Integration with error on low bound")
+        .test(CLEAR, "0 1 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Divide by zero");
+    step("Integration with error on high bound")
+        .test(CLEAR, "1 0 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Divide by zero");
+    step("Integration with error on difference")
+        .test(CLEAR, "1_m 1_h 'sin(x)/x' 'x'", ENTER)
+        .test(ID_IntegrationMenu, ID_Integrate)
+        .error("Inconsistent units");
 
     step("Integrate with symbols")
         .test(CLEAR, "A B '1/X' 'X' ∫", ENTER)

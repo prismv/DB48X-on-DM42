@@ -2493,6 +2493,54 @@ You can edit it by recalling its content on the stack using
 back to disk using `"config:equations.csv" STO`.
 # Release notes
 
+## Release 0.8.11 "Accomplishment" - Towards full equation library
+
+This release contains a number of fixes and features intended for use in the
+equation library being contributed by Jean Wilson
+
+### Features
+
+* Accept library items for functionc calls. For example, the expression
+  `'ⓁSiDensity(273_K)'` is now accepted. This function is usd in semi-conductor
+  equations in the library.
+* The `Root` command now attempts symbolic solving using the `Isol` command.
+  This can lead to exact solutions for common equations.
+* The `SigDig` command is a DB48x extension that returns the number of
+  significant digits in a number, i.e. the number of non-zero digits.
+* The `xpon` and `mant` now apply to unit objects
+* Functions now accept assignments as input, e.g. `x=9` `sqrt` gives `3.0`
+* The equation referenced to by the `Equation` variable can now be identified
+  using a name.
+* The `NxEq` command now works with quoted equations
+
+### Bug fixes
+
+* The `ln(1E-100)` expression no longer gives a `Argument outside domain`
+  error. The error was caused by rouding during argument reduction.
+* Comparison between a value and a unit object now work correclty
+* Arithmetic now correctly deals with dimensionless unit objects, for example in
+  expression `'1-1000_mm/m'`, and improves the evaluation of unit expressions
+  when adding or subtracting unit objects.
+* Names containing programs or functions are now evaluated as part of algebraic
+  evaluation
+* The solver now correctly processes equations wrapped in an expression.
+* `Convert` now correclty evaluates its arguments when necessary
+* Assignment objects no longer cause a crash on error. For example, `x='ln(0)'`
+  no longer crashes.
+
+### Improvements
+
+* Improve solver heuristic when slope is small. This allows the solver to find a
+  solution for an equation like `'tan(x)=224'` in degrees mode.
+* Add more recorder entries in the solver describing what is being solved.
+* Move recorder entries for tests to `tests` data logger.
+* Tests use a larger text rendering limit
+* Tests now purge the directory between examples. This prevents stray variables
+  from influencing later tests.
+* The handling of long UTF-8 sequences in tests was improved, which allows tests
+  involving a lot of text (e.g. examples) to run faster.
+
+
 ## Release 0.8.10 "Fire Dove" - Input and Prompt, Android preparation
 
 The focus of this release is support for user input in programs, with

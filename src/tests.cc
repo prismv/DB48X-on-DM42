@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            numerical_integration_testing();
+            logical_operations();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -2671,6 +2671,13 @@ void tests::logical_operations()
 
     step("Reset word size to default")
         .test(CLEAR, "64 WordSize", ENTER).noerror();
+
+    step("Check that we promote to binary")
+        .test(CLEAR, "100 #45 AND", ENTER).expect("#44₁₆")
+        .test(CLEAR, "#45 100 AND", ENTER).expect("#44₁₆");
+    step("Check that deal with logical")
+        .test(CLEAR, "100. #45 AND", ENTER).expect("True")
+        .test(CLEAR, "#45 100. AND", ENTER).expect("True");
 }
 
 

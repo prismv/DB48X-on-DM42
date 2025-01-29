@@ -468,7 +468,8 @@ object::result function::evaluate(id op, nfunction_fn fn, uint arity,
                     if (!args[a])
                         return ERROR;
                 }
-                is_symbolic = args[a]->is_symbolic();
+                if (args[a]->is_symbolic())
+                    is_symbolic = true;
             }
         }
     }
@@ -477,7 +478,7 @@ object::result function::evaluate(id op, nfunction_fn fn, uint arity,
 
     // Check the symbolic case
     if (is_symbolic)
-        result = expression::make(op, args, arity);
+        result = expression::make(op, args, arity, ID_expression, true);
     else
         result = fn(op, args, arity);
 

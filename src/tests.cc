@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            solver_testing();
+            numerical_integration_testing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -6859,19 +6859,33 @@ void tests::numerical_integration_testing()
 
     step("Check evaluation with NumericalResults flag set")
         .test(CLEAR, "-3 CF", ENTER,
-              "0 Ⓒπ 'SIN(X)' 'X'", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
               "-3 SF", ENTER,
               ID_IntegrationMenu, ID_Integrate)
-        .expect("0.08610 69700 41")
-        .test(ID_ToDecimal)
-        .expect("0.08610 69700 41");
+        .expect("22.14069 26328");
+    step("Check inference variable with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              "-3 SF 3 'X' STO", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("22.14069 26328");
     step("Check evaluation without NumericalResults flag clear")
         .test(CLEAR, "-3 CF", ENTER,
-              "0 Ⓒπ 'SIN(X)' 'X'", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
               ID_IntegrationMenu, ID_Integrate)
-        .expect("'∫(0;π;sin X;X)'")
+        .expect("'∫(0;π;exp X;X)'")
         .test(ID_ToDecimal)
-        .expect("0.08610 69700 41");
+        .expect("22.14069 26328");
+    step("Check inference variable with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              "3 'X' STO", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("'∫(0;π;exp X;X)'")
+        .test(ID_ToDecimal)
+        .expect("22.14069 26328");
+    step("Cleanup")
+         .test(CLEAR, "'X'", ID_ClearThingsMenu, ID_Purge);
 }
 
 

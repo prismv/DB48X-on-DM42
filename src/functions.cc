@@ -457,15 +457,19 @@ object::result function::evaluate(id op, nfunction_fn fn, uint arity,
             return ERROR;
         }
         args[a] = arg;
-        if (!can_be_symbolic(a) && arg->is_symbolic())
-            is_symbolic = true;
-
-        // Conversion to numerical if needed (may fail silently)
-        if (Settings.NumericalResults())
+        if (arg->is_symbolic())
         {
-            (void) to_decimal(args[a], true);
-            if (!args[a])
-                return ERROR;
+            if (!can_be_symbolic(a))
+            {
+                if (Settings.NumericalResults())
+                {
+                    // Conversion to numerical if needed (may fail silently)
+                    (void) to_decimal(args[a], true);
+                    if (!args[a])
+                        return ERROR;
+                }
+                is_symbolic = args[a]->is_symbolic();
+            }
         }
     }
 

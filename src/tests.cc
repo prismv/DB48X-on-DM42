@@ -6856,6 +6856,22 @@ void tests::numerical_integration_testing()
         .editor("'∫(A;1;1÷X;X)'")
         .test(ENTER)
         .expect("'∫(A;1;1÷X;X)'");
+
+    step("Check evaluation with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'SIN(X)' 'X'", ENTER,
+              "-3 SF", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("0.08610 69700 41")
+        .test(ID_ToDecimal)
+        .expect("0.08610 69700 41");
+    step("Check evaluation without NumericalResults flag clear")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'SIN(X)' 'X'", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("'∫(0;π;sin X;X)'")
+        .test(ID_ToDecimal)
+        .expect("0.08610 69700 41");
 }
 
 

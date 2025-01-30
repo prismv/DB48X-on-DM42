@@ -152,7 +152,7 @@ static const cstring basic_equations[] =
     "}",
 
     "Resistivity & Conductivity",  "{ "
-    "  '(ρ_(Ω*m))=(ρ0_(Ω*m))*(1+(αT_K^-1)*((T_K)-(T0_K)))' "
+    "  '(ρ_(Ω*m))=(ρ0_(Ω*m))*(1+UBASE(αT_K^-1)*(UBASE(T_K)-UBASE(T0_K)))' "
     "  '(σ_(S/m))=1/(ρ_(Ω*m))' "
     "}",
 
@@ -407,12 +407,12 @@ static const cstring basic_equations[] =
     // Change all occurrences of gmol by mol
     // In eq (1) units of T should be K instead of °C
     "Ideal Gas",  "{ "
-    "'(P_atm)*(V_l)=(n_mol)*ⒸR*(T_K)' "
+    "'(P_atm)*(V_l)=(n_mol)*ⒸR*UBASE(T_K)' "
     "'(m_kg)=(n_mol)*(MW_(g/mol))' "
     "}",
 
     "Ideal Gas Law Change",  "{ "
-    "'((Pf_Pa)*(Vf_l))/(Tf_K)=((Pi_Pa)*(Vi_l))/(Ti_K)' "
+    "'((Pf_Pa)*(Vf_l))/UBASE(Tf_K)=((Pi_Pa)*(Vi_l))/UBASE(Ti_K)' "
     "}",
     // Change all occurrences of gmol by mol
     "Isothermal Expansion",  "{ "
@@ -426,35 +426,35 @@ static const cstring basic_equations[] =
     "}",
 
     "Isentropic Flow",  "{ "
-    "'(T_K)/(T0_K)=2/(2+(k-1)*M²)' "
+    "'UBASE(T_K)/UBASE(T0_K)=2/(2+(k-1)*M²)' "
     "'(P_kPa)/(P0_kPa)=((T_°C)/(T0_°C))^(k/(k-1))' "
-    "'(ρ_(kg/m^3))/(ρ0_(kg/m^3))=((T_K)/(T0_K))^(1/(k-1))' "
+    "'(ρ_(kg/m^3))/(ρ0_(kg/m^3))=(UBASE(T_K)/UBASE(T0_K))^(1/(k-1))' "
     "'(A_(cm²))/(At_(cm²))=(1/M)*(2/(k+1)*(1+(k-1)/2*M²))^((k+1)/(2*(k-1)))' "
     "}",
     // Change all occurrences of gmol by mol : Change °C for K in eqn 1
     "Real Gas Law",  "{ "
-    "'(P_atm)*(V_l)=(n_mol)*Z*ⒸR*(T_K)' "
+    "'(P_atm)*(V_l)=(n_mol)*Z*ⒸR*UBASE(T_K)' "
     "'(m_kg)=(n_mol)*(MW_(g/mol))' "
-    //"'Tr=(T_K)/(Tc_K)' " These 3 eqns will be substitute in a closed form for Z
+    //"'Tr=UBASE(T_K)/UBASE(Tc_K)' " These 3 eqns will be substitute in a closed form for Z
     //"'Pr=(P_Pa)/(Pc_Pa)' "
     //"'ρr=0.27*(Pr/(Z*Tr))' "
     //"'Z=1+(0.31506237-1.04670990/Tr-0.57832729/Tr^3)*ρr+(0.53530771-0.61232032/Tr)*ρr²+0.61232032*0.10488813*ρr^5/Tr+0.68157001*ρr²/Tr^3*(1+0.68446549*ρr²)*exp(-0.68446549*ρr²)' "
     // change Ti for T and Pi for P in the following
-      "'Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))²/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))²)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))²)' "
+      "'Z=1+(0.31506237-1.04670990/(UBASE(T_K)/UBASE(Tc_K))-0.57832729/(UBASE(T_K)/UBASE(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))+(0.53530771-0.61232032/(UBASE(T_K)/UBASE(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))^5/(UBASE(T_K)/UBASE(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))²/(UBASE(T_K)/UBASE(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))²)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*(UBASE(T_K)/UBASE(Tc_K)))))²)' "
     "}",
     // Change all °C for K in eqn 1
     "Real Gas State Change",  "{ "
-    "'((Pf_atm)*(Vf_l))/(Zf*(Tf_K))=((Pi_atm)*(Vi_l))/(Zi*(Ti_K))' "
-    //"'Tri=(Ti_K)/(Tc_K)' " These 3 eqns will be substitute in a closed form for Zi
+    "'((Pf_atm)*(Vf_l))/(Zf*UBASE(Tf_K))=((Pi_atm)*(Vi_l))/(Zi*UBASE(Ti_K))' "
+    //"'Tri=UBASE(Ti_K)/UBASE(Tc_K)' " These 3 eqns will be substitute in a closed form for Zi
     //"'Pri=(Pi_Pa)/(Pc_Pa)' "
     //"'ρri=0.27*(Pri/(Zi*Tri))' "
     //"'Zi=1+(0.31506237-1.04670990/Tri-0.57832729/Tri^3)*ρri+(0.53530771-0.61232032/Tri)*ρri²+0.61232032*0.10488813*ρri^5/Tri+0.68157001*ρri²/Tri^3*(1+0.68446549*ρri²)*exp(-0.68446549*ρri²)' "
-    "'Zi=1+(0.31506237-1.04670990/((Ti_K)/(Tc_K))-0.57832729/((Ti_K)/(Tc_K))^3)*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))+(0.53530771-0.61232032/((Ti_K)/(Tc_K)))*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))^5/((Ti_K)/(Tc_K))+0.68157001*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))²/((Ti_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))²)*exp(-0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*((Ti_K)/(Tc_K)))))²)' "
-    //"'Trf=(Tf_K)/(Tc_K)' " These 3 eqns will be substitute in a closed form for Zf
+    "'Zi=1+(0.31506237-1.04670990/(UBASE(Ti_K)/UBASE(Tc_K))-0.57832729/(UBASE(Ti_K)/UBASE(Tc_K))^3)*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))+(0.53530771-0.61232032/(UBASE(Ti_K)/UBASE(Tc_K)))*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))^5/(UBASE(Ti_K)/UBASE(Tc_K))+0.68157001*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))²/(UBASE(Ti_K)/UBASE(Tc_K))^3*(1+0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))²)*exp(-0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Zi*(UBASE(Ti_K)/UBASE(Tc_K)))))²)' "
+    //"'Trf=UBASE(Tf_K)/UBASE(Tc_K)' " These 3 eqns will be substitute in a closed form for Zf
     //"'Prf=(Pf_Pa)/(Pc_Pa)' "
     //"'ρrf= 0.27*(Prf/(Zf*Trf))' "
     //"'Zf=1+(0.31506237-1.04670990/Trf-0.57832729/Trf^3)*ρrf+(0.53530771-0.61232032/Trf)*ρrf²+0.61232032*0.10488813*ρrf^5/Trf+0.68157001*ρrf²/Trf^3*(1+0.68446549*ρrf²)*exp(-0.68446549*ρrf²)' "
-    "'Zf=1+(0.31506237-1.04670990/((Tf_K)/(Tc_K))-0.57832729/((Tf_K)/(Tc_K))^3)*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))+(0.53530771-0.61232032/((Tf_K)/(Tc_K)))*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))^5/((Tf_K)/(Tc_K))+0.68157001*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))²/((Tf_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))²)*exp(-0.68446549*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*((Tf_K)/(Tc_K)))))²)' "
+    "'Zf=1+(0.31506237-1.04670990/(UBASE(Tf_K)/UBASE(Tc_K))-0.57832729/(UBASE(Tf_K)/UBASE(Tc_K))^3)*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))+(0.53530771-0.61232032/(UBASE(Tf_K)/UBASE(Tc_K)))*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))²+0.61232032*0.10488813*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))^5/(UBASE(Tf_K)/UBASE(Tc_K))+0.68157001*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))²/(UBASE(Tf_K)/UBASE(Tc_K))^3*(1+0.68446549*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))²)*exp(-0.68446549*(0.27*(((Pf_Pa)/(Pc_Pa))/(Zf*(UBASE(Tf_K)/UBASE(Tc_K)))))²)' "
     "}",
     // Change all occurrences of gmol by mol
     "Kinetic Theory",  "{ "
@@ -498,13 +498,13 @@ static const cstring basic_equations[] =
     // WARNING The db48x needs the Black-Body Integral function F0λ(T_K,λ_nm)
     // defined in the HP50G (SP50G_AUR 3-82, 5-31)
     // In eqn 1, change °C for K
-    // In eqn 2, change the calls for F0λ to explicit integral where the integration limits are from x1 to x2 with xi,j=Ⓒh*Ⓒc/((λi,j_nm)*Ⓒk*(T_K))
+    // In eqn 2, change the calls for F0λ to explicit integral where the integration limits are from x1 to x2 with xi,j=Ⓒh*Ⓒc/((λi,j_nm)*Ⓒk*UBASE(T_K))
     "Black Body Radiation",  "{ "
-    "'(eb_(W/m²))=Ⓒσ*(T_K)^4' "
+    "'(eb_(W/m²))=Ⓒσ*UBASE(T_K)^4' "
     //"'f=F0λ((λ2_nm);(T_°C))-F0λ((λ1_nm);(T_°C))' "
-    "'f=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))));X^3/expm1(X);X))' "
+    "'f=15/Ⓒπ^4*∫(UBASE(Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*UBASE(T_K)));UBASE(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K)));X^3/expm1(X);X)' "
     "'(eb12_(W/m²))=f*(eb_(W/m²))' "
-    "'(λmax_nm)*(Tmax_°C)=Ⓒc3' "
+    "'(λmax_nm)*UBASE(Tmax_°C)=Ⓒc3' "
     "'(q_W)=(eb_(W/m²))*(A_(cm²))' "
     "}",
 
@@ -895,7 +895,7 @@ static const cstring basic_equations[] =
     "'(Cj_(pF/cm²))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
     "'(Emax_(V/m))=2*((Vbi_V)-(Va_V))/(xd_μ)' "
     "'(BV_V)=(Ⓒεsi*Ⓒε0*(E1_(V/m))²)/(2*Ⓒqe)*(1/(NA_(cm^-3))+1/(ND_(cm^-3)))' "
-    "'(J_(A/cm²))=(Js_(μA/cm²))*(EXP((Ⓒqe*(Va_V))/(Ⓒk*(T_K)))-1)' "
+    "'(J_(A/cm²))=(Js_(μA/cm²))*(EXP((Ⓒqe*(Va_V))/(Ⓒk*UBASE(T_K)))-1)' "
     "'(Aj_(cm²))=((W_μ)+2*(ΔW_μ))*((L_μ)+2*(ΔL_μ))+Ⓒπ*((W_μ)+2*(ΔW_μ)+2*(ΔL_μ))*(xj_μ)+2*Ⓒπ*(xj_m)²' "
     "'(I_mA)=(J_(A/cm²))*(Aj_(cm²))' "
     "}",
@@ -911,10 +911,10 @@ static const cstring basic_equations[] =
     "'(IDS_mA)=(Cox_(pF/cm²))*(μn_((cm²)/(V*s)))*((We_μ)/(Le_μ))*(((VGS_V)-(Vt_V))*(VDS_V)-(VDS_V)²/2)*(1+(λ_(1/V))*(VDS_V))' "
     "'(γ_(V^(1/2)))²=((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm²))²' "
     "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
-    //"'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
-    "'(φp_V)=-Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
+    //"'(φp_V)=Ⓒk*UBASE(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
+    "'(φp_V)=-Ⓒk*UBASE(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
     "'(ni_(cm^-3))=ⓁSiDensity(T_K)' "
-    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/UBASE(T_K))' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
     "'(gm_(mA/V))²=((Cox_(pF/cm²))*(μn_((cm²)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
     "'(VDsat_V)=(VGS_V)-(Vt_V)' "
@@ -925,21 +925,21 @@ static const cstring basic_equations[] =
     // WARNING HP50G has precedence here for the presence of αF instead of αR in
     // 3rd eqn (contrary to HP50G_AUR)
     "Bipolar Transistors",  "{ "
-    "'(IE_mA)=-(IES_nA)*(exp((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)+αR*(IES_nA)*(EXP((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)' "
-    "'(IC_mA)=-(ICS_nA)*(exp((Ⓒqe*(VBC_V))/(Ⓒk*(T_K)))-1)+αF*(ICS_nA)*(EXP((Ⓒqe*(VBE_V))/(Ⓒk*(T_K)))-1)' "
+    "'(IE_mA)=-(IES_nA)*(exp((Ⓒqe*(VBE_V))/(Ⓒk*UBASE(T_K)))-1)+αR*(IES_nA)*(EXP((Ⓒqe*(VBC_V))/(Ⓒk*UBASE(T_K)))-1)' "
+    "'(IC_mA)=-(ICS_nA)*(exp((Ⓒqe*(VBC_V))/(Ⓒk*UBASE(T_K)))-1)+αF*(ICS_nA)*(EXP((Ⓒqe*(VBE_V))/(Ⓒk*UBASE(T_K)))-1)' "
     "'(IS_nA)=αF*(IES_nA)' "
     "'(IS_nA)=αR*(ICS_nA)' "
     "'(IB_nA)+(IE_nA)+(IC_nA)=0_nA' "
     "'(ICO_nA)=(ICS_nA)*(1-αF*αR)' "
     "'(ICEO_nA)=(ICO_nA)/(1-αF)' "
-    "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*LN(MAX(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF)));1E-100))' "
+    "'(VCEsat_V)=((Ⓒk*UBASE(T_K)))/Ⓒqe*LN(MAX(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF)));1E-100))' "
     "}",
 
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "JFETs",  "{ "
-    "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
+    "'(Vbi_V)=(Ⓒk*UBASE(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
     "'(ni_(cm^-3))=ⓁSiDensity(T_K)' "
-    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/UBASE(T_K))' "
     "'(xdmax_μ)²=((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm²)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
     "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)²)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
@@ -1019,18 +1019,18 @@ static const cstring basic_equations[] =
     "'(I_(W/(m²)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*((ω_(r/s))/(1_r))²*(sm_cm)²' "
     "'(I_(W/m²))=(Ps_W)/(4*Ⓒπ*(r_m)²)' "
     //"'(β_dB)=10*LOG((I_(W/(m²)))/(ⒸI0_(W/(m²))))' "
-    "'(β_dB)=→NUM((10_dB)*LOG10((I_(W/(m²)))/(ⒸI0)))' "
+    "'(β_dB)=(10_dB)*LOG10((I_(W/(m²)))/(ⒸI0))' "
     "}",
     // Error in  eqn 1 cair => vsair
     "Doppler Effect",  "{ "
     "'(f_Hz)=(f0_Hz)*(((vsair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
     "}",
 
     "Mach Number",  "{ "
     "'M=(u_(m/s))/(vsair_(m/s))' "
     "'SIN(θcone_°)=(vsair_(m/s))/(u_(m/s))' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
     "}",
 
     "String Standing Waves",  "{ "
@@ -1048,7 +1048,7 @@ static const cstring basic_equations[] =
     "'(vsair_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
     "'(fopenopen_Hz)=(ninteger*(vsair_(m/s)))/(2*(L_m))' "
     "'(fopenclose_Hz)=(nodd*(vsair_(m/s)))/(4*(L_m))' "
     "}",
@@ -1232,7 +1232,7 @@ static const cstring basic_equations[] =
     "}",
 // ERROR: Scientific notations corrected in eqns 7, 8, 9 & 10
     "B H Thermodynamics",  "{ "
-    "'(TH_K)=(Ⓒℏ*(Ⓒc)^3)/(8*Ⓒπ*ⒸG*Ⓒk*(M_kg))' "
+    "'UBASE(TH_K)=(Ⓒℏ*(Ⓒc)^3)/(8*Ⓒπ*ⒸG*Ⓒk*(M_kg))' "
     "'(PBH_W)=(Ⓒℏ*(Ⓒc)^6)/(15360*Ⓒπ*(ⒸG)²*(M_kg)²)' "
     "'(SBH_(J/K))=(Ⓒk*(As_(m²))*(Ⓒc)^3)/(4*ⒸG*Ⓒℏ)' "
     "'(As_(m²))=4*Ⓒπ*(rs_m)²' "
@@ -1251,17 +1251,17 @@ static const cstring basic_equations[] =
     "Planck & Wien Comparison",  "{ "
     // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
-    "'(f1_Hz)=Ⓒk*4*(T_K)/Ⓒh' "
-    "'(f2_Hz)=Ⓒk*9*(T_K)/Ⓒh' "
-    "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'FrWn12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'(f1_Hz)=Ⓒk*4*UBASE(T_K)/Ⓒh' "
+    "'(f2_Hz)=Ⓒk*9*UBASE(T_K)/Ⓒh' "
+    "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);X' "
+    "'FrWn12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/exp(x);X)' "
     "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12*100' "
-    "'(f3_Hz)=Ⓒk*0.01*(T_K)/Ⓒh' "
-    "'(f4_Hz)=Ⓒk*2.5*(T_K)/Ⓒh' "
-    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'FrWn34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'(f3_Hz)=Ⓒk*0.01*UBASE(T_K)/Ⓒh' "
+    "'(f4_Hz)=Ⓒk*2.5*UBASE(T_K)/Ⓒh' "
+    "'FrPl34=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f4_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);X)' "
+    "'FrWn34=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f4_Hz)/(Ⓒk*UBASE(T_K))));x^3/exp(x;X' "
     "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34*100' "
-    "'FrPlab=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(fb_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'FrPlab=15/Ⓒπ^4*∫(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(fb_Hz)/(Ⓒk*UBASE(T_K))));x^3/expm1(x;X' "
     "'(eb_(W/m²))=Ⓒσ*(T_°K)^4' "
     "'(ebfafb_(W/m²))=Frfafb*(eb_(W/m²))' "
     "'(q_W)=(ebfafb_(W/m²))*(A_(cm²))' "
@@ -1270,17 +1270,17 @@ static const cstring basic_equations[] =
     "Planck & Rayleigh‐Jeans Comparison",  "{ "
     // Eqns order change. Modifications to eqns 6, 9, 11 & 12
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
-    "'(f1_Hz)=Ⓒk*1.7*(T_K)/Ⓒh' "
-    "'(f2_Hz)=Ⓒk*3.7*(T_K)/Ⓒh' "
-    "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'FrRJ12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x²;X))' "
+    "'(f1_Hz)=Ⓒk*1.7*UBASE(T_K)/Ⓒh' "
+    "'(f2_Hz)=Ⓒk*3.7*UBASE(T_K)/Ⓒh' "
+    "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K))));x^3/expm1(x;X' "
+    "'FrRJ12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x²;X' "
     "'%rFr12=ABS(FrPl12-FrRJ12)/FrPl12*100' "
-    "'(f3_Hz)=Ⓒk*0.001*(T_K)/Ⓒh' "
-    "'(f4_Hz)=Ⓒk*0.05*(T_K)/Ⓒh' "
-    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
-    "'FrRJ34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x²;X))' "
+    "'(f3_Hz)=Ⓒk*0.001*UBASE(T_K)/Ⓒh' "
+    "'(f4_Hz)=Ⓒk*0.05*UBASE(T_K)/Ⓒh' "
+    "'FrPl34=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f4_Hz)/(Ⓒk*UBASE(T_K))));x^3/expm1(x;X' "
+    "'FrRJ34=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(f4_Hz)/(Ⓒk*UBASE(T_K)));x²;X' "
     "'%rFr34=ABS(FrPl34-FrRJ34)/FrPl34*100' "
-    "'FrPlab=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(fb_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'FrPlab=15/Ⓒπ^4*∫(UBASE(Ⓒh*(fa_Hz)/(Ⓒk*UBASE(T_K))));UBASE(Ⓒh*(fb_Hz)/(Ⓒk*UBASE(T_K))));x^3/expm1(x;X' "
     "'(eb_(W/m²))=Ⓒσ*(T_°K)^4' "
     "'(ebfafb_(W/m²))=Frfafb*(eb_(W/m²))' "
     "'(q_W)=(ebfafb_(W/m²))*(A_(cm²))' "

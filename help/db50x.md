@@ -8389,8 +8389,8 @@ These equations for an NPN silicon bipolar transistor are based on large-signal 
 * To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IC_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total collector current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
 ```rpl
 IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
-@ Expecting [ VBE=-7.81873 4911⁳⁻² V IS=-2.⁳⁻²³ nA ICO=-2.⁳⁻²³ nA ICEO=-2.⁳⁻²³ nA IE=-2.⁳⁻²³ mA IB=-2.⁳⁻²³ mA VCEsat=-2.⁳⁻²³ V ]
-'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
+@ Expecting [ VBE=0.63739 37622 77 V IS=9.8⁳⁻⁶ nA ICO=1.0396⁳⁻⁵ nA ICEO=5.198⁳⁻⁴ nA IE=-0.51020 40816 27 mA IB=-0.48979 59183 73 mA VCEsat=-5.95264 29332 3 V ]
+'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_V])'
 ```
 
 #### JFETs

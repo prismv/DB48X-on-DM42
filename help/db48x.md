@@ -8398,9 +8398,7 @@ drain, and source resistances) are negligible.
 * To calculate `[ni_(cm^-3);Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Silicon density; Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
 ```rpl
 ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=3.60254 62462 8⁳⁻¹ V xdmax=1.04861 82193 1 μ G0=5.99854 93177⁳⁻⁴ S ID=2.14057 10256 1⁳⁻¹ mA VDsat=3.24274 04036 8 V Vt=-7.24274 04036 8 V gm=1.45589 37795 8⁳⁻¹ mA/V ]
-@ C#17 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but
-@ failed for ID. Algebraic calculation also fails "Inconsistent units" needs CONVERT to go further
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=0.35807 99473 84 V xdmax=1.04848 18266 6 μ G0=5.99854 93177⁳⁻⁴ S ID=0.21443 71687 18 mA VDsat=3.24491 50809 3 V Vt=-7.24491 50809 3 V gm=0.14570 26745 72 mA/V ]
 'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
 ```
 

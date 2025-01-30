@@ -531,7 +531,8 @@ size_t expression::required_memory(id type, id op, algebraic_r x, algebraic_r y)
 }
 
 
-expression::expression(id type, id op, algebraic_g args[], uint arity)
+expression::expression(id type, id op,
+                       algebraic_g args[], uint arity, bool wrap)
 // ----------------------------------------------------------------------------
 //   Build an equation with 'arity' arguments
 // ----------------------------------------------------------------------------
@@ -542,7 +543,7 @@ expression::expression(id type, id op, algebraic_g args[], uint arity)
     // Compute the size of the program
     size_t size =  leb128size(op);
     for (uint a = 0; a < arity; a++)
-        size += size_in_expression(args[a]);
+        size += wrap ? args[a]->size() : size_in_expression(args[a]);
 
     // Write the size of the program
     p = leb128(p, size);
@@ -553,7 +554,8 @@ expression::expression(id type, id op, algebraic_g args[], uint arity)
     for (uint a = 0; a < arity; a++)
     {
         algebraic_p arg = args[arity + ~a];
-        if (expression_p eq = arg->as<expression>())
+        expression_p eq = wrap ? nullptr : arg->as<expression>();
+        if (eq)
         {
             objptr = eq->value(&objsize);
         }
@@ -572,14 +574,14 @@ expression::expression(id type, id op, algebraic_g args[], uint arity)
 
 
 size_t expression::required_memory(id type, id op,
-                                   algebraic_g args[], uint arity)
+                                   algebraic_g args[], uint arity, bool wrap)
 // ----------------------------------------------------------------------------
 //   Size of an equation object with 'arity' arguments
 // ----------------------------------------------------------------------------
 {
     size_t size = leb128size(op);
     for (uint a = 0; a < arity; a++)
-        size += size_in_expression(args[a]);
+        size += wrap ? args[a]->size() : size_in_expression(args[a]);
     size += leb128size(size);
     size += leb128size(type);
     return size;

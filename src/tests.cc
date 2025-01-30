@@ -2671,6 +2671,13 @@ void tests::logical_operations()
 
     step("Reset word size to default")
         .test(CLEAR, "64 WordSize", ENTER).noerror();
+
+    step("Check that we promote to binary")
+        .test(CLEAR, "100 #45 AND", ENTER).expect("#44₁₆")
+        .test(CLEAR, "#45 100 AND", ENTER).expect("#44₁₆");
+    step("Check that deal with logical")
+        .test(CLEAR, "100. #45 AND", ENTER).expect("True")
+        .test(CLEAR, "#45 100. AND", ENTER).expect("True");
 }
 
 
@@ -6856,6 +6863,36 @@ void tests::numerical_integration_testing()
         .editor("'∫(A;1;1÷X;X)'")
         .test(ENTER)
         .expect("'∫(A;1;1÷X;X)'");
+
+    step("Check evaluation with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              "-3 SF", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("22.14069 26328");
+    step("Check inference variable with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              "-3 SF 3 'X' STO", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("22.14069 26328");
+    step("Check evaluation without NumericalResults flag clear")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("'∫(0;π;exp X;X)'")
+        .test(ID_ToDecimal)
+        .expect("22.14069 26328");
+    step("Check inference variable with NumericalResults flag set")
+        .test(CLEAR, "-3 CF", ENTER,
+              "0 Ⓒπ 'EXP(X)' 'X'", ENTER,
+              "3 'X' STO", ENTER,
+              ID_IntegrationMenu, ID_Integrate)
+        .expect("'∫(0;π;exp X;X)'")
+        .test(ID_ToDecimal)
+        .expect("22.14069 26328");
+    step("Cleanup")
+         .test(CLEAR, "'X'", ID_ClearThingsMenu, ID_Purge);
 }
 
 

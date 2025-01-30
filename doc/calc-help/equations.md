@@ -1994,7 +1994,7 @@ The 28 variables in the Stress Analysis section are:
 * To calculate `[δ_in;ε;σ_psi]` (Elongation; Normal strain; Normal stress) from 4 known variables:
 ```rpl
 P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
-@ Expecting [ σ=12 732.39544 73 psi δ=1.52788 74536 8⁳⁻² in ε=1.27323 95447 3⁳⁻³ ]
+@ Expecting [ σ=12 732.39544 73 psi δ=0.01527 88745 37 in ε=1.27323 95447 3⁳⁻³ ]
 'ROOT(ⒺNormal Stress;[σ;δ;ε];[1_psi;1_in;1])'
 ```
 
@@ -2005,7 +2005,7 @@ P=40000_lbf  L=1_ft  A=3.14159265359_in^2  E=10e6_psi
 * To calculate `[T_ft*lbf;γ_°;φ_°]` (Torque; Shear strain; Angle of twist) from 5 known variables:
 ```rpl
 L=6_ft  r=2_in  J=10.4003897419_in^4  G=12000000_psi  τ=12000_psi
-@ Expecting [ T=5 200.19487 095 ft·lbf γ=5.72957 79513 1⁳⁻² ° φ=2.06264 80624 7 ° ]
+@ Expecting [ T=5 200.19487 095 ft·lbf γ=0.05729 57795 13 ° φ=2.06264 80624 7 ° ]
 'ROOT(ⒺShear Stress;[T;γ;φ];[1_ft*lbf;1_°;1_°])'
 ```
 
@@ -2106,7 +2106,7 @@ sm=10_cm  ω=6000_r/s  B=12500_kPa  ρ=65_kg/m^3   x=2_cm   t=0_s  r=10_m   k=13
 * **Example 2**. For a sound wave propagating in air at a pressure of 1 atm and temperature of 20°C, to calculate `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=1e-5_m  ω=2 513.27412 287_r/s  B=141_kPa  ρ=1.29_kg/m^3   x=2_cm   t=0_s  r=5_m   k=7.59297 31808 8_r/m  φ=2_r
-@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=1.34695 82516 8⁳⁻¹ W/m↑2 s=8.35879 55288 8⁳⁻⁴ cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=8.35879 55288 8⁳⁻⁴ cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
 ```
 #### Doppler Effect
@@ -2421,9 +2421,7 @@ The total relativistic energy `E` and the norm of the momentum `p` form the inva
 * To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
 ```rpl
 v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
-@ Expecting [ β=0.998 γ=-2.⁳⁻²³ ppx=-2.⁳⁻²³ kg·m/s ppy=-2.⁳⁻²³ kg·m/s ppz=-2.⁳⁻²³ kg·m/s Ep=-2.⁳⁻²³ J E0=1 J m0=-2.⁳⁻²³ kg p=-2.⁳⁻²³ kg·m/s K=-2.⁳⁻²³ J ]
-@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=4.73302 17959 9⁳¹⁰ kg·m/s K= 1.33189 22556 7⁳¹⁹ J ]
-@ C#25 NOT OK MSOLVE hallucinates all values except β. SOLVE OK for  β,γ,ppy,ppz BUT NOT for ppx,Ep,K "Inconsistent units", E0: "Constant"
+@ Expecting [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20. kg·m/s ppz=30. kg·m/s Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=4.73302 17960 1⁳¹⁰ kg·m/s K=1.33189 22556 7⁳¹⁹ J ]
 'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
 ```
 
@@ -2432,17 +2430,18 @@ v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s)
 * **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
 ```rpl
 K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
-@ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 707 β=9.99999 99048 3⁳⁻¹ v=299 792 455.147 m/s Δt=1.24251 84420 6⁳⁻⁸ s Δxp=3.72497 65249 4 m ]
-@ C#26 NOT OK MSOLVE & SOLVE: "Divide by zero". SOLVE for β "Argument outside domain", OK for the rest.
+@ Expecting [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=1.24251 84420 6⁳⁻⁸ s Δxp=3.72497 65249 3 m ]
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
 * **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
 ```rpl
-32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781 s
+32 PRECISION 28 SIG
+K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781 s
 781_s
-@ Failing [ E0=1.50327 76180 16312 40919 07337 58⁳⁻¹⁰ J γ=3.41052 60362 88926 42764 04379 13⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 58665 88338 62605 12⁳⁻¹⁶ s Δxp=2.93209 90057 24417 55398 10962 23⁳⁻¹⁰ km ]
+@ Expecting [ E0=1.50327 76180 16312 30046 :⁳⁻¹⁰ J γ=3.41052 60362 88926 67429 80670 3⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 58664 8⁳⁻¹⁶ s Δxp=0.00000 02932 09900 57244 17341 924 m ]
 @ C#26 NOT OK MSOLVE & SOLVE: "Divide by zero". SOLVE for β "Argument outside domain", OK for the rest.
 'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
+24 Precision STD 11 MinimumSignificantDigits
 ```
 
 #### Gravitational Time Dilation
@@ -2450,7 +2449,7 @@ K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.0
 * To calculate `[ve_m/s;βe;γG;ΔtpG_s]` (Excape speed; Relativistic escape speed ratio; Lorentz factor associated to gravitational dilation; Gravitational dilated time interval) from 3 known variables:
 ```rpl
 M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
-@ Expecting [ ve=210 939 169.746 m/s βe=0.70361 73329 83 γG=1.40730 28724 7 ΔtpG=1 407 302.87247 s ]
+@ Expecting [ ve=210 939 169.74647 77008 20240 6816 m/s βe=0.70361 73329 83332 42532 81938 187 γG=1.40730 28724 70126 92465 41248 94 ΔtpG=1 407 302.87247 01269 24654 12489 4 s ]
 'ROOT(ⒺGravitational Time Dilation;[ve;βe;γG;ΔtpG];[1_m/s;1;1;1_s])'
 ```
 

@@ -6446,7 +6446,7 @@ for performance reason, many modern computers now support multiple page sizes.
 
 A constant often used in computer programs to denote joy, happiness and the
 emergence into the world of some new computer language.
-# Equations library
+#Equations library
 
 The DB48X calculator features a library of equations covering mathematics,
 physics, chemistry and computer science. The built-in equations can be extended
@@ -8515,7 +8515,7 @@ The 39 variables in the Waves section are:
 * `s`: Longitudinal displacement at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
 * `sm`: Longitudinal displacement amplitude of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement amplitude of air particles ([Sound Waves](#Sound Waves))
 * `t`: Time
-* `T`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), ([Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
+* `Ts`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), ([Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
 * `u`: Mass or flow velocity ([Mach Number](#Mach Number))
 * `v`: Velocity of the propagating sound in medium ([Sound Waves](#Sound Waves)), or Wave speed ([Transverse Waves](#Transverse Waves)) & ([Longitudinal Waves](#Longitudinal Waves))
 * `vr`: Speed of the receiver relative to the medium
@@ -8592,12 +8592,11 @@ T=-20_°C  u=2200_km/h
 
 A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string. A string being fixed (or free) at both ends admits all integer harmonics. A string being being fixed at one end and free at the other end admits only all odd integer harmonics.
 
-* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixedfixed_Hz;ffixedfree_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);Ts_N;y_m;ffixedfixed_Hz;ffixedfree_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
 ```rpl
 λ=1.2_m  f=112_Hz  μ=1.8_(g/m)  L=0.6_m  ninteger=2  nodd=3  x=10_cm  t=5_s  ym=2_cm
-@ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=1. cm ffixedfixed=224 Hz ffixedfree=168 Hz ]
-@ C#19 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units".
-'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixedfixed;ffixedfree];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
+@ Expecting [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s Ts=32.51404 8 N y=0.01 m ffixedfixed=224. Hz ffixedfree=168. Hz ]
+'ROOT(ⒺString Standing Waves;[v;k;ω;Ts;y;ffixedfixed;ffixedfree];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
 ```
 
 #### Sound Wave Harmonics
@@ -8628,7 +8627,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 * To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 5 known variables:
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s  φ=25_°
-@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
+@ Expecting [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
 @ C#21 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Constant?"
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```
@@ -9006,23 +9005,28 @@ M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
 ```rpl
 M=1.708e45_kg  t=4.18902 53989e119_s
 @ Failing [ rs=2.53677 63479 3⁳¹⁸ m As=8.08675 38442 8⁳³⁷ m↑2 TH=7.18325 91955 2⁳⁻²³ K PBH=1.22087 75567 7⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.19117 60841 4⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ txyr=1.32742 20469 6⁳¹¹² ]
-@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for TH & PBH hallucinates; for tev "Constant?"
+@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for
+    TH &PBH hallucinates; for tev "Constant?"
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 * **Example 2** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
 @ Failing [ rs=1.48523 20538 2⁳⁻²⁴ m As=2.77203 36055 4⁳⁻⁴⁷ m↑2 TH=1.22690 06705 9⁳²⁰ K PBH=3.56162 21447 8⁳²⁶ W SBH=3.66270 55485 1⁳⁻¹ J/K tev=8.41147 78997⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
-@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for rs, TH & PBH hallucinates; for tev "Constant?"
-TO BE CHECKED.
-'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
+@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for
+    rs, TH &PBH hallucinates; for
+    tev "Constant?" TO BE CHECKED
+        .'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 
-## Modern Physics
-The 43 variables in the Modern Physics section are:
+        ##Modern Physics The 43 variables in the Modern Physics section are :
 
-* `β`: Relativistic speed ratio
-* `φ`: Work function of the substance ([Photoelectric Effect](#Photoelectric Effect)) (dim.: charge·voltage, in SI: eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering))
+        * `β`: Relativistic speed ratio * `φ`
+        : Work function of the
+          substance([Photoelectric Effect](#Photoelectric Effect))(
+              dim.
+              : charge·voltage, in SI
+              : eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering))
 * `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering)), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
 * `γ`: Lorentz relativistic factor
 * `%rFr12`: Relative % of change between distribution fractions integrated from `f1` to `f2`

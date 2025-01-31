@@ -1038,7 +1038,7 @@ static const cstring basic_equations[] =
     "'(v_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(v_(m/s))²=((T_N)/(μ_(kg/m)))' "
+    "'(v_(m/s))²=((Ts_N)/(μ_(kg/m)))' "
     "'(ffixedfixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
     "'(ffixedfree_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",

@@ -8765,9 +8765,8 @@ The dilation comes from the fact that the Lorentz factor `γ` is greater or equa
 * To calculate `[β;γ;Δtp_s]` (Relativistic speed ratio; Lorentz factor; dilated time interval) from 3 known variables:
 ```rpl
 Δt=4_s  v=239 833 966.4_m/s
-@ Failing [ β=0.8 γ=1.66666 66666 7 Δtp=6.66666 66666 7 s ]
-@ C#22 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
-'ROOT(ⒺLorentz Transformation;[β;γ;Δtp];[1;1;1_s])'
+@ Expecting [ β=0.8 γ=1.66666 66666 7 Δtp=6.66666 66666 7 s ]
+'ROOT(ⒺTime Dilation;[β;γ;Δtp];[1;1;1_s])'
 ```
 
 #### Space Contraction

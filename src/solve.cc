@@ -190,7 +190,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
     record(solve, "Initial range for %t is %t to %t", +goal, +lx, +hx);
 
     // We will run programs, do not save stack, etc.
-    settings::PrepareForFunctionEvaluation willEvaluateFunctions;
+    settings::PrepareForSolveFunctionEvaluation willEvaluateForSolve;
     settings::SaveNumericalConstants snc(true);
 
     // Set independent variable
@@ -231,7 +231,11 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 expression_g left, right;
                 if (isol->split_equation(left, right))
                 {
-                    if (symbol_p lname = left->as_quoted<symbol>())
+                    algebraic_g la = +left;
+                    if (unit_p lu = left->as_quoted<unit>())
+                        if (algebraic_p lua = lu->value()->as_algebraic())
+                            la = lua;
+                    if (symbol_p lname = la->as_quoted<symbol>())
                     {
                         if (lname->is_same_as(name))
                         {

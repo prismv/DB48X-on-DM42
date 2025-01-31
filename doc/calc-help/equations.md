@@ -87,7 +87,7 @@ L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_f
 ```rpl
 L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf
  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ θ=-0.08763 17825 27 ° ]
+@ Expecting [ θ=-8.76317 82526 7⁳⁻² ° ]
 'ROOT(ⒺSimple Slope;[θ];[0_°])'
 ```
 
@@ -142,7 +142,7 @@ L=10_ft  E=29000000_psi  I=15_in^4  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=1
 * To calculate `[Mx_ft*lbf]` (Internal bending moment at x) from 7 known variables:
 ```rpl
 L=10_ft  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
-@ Expecting [ Mx=-200. ft·lbf ]
+@ Expecting [ Mx=-200 ft·lbf ]
 'ROOT(ⒺCantilever Moment;[Mx];[1_ft*lbf])'
 ```
 
@@ -153,7 +153,7 @@ L=10_ft  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
 * To calculate `[V_lbf]` (Shear force at x) from 5 known variables:
 ```rpl
 L=10_ft  P=500_lbf  a=3_ft  x=8_ft  w=100_lbf/ft
-@ Expecting [ V=200. lbf ]
+@ Expecting [ V=200 lbf ]
 'ROOT(ⒺCantilever Shear;[V];[1_lbf])'
 ```
 
@@ -308,7 +308,7 @@ The expression of the perpendicular electric field is constant over an infinite 
 
 ```rpl
 L=8_cm A='L^2' d=5_mm Q=6E-6_C  A=64_cm^2  εr=1
-@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 049.997 N/C ]
+@ Expecting [ σ=0.00000 00937 5 C/cm↑2 Ep=52 941 049.997 N/C ]
 if 'd < L/10' then
  'ROOT(ⒺE Field Infinite Plate;[σ;Ep];[1_C/cm^2;1_N/C])'
 end
@@ -320,7 +320,7 @@ end
 
 ```rpl
 V=24_V  I=16_A
-@ Expecting [ R=1.5 Ω P=384. W ]
+@ Expecting [ R=1.5 Ω P=384 W ]
 'ROOT(ⒺOhm’s Law & Power;[R;P];[1_Ω;1_W])'
 ```
 
@@ -374,7 +374,7 @@ The electrical resistivity `ρ` of most materials changes with temperature. If t
 
 ```rpl
 R1=2_Ω  R2=3_Ω
-@ Expecting [ Rs=5. Ω Rp=1.2 Ω ]
+@ Expecting [ Rs=5 Ω Rp=1.2 Ω ]
 'ROOT(ⒺSeries & Parallel R;[Rs;Rp];[1_Ω;1_Ω])'
 ```
 
@@ -386,7 +386,7 @@ R1=2_Ω  R2=3_Ω
 
 ```rpl
 C1=2_μF  C2=3_μF
-@ Expecting [ Cs=1.2 μF Cp=5. μF ]
+@ Expecting [ Cs=1.2 μF Cp=5 μF ]
 'ROOT(ⒺSeries & Parallel C;[Cs;Cp];[1_μF;1_μF])'
 ```
 
@@ -418,7 +418,7 @@ E=0.025_J  C=20_μF
 
 ```rpl
 E=5_V/m  εr=1
-@ Expecting [ uE=1.10677 34773 5⁳⁻¹⁰ J/m↑3 ]
+@ Expecting [ uE=1.10677 34773 6⁳⁻¹⁰ J/m↑3 ]
 'ROOT(ⒺVolumic Density Electric Energy;[uE];[1_(J/m^3)])'
 ```
 
@@ -462,7 +462,7 @@ C=15_μF  Vi=2.3_V  Vf=3.2_V  I=10_A  ti=0_μs
 
 ```rpl
 C=20_μF  V=100_V
-@ Expecting [ q=2.⁳⁻³ C ]
+@ Expecting [ q=0.002 C ]
 'ROOT(ⒺCapacitor Charge;[q];[1_C])'
 ```
 
@@ -476,7 +476,7 @@ These equations approximate the dc voltage induced in an inductor by a change in
 
 ```rpl
 L=100_mH  V=52_V  Δt=32_μs  ILi=23_A  ti=0_μs
-@ Expecting [ ΔIL=-1.664⁳⁻² A ILf=22.98336 A tf=32. μs ]
+@ Expecting [ ΔIL=-1.664⁳⁻² A ILf=22.98336 A tf=32 μs ]
 'ROOT(ⒺDC Inductor Voltage;[ΔIL;ILf;tf];[1_A;1_A;1_μs])'
 ```
 
@@ -512,7 +512,7 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 
 ```rpl
 μr=2.5  n=40_1/cm  A=0.2_cm^2  h=3_cm
-@ Expecting [ L=0.03015 92894 7 mH ]
+@ Expecting [ L=3.01592 89470 3⁳⁻² mH ]
 'ROOT(ⒺSolenoid Inductance;[L];[1_mH])'
 ```
 
@@ -551,9 +551,7 @@ In accordance with microscopic Ohm's law, the current density is proportional to
 @ mheff_kg='0.5*Ⓒme'  ne=1.04e19_(cm^-3)  nh=6.0e18_(m^-3) E=6.0e-9_V/m
 
 τc=4.09365 36801 40e-15_s meeff=1.09312 60456 68e-31 kg mheff=4.55469 18569 5e-31 kg nh=6.0e18_(m^-3) ne=1.04e19_(m^-3) E=6.0e-9_V/m
-@ Wanted [ μe=49.03846 15384 64976 91445 22_cm↑2/(s·V) μh=60.00000 00000 03822 512o15 7_cm↑2/(s·V) Je=4.90266 05000 386⁳-11_A/m↑2 Jh=3.46070 15294 402⁳-11_A/m↑2 J=8.36336 20294 771⁳-11_A/m↑2 σ=0.01393 89367 15800 94039 7294_S/m ]
-@ The solution below is different, but seems to validate4 with EvalEq
-@ Expecting [ μe=60. cm↑2/(V·s) μh=14.4 cm↑2/(V·s) Je=5.99854 93176 9⁳⁻¹¹ A/m↑2 Jh=8.30568 36706 3⁳⁻¹² A/m↑2 J=6.82911 76847 6⁳⁻¹¹ A/m↑2 σ=0.01138 18628 08 S/m ]
+@ Expecting [ μe=60. cm↑2/(V·s) μh=14.4 cm↑2/(V·s) Je=5.99854 93177⁳⁻¹¹ A/m↑2 Jh=8.30568 36706 6⁳⁻¹² A/m↑2 J=6.82911 76847 6⁳⁻¹¹ A/m↑2 σ=0.01138 18628 08 S/m ]
 'ROOT(ⒺElectron & Hole Mobilities;[μe;μh;Je;Jh;J;σ];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
 ```
 
@@ -668,7 +666,7 @@ Cd=0.05  ρ=1000_kg/m^3  A=7.5E6_cm^2  v=35_m/s
 
 ```rpl
 m=9.1E-31_kg
-@ Expecting [ E=8.17867 2124⁳⁻¹⁴ J ]
+@ Expecting [ E=8.17867 21265 1⁳⁻¹⁴ J ]
 'ROOT(ⒺRelativity Mass Energy;[E];[1_J])'
 ```
 
@@ -785,7 +783,7 @@ The variables in the Heat Transfer section are:
 
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
-@ Expecting [ α=6.66666 66666 7⁳⁻⁵ K⁻¹ Ti=10. °C ]
+@ Expecting [ α=6.66666 66666 7⁳⁻⁵ K⁻¹ Ti=10 °C ]
 'ROOT(ⒺThermal Expansion;[α;Ti];[1_K^-1;1_°C])'
 ```
 
@@ -811,7 +809,7 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
+@ Expecting [ qr=8.59950 85995 1 W Tc=20 °C U=0.02457 00245 7 W/(m↑2·K) ]
 'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
 ```
 

@@ -8822,10 +8822,7 @@ Even if the velocity `v` is confined to the x-direction, only the `y` & `z` tran
 * To calculate `[β;γ;Epx_(N/C);Epy_(N/C);Epz_(N/C);Bpx_T;Bpy_T;Bpz_T;E_(N/C);B_T;Ep_(N/C);Bp_T]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the electric field & of the magnetic field;Norm of the Electric field & Magnetic field;Norm of the transformed Electric field & Magnetic field) from 7 known variables:
 ```rpl
 v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=50e-8_T  By=80e-8_T Bz=8.17135 28774 3⁳⁻⁷ T
-@ Bz='CONVERT(√(((Ex_N/C)^2+(Ey_N/C)^2+(Ez_N/C)^2)/Ⓒc^2-(Bx_T)^2-(By_T)^2);1_T)' to insure initial physical value coherence
-@ Expecting [ β=0.995 γ=10.01252 34864 Epx=100. N/C Epy=-438.00926 8698 N/C Epz=5 393.09355 125 N/C Bpx=5.⁳⁻⁷ T Bpy=1.79793 76526 3⁳⁻⁵ T Bpz=1.53534 77686 9⁳⁻⁶ T E=5.84333 54209⁳⁻³ V/m B=7.85289 10293 1⁳⁻² T Ep=2.24913 70834 6⁳²⁰ J Bp=1.80517 38781 8⁳⁻⁵ T ]
-@ Failing [ β=0.995 γ=10.01252 34864 Epx=100._N/C Epy=-438.00926 8698 N/C Epz=5 393.09355 125 N/C Bpx=50e-8_T Bpy=1.79793 76526 3⁳⁻⁵ T Bpz=1.53534 77686 9⁳⁻⁶ T E=374.16573 8677 N/C B=1.24808 25607 6⁳⁻⁶ T Ep=5 411.77514 056 N/C Bp=1.80517 38781 8⁳⁻⁵ T EDB=299 792 458. m/s EpDBp=299 792 457.999 m/s ]
-@ C#23 NOT OK MSOLVE hallucinate values of E, B, Ep, Bp, New eqns added (to be checked) for E, Ep, B, Bp, EDB & EpDBp
+@ Expecting [ β=0.995 γ=10.01252 34864 Epx=100. N/C Epy=-438.00926 8698 N/C Epz=5 393.09355 125 N/C Bpx=5.⁳⁻⁷ T Bpy=1.79793 76526 3⁳⁻⁵ T Bpz=1.53534 77686 9⁳⁻⁶ T E=374.16573 8677 N/C B=1.24808 25635 8⁳⁻⁶ T Ep=5 411.77514 056 N/C Bp=1.80517 38781 8⁳⁻⁵ T EDB=299 792 457.322 m/s EpDBp=299 792 457.999 m/s ]
 'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz;E;B;Ep;Bp;EDB;EpDBp];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T;1_(N/C);1_T;1_(N/C);1_T;1;1])'
 ```
 

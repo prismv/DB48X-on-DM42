@@ -1024,13 +1024,13 @@ static const cstring basic_equations[] =
     // Error in  eqn 1 cair => vsair
     "Doppler Effect",  "{ "
     "'(f_Hz)=(f0_Hz)*(((vsair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(Tair_K)))' "
     "}",
 
     "Mach Number",  "{ "
     "'M=(u_(m/s))/(vsair_(m/s))' "
     "'SIN(θcone_°)=(vsair_(m/s))/(u_(m/s))' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(Tair_K)))' "
     "}",
 
     "String Standing Waves",  "{ "
@@ -1048,7 +1048,7 @@ static const cstring basic_equations[] =
     "'(vsair_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(T_K)))' "
+    "'(vsair_(m/s))²=(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*UBASE(Tair_K)))' "
     "'(fopenopen_Hz)=(ninteger*(vsair_(m/s)))/(2*(L_m))' "
     "'(fopenclose_Hz)=(nodd*(vsair_(m/s)))/(4*(L_m))' "
     "}",

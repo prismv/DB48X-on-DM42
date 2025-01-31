@@ -2067,7 +2067,8 @@ The 39 variables in the Waves section are:
 * `s`: Longitudinal displacement at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
 * `sm`: Longitudinal displacement amplitude of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement amplitude of air particles ([Sound Waves](#Sound Waves))
 * `t`: Time
-* `Ts`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), ([Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
+* `T`: Tension ([String Standing Waves](#String Standing Waves))
+* `Tair`: Air temperature ([Doppler Effect](#Doppler Effect)), ([Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
 * `u`: Mass or flow velocity ([Mach Number](#Mach Number))
 * `v`: Velocity of the propagating sound in medium ([Sound Waves](#Sound Waves)), or Wave speed ([Transverse Waves](#Transverse Waves)) & ([Longitudinal Waves](#Longitudinal Waves))
 * `vr`: Speed of the receiver relative to the medium
@@ -2115,17 +2116,15 @@ In the classical Doppler effect it is assumed that the speed of the observer and
 
 * **Example 1**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are behind him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
-T=20_°C  f0=1200_Hz  vr=-90_km/h  vs=180_km/h
+Tair=20_°C  f0=1200_Hz  vr=-90_km/h  vs=180_km/h
 @ Expecting [ vsair=343.23616 5602 m/s f=1 302.30661 671 Hz ]
-@ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
 * **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
-T=20_°C  f0=1200_Hz  vr=90_km/h  vs=-180_km/h
+Tair=20_°C  f0=1200_Hz  vr=90_km/h  vs=-180_km/h
 @ Expecting [ vsair=343.23616 5602 m/s f=1 123.70996 713 Hz ]
-@ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -2135,7 +2134,7 @@ For an object moving at a supersonic speed, the shockwave describes a cone havin
 
 * To calculate `[vsair_(m/s);M;θcone_°]` (Propagation speed of sound waves; Mach number; Angle at the tip of the cone formed by the supersonic shockwave) from 2 known variables:
 ```rpl
-T=-20_°C  u=2200_km/h
+Tair=-20_°C  u=2200_km/h
 @ Expecting [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
 'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
 ```
@@ -2155,12 +2154,11 @@ A string being fixed or free at its ends admits only discrete harmonics as stand
 
 A tube being open or closed at its ends admits only discrete harmonics as standing waves of the sound in the air within the tube. A tube being open (or closed) at both ends admits all integer harmonics. A tube being being open at one end and closed at the other end admits only all odd integer harmonics.
 
-* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);Tair_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
 ```rpl
 λ=3_m f=110_Hz L=0.6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
-@ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=270.97654 1107 K s=4.15823 38163 6⁳⁻⁵ cm fopenopen=550. Hz fopenclose=412.5 Hz ]
-@ C#20 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for T "Inconsistent units".
-'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
+@ Expecting [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s Tair=-2.17345 88932 4 °C s=4.15823 38163 6⁳⁻⁷ m fopenopen=550. Hz fopenclose=412.5 Hz ]
+'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;Tair;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
 ```
 
 #### Beat Acoustics

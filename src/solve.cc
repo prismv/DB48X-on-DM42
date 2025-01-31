@@ -232,7 +232,11 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
                 expression_g left, right;
                 if (isol->split_equation(left, right))
                 {
-                    if (symbol_p lname = left->as_quoted<symbol>())
+                    algebraic_g la = +left;
+                    if (unit_p lu = left->as_quoted<unit>())
+                        if (algebraic_p lua = lu->value()->as_algebraic())
+                            la = lua;
+                    if (symbol_p lname = la->as_quoted<symbol>())
                     {
                         if (lname->is_same_as(name))
                         {

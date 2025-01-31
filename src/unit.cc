@@ -1198,6 +1198,7 @@ algebraic_p unit::convert_to_real() const
 // ----------------------------------------------------------------------------
 {
     algebraic_g u = this;
+    error_save  ers;
     if (algebraic_g one = integer::make(1))
         if (unit_g unity = unit::make(one, one))
             if (unity->convert(u))

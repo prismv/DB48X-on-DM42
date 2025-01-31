@@ -1406,8 +1406,8 @@ The 40 variables in the Optics section are:
 * `d`: Distance between two interference slits
 * `E0`: Incident light electrtc field
 * `f`: Focal length
-* `fx0`: Frequency of the incident X-ray (dim.: time^-1, in SI: hertz, HZ)
-* `fx`: Frequency of the transmitted X-ray (dim.: time^-1, in SI: hertz, HZ)
+* `fx0`: Frequency of the incident X-ray (dim.: time^-1, in SI: hertz, Hz)
+* `fx`: Frequency of the transmitted X-ray (dim.: time^-1, in SI: hertz, Hz)
 * `I`: Transmitted irradiance or polarized light radiance flux (dim.: power/area, in SI: W/m^2)
 * `I0`: Incident irradiance or polarized light radiance flux (dim.: power/area, in SI: W/m^2)
 * `Ix`: Transmitted irradiance or polarized X rays radiance flux (dim.: power/area, in SI: W/m^2)
@@ -2115,16 +2115,16 @@ In the classical Doppler effect it is assumed that the speed of the observer and
 
 * **Example 1**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are behind him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
-T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
-@ Failing [ vsair=343.23616 5602 m/s f=1 302.30661 671 HZ ]
+T=20_°C  f0=1200_Hz  vr=-90_km/h  vs=180_km/h
+@ Expecting [ vsair=343.23616 5602 m/s f=1 302.30661 671 Hz ]
 @ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
 * **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
 ```rpl
-T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
-@ Failing [ vsair=343.23616 5602 m/s f=1 123.70996 713 HZ ]
+T=20_°C  f0=1200_Hz  vr=90_km/h  vs=-180_km/h
+@ Expecting [ vsair=343.23616 5602 m/s f=1 123.70996 713 Hz ]
 @ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
@@ -2180,7 +2180,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 * To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 5 known variables:
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s  φ=25_°
-@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
+@ Expecting [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
 @ C#21 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Constant?"
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```

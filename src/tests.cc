@@ -6771,7 +6771,7 @@ void tests::eqnlib_columns_and_beams()
         .test("100_lbf/ft", NOSHIFT, F1)
         .expect("w=100 lbf/ft")
         .test(F6, LSHIFT, F5)
-        .expect("V=200. lbf");
+        .expect("V=200 lbf");
 
     step("Exit: Clear variables")
         .test(CLEAR,

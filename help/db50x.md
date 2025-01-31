@@ -8784,7 +8784,7 @@ The contraction comes from the fact that the Lorentz factor `γ` is greater or e
 * To calculate `[β;γ;Δxp_m]` (Relativistic speed ratio; Lorentz factor; Contracted space interval) from 3 known variables:
 ```rpl
 Δx=2_m  v=284 802 835.1_m/s
-@ Expecting [ β=0.95 γ=3.20256 30761 Δxp=6.24499 79984⁳⁻¹ m ]
+@ Expecting [ β=0.95 γ=3.20256 30761 Δxp=0.62449 97998 4 m ]
 'ROOT(ⒺSpace Contraction;[β;γ;Δxp];[1;1;1_m])'
 ```
 

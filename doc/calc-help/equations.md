@@ -2551,29 +2551,22 @@ M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
 * **Example 1** For M31*, the supermassive black hole at the Galactic Center of Andromeda Galaxy to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Multiplicative factor of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1.708e45_kg  t=4.18902 53989e119_s
-@ Failing [ rs=2.53677 63479 3⁳¹⁸ m As=8.08675 38442 8⁳³⁷ m↑2 TH=7.18325 91955 2⁳⁻²³ K PBH=1.22087 75567 7⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.19117 60841 4⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ txyr=1.32742 20469 6⁳¹¹² ]
-@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for
-    TH &PBH hallucinates; for tev "Constant?"
+@ Expecting [ rs=2.53677 63479 3⁳¹⁸ m As=8.08675 38442 8⁳³⁷ m↑2 TH=5.⁳⁻²³ K PBH=1.22087 75567 7⁳⁻⁵⁸ W SBH=1.06850 79039 3⁳⁸⁴ J/K tev=4.19117 60841 4⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ txyr=1.32742 20469 6⁳¹¹² ]
 'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 * **Example 2** For a very small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
 ```rpl
 M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
-@ Failing [ rs=1.48523 20538 2⁳⁻²⁴ m As=2.77203 36055 4⁳⁻⁴⁷ m↑2 TH=1.22690 06705 9⁳²⁰ K PBH=3.56162 21447 8⁳²⁶ W SBH=3.66270 55485 1⁳⁻¹ J/K tev=8.41147 78997⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
-@ C#28 NOT OK MSOLVER: "Constant ?". SOLVE for As "Constant?"; for
-    rs, TH &PBH hallucinates; for
-    tev "Constant?" TO BE CHECKED
-        .'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
+@ Expecting [ rs=1.48523 20538 2⁳⁻²⁴ m As=2.77203 36055 6⁳⁻⁴⁷ m↑2 TH=1.22690 06705 9⁳²⁰ K PBH=3.56162 21447 8⁳²⁶ W SBH=0.36627 05548 53 J/K tev=8.41147 78997⁳⁻⁸ s Mxsun=0. MxSagA=0. Mxearth=1.67⁳⁻²² txyr=2.66406 8745⁳⁻¹⁵ ]
+'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
 ```
 
-        ##Modern Physics The 43 variables in the Modern Physics section are :
+## Modern Physics
 
-        * `β`: Relativistic speed ratio * `φ`
-        : Work function of the
-          substance([Photoelectric Effect](#Photoelectric Effect))(
-              dim.
-              : charge·voltage, in SI
-              : eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering))
+The 43 variables in the Modern Physics section are :
+
+* `β`: Relativistic speed ratio
+* `φ`: Work function of the substance([Photoelectric Effect](#Photoelectric Effect))(dim.: charge·voltage, in SI : eV); or Angle of the scattered electron ([Compton Scattering](#Compton Scattering))
 * `θ`: Scattered photon angle of deflection ([Photoelectric Effect](#Photoelectric Effect)) & ([Compton Scattering](#Compton Scattering)), or Angle between incident photon and cristallographic plane ([DeBroglie Wave](#DeBroglie Wave))
 * `γ`: Lorentz relativistic factor
 * `%rFr12`: Relative % of change between distribution fractions integrated from `f1` to `f2`
@@ -2624,9 +2617,8 @@ In this section, two comparisons are done between the Planck and Wien spectral d
 
 * To calculate `[fpeak_Hz;f1_Hz;f2_Hz;FrPl12;FrWn12;%rFr12;f3_Hz;f4_Hz;FrPl34;FrWn34;%rFr34;FrPlab;eb_(W/m^2);ebfafb_(W/m^2);q_W]` (Frequency of maximum emissive power for the Planck distribution; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `f1` to `f2`; Relative % of change between distribution fractions integrated from `f3` to `f4`; Lower & Upper frequency limits of integration; Fractions of Planck & Wien emissive power in the range `fa` to `fb`; Total emissive power for the entire Planck spectrum; Emissive power in the range `fa` to `fb`; Heat transfer rate) from 5 known variables:
 ```rpl
-24 PRECISION 12 SIG T=1273.15_K  A=100_cm^2  fa=7.48475 43283 5⁳¹³ Hz  fb=3.18337 69964 2⁳¹⁴ Hz  Frfafb=0.64388 90934 2
-@ Failing [ fpeak=7.48475 43283 4⁳¹³ Hz f1=1.06112 56654 7⁳¹⁴ Hz f2=2.38753 27473 2⁳¹⁴ Hz FrPl12=0.38336 04816 97 FrWn12=0.38088 77248 75 %rFr12=0.64502 13154 61 f3=2.65281 41636 9⁳¹¹ Hz f4=6.63203 54092 2⁳¹³ Hz FrPl34=0.28402 76245 74 FrWn34=0.22398 47200 01 %rFr34=21.13981 15458 FrPlab=0.64388 90934 2 eb=148 980.70811 W/m↑2 ebfafb=95 927.05308 2 W/m↑2 q=959.27053 082 W ]
-@ C#29 NOT OK MSOLVE: "Inconsistent units" SOLVE: 1st eqn doesn't show: blank screen, all eqns do not show.
+T=1273.15_K  A=100_cm^2  fa=7.48475 43283 5⁳¹³ Hz  fb=3.18337 69964 2⁳¹⁴ Hz  Frfafb=0.64388 90934 2
+@ Expecting [ fpeak=7.48475 43283 4⁳¹³ Hz f1=1.06112 56654 7⁳¹⁴ Hz f2=2.38753 27473 2⁳¹⁴ Hz FrPl12=0.38336 04816 97 FrWn12=0.38088 77248 75 %rFr12=0.64502 13154 61 f3=2.65281 41636 9⁳¹¹ Hz f4=6.63203 54092 2⁳¹³ Hz FrPl34=0.28402 76245 74 FrWn34=0.22398 47200 01 %rFr34=21.13981 15458 FrPlab=0.64388 90934 2 eb=148 980.70811 W/m↑2 ebfafb=95 927.05308 2 W/m↑2 q=959.27053 082 W ]
 'ROOT(ⒺPlanck & Wien Comparison;[fpeak;f1;f2;FrPl12;FrWn12;%rFr12;f3;f4;FrPl34;FrWn34;%rFr34;FrPlab;eb;ebfafb;q];[1_Hz;1_Hz;1_Hz;1;1;1;1_Hz;1_Hz;1;1;1;1;1_(W/m^2);1_(W/m^2);1_W])'
 ```
 

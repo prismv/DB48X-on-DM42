@@ -506,9 +506,7 @@ L=500_mH  C=8_μF  R=10_Ω
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
   ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
-@ Failing [ d=8.00418 57882 3⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=3. V ]
-@ C#1 NOT OK. MSOLVER: "NO solution?", the same when SOLVE seperately for d (giving d=1_cm as a trial value), then giving the right affectation 
-@ for d (d=8.00418 57882 3⁳⁻⁹ cm), SOLVE works fine to compute the expected values of the remaining Ein, ΔV & σ
+@ Expecting [ d=80.04180 5841 pm σ=750 000. μC/m↑2 Ein=37 480 389 378.4 N/C ΔV=2.99999 80494 7 V ]
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -567,15 +565,7 @@ t=3.2_s  Imax=10_A  ω=636_r/s  φ=30_°
 
 * To calculate `[vd_m/s;J_(A/m^2);E_(V/m)]` (Drift speed; Current density; E field) from 5 known variables:
 ```rpl
-@ C#2 First trial #1 where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic" BUT algebraics: OK
 I=1_A  n=8.5e28_(m^-3)  r=0.1_cm  A='Ⓒπ*(r_cm)^2'  ρ='Ⓒqe*n' σ='CONVERT(→NUM(Ⓒqe*(n_(m^-3))*40_(cm^2/(V*s)));1_S/m)'
-@ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
-'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
-```
-```rpl
-@ Second working trial #2 where the input variables A, ρ & σ are a priori calculated with
-@ A='Ⓒπ*(0.1_cm)^2'  ρ='Ⓒqe*n'  σ='CONVERT(→NUM(Ⓒqe*(n_(m^-3))*40_(cm^2/(V*s)));1_S/m)' 
-I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 9⁳⁻² cm↑2 ρ=1.36185 01389E10_C/m↑3 σ=54 474 005.556_S/m
 @ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
 ```
@@ -648,17 +638,7 @@ These equations represent the streamlined flow of an incompressible fluid.
 * To calculate `[A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in]` (Initial cross-sectional area; Pressure change; Height change; Volume & Mass flow rates; Final velocity; Final cross-sectional area; Final diameter) from 7 known variables:
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", SOLVE: OK for A1;ΔP;Δy;Q;M calculated one at a time in order; NOT OK for v2;A2;D2:
-@ "Inconsistent units" while searching for each unknown. It seems that isolating v2 from implicit eqn (1) doesn't work here
-'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
-```
-
-Alternate presentation adding one more known value: `v2`
-```rpl
-P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s  v2=122.421311569_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values @ are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently, why?
+@ Expecting [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -684,11 +664,11 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 * To calculate `[ΔP_Psi;Δy_ft;A_in^2;n_ft^2/s;Q_ft^3/min;M_lb/min;Reynolds;f;W_hp]` (Pressure & Height changes; Cross-sectional area; Kinematic viscosity; Volume & Mass flow rates; Reynolds number; Fanning factor; Power input) from 11 known variables:
 ```rpl
 ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft  μ=0.00002_lbf*s/ft^2  ΣK=2.25  ϵ=0.02_in  L=250_ft
-@ Failing [ ΔP=-5. psi Δy=40. ft A=113.09733 5529 in↑2 n=1.03121 95050 1⁳⁻⁵ ft↑2/s Q=376.99111 8431 ft↑3/min M=23 524.24579 01 lb/min Reynolds=775 780.51628 2 f=4.32637 07915 4⁳⁻³  W=24.95162 12864 hp ]
-@ C#4 NOT OK. MSOLVER: "Inconsistent units". SOLVE hallucinate ΔP; "Constant?" for Δy, A, Q, M ; OK for n & f; "Inconsistent units" for W
+@ Expecting [ ΔP=-5. psi Δy=40. ft A=113.09733 5529 in↑2 n=1.03121 95050 1⁳⁻⁵ ft↑2/s Q=376.99111 8431 ft↑3/min M=23 524.24579 01 lb/min Reynolds=775 780.51628 2 f=4.32637 07915 4⁳⁻³ W=24.95162 12864 hp ]
 'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;Reynolds;f;W];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1;1;1_hp])'
 ```
-'Reynolds='(D_m)*(vavg_(m/s))*(ρ_(kg/m^3))/(μ_(kg/(m*s)))'  Reynolds=775 780.51628 23186 30725 06
+
+
 ## Forces and Energy
 
 The 37 variables in the Force and Energy section are:
@@ -747,9 +727,7 @@ t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
 * To calculate `[τ_ft*lbf;Ki_ft*lbf;W_ft*lbf;Kf_ft*lbf;at_ft/s^2;Ni_rpm;ωf_r/min;t_min;Nf_rpm;Pavg_hp]` (Torque; Initial kinetic energy; Work; Final kinetic energy; Tangential acceleration; Initial rotational speed; Final angular velocity; Time; Final rotational speed; Average power) from 5 known variables:
 ```rpl
 I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
-@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=7.69119 81602 9⁳⁻⁴ ft·lbf Kf=7.69119 81602 9⁳⁻⁴ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=3.82893 79358 7 r/min t=0.36466 07557 97 min Nf=9.69881 30938 9⁳⁻² rpm Pavg=6.39132 69309 3⁳⁻⁸ hp ]
-@ Failing [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=0.29096 43928 17 rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
-@ C#5  NOT OK MSOLVER hallucinates too imprecise values starting with W, Kf, ωf, Nf & Pavg
+@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=2.90964 39281 7⁳⁻¹ rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
 'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
 ```
 
@@ -938,10 +916,10 @@ These equations describe properties of an ideal gas.
 * To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity; Number of mole; Mean free path) from 7 known variables:
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
-@ Expecting [ vrms=644.76595 0487 m/s n=0.08018 15700 28 mol m=0.00144 32682 61 kg λ=1 nm ]
-@ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
-@ C#6 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the
-@ computation of λ is wrong
+@ Expecting [ vrms=644.76595 0487 m/s n=8.01815 70028 5⁳⁻² mol m=1.44326 82605 1⁳⁻³ kg λ=1 nm ]
+@ Failing [ vrms=644.76595 0487 m/s n=8.01815 70028 5⁳⁻² mol m=1.44326 82605 1⁳⁻³ kg λ=1.49162 49859 nm ]
+@ C#1 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the
+@ computation of λ is wrong, but algebraics: OK
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
 ```
 
@@ -1046,8 +1024,7 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 * To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission; Total emissive power; Fraction of emissive power between λ1 & λ2; Emissive power between λ1 & λ2; Heat transfer rate) from 4 known variables:
 ```rpl
 T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
-@ Failing [ λmax=2 276.06484 325 nm eb=148 980.70811 W/m↑2 f=0.00360 91140 47 eb12=537.68836 6343 W/m↑2 q=14.89807 0811 W ]
-@ C#7 NOT OK: MSOLVER: "Inconsistent units" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
+@ Expecting [ λmax=2 276.06484 325 nm eb=148 980.70811 W/m↑2 f=3.60911 40468 1⁳⁻³ eb12=537.68836 6343 W/m↑2 q=14.89807 0811 W ]
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
 
@@ -1364,10 +1341,11 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 @ Expecting [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s ]
 @ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#8 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)'=1 117.39339 246 ft=xfr
-@'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
-'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
+@ C#2 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
+@ '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*UVAL(Ⓒg/(175.74722 3631_ft/s)*(1_s)));t)*(1_s)'=1 117.39339 246 ft=xfr  NOTE this integral was computable in v0.8.10 but not anymore: Inconsistent unit
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
+@ The following call works fine but but the calculation of xfr is missing:
+@'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_ft/s;1_ft/s;1_s])'
 ```
 
 * **Example 2**. For a human skydiving head first, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (Terminal velocity; Velocity at time `t`; Time required to reach the fraction `fr` of `vt`; Displacement during `tfr`) from 6 known variables:
@@ -1375,10 +1353,11 @@ Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
 @ Expecting [ vt=95.13182 74789 m/s v=45.10777 55851 m/s tfr=17.76964 17471 s ]
 @ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
-@ C#8 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)'=1 074.15231 681 m=xfr
-@ 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
-'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
+@ C#3 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
+@ '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(UVAL(t*Ⓒg/(95.13182 74789_m/s)*(1_s)));t)*(1_s)'=1 074.15231 681 m=xfr  NOTE this integral was computable in v0.8.10 but not anymore: Inconsistent unit
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+@ The following call works fine but but the calculation of xfr is missing:
+@ 'ROOT(ⒺTerminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
 #### Buoyancy & Terminal Velocity
@@ -1391,9 +1370,10 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
 @ Failing [ vt=2.94590 60115 1⁳⁻¹ m/s v=0.22419 40616 41 m/s tfr=5.50264 78343 2⁳⁻² s ]
 @ Expecting [ vt=2.94590 60115 1⁳⁻¹ m/s v=0.22419 40616 41 m/s tfr=5.50264 78343 2⁳⁻² s xfr=1.03003 49562 7⁳⁻² m ]
-@ C#9 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(2.94590 60115 1⁳⁻¹ m/s)*∫(0;5.50264 78343 2⁳⁻²;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)'=1.03003 49562 7⁳⁻² m=xfr
-@'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+@ C#4 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
+@ '(2.94590 60115 1⁳⁻¹ m/s)*∫(0;5.50264 78343 2⁳⁻²;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)'=1.03003 49562 7⁳⁻² m=xfr NOTE this integral was computable in v0.8.10 but not anymore: Inconsistent unit
+'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+@ The following call works fine but but the calculation of xfr is missing:
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
@@ -1403,10 +1383,11 @@ Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_c
 Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
 @ Expecting [ vt=-1.14234 81034 5 m/s v=-7.94463 76986 8⁳⁻¹ m/s tfr=2.13378 81429⁳⁻¹ s ]
 @ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-1.54885 62775 1⁳⁻¹ m ]
-@ C#9 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
-@ '(-1.14234 81034 5_m/s)*∫(0;2.13378 81429⁳⁻¹;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)'=-1.54885 62775 1⁳⁻¹ m=xfr < 0
+@ C#5 MSOLVER: "Inconsistent units" BUT works fine for vt, v & tfr without xfr which results from an integral
+@ '(-1.14234 81034 5_m/s)*∫(0;2.13378 81429⁳⁻¹;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)'=-1.54885 62775 1⁳⁻¹ m=xfr < 0 NOTE this integral was computable in v0.8.10 but not anymore: Inconsistent unit
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
-'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
+@ The following call works fine but but the calculation of xfr is missing:
+@'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr];[1_m/s;1_m/s;1_s])'
 ```
 
 #### Escape and Orbital Velocities
@@ -1510,8 +1491,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 * To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle; Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
-@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
-@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails for the eqn: 'θB+θ2=90'!!
+@ Expecting [ v1=299 792 458. m/s v2=199 861 638.666 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
 'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
@@ -1639,16 +1619,8 @@ k=20_N/m  m=5_kg
 * To calculate `[ω_(r/s);Treal_s;T_s;f_Hz]` (Angular frequency; Real period for large amplitude; Period for small amplitude; Frequency) from 2 known variables:
 ```rpl
 L=15_cm  θmax=80_°
-@ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
-@ c#11 NOT OK MSOLVER & SOLVE: "Bad argument type". However Treal can be calculated alone with θmax or (θmax_°) by the following
-@ sum: Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
+@ Expecting [ ω=8.08564 57173 6 r/s Treal=8.83614 26229 6⁳⁻¹ s T=0.77707 89775 87 s f=1.28687 04840 1 Hz ]
 'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
-```
-```rpl
-@ Without Treal, MSOLVER works fine for the remaining 3 unknowns:
-L=15_cm  θmax=80_°
-@ Expecting [ ω=8.08564 57173 6 r/s T=0.77707 89775 87 s f=1.28687 04840 1 Hz ]
-'ROOT(ⒺSimple Pendulum;[ω;T;f];[1_(r/s);1_s;1_Hz])'
 ```
 
 #### Conical Pendulum
@@ -1678,8 +1650,7 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 * To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
-@ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-20.38835 7933 m/s↑2  m=4.44444 44444 4⁳⁻² kg  E=0.05 J ]
-@ C#12 NOT OK MSOLVER: "No solution?" SOLVE for m: "No solution?" unable to isolate m in: 'ω0=1 r·√(k÷m)' !!  
+@ Expecting [ x=9.06149 24146 7 cm v=-63.44371 46156 cm/s a=-20.38835 7933 m/s↑2 m=4.44444 44444 4⁳⁻² kg E=5.⁳⁻² J ]
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
@@ -1690,10 +1661,7 @@ We are considering here a damped mass-spring oscillator having the natural angul
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
-@ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  x=9.06100 06640 3 cm  v=-83.10906 53488 cm/s  a=-1 664.73435 534 cm/s↑2  E=5.64000 14834 9⁳⁻² J  Q=3.33333 33333 3 ]
-@ C#13 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work, however algebraic expressions work and can be
-@ computed. NOTE it's not possible to solve for m alone in its simple eqn (see ISSUE #1334). SOLVE fails for a:
-@ "Inconsistent units" neither for Q: "idem"
+@ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=5.64000 14834 9⁳⁻² J Q=3.33333 33333 3 ]
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
@@ -1712,8 +1680,9 @@ We are considering here a damped mass-spring oscillator where the external drivi
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Phase angle; Resulting amplitude; Displacement; Velocity & Acceleration at `t`; Total energy at `t`; Quality factor) from 9 known variables which correspond to the values of the previous section:
 ```rpl
 ω=14.99_r/s  ω0=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
+@ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s φ=-89.74526 88301 ° xp=0.30019 71665 48 m x=-22.26611 11734 cm v=301.81823 6224 cm/s a=50.03197 40728 m/s↑2 E=0.45032 15149 87 J Q=3.33333 33333 3 ]
 @ Failing [ m=4.44444 44444 4⁳⁻²_kg  γ=4.5 r/s  ωu=14.83028 995 r/s  φ=-89.74526 88301 °  xp=3.00197 16654 8⁳⁻¹ m  x=-21.44064 71859 cm  v=314.96199 4059 cm/s  a=47.58321 09983 m/s↑2  E=0.45029 74707 68 J  Q=3.33333 33333 3  ]
-@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 3) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
+@ C#6 NOT OK MSOLVER: computes imprecise values for: x, v, a, E However they are algebraically computable
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
@@ -1946,9 +1915,7 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 * To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
 ```rpl
 ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=1.01814 13959 2 V xd=5.25780 92138 7 μ Cj=2 003.96839 745 pF/cm↑2 Emax=7 995 018.66308 V/m BV=358.08260 5883 V J=-1.⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
-@ C#14 NOT OK MSOLVE: "Unable to solve for all variables" for absolutely no discernable reason. It worked in v0.8.7!!
-@ CLUE: It seems that the call to the SIDENS function fails.
+@ Expecting [ ni=9 649 873 981.35 (cm↑3)⁻¹ Vbi=1.01379 20414 3 V xd=5.25726 51776 8 μ Cj=2 004.17577 358 pF/cm↑2 Emax=79 941.91402 27 V/cm BV=358.08260 5883 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
 'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_cm^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
 ```
 
@@ -1961,8 +1928,7 @@ These equations for a silicon NMOS transistor use a two-port network model. They
 * To calculate `[ni_(cm^-3);We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Silicon density; Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
 ```rpl
 tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=3.72479 81530 9⁳⁻¹ V↑(1/2) φp=-0.30072 81952 95 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 5 mA/V ]
-@ C#15 NOT OK MSOLVE: "Inconsistent units". SOLVE seperately fails for γ & for Vt. BUT algebraic expressions are OK to compute. And here also, it appears that the call to the SIDENS function fails.
+@ Expecting [ ni=9 649 873 981.35 (cm↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=1 V↑(¹/₂) φp=-0.29855 35180 52 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 6 mA/V ]
 'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_cm^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
 ```
 
@@ -1975,17 +1941,15 @@ These equations for an NPN silicon bipolar transistor are based on large-signal 
 * To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IC_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total collector current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
 ```rpl
 IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=-10_V
-@ Expecting [ VBE=-7.81873 4911⁳⁻² V IS=-2.⁳⁻²³ nA ICO=-2.⁳⁻²³ nA ICEO=-2.⁳⁻²³ nA IE=-2.⁳⁻²³ mA IB=-2.⁳⁻²³ mA VCEsat=-2.⁳⁻²³ V ]
 @ Failing [ VBE=6.55313 00304 1⁳⁻¹ V V IS=9.8⁳⁻⁶ nA ICO=1.0396⁳⁻⁵ nA ICEO=5.198⁳⁻⁴ nA IE=-1.02040 81632 5 mA IB=2.04081 63254 7⁳⁻² mA VCEsat=0 V ]
-@ C#16 NOT OK MSOLVE: hallucinates all values. SOLVE works
+@ C#7 NOT OK MSOLVE: Unable to solve for all variables OR No solution ?
+'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IC;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_mA;1_V])'
+
 ```
 
 #### JFETs
 
-These equations for a silicon N-channel junction field-effect transistor (JFET) are based on the single-sided stepjunction
-approximation, which assumes the gates are heavily doped compared to the channel doping,. The draincurrent
-calculation differs depending on whether the gate-junction depletion-layer thickness is less than or greater
-than the channel thickness. The equations assume the channel is uniformly doped and end effects (such as contact,
+These equations for a silicon N-channel junction field-effect transistor (JFET) are based on the single-sided stepjunction approximation, which assumes the gates are heavily doped compared to the channel doping,. The draincurrent calculation differs depending on whether the gate-junction depletion-layer thickness is less than or greater than the channel thickness. The equations assume the channel is uniformly doped and end effects (such as contact,
 drain, and source resistances) are negligible.
 
 ![JFETs](img/JFETs.bmp)
@@ -1993,9 +1957,7 @@ drain, and source resistances) are negligible.
 * To calculate `[ni_(cm^-3);Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Silicon density; Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
 ```rpl
 ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
-@ Failing [ ni=8.87132 87228 4⁳⁹ (cm↑3)⁻¹ Vbi=3.60254 62462 8⁳⁻¹ V xdmax=1.04861 82193 1 μ G0=5.99854 93177⁳⁻⁴ S ID=2.14057 10256 1⁳⁻¹ mA VDsat=3.24274 04036 8 V Vt=-7.24274 04036 8 V gm=1.45589 37795 8⁳⁻¹ mA/V ]
-@ C#17 NOT OK MSOLVER: "No solution ?" SOLVE for ni: "Bad argument type" SOLVE separately works for Vbi;xdmax;G0 but
-@ failed for ID. Algebraic calculation also fails "Inconsistent units" needs CONVERT to go further
+@ Expecting [ ni=9 649 873 981.35 (cm↑3)⁻¹ Vbi=0.35807 99473 84 V xdmax=1.04848 18266 6 μ G0=5.99854 93177⁳⁻⁴ S ID=2.14437 16871 8⁳⁻¹ mA VDsat=3.24491 50809 3 V Vt=-7.24491 50809 3 V gm=1.45702 67457 2⁳⁻¹ mA/V ]
 'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
 ```
 
@@ -2162,7 +2124,7 @@ In the classical Doppler effect it is assumed that the speed of the observer and
 ```rpl
 T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
 @ Failing [ vsair=343.23616 5602 m/s f=1 302.30661 671 HZ ]
-@ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
+@ C#8 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -2170,7 +2132,7 @@ T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
 ```rpl
 T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
 @ Failing [ vsair=343.23616 5602 m/s f=1 123.70996 713 HZ ]
-@ C#18 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
+@ C#9 NOT OK MSOLVE & SOLVE: "Inconsistent units", SOLVE works for wsair but not for f: "Inconsistent units"
 'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
 ```
 
@@ -2193,7 +2155,7 @@ A string being fixed or free at its ends admits only discrete harmonics as stand
 ```rpl
 λ=1.2_m  f=112_Hz  μ=1.8_(g/m)  L=0.6_m  ninteger=2  nodd=3  x=10_cm  t=5_s  ym=2_cm
 @ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=1. cm ffixedfixed=224 Hz ffixedfree=168 Hz ]
-@ C#19 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units".
+@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE works for v, k, ω, T BUT failed for y: "Inconsistent units".
 'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixedfixed;ffixedfree];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
 ```
 
@@ -2205,7 +2167,7 @@ A tube being open or closed at its ends admits only discrete harmonics as standi
 ```rpl
 λ=3_m f=110_Hz L=0.6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
 @ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=270.97654 1107 K s=4.15823 38163 6⁳⁻⁵ cm fopenopen=550. Hz fopenclose=412.5 Hz ]
-@ C#20 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for T "Inconsistent units".
+@ C#11 NOT OK MSOLVER: "Inconsistent units". SOLVE works for all unknowns except for T "Inconsistent units".
 'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
 ```
 
@@ -2226,7 +2188,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s  φ=25_°
 @ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=4.78368 41812 N/C B=1.59566 52856 2⁳⁻⁸ T ]
-@ C#21 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Constant?"
+@ C#12 NOT OK MSOLVER: "No solution ?". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Constant?"
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```
 

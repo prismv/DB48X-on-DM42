@@ -190,7 +190,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
     record(solve, "Initial range for %t is %t to %t", +goal, +lx, +hx);
 
     // We will run programs, do not save stack, etc.
-    settings::PrepareForFunctionEvaluation willEvaluateFunctions;
+    settings::PrepareForSolveFunctionEvaluation willEvaluateForSolve;
     settings::SaveNumericalConstants snc(true);
 
     // Set independent variable
@@ -226,8 +226,7 @@ algebraic_p Root::solve(program_r pgm, algebraic_r goal, algebraic_r guess)
     {
         if (expression_p eqeq = eq->as<expression>())
         {
-            settings::SavePrincipalSolution sps(true);
-            if (expression_p isol = eqeq->isolate(name))
+            if (expression_p isol = isolate(eqeq, name))
             {
                 expression_g left, right;
                 if (isol->split_equation(left, right))
@@ -772,6 +771,18 @@ list_p Root::multiple_equation_solver(list_r eqs, list_r names, list_r guesses)
     list_g result = names->map(recall);
     return result;
 }
+
+
+expression_p Root::isolate(expression_p eq, symbol_p name)
+// ----------------------------------------------------------------------------
+//   Attempt to isolate without emitting an error
+// ----------------------------------------------------------------------------
+{
+    settings::SavePrincipalSolution sps(true);
+    error_save ers;
+    return eq->isolate(name);
+}
+
 
 
 // ============================================================================

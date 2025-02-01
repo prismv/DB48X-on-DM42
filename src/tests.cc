@@ -5212,9 +5212,9 @@ void tests::units_and_conversions()
         .test(DOWN, DOWN, BSP, DOWN, DOWN, "_").editor("190_°")
         .test(ENTER).expect("190 °");
 
-    step("No auto-simplification for unit addition")
+    step("Auto-simplification for unit addition")
         .test(CLEAR, "1_s", ENTER, "0", ID_add)
-        .error("Inconsistent units");
+        .expect("1 s");
     step("No auto-simplification for unit subtraction")
         .test(CLEAR, "1_s", ENTER, ENTER, SUB)
         .noerror()
@@ -6418,10 +6418,10 @@ void tests::solver_testing()
         .noerror();
     step("Solver with slow slope")
         .test(CLEAR, "'tan(x)=224' 'x' 1 ROOT", ENTER)
-        .expect("x=89.74421 69693");
+        .expect("x=89.74421 69693 °");
     step("Solver with slow slope 2")
         .test(CLEAR, "'tan(x)=224' 'x' 0 ROOT", ENTER)
-        .expect("x=89.74421 69693");
+        .expect("x=89.74421 69693 °");
 
 
     step("Solving menu")
@@ -6454,7 +6454,7 @@ void tests::solver_testing()
 
     step("Solving with large values (#1179)")
         .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
-        .expect("x=30.");
+        .expect("x=30. °");
     step("Solving equation containing a zero side (#1179)")
         .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
         .expect("x=2.82143 93721 2");
@@ -6557,17 +6557,17 @@ void tests::eqnlib_columns_and_beams()
         .test(NOSHIFT, F1)
         .expect("'676.60192 6324 kN"
                 "=6.76601 92632 4⁳¹⁴ kPa·mm↑4/m↑2"
-                "-0.00000 0003 kPa·mm↑4/m↑2'");
+                "+0.00000 0005 kPa·mm↑4/m↑2'");
     step("Solving Elastic Buckling third equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F2)
         .expect("σcr=127 428.24437 8 kPa")
         .test(NOSHIFT, F1)
-        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2-9.⁳⁻²² kN/cm↑2'");
+        .expect("'127 428.24437 8 kPa=12.74282 44378 kN/cm↑2'");
     step("Solving Elastic Buckling fourth equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
         .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
-        .expect("'4.1148 cm=411.48 mm↑2/cm-5.8⁳⁻²⁰ mm↑2/cm'");
+        .expect("'4.1148 cm=411.48 mm↑2/cm-6.⁳⁻²¹ mm↑2/cm'");
 
     step("Solving Eccentric Columns")
         .test(CLEAR, ID_EquationsMenu, F2, RSHIFT, F2)
@@ -6756,7 +6756,7 @@ void tests::eqnlib_columns_and_beams()
         .test("8_ft", NOSHIFT, F4)
         .expect("x=8 ft")
         .test(F6, LSHIFT, F2)
-        .expect("Mx=-200. ft·lbf");
+        .expect("Mx=-200 ft·lbf");
 
     step("Solving Cantilever Shear")
         .test(CLEAR, EXIT, ID_EquationsMenu, F2, F6, RSHIFT, F5)
@@ -6771,7 +6771,7 @@ void tests::eqnlib_columns_and_beams()
         .test("100_lbf/ft", NOSHIFT, F1)
         .expect("w=100 lbf/ft")
         .test(F6, LSHIFT, F5)
-        .expect("V=200. lbf");
+        .expect("V=200 lbf");
 
     step("Exit: Clear variables")
         .test(CLEAR,

@@ -800,7 +800,7 @@ Here is an example that illustrates these capabilities, testing the
 
 ```rpl
 V=240_V  I=32_A
-@ Expecting [ R=7.5 Ω P=7 680. W ]
+@ Expecting [ R=7.5 Ω P=7 680 W ]
 'ROOT(ⒺOhm’s Law & Power;[R;P];[1_Ω;1_W])'
 ```
 

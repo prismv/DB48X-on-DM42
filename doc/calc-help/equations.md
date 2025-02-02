@@ -2643,9 +2643,7 @@ Einstein explained the photoelectric effect with the energy quantification of th
 * To calculate `[f_Hz;Eph_eV;f0_Hz;λ0_nm;Kmax_eV;Vo_V;vmax_m/s]` (Frequency, Photon energy; Threshold frequency; Threshold wavelength; Maximum kinetic energy of photoelectron; Stoping potential; Maximum speed of photoelectron) from 2 known variables:
 ```rpl
 φ=4.01_eV  λ=207_nm
-@ Expecting [ f=1.44827 27439 6⁳¹⁵ Hz Eph=1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV Vo=1 V vmax=834 442.55677 6 m/s ]
-@ Failing [ f=1.44827 27439 6⁳¹⁵ Hz Eph=5.98957 22016 1 eV f0=9.69614 10728 5⁳¹⁴ Hz λ0=309.18739 2951 nm Kmax=1.97957 22016 1 eV V0=1.97957 30615 6 V vmax=834 442.55677 6 m/s ]
-@ C#30 NOT OK MSOLVE: Hallucinates values of Eph, V0. SOLVE for f, f0 & vmax: "Sign reversal", hallucinates for V0
+@ Expecting [ f=1.4483⁳¹⁵ Hz Eph=5.98965 eV f0=9.6961⁳¹⁴ Hz λ0=309.19 nm Kmax=1.97965 eV Vo=1.9796 V vmax=859 650. m/s ]
 'ROOT(ⒺPhotoelectric Effect;[f;Eph;f0;λ0;Kmax;Vo;vmax];[1_Hz;1_eV;1_Hz;1_nm;1_eV;1_V;1_m/s])'
 ```
 
@@ -2658,7 +2656,7 @@ In the Compton Scattering, both energy and momentum are conserved during the col
 * To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
 ```rpl
 θ=40_°  λ=0.024_nm
-@ Failing [ λp=2.45676 48762 3⁳⁻² nm K=1 193.63352 749 eV γ=1.00233 58835 6 β=6.82308 49980 5⁳⁻² v=20 455 094.2271 m/s Eph=51 660.06023 89 eV Epph=50 466.42671 14 eV p=1.86768 55511 5⁳⁻²³ kg·m/s φ=68.16075 25236 ° ]
+@ Expecting [ λp=0.02459 12 nm K=1 241.99 eV γ=1.00243 β=0.07785 v=23 338 800. m/s Eph=51 659.8 eV Epph=50 417.8 eV p=2.13118⁳⁻²³ kg·m/s φ=54.009 ° ]
 @ C#31 NOT OK MSOLVE: "Divide by zero". SOLVE hallucinates for K, Eph, Epph, p for β "Divide by zero"
 'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
 ```
@@ -2670,7 +2668,7 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 * To calculate `[λ_nm;K_eV;v_m/s;d_nm]` (De Broglie wavelength of scattered photon; Kinetic energy of scattered electron; Speed of the scattered electron; Distance between adjacent atomic planes) from 3 known variables:
 ```rpl
 θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
-@ Expecting [ λ=6.62607 015⁳⁻² nm K=342.34892 9334 eV v=1 m/s d=1.03083 35210 8⁳⁻¹ nm ]
+@ Expecting [ λ=0.06626 1 nm K=342.585 eV v=10 977 600. m/s d=0.10330 3 nm ]
 @ Failing [ λ=6.62607 015⁳⁻² nm K=342.58664 2473 eV v=10 977 691.0426 m/s d=0.10308 33521 08 nm ]
 @ C#32 NOT OK MSOLVE: hallucinates values of K, v & d. SOLVE: idem except for d
 'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
@@ -2683,9 +2681,7 @@ Since the hydrogen atom is a bound system between the proton of the nucleus and 
 * **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the emitted photon) from 3 known variables:
 ```rpl
 np=2  n=1  Z=1
-@ Expecting [ Enp=1 eV En=-13.84340 03518 eV r=5.29177 21054 7⁳⁻¹¹ m f=3.58911 97958 1⁳¹⁵ Hz Eph=14.60568 72124 eV λ=83.52812 80802 nm ]
-@ Failing [ Enp=-3.40142 18031 eV En=-13.60568 72124 eV r=5.29177 21054 7⁳⁻¹¹ m f=2.46738 14701 6⁳¹⁵ Hz λ=121.50227 3412 nm ]
-@ C#33 NOT OK MSOLVE & SOLVE: hallucinates values of Enp, En, f & λ. SOLVE: idem except for λ.
+@ Expecting [ Enp=-3.40149 eV En=-1.36058⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.2917⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.2247⁳¹⁴ Hz Eph=-3.40145 eV λ=-364.5 nm ]
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 * **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed photon) from 3 known variables (Note: instead to `n→∞` one can choose `n=9.99999E999999`):
@@ -2759,7 +2755,7 @@ For all nuclear reactions, including nuclear decays, we have charge conservation
 * **Example 1** For a sample of 1 g of radium, to calculate `[Thl_s;abtot;N0;A0_Bq;N;A_Bq]` (Half-life of radionuclide, Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Final total activity at time `t`) from 6 known variables:
 ```rpl
 m=1_g  MW=226_(g/mol)  λ=1.37364 03205 5⁳⁻¹¹_s^-1  abparent=1  abdaughter=1  t=400_yr
-@ Expecting [ Thl=5.04606 02400 1⁳¹⁰ s abtot=1 N0=2.66466 40531⁳²¹ A0=3.66028 99840 5⁳¹⁰ Bq N=2.24047 19403 2⁳²¹ A=3.07760 25942 9⁳¹⁰ Bq ]
+@ Expecting [ Thl=5.04608⁳¹⁰ s abtot=1 N0=2.66464⁳²¹ A0=3.6602⁳¹⁰ Bq N=2.24037⁳²¹ A=3.07742⁳¹⁰ Bq ]
 'ROOT(ⒺRadioactivity;[Thl;abtot;N0;A0;N;A];[1_s;1;1;1_Bq;1;1_Bq])'
 ```
 * **Example 2** For the C14 datation (present in the atmosphere) of a 10 g sample of carbon having an activity of 30 decays/min, to calculate `[λ_s^-1;abtot;N0;A0_Bq;t_yr]` (Decay constant; Total abundance, Initial number of nuclide, Initial total activity; Final number of nuclide at time `t`; Age of the sample) from 6 known variables:
@@ -2813,15 +2809,13 @@ The β⊖ Decay reaction has 3 products: the daughter nuclide, an electron & a
 * **Example 1** For the β⊖ decay of Th234 into Pa234, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron of Th234; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=234  Z=90  AXβ⊖=234  ZXβ⊖=90  mX=234.0436014_u  mY=234.0433085_u
-@ Failing [ N=144 Δm=0.00029 29 u Qβ⊖=2.72834 50445 7⁳⁻¹ MeV Kmax=2.72834 50445 7⁳⁻¹ MeV γmax=1.53392 40376 3 βmax=0.75828 53739 86 AYβ⊖=234 ZYβ⊖=91 ]
-@ C#37 NOT OK MSOLVER: "Inconsistent units". SOLVE OK for N, Δm, Q, ΔKmax, Aβ⊖ & ZYβ⊖ but fails for γmax & βmax.
+@ Expecting [ N=144 Δm=0. u Qβ⊖=0. MeV Kmax=0. MeV γmax=1. βmax=0. AYβ⊖=234 ZYβ⊖=91 ]
 'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 * **Example 2** For the β⊖ decay of C14 into N14, to calculate `[N;Δm_u;Qβ⊖_MeV;Kmax_MeV;γmax;βmax;AYβ⊖;ZYβ⊖]` (Number of neutron of C14; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=14  Z=6  AXβ⊖=14  ZXβ⊖=6  mX=14.0032419884_u  mY=14.00307400443_u
-@ Failing [ N=8 Δm=0.00016 79839 7 u Qβ⊖=0.15647 60096 MeV Kmax=0.15647 60096 MeV γmax=1.30621 60447 9 βmax=0.64335 24392 36 Aβ⊖=14 ZYβ⊖=7 ]
-@ C#37 NOT OK MSOLVER: "Inconsistent units". SOLVE OK for N, Δm, Q "Sign reversal" & ΔKtot but fails for γmax & βmax
+@ Expecting [ N=8 Δm=0.0002 u Qβ⊖=0.18629 MeV Kmax=0.18629 MeV γmax=1.36457 βmax=0.6912 AYβ⊖=14 ZYβ⊖=7 ]
 'ROOT(Ⓔβ⊖ Decay;[N;Δm;Qβ⊖;Kmax;γmax;βmax;AYβ⊖;ZYβ⊖];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 
@@ -2832,8 +2826,7 @@ The β⊕ Decay reaction has 3 products: the daughter nuclide, a positron & a 
 * For the β⊕ decay of K40 (present in bananas) into Ar40, to calculate `[N;Δm_u;Qβ⊕_MeV;Kmax_MeV;γmax;βmax;AYβ⊕;ZYβ⊕]` (Number of neutron of K40; Mass default; Reaction energy; Maximum kinetic energy of the electron, Maximum Lorentz factor; Maximum relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=40  Z=19  AXβ⊕=40  ZXβ⊕=19  mX=39.963998166_u  mY=39.9623831237_u
-@ Failing [ N=21 Δm=5.17882 48191 5⁳⁻⁴ u Qβ⊕=4.82404 26876 2⁳⁻¹ MeV Kmax=4.82404 26876 2⁳⁻¹ MeV γmax=1.94404 20135 3 βmax=0.85755 50653 48 Aβ⊕=40 ZYβ⊕=18 ]
-@ C#38 NOT OK MSOLVER: "Inconsistent units". SOLVE fails Δm, Q & ΔKtot.
+@ Expecting [ N=21 Δm=0.00050 28 u Qβ⊕=0.46834 MeV Kmax=0.46834 MeV γmax=1.91653 βmax=1.919 AYβ⊕=40 ZYβ⊕=18 ]
 'ROOT(Ⓔβ⊕ Decay;[N;Δm;Qβ⊕;Kmax;γmax;βmax;AYβ⊕;ZYβ⊕];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 
@@ -2842,21 +2835,19 @@ A=40  Z=19  AXβ⊕=40  ZXβ⊕=19  mX=39.963998166_u  mY=39.9623831237_u
 * **Example 1**  For the nuclear reaction: α + N14 → O17 + p (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of N14; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, the α & p are replaced here by the neutral atoms He4 & H1):
 ```rpl
 A=14  Z=7  AX=14  ZX=7  Aa=4  Ab=1  Za=2  Zb=1  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.00782503223_u
-@ Expecting [ N=7. Δm=-1.27953 017⁳⁻³ u Q=-1.19187 42911 2 MeV ΔKtot=-1.19187 42911 2 MeV AY=17. ZY=8. ]
+@ Expecting [ N=7 Δm=-0.00132 u Q=-1.2295 MeV ΔKtot=-1.2295 MeV AY=17 ZY=8 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 * **Example 2**  For the nuclear reaction: α + Al27 → P30 + n (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Al27; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, α is replaced by the neutral atom He4):
 ```rpl
 A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=14.00307400443_u  mY=16.99913175650_u  ma='ⒸmHe'  mb='Ⓒmn'
-@ Expecting [ N=14. Δm=1 u Q=931.49369 9069 MeV ΔKtot=931.49369 9069 MeV AY=30. ZY=15. ]
-@ Failing [ N=14 Δm=-2.11941 39960 6⁳⁻³ u Q=-1.97422 07830 5 MeV ΔKtot=-1.97422 07830 5 MeV AY=30 ZY=15 ]
-@ C#39 NOT OK MSOLVER: hallucinates all values except N, AY & ZY. SOLVE fails Δm, Q & ΔKtot
+@ Expecting [ N=14 Δm=-0.00218 001 u Q=-2.0306 MeV ΔKtot=-2.0306 MeV AY=30 ZY=15 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 * **Example 3**  For the fusion nuclear reaction: D2 + Li6 → He4 + He4 (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Li6; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of one of the daughter nuclide) from 12 known variables :
 ```rpl
 A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.00260325413_u  ma=2.01410177812_u  mb='ⒸmHe'
-@ Expecting [ N=3. Δm=2.40181 5726⁳⁻² u Q=22.37276 21509 MeV ΔKtot=22.37276 21509 MeV AY=4. ZY=2. ]
+@ Expecting [ N=3 Δm=0.02402 u Q=22.374 MeV ΔKtot=22.374 MeV AY=4 ZY=2 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 
@@ -2865,16 +2856,12 @@ A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.0026032541
 * **Example 1** For the fission reaction: n + U235 → Xe140 + Sr94 + 2n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron of U235; Mass default; Reaction energy; Variation of total kinetic energy; Mass number & Proton number of one of the two products of fission, Xe140) from 10 known variables:
 ```rpl
 A=235  Z=92  AX=235  ZX=92  AY2=94  ZY2=38  mX=235.043924_u  mY1=139.9216458_u  mY2=93.915361_u  nn=2
-@ Expecting [ N=143. Δm=1 u Q=931.49369 9069 MeV ΔKtot=931.49369 9069 MeV AY1=140. ZY1=54. ]
-@ Failing [ N=143 Δm=0.19825 22839 44 u Q=184.67075 332 MeV ΔKtot=184.67075 332 MeV AY1=140 ZY1=54 ]
-@ C#40 NOT OK MSOLVER: hallucinates all values except N, AY1 & XY1. SOLVE fails Δm, Q & ΔKtot.
+@ Expecting [ N=143 Δm=0.19740 6 u Q=183.88 MeV ΔKtot=183.88 MeV AY1=140 ZY1=54 ]
 'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 * **Example 2** For the fission reaction: n + Pu239 → Xe134 + Zr103 + 3n (represented as n + X → Y1 + Y2 + `nn`*n where `nn` is the number of produced neutrons), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY1;ZY1]` (Number of neutron of Pu239; Mass default; Reaction energy; Variation of total kinetic energy; Mass number & Proton number of one of the two products of fission, Xe134) from 10 known variables:
 ```rpl
 A=239  Z=94  AX=239  ZX=94  AY2=103  ZY2=40  mX=239.052157_u  mY1=133.90539466_u  mY2=102.926597_u  nn=3
-@ Expecting [ N=145. Δm=1 u Q=931.49369 9069 MeV ΔKtot=931.49369 9069 MeV AY1=134. ZY1=54. ]
-@ Failing [ N=145 Δm=0.20283 55078 88 u Q=188.93999 7545 MeV ΔKtot=188.93999 7545 MeV AY1=134 ZY1=54 ]
-@ C#340 NOT OK MSOLVER: hallucinates all values except N, AY1 & ZY1. SOLVE fails Δm, Q & ΔKtot.
+@ Expecting [ N=145 Δm=0.20294 6 u Q=189.04 MeV ΔKtot=189.04 MeV AY1=134 ZY1=54 ]
 'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
 ```

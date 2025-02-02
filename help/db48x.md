@@ -9117,8 +9117,6 @@ At all scales where measurements have been possible, matter exhibits wave-like b
 ```rpl
 θ=40_°  p=1e-23_kg*m/s m=Ⓒme n=2
 @ Expecting [ λ=0.06626 1 nm K=342.585 eV v=10 977 600. m/s d=0.10330 3 nm ]
-@ Failing [ λ=6.62607 015⁳⁻² nm K=342.58664 2473 eV v=10 977 691.0426 m/s d=0.10308 33521 08 nm ]
-@ C#32 NOT OK MSOLVE: hallucinates values of K, v & d. SOLVE: idem except for d
 'ROOT(ⒺDe Broglie Wave;[λ;K;v;d];[1_nm;1_eV;1_m/s;1_nm])'
 ```
 
@@ -9129,14 +9127,13 @@ Since the hydrogen atom is a bound system between the proton of the nucleus and 
 * **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the emitted photon) from 3 known variables:
 ```rpl
 np=2  n=1  Z=1
-@ Expecting [ Enp=-3.40149 eV En=-1.36058⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.2917⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.2247⁳¹⁴ Hz Eph=-3.40145 eV λ=-364.5 nm ]
+@ Expecting [ Enp=-3.40149 eV En=-13.6058 eV r=5.2917⁳⁻¹¹ m f=2.4674⁳¹⁵ Hz Eph=10.2043 eV λ=121.5 nm ]
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 * **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_Hz;Eph_eV;λ_nm]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed photon) from 3 known variables (Note: instead to `n→∞` one can choose `n=9.99999E999999`):
 ```rpl
 np=2  n=9.99999E999999  Z=1
-@ Failing [ Enp=-3.40142 18031 eV En=-1.36057 14423 8⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29176 15219 3⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.22460 49005 3⁳¹⁴ Hz Eph=-3.40142 18031 eV λ=-364.50682 0237 nm ]
-@ C#33 NOT OK MSOLVE "Constant?". SOLVE: hallucinates values of Enp, En, r, f & λ. SOLVE: idem except for λ.
+@ Expecting [ Enp=-3.40149 eV En=-1.36058⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.2917⁳¹⁹⁹⁹⁹⁸⁹ m f=-8.2247⁳¹⁴ Hz Eph=-3.40145 eV λ=-364.5 nm ]
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_Hz;1_eV;1_nm])'
 ```
 
@@ -9219,17 +9216,13 @@ m=10_g  MW=12.01_(g/mol)  Thl=5730_yr  abparent=0.989  abdaughter=1.3e-12  A=30_
 * **Example 1** For the C12, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 3 known variables:
 ```rpl
 N=6  Z=6  mX=12_u
-@ Expecting [ A=12. R=2.74731 416⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
-@ Failing [ A=12 R=2.74731 41821 3⁳⁻¹⁵ m V=8.68587 53686 6⁳⁻⁴⁴ m↑3 EB=92.16169 75587 MeV EBse=89.61225 87145 MeV ]
-@ C#35 NOT OK MSOLVER: hallucinates only the values of R & V. SOLVE hallucinates V.
+@ Expecting [ A=12 R=2.7193⁳⁻¹⁵ m V=8.4227⁳⁻⁴⁴ m↑3 EB=92.029 MeV EBse=89.947 MeV ]
 'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
 * **Example 2** For the U238, to calculate `[A;R_m;V_m^3;EB_MeV;EBse_MeV]` (Mass number of the nuclide; Radius & Volume of the nucleus; Binding energy; Semiempirical binding energy) from 3 known variables:
 ```rpl
 N=92  Z=146  mX=238.0507847_u
-@ Expecting [ A=238. R=7.43658 53⁳⁻¹⁵ m V=-2.⁳⁻²³ m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
-@ Failing [ A=238 R=7.43658 53216 9⁳⁻¹⁵ m V=1.72269 86147 8⁳⁻⁴² m↑3 EB=1 759.44468 491 MeV EBse=346.41011 9506 MeV ]
-@ C#35 NOT OK MSOLVER: hallucinates only the values of V. SOLVE hallucinates V.
+@ Expecting [ A=238 R=7.362⁳⁻¹⁵ m V=1.67139⁳⁻⁴² m↑3 EB=1 756.7 MeV EBse=324.82 MeV ]
 'ROOT(ⒺRadius & Binding Energy;[A;R;V;EB;EBse];[1;1_m;1_m^3;1_MeV;1_MeV])'
 ```
 
@@ -9238,15 +9231,13 @@ N=92  Z=146  mX=238.0507847_u
 * **Example 1** For the α decay of U238 into Th234, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron of U238; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=238  Z=92  AXα=238  ZXα=92  mX=238.0507847_u  mY=234.0436014_u
-@ Failing [ N=146 Δm=0.00458 00458 7 u Qα=4.26628 38693 5 MeV Kα=4.19573 64506 9 MeV γ=1.00112 53451 3 β=4.74014 42424 1⁳⁻² AYα=234 ZYα=90 ]
-@ C#36 NOT OK MSOLVER: "Inconsistent units". SOLVE OK for Δm, Qα & Kα but fails for γ & β.
+@ Expecting [ N=146 Δm=0.0044 u Qα=4.0985 MeV Kα=4.03074 MeV γ=1.00108 β=0.049 AYα=234 ZYα=90 ]
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 * **Example 2** For the α decay of Pu239 into U235, to calculate `[N;Δm_u;Qα_MeV;Kα_MeV;γ;β;AYα;ZYα]` (Number of neutron of Pu239; Mass default; Net energy balance; Kinetic energy of the α particle, Lorentz factor; Relativistic speed ratio; Mass number & Proton number of the daughter nuclide) from 6 known variables:
 ```rpl
 A=239  Z=94  AXα=239  ZXα=94  mX=239.052157_u  mY=235.043924_u
-@ Failing [ N=145 Δm=0.00562 97458 7 u Qα=5.24407 28052 7 MeV Kα=5.15771 39005 8 MeV γ=1.00138 33586 3 β=5.25450 92817 3⁳⁻² AYα=235 ZYα=92 ]
-@ C#36 NOT OK MSOLVER: "Inconsistent units". SOLVE OK for Δm, Qα & Kα but fails for γ & β.
+@ Expecting[ [ N=145 Δm=0.0064 u Qα=5.9614 MeV Kα=5.86324 MeV γ=1.00157 β=0.05684 AYα=235 ZYα=92 ]
 'ROOT(Ⓔα Decay;[N;Δm;Qα;Kα;γ;β;AYα;ZYα];[1;1_u;1_MeV;1_MeV;1;1;1;1])'
 ```
 

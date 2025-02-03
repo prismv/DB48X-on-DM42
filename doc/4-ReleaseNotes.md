@@ -1,5 +1,65 @@
 # Release notes
 
+## Release 0.9.0 "Wilson's Dream" - Full equation library
+
+This version integrates an extended version of the HP50G equation
+library that Jean Wilson has been working on for many weeks.
+Equations are also fully documented, with examples illustrating how to
+use them, and a full documentation of the variables they contain.
+
+It also fully enables the algebraic-assisted solver, i.e. a version of
+the solver that attempts to isolate variables to evaluate expressions
+directly, which is both faster and more accurate when possible.
+
+*WARNING* Equations in the current state of the library are not
+fully validated yet. DB48x users are invited to test them and report
+issues they find.
+
+*WARNING* Constants used in the library are relatively accurate and
+have been modernized compared to the HP50G version. However, an effort
+is underway to compute the physical constants that are not fundamental
+but derived from other constants. It is expected that the numerical
+values returned from the equations will changeslightly as constants
+are udpated.
+
+
+### Features
+
+* Improved equation library and documentation
+  The equation library now features more than 650 equations, more than
+  700 variables, 18 sections and 158 subsections. This is roughtly
+  twice as big as the HP50G equation library, and covers more modern
+  aspects of science such as nuclear physics.
+
+### Bug fixes
+
+* solver: Do not propagate errors during `isolate`
+  When using the algebraic-assisted solver, errors raised by the
+  internal calls to `isolate` no longer manifest as solver errors.
+* units: Do not leave error behind in `unit::convert_to_real`
+  This could cause spurious `Inconsistent units` errors while solving.
+* logical: Make logical operations behave symmetrically, i.e.
+  ensure that `#100+1` and `1+#100` both return `#101`.
+* nfunctions: Evaluate symbolic arguments symbolically and
+  fix bugs converting arguments to decimal.
+  The evaluation of `'∫(0;1;x+1;x)'` after `x=3` would result in a
+  nonsensical expression `'∫(0;1;4;3)'`.
+* integrate: Report errors in bound evaluation.
+  An error in the evaluation of the first bound could be "erased" if
+  the evaluation of the second bound was successful. For example, in
+  `'∫(0;1;sin(x)/x;x)'`, the `Divide by zero` error evaluating
+  `'sin(x)/x'` at `x=0` is erased by the successful evaluation at
+  `x=1` that follows.
+
+### Improvements
+
+* equations: Accept units in `isolate`
+  This allows many equations in the equation library to successfully
+  use the symbolic approach, improving accuracy significantly.
+* add/sub: Accept zero as an operand around units.
+  An operation like `1_km+0` is now accepted, and evaluates as `1_km`.
+
+
 ## Release 0.8.11 "Accomplishment" - Towards full equation library
 
 This release contains a number of fixes and features intended for use in the

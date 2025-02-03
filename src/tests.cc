@@ -6567,7 +6567,7 @@ void tests::eqnlib_columns_and_beams()
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
         .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
-        .expect("'4.1148 cm=411.48 mm↑2/cm-6.⁳⁻²¹ mm↑2/cm'");
+        .expect("'16.93157 904 cm↑2=169 315.7904 mm↑4/cm↑2+2.5⁳⁻¹⁷ mm↑4/cm↑2'");
 
     step("Solving Eccentric Columns")
         .test(CLEAR, ID_EquationsMenu, F2, RSHIFT, F2)

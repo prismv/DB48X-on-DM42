@@ -7431,9 +7431,9 @@ void tests::symbolic_operations()
         .expect("'(sin(42+B)+1)²+3·(sin(42+B)+1)+7'");
     step("Where operator on library equations")
         .test("'ⒺRelativity Mass Energy|m=(1_g)'", ENTER)
-        .expect("'Relativity Mass Energy:{E=m·c↑2}|m=1 g'")
+        .expect("'Relativity Mass Energy:{E=m·c²}|m=1 g'")
         .test(RUNSTOP)
-        .expect("{ 'E=¹/₁ ₀₀₀ kg·c↑2' }");
+        .expect("{ 'E=¹/₁ ₀₀₀ kg·c²' }");
 
     step("Isolate a single variable, simple case")
         .test(CLEAR, "'A+1=sin(X+B)+C' 'X' ISOL", ENTER)

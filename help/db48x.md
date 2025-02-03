@@ -11307,7 +11307,7 @@ For example, to preload the `Dedicace` library item, you can use one of:
 ```rpl
 'Dedicace' Attach
 Libs
-@ Expecting { Dedicace }
+@ Expecting { Dedicace SiDensity }
 ```
 
 
@@ -11326,7 +11326,7 @@ For example, to unload the `Dedicace` and `KineticEnergy` library item, you can 
 ```rpl
 { Dedicace "KineticEnergy" } Detach
 Libs
-@ Expecting { }
+@ Expecting { SiDensity }
 ```
 
 ## Libs

@@ -1250,9 +1250,9 @@ static const cstring basic_equations[] =
     //T#*: 43 vars 56 eqns 7 sims 6 secs
     "Planck & Wien Comparison",  "{ "
     // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
-    "'(fpeak_Hz)=Ⓒk*Root((-3)*expm1(-x)-x;x;2)*(T_°K)/Ⓒh' "
-    "'(f1_Hz)=Ⓒk*4*UBASE(T_K)/Ⓒh' "
-    "'(f2_Hz)=Ⓒk*9*UBASE(T_K)/Ⓒh' "
+    "'(fpeak_THz)=Ⓒc*UBASE(T_K)/Ⓒc3' "
+    "'(f1_THz)=Ⓒk*4*UBASE(T_K)/Ⓒh' "
+    "'(f2_THz)=Ⓒk*9*UBASE(T_K)/Ⓒh' "
     "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);x)' "
     "'FrWn12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/exp(x);x)' "
     "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12*100' "
@@ -1269,9 +1269,9 @@ static const cstring basic_equations[] =
 
     "Planck & Rayleigh‐Jeans Comparison",  "{ "
     // Eqns order change. Modifications to eqns 6, 9, 11 & 12
-    "'(fpeak_Hz)=Ⓒk*ROOT((-3)*expm1(-x)-x;x;2)*(T_°K)/Ⓒh' "
-    "'(f1_Hz)=Ⓒk*1.7*UBASE(T_K)/Ⓒh' "
-    "'(f2_Hz)=Ⓒk*3.7*UBASE(T_K)/Ⓒh' "
+    "'(fpeak_THz)=Ⓒc*UBASE(T_K)/Ⓒc3' "
+    "'(f1_THz)=Ⓒk*1.7*UBASE(T_K)/Ⓒh' "
+    "'(f2_THz)=Ⓒk*3.7*UBASE(T_K)/Ⓒh' "
     "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);x)' "
     "'FrRJ12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x²;x)' "
     "'%rFr12=ABS(FrPl12-FrRJ12)/FrPl12*100' "

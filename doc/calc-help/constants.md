@@ -741,9 +741,27 @@ wavelengths as temperature increases.
 Formally, the wavelength version of Wien's displacement law states that the
 spectral radiance of black-body radiation per unit wavelength, peaks at the
 wavelength `λpeak=c3/T` where `T` is absolute temperature. From a theoretic 
-expression (using Lambert function), it is approximately given by:
+expression (using Lambert W function), it is approximately given by:
 ```rpl
     34 SIG  c3=2.897771955185172661478605448092885_mm*K  Usc3=0_mm*K  Urc3=0
+```
+
+### c3f constant
+
+Wien's frequency constant is the frequency version of the third radiation 
+constant. In physics, Wien's frequency displacement law states that the 
+black-body radiation curve for different temperatures will peak at different 
+frequencies that are directly proportional to the temperature. The shift of 
+that peak is a direct consequence of the Planck radiation law, which describes 
+the spectral brightness or intensity of black-body radiation as a function 
+of frequency at any given temperature.
+
+Formally, the frequency version of Wien's displacement law states that the
+spectral radiance of black-body radiation per unit frequency, peaks at the
+frequency `fpeak=Ⓒc3f·T` where `T` is absolute temperature. From a theoretic 
+expression (using Lambert W function), it is approximately given by:
+```rpl
+    34 SIG  c3f=0.05878925757646824946606130795309722_THz/K  Usc3f=0_THz/K  Urc3f=0
 ```
 
 ### kq constant

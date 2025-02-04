@@ -553,6 +553,10 @@ static const cstring basic_constants[] =
     "c3",       "2.897771955185172661478605448092885_mm*K",
     "Usc3",     "0_mm*K",
     "Urc3",     "0",
+//c3f constant; *Wien's frequency constant - Theory approximation
+    "c3f",      "0.05878925757646824946606130795309722_THz/K",
+    "Usc3f",    "0_THz/K",
+    "Urc3f",    "0",
 //kq constant; * kq ratio - Exact calculation
     "kq",       "'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))'",   
     "Uskq",     "0_J/(K*C)",

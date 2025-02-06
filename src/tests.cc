@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            check_help_examples();
+            units_and_conversions();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -5351,6 +5351,21 @@ void tests::units_and_conversions()
     step("Convert dimensionless argument to sub")
         .test(CLEAR, "'3-1_km/in'", ENTER, ID_Run)
         .expect("-39 367 ¹⁰/₁₂₇");
+
+    step("UVAL for unit value")
+        .test(CLEAR, "1_km", ID_UnitsConversionsMenu, ID_UVal)
+        .expect("1")
+        .test(CLEAR, "1.23_m/s", ID_UVal)
+        .expect("1.23")
+        .test(CLEAR, "'UVAL(4.35_km)'", ENTER, ID_Run)
+        .expect("4.35");
+    step("UVAL for number")
+        .test(CLEAR, "123", ID_UVal)
+        .expect("123")
+        .test(CLEAR, "-1.23", ID_UVal)
+        .expect("-1.23")
+        .test(CLEAR, "'UVAL(3/4)'", ENTER, ID_Run)
+        .expect("³/₄");
 }
 
 

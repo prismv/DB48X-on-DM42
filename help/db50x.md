@@ -6777,14 +6777,14 @@ These equations describe the electrostatic force between two point charged parti
 * **Example 1**. To calculate `[F_N;Er_N/C]` (Electric force; Electric Field at position `r`) from 5 known variables:
 ```rpl
 q1=1.6E-19_C  q2=1.6E-19_C  r=4.00E-13_cm  εr=1  qtest=1.6E-19_C
-@ Expecting [ F=14.38008 28578 N Er=8.98755 17861 3⁳¹⁹ N/C ]
+@ Expecting [ F=14.38008 28579 N Er=8.98755 17861 7⁳¹⁹ N/C ]
 'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 ```
 
 * **Example 2**. A square metal plate `L = 8_cm` on a side carries a charge of `q1 = 6_μC`. Approximate values of the electric force & electric field for a point charge `q2 = 1_μC` located at `r = 3_m` can be calculated with Coulomb’s law if the separation distance is much greater than the plate dimension `r >> L`. The whole plate is indeed considered as being a point charge providing that `r > 10 · L`. Therefore, to calculate `[F_N;Er_N/C]`:
 ```rpl
 L=8_cm r=3_m q1=6E-6_C  q2=1E-6_C  r=3_m  εr=1  qtest=1E-6_C
-@ Expecting [ F=5.99170 11907 5⁳⁻³ N Er=5 991.70119 075 N/C ]
+@ Expecting [ F=5.99170 11907 8⁳⁻³ N Er=5 991.70119 078 N/C ]
 if 'r > 10*L' then
  'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 end
@@ -6797,7 +6797,7 @@ The expression for the radial electric field at the distance `r` is approximatel
 * To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) from 4 known variables:
 ```rpl
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 5 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=599 170.11907 8 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
 @ Keep
 ```
@@ -6817,7 +6817,7 @@ The expression of the radial electric field at the distance `r` depends on the s
 ```rpl
 r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 892 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 894 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 @ Keep
 ```
@@ -6826,7 +6826,7 @@ Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
 ```rpl
 Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ1='atan(L/2/r)' θ2='360_°-θ1'
 if 'r < L/10' then
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 4 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 7 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
 @ Keep
@@ -6834,7 +6834,7 @@ end
 Verify relative difference under condition `5_cm << 3_m` with the example of [E Field Infinite Line](#E Field Infinite Line)
 ```rpl
 Er0 Er %Ch
-@ Expecting -5.55093 02084 6⁳⁻²
+@ Expecting -0.05550 93020 85
 @ % of relative difference
 ```
 
@@ -6845,7 +6845,7 @@ The expression of the perpendicular electric field is constant over an infinite 
 * To calculate `[Ep_N/C;σ_C/m^2]` (Electric Field; Linear charge density) at position `[d=5_mm]` above a square plate of width `[L=8_cm]` and surface `A=L^2` where `d << L` when `d < L/10` is verified:
 ```rpl
 L=8_cm A='L^2' d=5_mm Q=6E-6_C  A=64_cm^2  εr=1
-@ Expecting [ σ=0.00000 00937 5 C/cm↑2 Ep=52 941 049.997 N/C ]
+@ Expecting [ σ=0.00000 00937 5 C/cm↑2 Ep=52 941 049.9972 N/C ]
 if 'd < L/10' then
  'ROOT(ⒺE Field Infinite Plate;[σ;Ep];[1_C/cm^2;1_N/C])'
 end
@@ -6945,7 +6945,7 @@ E=0.025_J  C=20_μF
 * To calculate `[uE_(J/m^3)]` (Volumic density electric energy) from 2 known variables:
 ```rpl
 E=5_V/m  εr=1
-@ Expecting [ uE=1.10677 34773 6⁳⁻¹⁰ J/m↑3 ]
+@ Expecting [ uE=1.10677 34773 5⁳⁻¹⁰ J/m↑3 ]
 'ROOT(ⒺVolumic Density Electric Energy;[uE];[1_(J/m^3)])'
 ```
 
@@ -7040,7 +7040,7 @@ L=500_mH  C=8_μF  R=10_Ω
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
-@ Expecting [ d=80.04185 78823 pm σ=750 000. μC/m↑2 Ein=3.74803 89378 4⁳¹⁰ N/C ΔV=3. V ]
+@ Expecting [ d=80.04185 7882 pm σ=750 000. μC/m↑2 Ein=3.74803 89378 6⁳¹⁰ N/C ΔV=3. V ]
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_pm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -7051,7 +7051,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[C_μF;ΔV_V]` (Capacitance; Voltage) from 5 known variables:
 ```rpl
 εr=1  Q=75_μC  ro=1_cm  ri=.999_cm  L=10_cm
-@ Expecting [ C=5 560.46819 206 pF ΔV=13 488.07284 02 V ]
+@ Expecting [ C=5 560.46819 203 pF ΔV=13 488.07284 02 V ]
 'ROOT(ⒺCylindrical Capacitor;[C;ΔV];[1_pF;1_V])'
 ```
 
@@ -7062,7 +7062,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[L_mH]` (Inductance) from 4 known variables:
 ```rpl
 μr=2.5  n=40_1/cm  A=0.2_cm^2  h=3_cm
-@ Expecting [ L=3.01592 89470 3⁳⁻² mH ]
+@ Expecting [ L=0.03015 92894 7 mH ]
 'ROOT(ⒺSolenoid Inductance;[L];[1_mH])'
 ```
 
@@ -7073,7 +7073,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 * To calculate `[L_mH]` (Inductance) from 4 known variables:
 ```rpl
 μr=1  N=5000  h=2_cm  ri=2_cm  ro=4_cm
-@ Expecting [ L=69.31471 80464 mH ]
+@ Expecting [ L=69.31471 80468 mH ]
 'ROOT(ⒺToroid Inductance;[L];[1_mH])'
 ```
 
@@ -7602,14 +7602,14 @@ The magnetic field expression differs depending upon whether the point at `r` is
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 4 known variables:
 ```rpl
 μr=1  rw=0.25_cm  r=0.2_cm  I=25_A
-@ Expecting [ B=1.59999 99997 8⁳⁻³ T ]
+@ Expecting [ B=1.59999 99997 9⁳⁻³ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 ```
 
 * **Example 2.** Outside the wire, to calculate `[B_T]` (Magnetic field) from 4 known variables:
 ```rpl
 μr=1  rw=0.25_cm  r=5_cm  I=25_A
-@ Expecting [ B=9.99999 99986 2⁳⁻⁵ T ]
+@ Expecting [ B=9.99999 99986 8⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
 @ Save B for later
 ```
@@ -7629,7 +7629,7 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 * **Example 1.** To calculate `[B_T]` (Magnetic field) from 6 known variables:
 ```rpl
 μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ1=30_°  θ2=150_°
-@ Expecting [ B=8.66025 40366 5⁳⁻⁵ T ]
+@ Expecting [ B=8.66025 40367⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
 @ Save for test below
 ```
@@ -7638,7 +7638,7 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 ```rpl
 L=3_m  μr=1  rw=0.25_cm  r=5_cm  I=25_A  θ1='atan(r/L/2)'  θ2='180_°-θ1'
 if 'r < L/10' then
-@ Expecting [ B=9.99965 27944 8⁳⁻⁵ T ]
+@ Expecting [ B=9.99965 27945 4⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
 end
 @ Save for test below
@@ -7659,7 +7659,7 @@ The force between wires is positive for an attractive force (for currents having
 * To calculate `[Fba_N]` (Magnetic force) from 4 known variables:
 ```rpl
 Ia=10_A  Ib=20_A  μr=1  L=50_cm  d=1_cm
-@ Expecting [ Fba=1.99999 99997 2⁳⁻³ N ]
+@ Expecting [ Fba=1.99999 99997 4⁳⁻³ N ]
 'ROOT(ⒺForce Between Wires;[Fba];[1_N])'
 ```
 
@@ -7692,7 +7692,7 @@ The expression for the magnetic field in the center depends on the subtended int
 * **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 5 known variables:
 ```rpl
 μr=10  nl=5_mm^-1  I=1.25_A  α1=150_°  α2=30_°
-@ Expecting [ B=0.06801 74761 49 T ]
+@ Expecting [ B=6.80174 76149 8⁳⁻² T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 @ Save variables for later use
 ```
@@ -7701,7 +7701,7 @@ The expression for the magnetic field in the center depends on the subtended int
 ```rpl
 L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'
 if 'r < L/10' then
-@ Expecting [ B=0.07852 89102 93 T ]
+@ Expecting [ B=0.07852 89102 94 T ]
 'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
 end
 @ Save variables for later use
@@ -7722,7 +7722,7 @@ The magnetic field `B` is calculated in the center of the torroid. The right-han
 * To calculate `[B_T]` (Magnetic field) from 5 known variables:
 ```rpl
 μr=10  N=50  ri=5_cm  ro=7_cm  I=10_A
-@ Expecting [ B=1.66666 66664 4⁳⁻² T ]
+@ Expecting [ B=1.66666 66664 5⁳⁻² T ]
 'ROOT(ⒺB Field In Toroid;[B];[1_T])'
 ```
 
@@ -7770,7 +7770,7 @@ m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=3
 * To calculate `[uB_(J/m^3)]` (Volumic density of magnetic energy) from 2 known variables:
 ```rpl
 μr=3.0  B=0.8_T
-@ Expecting [ uB=84 882.63632 74 J/m↑3 ]
+@ Expecting [ uB=84 882.63632 69 J/m↑3 ]
 'ROOT(ⒺVolumic Density Magnetic Energy;[uB];[1_(J/m^3)])'
 ```
 
@@ -8064,7 +8064,7 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 * To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
-@ Expecting [ I=7.5 W/m↑2 Ix=0.06751 63889 32 W/m↑2 E0=86.80210 98142 V/m ]
+@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88932 1⁳⁻² W/m↑2 E0=86.80210 98145 V/m ]
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
@@ -8438,7 +8438,7 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 * To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
 ```rpl
 ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
-@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=1.01379 20414 3 V xd=5.25726 51776 8 μ Cj=2 004.17577 358 pF/cm↑2 Emax=79 941.91402 27 V/cm BV=358.08260 5883 V J=-1.⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 33552 9⁳⁻¹⁵ mA ]
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=1.01379 20414 3 V xd=5.25726 51776 7 μ Cj=2 004.17577 358 pF/cm↑2 Emax=79 941.91402 29 V/cm BV=358.08260 5881 V J=-1.⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 33552 9⁳⁻¹⁵ mA ]
 'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_cm^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
 ```
 
@@ -8451,7 +8451,7 @@ These equations for a silicon NMOS transistor use a two-port network model. They
 * To calculate `[ni_(cm^-3);We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Silicon density; Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
 ```rpl
 tox=700_Å  NA=1e15_1/cm^3  μn=600_(cm^2)/(V*s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
-@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ We=23 μ Le=2.5 μ Cox=49 330.47499 07 pF/cm↑2 γ=0.37247 98153 09 V↑(¹/₂) φp=-0.29855 35180 52 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 6 mA gds=1.48916 37137 8⁳⁻⁴ S gm=1.42391 28597 6 mA/V ]
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ We=23 μ Le=2.5 μ Cox=49 330.47499 05 pF/cm↑2 γ=0.37247 98153 1 V↑(¹/₂) φp=-0.29855 35180 52 V Vt=0.75 V VDsat=4.25 V IDS=2.97832 74275 5 mA gds=1.48916 37137 7⁳⁻⁴ S gm=1.42391 28597 5 mA/V ]
 'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_cm^-3;1_μ;1_μ;1_pF/cm^2;1_V^(1/2);1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
 ```
 
@@ -8481,7 +8481,7 @@ drain, and source resistances) are negligible.
 * To calculate `[ni_(cm^-3);Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Silicon density; Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
 ```rpl
 ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  T=26.85_°C
-@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=0.35807 99473 84 V xdmax=1.04848 18266 6 μ G0=5.99854 93177⁳⁻⁴ S ID=0.21443 71687 18 mA VDsat=3.24491 50809 3 V Vt=-7.24491 50809 3 V gm=0.14570 26745 72 mA/V ]
+@ Expecting [ ni=9.64987 39813 5⁳⁹ (cm↑3)⁻¹ Vbi=0.35807 99473 84 V xdmax=1.04848 18266 6 μ G0=5.99854 93177⁳⁻⁴ S ID=0.21443 71687 23 mA VDsat=3.24491 50809 6 V Vt=-7.24491 50809 6 V gm=0.14570 26745 73 mA/V ]
 'ROOT(ⒺJFETs;[ni;Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_(cm^-3);1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
 ```
 
@@ -9186,7 +9186,7 @@ In the Compton Scattering, both energy and momentum are conserved during the col
 * To calculate `[λp_nm;K_eV;γ;β;v_m/s;Eph_eV;Epph_eV;p_(kg*m/s);φ_°]` (Wavelength of scattered photon; Kinetic energy of scattered electron; Lorentz factor; Speed of the scattered electron; Energy of the Incident & Scattered photon; Momentum of the scattered electron; Angle of scattering of the electron) from 2 known variables:
 ```rpl
 θ=40_°  λ=0.024_nm
-@ Expecting [ λp=0.02456 76487 62 nm K=1 193.63352 749 eV γ=1.00233 58835 6 β=0.06823 08499 8 v=20 455 094.227 m/s Eph=51 660.06023 89 eV Epph=50 466.42671 14 eV p=1.86768 55511 5⁳⁻²³ kg·m/s φ=68.16075 25239 ° ]
+@ Expecting [ λp=2.45676 48762 3⁳⁻² nm K=1 193.63352 749 eV γ=1.00233 58835 6 β=6.82308 49980 3⁳⁻² v=20 455 094.227 m/s Eph=51 660.06023 89 eV Epph=50 466.42671 14 eV p=1.86768 55511 5⁳⁻²³ kg·m/s φ=68.16075 25239 ° ]
 'ROOT(ⒺCompton Scattering;[λp;K;γ;β;v;Eph;Epph;p;φ];[1_nm;1_eV;1;1;1_m/s;1_eV;1_eV;1_(kg*m/s);1_°])'
 ```
 
@@ -9208,13 +9208,13 @@ Since the hydrogen atom is a bound system between the proton of the nucleus and 
 * **Example 1** In the case of an emission, to calculate `[Enp_eV;En_eV;r_m;f_THz;Eph_eV;λ_nm;r_m]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level `n`; Frequency, Energy & Wavelength of the emitted photon) from 3 known variables:
 ```rpl
 np=2  n=1  Z=1
-@ Expecting [ Enp=-3.40142 18031 eV En=-13.60568 72124 eV r=5.29177 21054 7⁳⁻¹¹ m f=2 467.38147 016 THz Eph=10.20426 54093 eV λ=121.50227 3412 nm ]
+@ Expecting [ Enp=-3.40142 18031 3 eV En=-13.60568 72125 eV r=5.29177 21054 4⁳⁻¹¹ m f=2 467.38147 018 THz Eph=10.20426 54094 eV λ=121.50227 3411 nm ]
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_THz;1_eV;1_nm])'
 ```
 * **Example 2** In the case of an absorption, to calculate `[Enp_eV;En_eV;r_m;f_THz;Eph_eV;λ_nm]` (Energy of the final atomic level `np`; Energy of the initial atomic level `n`; Radius of the initial atomic level n; Frequency, Energy & Wavelength of the absorbed photon) from 3 known variables (Note: instead to `n→∞` one can choose `n=9.99999E999999`):
 ```rpl
 np=2  n=9.99999E999999  Z=1
-@ Expecting [ Enp=-3.40142 18031 eV En=-1.36057 14423 8⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29176 15219 3⁳¹⁹⁹⁹⁹⁸⁹ m f=-822.46049 0054 THz Eph=-3.40142 18031 eV λ=-364.50682 0237 nm ]
+@ Expecting [ Enp=-3.40142 18031 3 eV En=-1.36057 14423 9⁳⁻¹⁹⁹⁹⁹⁹⁹ eV r=5.29176 15219⁳¹⁹⁹⁹⁹⁸⁹ m f=-822.46049 0061 THz Eph=-3.40142 18031 3 eV λ=-364.50682 0234 nm ]
 'ROOT(ⒺBohr Atomic Model;[Enp;En;r;f;Eph;λ];[1_eV;1_eV;1_m;1_THz;1_eV;1_nm])'
 ```
 

@@ -438,7 +438,7 @@ static const cstring basic_constants[] =
     "UrmH",     "'→NUM(ROUND(UBASE(ⒸUsmH/ⒸmH);-2))'",
   // mH=1.00782503223_u UsmH=0.00000000009_u '→NUM(ROUND(UBASE(UsmH/mH);-2))' => UrmH=8.9E-11
 //u constant; *Mass unit (u) - Calculation from measurement
-    "u",        "'→NUM(ROUND(CONVERT(Ⓒme/ⒸAre;1_kg);XPON(UVAL(ⒸUru*Ⓒme/ⒸAre))-XPON(UV  rAL(Ⓒme/ⒸAre))-2))''",
+    "u",        "'→NUM(ROUND(CONVERT(Ⓒme/ⒸAre;1_kg);XPON(UVAL(ⒸUru*Ⓒme/ⒸAre))-XPON(UV  rAL(Ⓒme/ⒸAre))-2))'",
     "Usu",      "'→NUM(CONVERT(ROUND(UBASE(ⒸUru*Ⓒu);-2);1_kg))'",//=>Usu='→NUM(CONVERT(ROUND(UBASE(Uru*u);-2);1_kg))'=5.1E-37 kg
     "Uru",      "3.1E-10",  //Uru≈'2*Urα+UrR∞+UrAre' measured value
   // Uru=3.1E-10 me=9.1093837139E-31 kg Are=5.485799090441E-4 => u=1.66053906892E-27 kg <=>

@@ -123,8 +123,8 @@ EVAL_BODY(constant)
     // Check if we should preserve the constant as is
     if (!Settings.NumericalConstants() && !Settings.NumericalResults())
         return rt.push(o) ? OK : ERROR;
-    algebraic_g value = o->value();
-    return rt.push(+value) ? OK : ERROR;
+    object_p value = o->cache();
+    return rt.push(value) ? OK : ERROR;
 }
 
 
@@ -1038,4 +1038,47 @@ object_p constant::lookup_menu(config_r cfg, cstring name)
 // ----------------------------------------------------------------------------
 {
     return lookup_menu(cfg, utf8(name), strlen(name));
+}
+
+
+object_p constant::cache() const
+// ----------------------------------------------------------------------------
+//   Cache the constant value in the runtime
+// ----------------------------------------------------------------------------
+{
+    constant_g cst   = this;
+    uint       idx   = cst->index();
+    object_p   value = rt.constant(idx);
+    if (!value)
+    {
+        // Resize the cache if needed
+        if (idx >= rt.constants())
+            if (!rt.constants(idx+1))
+                return nullptr;;
+
+        value = cst->value();
+        if (algebraic_p expr = value->as_extended_algebraic())
+            value = expr->evaluate();
+        if (!value)
+        {
+            if (!rt.error())
+                rt.invalid_constant_error();
+            return nullptr;
+        }
+        rt.constant(idx, value);
+    }
+    return value;
+}
+
+
+object_p constant::uncache() const
+// ----------------------------------------------------------------------------
+//   Remove teh cached value from the runtime
+// ----------------------------------------------------------------------------
+{
+    constant_g cst   = this;
+    uint       idx   = cst->index();
+    if (idx < rt.constants())
+        rt.constant(idx, nullptr);
+    return +cst;
 }

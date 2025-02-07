@@ -572,16 +572,11 @@ bool algebraic::to_decimal(algebraic_g &x, bool weak)
         return decimal_promotion(x);
     case ID_constant:
     case ID_xlib:
-        x = constant_p(+x)->value();
-        if (x)
-        {
-            if (expression_p expr = x->as<expression>())
-            {
-                settings::SaveNumericalResults save(true);
-                x = expr->evaluate();
-            }
-        }
+    {
+        settings::SaveNumericalResults save(true);
+        x = constant_p(+x)->evaluate();
         return x && !rt.error();
+    }
     case ID_expression:
         if (!unit::mode)
         {

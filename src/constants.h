@@ -150,6 +150,9 @@ struct constant : algebraic
     static object_p  lookup_menu(config_r cfg, utf8 name, size_t len);
     static object_p  lookup_menu(config_r cfg, cstring name);
 
+    object_p          cache() const;
+    object_p          uncache() const;
+
 protected:
     static result     do_parsing(config_r cfg, parser &p);
     static size_t     do_rendering(config_r cfg, constant_p o, renderer &r);

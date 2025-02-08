@@ -50,7 +50,7 @@ RECORDER(constants_error,   16, "Error on constant objects");
 
 // ============================================================================
 //
-//   Parsing the constant from teh constant file
+//   Parsing the constant from the constant file
 //
 // ============================================================================
 
@@ -123,7 +123,7 @@ EVAL_BODY(constant)
     // Check if we should preserve the constant as is
     if (!Settings.NumericalConstants() && !Settings.NumericalResults())
         return rt.push(o) ? OK : ERROR;
-    object_p value = o->cache();
+    object_p value = o->numerical_value();
     return rt.push(value) ? OK : ERROR;
 }
 
@@ -237,7 +237,7 @@ INSERT_BODY(ConstantValue)
     int key = ui.evaluating;
     if (object_p cstobj = constant::do_key(constant::constants, key))
         if (constant_p cst = cstobj->as<constant>())
-            if (object_p value = cst->value())
+            if (object_p value = cst->numerical_value())
                 return ui.insert_object(value, " ", " ");
     return ERROR;
 }
@@ -258,6 +258,24 @@ COMMAND_BODY(Const)
 // ----------------------------------------------------------------------------
 {
     return constant::lookup_command(constant::constants, true);
+}
+
+
+COMMAND_BODY(StandardUncertainty)
+// ----------------------------------------------------------------------------
+//   Evaluate the standard uncertainty for a library constant
+// ----------------------------------------------------------------------------
+{
+    return constant::lookup_command(standard_uncertainty::standard, true);
+}
+
+
+COMMAND_BODY(RelativeUncertainty)
+// ----------------------------------------------------------------------------
+//   Evaluate the relative uncertainty for a library constant
+// ----------------------------------------------------------------------------
+{
+    return constant::lookup_command(relative_uncertainty::relative, true);
 }
 
 
@@ -809,7 +827,7 @@ const constant::config constant::constants =
     .nbuiltins      = sizeof(basic_constants) / sizeof(*basic_constants),
     .error          = invalid_constant_error,
     .label          = nullptr,
-    .show_builtins  = show_builtin_constants
+    .show_builtins  = show_builtin_constants,
 };
 
 
@@ -1320,26 +1338,46 @@ object::result constant::lookup_command(config_r cfg, bool numerical)
 // ----------------------------------------------------------------------------
 {
     object_p name = rt.top();
-    id ty = name->type();
-    if (symbol_p sym = name->as_quoted<symbol>())
-    {
+    if (object_p sym = name->as_quoted())
         name = sym;
-        ty = name->type();
+
+    size_t len = 0;
+    utf8   txt = nullptr;
+    id     ty  = name->type();
+    if (ty == ID_constant               ||
+        ty == ID_standard_uncertainty   ||
+        ty == ID_relative_uncertainty)
+    {
+        txt = constant_p(name)->name(&len);
     }
-    if (ty != ID_symbol && ty != ID_text)
+    else if (ty == ID_symbol || ty == ID_text)
+    {
+        txt = text_p(name)->value(&len);
+    }
+    else
     {
         rt.type_error();
         return ERROR;
     }
 
-    size_t      len    = 0;
-    utf8        txt    = text_p(name)->value(&len);
     if (constant_p cst = constant::do_lookup(cfg, txt, len, false))
     {
         if (object_p value = cst->do_value(cfg))
         {
             if (numerical)
             {
+                if (array_p a = value->as<array>())
+                {
+                    if (object_p item = a->at(cst->value_index()))
+                        value = item;
+                }
+                else if (cst->value_index() != 0)
+                {
+                    value = integer::make(0);
+                    if (!value)
+                        return ERROR;
+                }
+
                 if (expression_p expr = value->as<expression>())
                 {
                     value = expr->evaluate();
@@ -1422,7 +1460,7 @@ object_p constant::cache() const
 {
     constant_g cst   = this;
     uint       idx   = cst->index();
-    object_p   value = rt.constant(idx);
+    object_g   value = rt.constant(idx);
     if (!value)
     {
         // Resize the cache if needed
@@ -1430,9 +1468,12 @@ object_p constant::cache() const
             if (!rt.constants(idx+1))
                 return nullptr;;
 
-        value = cst->value();
-        if (algebraic_p expr = value->as_extended_algebraic())
-            value = expr->evaluate();
+        value = cst->do_value(constants);
+        rt.constant(idx, value);
+
+        if (algebraic_g alg = value->as_extended_algebraic())
+            if (to_decimal(alg, true))
+                value = +alg;
         if (!value)
         {
             if (!rt.error())
@@ -1440,6 +1481,7 @@ object_p constant::cache() const
             return nullptr;
         }
         rt.constant(idx, value);
+        cleaner::disable();
     }
     return value;
 }
@@ -1455,4 +1497,117 @@ object_p constant::uncache() const
     if (idx < rt.constants())
         rt.constant(idx, nullptr);
     return +cst;
+}
+
+
+
+// ============================================================================
+//
+//   Standard and relative uncertainty
+//
+// ============================================================================
+
+const constant::config standard_uncertainty::standard =
+// ----------------------------------------------------------------------------
+//  Define the configuration for the standard uncertainty of constants
+// ----------------------------------------------------------------------------
+{
+    .menu_help      = " Constants",
+    .help           = " Constant",
+    .prefix         = L'Ⓢ',
+    .type           = ID_standard_uncertainty,
+    .first_menu     = ID_ConstantsMenu00,
+    .last_menu      = ID_ConstantsMenu99,
+    .name           = ID_ConstantName,
+    .value          = ID_ConstantValue,
+    .command        = ID_object,
+    .file           = "config/constants.csv",
+    .library        = "library",
+    .builtins       = basic_constants,
+    .nbuiltins      = sizeof(basic_constants) / sizeof(*basic_constants),
+    .error          = invalid_constant_error,
+    .label          = nullptr,
+    .show_builtins  = show_builtin_constants,
+};
+
+
+SIZE_BODY(standard_uncertainty)
+// ----------------------------------------------------------------------------
+//   Compute the size
+// ----------------------------------------------------------------------------
+{
+    object_p p = object_p(payload(o));
+    p += leb128size(p);
+    return byte_p(p) - byte_p(o);
+}
+
+
+PARSE_BODY(standard_uncertainty)
+// ----------------------------------------------------------------------------
+//    Skip, the actual parsing is done in the symbol parser
+// ----------------------------------------------------------------------------
+{
+    return do_parsing(standard, p);
+}
+
+
+RENDER_BODY(standard_uncertainty)
+// ----------------------------------------------------------------------------
+//   Render the constant into the given constant buffer
+// ----------------------------------------------------------------------------
+{
+    return do_rendering(standard, o, r);
+}
+
+
+const constant::config relative_uncertainty::relative =
+// ----------------------------------------------------------------------------
+//  Define the configuration for the relative uncertainty of constants
+// ----------------------------------------------------------------------------
+{
+    .menu_help      = " Constants",
+    .help           = " Constant",
+    .prefix         = L'Ⓡ',
+    .type           = ID_relative_uncertainty,
+    .first_menu     = ID_ConstantsMenu00,
+    .last_menu      = ID_ConstantsMenu99,
+    .name           = ID_ConstantName,
+    .value          = ID_ConstantValue,
+    .command        = ID_object,
+    .file           = "config/constants.csv",
+    .library        = "library",
+    .builtins       = basic_constants,
+    .nbuiltins      = sizeof(basic_constants) / sizeof(*basic_constants),
+    .error          = invalid_constant_error,
+    .label          = nullptr,
+    .show_builtins  = show_builtin_constants,
+};
+
+
+SIZE_BODY(relative_uncertainty)
+// ----------------------------------------------------------------------------
+//   Compute the size
+// ----------------------------------------------------------------------------
+{
+    object_p p = object_p(payload(o));
+    p += leb128size(p);
+    return byte_p(p) - byte_p(o);
+}
+
+
+PARSE_BODY(relative_uncertainty)
+// ----------------------------------------------------------------------------
+//    Skip, the actual parsing is done in the symbol parser
+// ----------------------------------------------------------------------------
+{
+    return do_parsing(relative, p);
+}
+
+
+RENDER_BODY(relative_uncertainty)
+// ----------------------------------------------------------------------------
+//   Render the constant into the given constant buffer
+// ----------------------------------------------------------------------------
+{
+    return do_rendering(relative, o, r);
 }

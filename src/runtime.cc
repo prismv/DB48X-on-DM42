@@ -105,6 +105,7 @@ runtime::runtime(byte *mem, size_t size)
       Locals(),
       Directories(),
       XLibs(),
+      Constants(),
       CallStack(),
       Returns(),
       HighMem(),

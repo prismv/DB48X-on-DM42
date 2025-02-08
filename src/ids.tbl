@@ -132,7 +132,8 @@ ID_RANGE(is_complex,       rectangular,    polar)
 ID_RANGE(is_algebraic_num, unit,           neg_decimal)
 ID_RANGE(is_program_cmd,   Drop,           IfErrThenElse)
 ID_RANGE(is_command,       Drop,           ToFraction,    ToList, LastMenu)
-ID_RANGE(is_symbolic,      expression,     xlib,      polynomial, polynomial)
+ID_RANGE(is_symbolic,      expression,     xlib,
+                           polynomial,     relative_uncertainty)
 ID_RANGE(is_algebraic_fn,  Rcl,            ToFraction,
                            TestFlagSet,    det,
                            Get,            IFTE,
@@ -772,6 +773,8 @@ CMD(ConvertToUnitPrefix)
 NAMED(Const, "LibraryConstant")
 CMD(ConstantName)
 CMD(ConstantValue)
+CMD(StandardUncertainty)        ALIAS(StandardUncertainty, "CstSU")
+CMD(RelativeUncertainty)        ALIAS(RelativeUncertainty, "CstRU")
 NAMED(LibEq, "LibraryEquation")
 CMD(EquationName)
 CMD(EquationValue)
@@ -1477,6 +1480,8 @@ ID(dmcp_font)
 
 ID(tag)
 ID(polynomial)
+ID(standard_uncertainty)
+ID(relative_uncertainty)
 
 ID(conditional)
 ID(while_conditional)

@@ -29,13 +29,16 @@
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // ****************************************************************************
 
+#include "algebraic.h"
+#include "array.h"
 #include "command.h"
 #include "menu.h"
-#include "algebraic.h"
 
 
 GCP(constant);
 GCP(constant_menu);
+GCP(standard_uncertainty);
+GCP(relative_uncertainty);
 
 
 struct constant : algebraic
@@ -45,7 +48,7 @@ struct constant : algebraic
 {
     constant(id type, uint index) : algebraic(type)
     {
-        byte *p = (byte *) payload(this);
+        byte *p = (byte *) payload();
         leb128(p, index);
     }
 
@@ -110,12 +113,22 @@ struct constant : algebraic
     {
         return do_name(constants, size);
     }
-    algebraic_p value() const
+    algebraic_p specification() const
     {
-        if (object_p obj = do_value(constants))
-            if (obj->is_algebraic() || obj->type() == ID_text)
+        if (object_p obj = cache())
+            if (obj->is_extended_algebraic())
                 return algebraic_p(obj);
         return nullptr;
+    }
+    algebraic_p value() const
+    {
+        algebraic_p val = specification();
+        if (val)
+            if (array_p spec = val->as<array>())
+                if (object_p obj = spec->at(value_index()))
+                    if (algebraic_p alg = obj->as_extended_algebraic())
+                        val = alg;
+        return val;
     }
     algebraic_p numerical_value() const
     {
@@ -125,6 +138,16 @@ struct constant : algebraic
             return a;
         }
         return nullptr;
+    }
+    uint value_index() const
+    {
+        switch (type())
+        {
+        default:
+        case ID_constant:               return 0;
+        case ID_standard_uncertainty:   return 1;
+        case ID_relative_uncertainty:   return 2;
+        }
     }
     bool is_imaginary_unit() const
     {
@@ -206,6 +229,42 @@ public:
 COMMAND_DECLARE_INSERT_HELP(ConstantName,-1);
 COMMAND_DECLARE_INSERT_HELP(ConstantValue,-1);
 COMMAND_DECLARE(Const, 1);
+COMMAND_DECLARE(StandardUncertainty, 1);
+COMMAND_DECLARE(RelativeUncertainty, 1);
 COMMAND_DECLARE(Constants, 0);
+
+
+struct standard_uncertainty : constant
+// ----------------------------------------------------------------------------
+//  The standard uncertainty for a constant
+// ----------------------------------------------------------------------------
+{
+    standard_uncertainty(id type, uint index): constant(type, index) {}
+
+    OBJECT_DECL(standard_uncertainty);
+    SIZE_DECL(standard_uncertainty);
+    PARSE_DECL(standard_uncertainty);
+    RENDER_DECL(standard_uncertainty);
+
+public:
+    static const config standard;
+};
+
+
+struct relative_uncertainty : constant
+// ----------------------------------------------------------------------------
+//  The relative uncertainty for a constant
+// ----------------------------------------------------------------------------
+{
+    relative_uncertainty(id type, uint index): constant(type, index) {}
+
+    OBJECT_DECL(relative_uncertainty);
+    SIZE_DECL(relative_uncertainty);
+    PARSE_DECL(relative_uncertainty);
+    RENDER_DECL(relative_uncertainty);
+
+public:
+    static const config relative;
+};
 
 #endif // CONSTANT_H

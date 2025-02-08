@@ -297,6 +297,12 @@ retry:
     case L'Ⓛ':                  // Library items
         r = xlib::do_parse(p);
         break;
+    case L'Ⓡ':                  // Constants relative uncertainty
+        r = relative_uncertainty::do_parse(p);
+        break;
+    case L'Ⓢ':                  // Constants standard uncertainty
+        r = standard_uncertainty::do_parse(p);
+        break;
     case L'Ⓟ':                  // Polynomials
         r = polynomial::do_parse(p);
         break;

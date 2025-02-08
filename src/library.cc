@@ -224,6 +224,7 @@ object_p xlib::attach() const
             return nullptr;
         }
         rt.xlib(idx, value);
+        cleaner::disable();
     }
     return value;
 }

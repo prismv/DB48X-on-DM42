@@ -181,7 +181,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            units_and_conversions();
+            constants_menu();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -9652,6 +9652,41 @@ void tests::constants_menu()
 {
     BEGIN(constants);
 
+    step("Insert constant from command line")
+        .test(CLEAR, "Ⓒc", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("299 792 458 m/s");
+    step("Insert constant from constants menu")
+        .test(CLEAR, ID_ConstantsMenu, F6, "c", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("299 792 458 m/s");
+
+    step("Insert constant standard uncertainty from command line")
+        .test(CLEAR, "Ⓢc", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("0 m/s");
+    step("Insert constant standard uncertainty from constants menu")
+        .test(CLEAR, ID_ConstantsMenu, LSHIFT, F2, "c", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("0 m/s");
+
+    step("Insert constant relative uncertainty from command line")
+        .test(CLEAR, "Ⓡc", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("0");
+    step("Insert constant relative uncertainty from constants menu")
+        .test(CLEAR, ID_ConstantsMenu, LSHIFT, F4, "c", ENTER)
+        .expect("c")
+        .test(ID_ToDecimal)
+        .expect("0");
+
+    step("Use Const command from command line");
+
     step("Dates constants menu")
         .test(CLEAR, LSHIFT, I, F1);
     step("Bastille day")
@@ -12837,6 +12872,8 @@ tests &tests::itest(cstring txt)
         case L'Ⓛ': itest(ID_CharactersMenu, F2, RSHIFT, F3); NEXT;
         case L'Ⓓ': itest(ID_CharactersMenu, F2, F6, F6, F1); NEXT;
         case L'ⓧ': itest(ID_CharactersMenu, F2, F6, F6, F2); NEXT;
+        case L'Ⓡ': itest(ID_CharactersMenu, F2, F6, F6, F3); NEXT;
+        case L'Ⓢ': itest(ID_CharactersMenu, F2, F6, F6, F4); NEXT;
         case L'°': itest(ID_CharactersMenu, F2, F6, SHIFT, F3); NEXT;
         case L'⨯': itest(ID_CharactersMenu, F4, LSHIFT, F6, LSHIFT, F1); NEXT;
         case L'⋅': itest(ID_CharactersMenu, F4, LSHIFT, F6, LSHIFT, F2); NEXT;

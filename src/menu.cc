@@ -519,7 +519,6 @@ MENU(VectorMenu,
      "Complex", ID_ComplexMenu,
      "Matrix",  ID_MatrixMenu);
 
-
 MENU(MatrixMenu,
 // ----------------------------------------------------------------------------
 //   Matrix operations

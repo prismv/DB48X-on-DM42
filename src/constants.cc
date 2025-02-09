@@ -160,7 +160,16 @@ MENU_BODY(ConstantsMenu)
 //   The constants menu is dynamically populated
 // ----------------------------------------------------------------------------
 {
-    return constant::do_collection_menu(constant::constants, mi);
+    bool ok = constant::do_collection_menu(constant::constants, mi);
+    if (ok)
+        items(mi,
+              "Ⓒ",              ID_SelfInsert,
+              "Const",          ID_Const,
+              "Ⓢ",              ID_SelfInsert,
+              "StdUnc",         ID_StandardUncertainty,
+              "Ⓡ",              ID_SelfInsert,
+              "RelUnc",         ID_RelativeUncertainty);
+    return ok;
 }
 
 

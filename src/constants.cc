@@ -310,14 +310,14 @@ COMMAND_BODY(Constants)
 
 static const cstring basic_constants[] =
 // ----------------------------------------------------------------------------
-//   List of basic constants
+//   List of basic constants (including standard and relative uncertainty)
 // ----------------------------------------------------------------------------
 //   clang-format off
 {
     // ------------------------------------------------------------------------
-    // MATH CONSTANTS MENU
+    // Mathematics
     // ------------------------------------------------------------------------
-    "Mathematics",   nullptr,
+    "Mathematics",     nullptr,
 
     "π",        "3.14159",              // Evaluated specially (decimal-pi.h)
     "e",        "2.71828",              // Evaluated specially (decimal-e.h)
@@ -325,14 +325,15 @@ static const cstring basic_constants[] =
     "∞",        "9.99999E999999",       // A small version of infinity
     "?",        "Undefined",            // Undefined result
 
+    // ------------------------------------------------------------------------
     "ⅉ",        "0+ⅈ1",                 // Imaginary unit
     "rad",      "1_r",                  // One radian
-    "twoπ",     "'2*Ⓒπ'_r",             // Two pi radian
+    "twoπ",     "'2*Ⓒπ'_r",            // Two pi radian
     "angl",     "180_°",                // Half turn
 
 
     // ------------------------------------------------------------------------
-    //   Chemistry Constants Values & Uncertainties
+    //   Chemistry
     // ------------------------------------------------------------------------
 
     "Chemistry",     nullptr,
@@ -353,6 +354,12 @@ static const cstring basic_constants[] =
     "R",        "[ 'CONVERT(ⒸNA*Ⓒk;1_J/(mol*K))' "
                 "  0_J/(mol*K) "
                 "  0 ]",
+    // *Stefan-Boltzmann - Exact calculation
+    "σ",        "[ 'CONVERT(Ⓒπ²/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc²);1_W/(m²*K^4))' "
+                "  0_W/(m²*K^4) "
+                "  0 ]",
+
+    // ------------------------------------------------------------------------
     // *Standard temperature - Definition convention
     "StdT",     "[ 273.15_K "
                 "  0_K "
@@ -361,36 +368,38 @@ static const cstring basic_constants[] =
     "StdP",     "[ 101.325_kPa "
                 "  0_kPa "
                 "  0 ]",
-    // *Stefan-Boltzmann - Exact calculation
-    "σ",        "[ 'CONVERT(Ⓒπ²/60*Ⓒk^4/(Ⓒℏ^3*Ⓒc²);1_W/(m²*K^4))' "
-                "  0_W/(m²*K^4) "
-                "  0 ]",
     // *Molar Mass Constant - Calculation from measurement
-    "Mu",      "[ 'ROUND(CONVERT(ⒸNA*Ⓒu;1_kg/mol);XPON(UVAL(ⓇMu*ⒸNA*Ⓒu))-XPON(UVAL(ⒸNA*Ⓒu))-2)' "
-                "  'ROUND(CONVERT(ⓇMu*ⒸMu;1_kg/mol);-2)' "
+    "Mu",      "[ 'ROUND(CONVERT(ⒸNA*Ⓒu;1_g/mol);XPON(ⓇMu*ⒸNA*Ⓒu)-XPON(ⒸNA*Ⓒu)-2)' "
+                "  'ROUND(CONVERT(ⓇMu*ⒸMu;1_g/mol);-2)' "
                 "  'Ⓡu' ]",
     // *C12 Molar Mass - Calculation from measurement
-    "MC12",      "[ 'ROUND(CONVERT(12*ⒸMu;1_kg/mol);XPON(UVAL(ⓇMC12*12*ⒸMu))-XPON(UVAL(12*ⒸMu))-2)' "
+    "MC12",      "[ 'ROUND(CONVERT(12*ⒸMu;1_g/mol);XPON(UVAL(ⓇMC12*12*ⒸMu))-XPON(UVAL(12*ⒸMu))-2)' "
                 "  'ROUND(CONVERT(ⓇMC12*ⒸMC12;1_kg/mol);-2)' "
                 "  'ⓇMu' ]",
-    // *Electron relative atomic mass - Measurement
-    "Are",       "[ 5.485799090441E-4 "
-                "  0.000000000097E-4 "
-                "  'ROUND(ⓈAre/ⒸAre;-2)' ]",
     // *Loschmidt constant - Exact calculation
     "n0",        "[ 'CONVERT(ⒸNA/ⒸVm;1_m^-3)' "
                 "  0_m^-3 "
                 "  0 ]",
+
+    // ------------------------------------------------------------------------
     // *Sakur-Tetrode constant - Calculation from measurement
     "SoR",      "[ 'ROUND((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ²))^1.5*Ⓒk*(1_K)/ⒸStdP));XPON(ⓇSoR*(5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ²))^1.5*Ⓒk*(1_K)/ⒸStdP)))-XPON((5/2+LN(UBASE(Ⓒu*Ⓒk*(1_K)/(2*Ⓒπ*Ⓒℏ²))^1.5*Ⓒk*(1_K)/ⒸStdP)))-2)' "
                 "  'ROUND(ⓇSoR*ABS(ⒸSoR);-2)' "
                 "  4.0E-10 ]",        //ⓇSoR=4.0E-10
+    // *Mass unit (Dalton) - Calculation from measurement
+    "Da",       "[ 'Ⓒu' "
+                "  'Ⓢu' "
+                "  'Ⓡu' ]",
+    // * kq ratio - Exact calculation
+    "kq",       "[ 'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))' "
+                "  0_J/(K*C) "
+                "  0 ]",
 
     // ------------------------------------------------------------------------
-    //   Physics Constants Values & Uncertainties
+    //   Physics
     // ------------------------------------------------------------------------
 
-    "Physics",     nullptr,
+    "Physics",      nullptr,
 
     // *Imaginary unit in physics - Definition convention
     "ⅉ",         "0+ⅈ1",
@@ -398,39 +407,40 @@ static const cstring basic_constants[] =
     "c",        "[ 299792458_m/s "
                 "  0_m/s "
                 "  0 ]",
-    // *Vaccuum permittivity - Calculation from measurement
-    "ε0",       "[ 'ROUND(CONVERT(1/(Ⓒμ0*Ⓒc²);1_F/m);XPON(UVAL(Ⓡε0/(Ⓒμ0*Ⓒc²)))-XPON(UVAL(1/(Ⓒμ0*Ⓒc²)))-2)' "
-                "  'ROUND(UBASE(Ⓡε0*Ⓒε0);-2)' "
-                "  'Ⓡμ0' ]",
-    // *Vaccuum permeability - Calculation from measurement
-    "μ0",       "[ 'ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc);1_H/m);XPON(UVAL(Ⓡμ0*4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-XPON(UVAL(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡμ0*Ⓒμ0);-2);1_H/m)' "
-                "  'Ⓡα' ]",
-    // *Acceleration of Earth gravity - Definition convention
-    "g",        "[ 9.80665_m/s² "
-                "  0_m/s² "
-                "  0 ]",
     // *Gravitation constant - Measurement
     "G",        "[ 6.67430E-11_m^3/(s²*kg) "
                 "  0.00015E-11_m^3/(s²*kg) "
                 "  'ROUND(UBASE(ⓈG/ⒸG);-2)' ]",
-    // *Planck - Exact definition
-    "h",        "[ 6.62607015E-34_J*s "
-                "  0_J*s "
+    // *Acceleration of Earth gravity - Definition convention
+    "g",        "[ 9.80665_m/s² "
+                "  0_m/s² "
                 "  0 ]",
-    // *Dirac - Exact definition
-    "ℏ",        "[ 'CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)' "
-                "  0_J*s "
-                "  0 ]",
-    // *Electronic charge - Exact definition
-    "qe",       "[ 1.602176634E-19_C "
-                "  0_C "
-                "  0 ]",
+    // *Vacuum characteristic impedance - Calculation from measurement
+    "Z₀",       "[ 'ROUND(CONVERT(Ⓒμ₀*Ⓒc;1_Ω);XPON(UVAL(ⓇZ₀*Ⓒμ₀*Ⓒc))-XPON(UVAL(Ⓒμ₀*Ⓒc))-2)' "
+                "  'CONVERT(ROUND(UBASE(ⓇZ₀*ⒸZ₀);-2);1_Ω)' "
+                "  'Ⓡμ₀' ]",
+
+    // ------------------------------------------------------------------------
+    // *Vaccuum permittivity - Calculation from measurement
+    "ε₀",       "[ 'ROUND(CONVERT(1/(Ⓒμ₀*Ⓒc²);1_F/m);XPON(UVAL(Ⓡε₀/(Ⓒμ₀*Ⓒc²)))-XPON(UVAL(1/(Ⓒμ₀*Ⓒc²)))-2)' "
+                "  'ROUND(UBASE(Ⓡε₀*Ⓒε₀);-2)' "
+                "  'Ⓡμ₀' ]",
+    // *Vaccuum permeability - Calculation from measurement
+    "μ₀",       "[ 'ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc);1_H/m);XPON(UVAL(Ⓡμ₀*4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-XPON(UVAL(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡμ₀*Ⓒμ₀);-2);1_H/m)' "
+                "  'Ⓡα' ]",
+
+    // ------------------------------------------------------------------------
+    //   Particle masses
+    // ------------------------------------------------------------------------
+
+    "Mass",     nullptr,
+
+    // ------------------------------------------------------------------------
     // *Electron mass - Calculation from measurement
     "me",       "[ 'ROUND(CONVERT(2*Ⓒh*ⒸR∞/((Ⓒα²)*Ⓒc);1_kg);XPON(UVAL(Ⓡme*2*Ⓒh*ⒸR∞/((Ⓒα²)*Ⓒc)))-XPON(UVAL(2*Ⓒh*ⒸR∞/((Ⓒα²)*Ⓒc)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡme*Ⓒme);-2);1_kg)' "
                 "  'Ⓡu' ]",
-
     // *Neutron mass - Measurement
     "mn",       "[ 1.67492750056E-27_kg "
                 "  0.00000000085E-27_kg "
@@ -448,122 +458,7 @@ static const cstring basic_constants[] =
                 "  'CONVERT(ROUND(UBASE(Ⓡu*Ⓒu);-2);1_kg)' "
                 "  3.1E-10 ]",
 
-    // *Mass unit (Dalton) - Calculation from measurement
-    "Da",       "[ 'Ⓒu' "
-                "  'Ⓢu' "
-                "  'Ⓡu' ]",
-    // *qme ratio - Calculation from measurement
-    "qme",      "[ 'ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);XPON(UVAL(Ⓡqme*Ⓒqe/Ⓒme))-XPON(UVAL(Ⓒqe/Ⓒme))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡqme*Ⓒqme);-2);1_C/kg)' "
-                "  'Ⓡme' ]",
-    // *mpme ratio - Measurement
-    "mpme",     "[ 1836.152673426 "
-                "  0.000000032 "
-                "  'ROUND(UBASE(Ⓢmpme/Ⓒmpme);-2)' ]",
-    // *fine structure constant - Measurement
-    "α",        "[ 0.00729735256434 "
-                "  0.00000000000114 "
-                "  'ROUND(UBASE(Ⓢα/Ⓒα);-2)' ]",
-    // *Magnetic flux quantum - Exact calculation
-    "ø",        "[ 'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)' "
-                "  0_Wb "
-                "  0 ]",
-    // *Faraday - Exact calculation
-    "F",        "[ 'CONVERT(ⒸNA*Ⓒqe;1_C/mol)' "
-                "  0_C/mol "
-                "  0 ]",
-    // *Rydberg - Measurement
-    "R∞",       "[ 10973731.568157_m⁻¹ "
-                "  0.000012_m⁻¹ "
-                "  'ROUND(UBASE(ⓈR∞/ⒸR∞);-2)' ]",
-    // *Bohr radius - Calculation from measurement
-    "a0",       "[ 'ROUND(CONVERT(4*Ⓒπ*Ⓒε0*Ⓒℏ²/(Ⓒme*Ⓒqe²);1_nm);XPON(UVAL(Ⓡa0*4*Ⓒπ*Ⓒε0*Ⓒℏ²/(Ⓒme*Ⓒqe²)))-XPON(UVAL(4*Ⓒπ*Ⓒε0*Ⓒℏ²/(Ⓒme*Ⓒqe²)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓢα/Ⓒα*Ⓒa0);-2);1_nm)' "
-                "  'Ⓡα' ]",
-    // *Bohr magneton - Calculation from measurement
-    "μB",       "[ 'ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);XPON(UVAL(ⓇμB*Ⓒqe*Ⓒℏ/(2*Ⓒme)))-XPON(UVAL(Ⓒqe*Ⓒℏ/(2*Ⓒme)))-2)' "
-                "  'CONVERT(ROUND(UBASE(ⓇμB*ⒸμB);-2);1_J/T)' "
-                "  'Ⓡme' ]",
-    // *Nuclear magneton - Calculation from measurement
-    "μN",       "[ 'ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);XPON(UVAL(ⓇμN*Ⓒqe*Ⓒℏ/(2*Ⓒmp)))-XPON(UVAL(Ⓒqe*Ⓒℏ/(2*Ⓒmp)))-2)' "
-                "  'CONVERT(ROUND(UBASE(ⓇμN*ⒸμN);-2);1_J/T)' "
-                "  'Ⓡmp' ]",
-    // *Photon wavelength - Exact calculation
-    "λ0",       "[ 'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)' "
-                "  0_nm "
-                "  0 ]",
-    // *Photon frequency - Exact calculation1 239.84198 43320 03 nm
-    "f0",       "[ 'CONVERT(Ⓒc/Ⓒλ0;1_Hz)' "
-                "  0_Hz "
-                "  0 ]",
-    // *Electron Compton wavelength - Calculation from measurement
-    "λc",       "[ 'ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);XPON(UVAL(Ⓡλc*Ⓒh/(Ⓒme*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒme*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡλc*Ⓒλc);-2);1_nm)' "
-                "  'Ⓡme' ]",
-    // *Proton Compton wavelength - Calculation from measurement
-    "λcp",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);XPON(UVAL(Ⓡλcp*Ⓒh/(Ⓒmp*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmp*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡλcp*Ⓒλcp);-2);1_nm)' "
-                "  'Ⓡmp' ]",
-    // *Neutron Compton wavelength - Calculation from measurement
-    "λcn",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);XPON(UVAL(Ⓡλcn*Ⓒh/(Ⓒmn*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmn*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡλcn*Ⓒλcn);-2);1_nm)' "
-                "  'Ⓡmn' ]",
-    // *Muon Compton wavelength - Calculation from measurement
-    "λcμ",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm);XPON(UVAL(Ⓡλcμ*Ⓒh/(Ⓒmμ*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmμ*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡλcμ*Ⓒλcμ);-2);1_nm)' "
-                "  'Ⓡmμ' ]",
-    // *Tau Compton wavelength - Calculation from measurement
-    "λcτ",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmτ*Ⓒc);1_nm);XPON(UVAL(Ⓡλcτ*Ⓒh/(Ⓒmτ*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmτ*Ⓒc)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡλcτ*Ⓒλcτ);-2);1_nm)' "
-                "  'Ⓡmτ' ]",
-    // *First radiation constant - Exact calculation
-    "c1",       "[ 'CONVERT(2*Ⓒπ*Ⓒh*Ⓒc²;1_(W*m²))' "
-                "  0_(W*m²) "
-                "  0 ]",
-    // *Second radiation constant - Exact calculation
-    "c2",       "[ 'CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))' "
-                "  0_(m*K) "
-                "  0 ]",
-    // *Wien's constant - Theory approximation
-    "c3",       "[ 2.897771955185172661478605448092885_mm*K "
-                "  0_mm*K "
-                "  0 ]",
-    // *Wien's frequency constant - Theory approximation
-    "c3f",      "[ 0.05878925757646824946606130795309722_THz/K "
-                "  0_THz/K "
-                "  0 ]",
-    // * kq ratio - Exact calculation
-    "kq",       "[ 'CONVERT(Ⓒk/Ⓒqe;1_J/(K*C))' "
-                "  0_J/(K*C) "
-                "  0 ]",
-    // * ε0q ratio - Calculation from measurement
-    "ε0q",      "[ 'ROUND(CONVERT(Ⓒε0/Ⓒqe;1_F/(m*C));XPON(UVAL(Ⓡε0q*Ⓒε0/Ⓒqe))-XPON(UVAL(Ⓒε0/Ⓒqe))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡε0q*Ⓒε0q);-2);1_F/(m*C))' "
-                "  'Ⓡε0' ]",
-    // * qε0 product - Calculation from measurement
-    "qε0",      "[ 'ROUND(CONVERT(Ⓒqe*Ⓒε0;1_F*C/m);XPON(UVAL(Ⓡqε0*Ⓒqe*Ⓒε0))-XPON(UVAL(Ⓒqe*Ⓒε0))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡqε0*Ⓒqε0);-2);1_F*C/m)' "
-                "  'Ⓡε0' ]",
-    // *Coulomb constant - Calculation from measurement
-    "ke",     "[ 'ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε0);1_(N*(m/C)²));XPON(UVAL(Ⓡke/(4*Ⓒπ*Ⓒε0)))-XPON(UVAL(1/(4*Ⓒπ*Ⓒε0)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡke*Ⓒke);-2);1_(N*(m/C)²))' "
-                "  'Ⓡε0' ]",
-    // *Dielectric constant - Definition convention
-    "εsi",      "[ 11.9 "
-                "  0 "
-                "  0 ]",
-    // *SiO2 dielectric constant - Definition convention
-    "εox",      "[ 3.9 "
-                "  0 "
-                "  0 ]",
-    // *Ref intensity - Definition convention
-    "I0",       "[ 0.000000000001_W/m² "
-                "  0_W/m² "
-                "  0 ]",
-    // *Vacuum characteristic impedance - Calculation from measurement
-    "Z0",       "[ 'ROUND(CONVERT(Ⓒμ0*Ⓒc;1_Ω);XPON(UVAL(ⓇZ0*Ⓒμ0*Ⓒc))-XPON(UVAL(Ⓒμ0*Ⓒc))-2)' "
-                "  'CONVERT(ROUND(UBASE(ⓇZ0*ⒸZ0);-2);1_Ω)' "
-                "  'Ⓡμ0' ]",
+    // ------------------------------------------------------------------------
     // *Deuterium mass - Measurement
     "mD",       "[ 2.01410177812_u "
                 "  0.00000000012_u "
@@ -584,30 +479,47 @@ static const cstring basic_constants[] =
     "mτ",       "[ 1.90754_u "
                 "  0.00013_u "
                 "  'ROUND(UBASE(Ⓢmμ/Ⓒmμ);-2)' ]",
-    // *Conductance quantum - Exact calculation
-    "G0",       "[ 'CONVERT(Ⓒqe²/(Ⓒπ*Ⓒℏ);1_S)' "
-                "  0_S "
+
+    // ------------------------------------------------------------------------
+    // *mpme ratio - Measurement
+    "mpme",     "[ 1836.152673426 "
+                "  0.000000032 "
+                "  'ROUND(UBASE(Ⓢmpme/Ⓒmpme);-2)' ]",
+    // *Electron relative atomic mass - Measurement
+    "Are",       "[ 5.485799090441E-4 "
+                "  0.000000000097E-4 "
+                "  'ROUND(ⓈAre/ⒸAre;-2)' ]",
+
+
+    // ------------------------------------------------------------------------
+    //   Electromagnetism
+    // ------------------------------------------------------------------------
+
+    "Electromagnetism",     nullptr,
+
+    // ------------------------------------------------------------------------
+    // *Electronic charge - Exact definition
+    "qe",       "[ 1.602176634E-19_C "
+                "  0_C "
                 "  0 ]",
-    // *von Klitzing constant - Exact calculation
-    "Rk",       "[ 'CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe²;1_Ω)' "
-                "  0_Ω "
+    // *Photon wavelength - Exact calculation
+    "λ0",       "[ 'CONVERT(Ⓒh*Ⓒc/Ⓒqe/(1_V);1_nm)' "
+                "  0_nm "
                 "  0 ]",
-    // *Josephson constant - Exact calculation
-    "KJ",       "[ 'CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)' "
-                "  0_Hz/V "
+    // *Photon frequency - Exact calculation1 239.84198 43320 03 nm
+    "f0",       "[ 'CONVERT(Ⓒc/Ⓒλ0;1_Hz)' "
+                "  0_Hz "
                 "  0 ]",
-    // *Classical electron radius - Calculation from measurement
-    "re",       "[ 'CONVERT(Ⓒα²*Ⓒa0;1_fm)' "
-                "  'ROUND(Ⓡre*Ⓒre;-2)' "
-                "  'ROUND(3*Ⓢα/α;-2)' ]",
-    // *Proton charge radius - Measurement
-    "rp",       "[ 8.4075-16_m "
-                "  0.0064-16_m "
-                "  'ROUND(Ⓢrp/Ⓒrp;-2)' ]",
-    // *Thomson cross-section - Calculation from measurement
-    "σe",       "[ 'ROUND(CONVERT(8*Ⓒπ*Ⓒre²/3;1_m²);XPON(UVAL(Ⓡσe*8*Ⓒπ*Ⓒre²/3))-XPON(UVAL(8*Ⓒπ*Ⓒre²/3))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡσe*Ⓒσe);-2);1_m²)' "
-                "  'ROUND(6*Ⓢα/Ⓒα;-2)' ]",
+    // *Electron g-factor - Measurement
+    "ge",       "[ '(-1)*2.00231930436092' "
+                "  0.00000000000036 "
+                "  'ROUND(UBASE(ABS(Ⓢge/Ⓒge));-2)' ]",
+    // *qme ratio - Calculation from measurement
+    "qme",      "[ 'ROUND(CONVERT(Ⓒqe/Ⓒme;1_C/kg);XPON(UVAL(Ⓡqme*Ⓒqe/Ⓒme))-XPON(UVAL(Ⓒqe/Ⓒme))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡqme*Ⓒqme);-2);1_C/kg)' "
+                "  'Ⓡme' ]",
+
+    // ------------------------------------------------------------------------
     // *Electron magnetic moment - Measurement
     "μe",       "[ '(-1)*9.2847646917E-24_J/T' "
                 "  0.0000000029E-24_J/T "
@@ -624,18 +536,89 @@ static const cstring basic_constants[] =
     "μμ",       "[ '(-1)*4.49044830E-26_J/T' "
                 "  0.00000010E-26_J/T "
                 "  'ROUND(UBASE(ABS(Ⓢμμ/Ⓒμμ));-2)' ]",
-    // *Electron g-factor - Measurement
-    "ge",       "[ '(-1)*2.00231930436092' "
-                "  0.00000000000036 "
-                "  'ROUND(UBASE(ABS(Ⓢge/Ⓒge));-2)' ]",
-    // *Planck mass - Calculation from measurement
-    "Mpl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg);XPON(UVAL(ⓇMpl*√(Ⓒℏ*Ⓒc/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc/ⒸG)))-2)' "
-                "  'CONVERT(ROUND(UBASE(ⓇMpl*ⒸMpl);-2);1_kg)' "
-                "  'ⓇG/2' ]",
-    // *Planck energy - Calculation from measurement
-    "Epl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV);XPON(UVAL(ⓇEpl*√(Ⓒℏ*Ⓒc^5/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/ⒸG)))-2)' "
-                "  'ROUND(CONVERT(ROUND(UBASE(ⓇEpl*Epl);-2);1_GeV);-2)' "
-                "  'ⓇG/2' ]",
+
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    //   Particle sizes
+    // ------------------------------------------------------------------------
+
+    "Size",     nullptr,
+
+    // *Classical electron radius - Calculation from measurement
+    "re",       "[ 'CONVERT(Ⓒα²*Ⓒa0;1_fm)' "
+                "  'ROUND(Ⓡre*Ⓒre;-2)' "
+                "  'ROUND(3*Ⓢα/α;-2)' ]",
+    // *Proton charge radius - Measurement
+    "rp",       "[ 8.4075-16_m "
+                "  0.0064-16_m "
+                "  'ROUND(Ⓢrp/Ⓒrp;-2)' ]",
+    // *Bohr radius - Calculation from measurement
+    "a0",       "[ 'ROUND(CONVERT(4*Ⓒπ*Ⓒε₀*Ⓒℏ²/(Ⓒme*Ⓒqe²);1_nm);XPON(UVAL(Ⓡa0*4*Ⓒπ*Ⓒε₀*Ⓒℏ²/(Ⓒme*Ⓒqe²)))-XPON(UVAL(4*Ⓒπ*Ⓒε₀*Ⓒℏ²/(Ⓒme*Ⓒqe²)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓢα/Ⓒα*Ⓒa0);-2);1_nm)' "
+                "  'Ⓡα' ]",
+    // *Thomson cross-section - Calculation from measurement
+    "σe",       "[ 'ROUND(CONVERT(8*Ⓒπ*Ⓒre²/3;1_m²);XPON(UVAL(Ⓡσe*8*Ⓒπ*Ⓒre²/3))-XPON(UVAL(8*Ⓒπ*Ⓒre²/3))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡσe*Ⓒσe);-2);1_m²)' "
+                "  'ROUND(6*Ⓢα/Ⓒα;-2)' ]",
+
+
+    // ------------------------------------------------------------------------
+    //    Compton effect
+    // ------------------------------------------------------------------------
+
+    "Scattering",   nullptr,
+    // ------------------------------------------------------------------------
+    // *Electron Compton wavelength - Calculation from measurement
+    "λc",       "[ 'ROUND(CONVERT(Ⓒh/(Ⓒme*Ⓒc);1_nm);XPON(UVAL(Ⓡλc*Ⓒh/(Ⓒme*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒme*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡλc*Ⓒλc);-2);1_nm)' "
+                "  'Ⓡme' ]",
+    // *Proton Compton wavelength - Calculation from measurement
+    "λcp",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmp*Ⓒc);1_nm);XPON(UVAL(Ⓡλcp*Ⓒh/(Ⓒmp*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmp*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡλcp*Ⓒλcp);-2);1_nm)' "
+                "  'Ⓡmp' ]",
+    // *Neutron Compton wavelength - Calculation from measurement
+    "λcn",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmn*Ⓒc);1_nm);XPON(UVAL(Ⓡλcn*Ⓒh/(Ⓒmn*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmn*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡλcn*Ⓒλcn);-2);1_nm)' "
+                "  'Ⓡmn' ]",
+    // *Muon Compton wavelength - Calculation from measurement
+    "λcμ",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmμ*Ⓒc);1_nm);XPON(UVAL(Ⓡλcμ*Ⓒh/(Ⓒmμ*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmμ*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡλcμ*Ⓒλcμ);-2);1_nm)' "
+                "  'Ⓡmμ' ]",
+    // *Tau Compton wavelength - Calculation from measurement
+    "λcτ",      "[ 'ROUND(CONVERT(Ⓒh/(Ⓒmτ*Ⓒc);1_nm);XPON(UVAL(Ⓡλcτ*Ⓒh/(Ⓒmτ*Ⓒc)))-XPON(UVAL(Ⓒh/(Ⓒmτ*Ⓒc)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡλcτ*Ⓒλcτ);-2);1_nm)' "
+                "  'Ⓡmτ' ]",
+
+    // ------------------------------------------------------------------------
+    //   Quantum mechanics
+    // ------------------------------------------------------------------------
+
+    "Quantum",    nullptr,
+
+    // *Planck - Exact definition
+    "h",        "[ 6.62607015E-34_J*s "
+                "  0_J*s "
+                "  0 ]",
+    // *Dirac - Exact definition
+    "ℏ",        "[ 'CONVERT(Ⓒh/(2*Ⓒπ);1_J*s)' "
+                "  0_J*s "
+                "  0 ]",
+    // *fine structure constant - Measurement
+    "α",        "[ 0.00729735256434 "
+                "  0.00000000000114 "
+                "  'ROUND(UBASE(Ⓢα/Ⓒα);-2)' ]",
+    // *Cs hyperfine transition - Exact definition
+    "ΔfCs",     "[ 9192631770_Hz "
+                "  0_Hz "
+                "  0 ]",
+    // *Weak mixing angle - Measurement
+    "θw",       "[ 'ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(Ⓡθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2)' "
+                   "'CONVERT(ROUND((ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023)))/2;-2);1_°)' "
+                "  'ROUND(UBASE(ABS(Ⓢθw/CONVERT(ASIN(√(0.22305));1_°)));-2)' ]"
+,
+
+    // ------------------------------------------------------------------------
     // *Planck length - Calculation from measurement
     "Lpl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^3);1_m);XPON(UVAL(ⓇLpl*√(Ⓒℏ*ⒸG/Ⓒc^3)))-XPON(UVAL(√(Ⓒℏ*ⒸG/Ⓒc^3)))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇLpl*ⒸLpl);-2);1_m)' "
@@ -644,14 +627,40 @@ static const cstring basic_constants[] =
     "Tpl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*ⒸG/Ⓒc^5);1_s);XPON(UVAL(ⓇTpl*√(Ⓒℏ*ⒸG/Ⓒc^5)))-XPON(UVAL(√(Ⓒℏ*ⒸG/Ⓒc^5)))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇTpl*ⒸTpl);-2);1_s)' "
                 "  'ⓇG/2' ]",
+    // *Planck mass - Calculation from measurement
+    "Mpl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*Ⓒc/ⒸG);1_kg);XPON(UVAL(ⓇMpl*√(Ⓒℏ*Ⓒc/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc/ⒸG)))-2)' "
+                "  'CONVERT(ROUND(UBASE(ⓇMpl*ⒸMpl);-2);1_kg)' "
+                "  'ⓇG/2' ]",
+    // *Planck energy - Calculation from measurement
+    "Epl",      "[ 'ROUND(CONVERT(√(Ⓒℏ*Ⓒc^5/ⒸG);1_GeV);XPON(UVAL(ⓇEpl*√(Ⓒℏ*Ⓒc^5/ⒸG)))-XPON(UVAL(√(Ⓒℏ*Ⓒc^5/ⒸG)))-2)' "
+                "  'ROUND(CONVERT(ROUND(UBASE(ⓇEpl*Epl);-2);1_GeV);-2)' "
+                "  'ⓇG/2' ]",
     // *Planck temperature - Calculation from measurement
     "T°pl",     "[ 'ROUND(CONVERT(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk;1_K);XPON(UVAL(ⓇT°pl*√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-XPON(UVAL(√((Ⓒℏ*Ⓒc^5/ⒸG))/Ⓒk))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇT°pl*ⒸT°pl);-2);1_K)' "
                 "  'ⓇG/2' ]",
+
+    // ------------------------------------------------------------------------
     // *Hartree energy - Calculation from measurement
     "Eh",       "[ 'ROUND(CONVERT(2*Ⓒh*Ⓒc*ⒸR∞;1_J);XPON(UVAL(ⓇEh*2*Ⓒh*Ⓒc*ⒸR∞))-XPON(UVAL(2*Ⓒh*Ⓒc*ⒸR∞))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇEh*ⒸEh);-2);1_J)' "
                 "  'ⓇR∞' ]",
+
+    // ------------------------------------------------------------------------
+    //   Quantum mechanics (electro) magnetic effects
+    // ------------------------------------------------------------------------
+
+    "Magnetism",      nullptr,
+
+    // ------------------------------------------------------------------------
+    // *Bohr magneton - Calculation from measurement
+    "μB",       "[ 'ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒme);1_J/T);XPON(UVAL(ⓇμB*Ⓒqe*Ⓒℏ/(2*Ⓒme)))-XPON(UVAL(Ⓒqe*Ⓒℏ/(2*Ⓒme)))-2)' "
+                "  'CONVERT(ROUND(UBASE(ⓇμB*ⒸμB);-2);1_J/T)' "
+                "  'Ⓡme' ]",
+    // *Nuclear magneton - Calculation from measurement
+    "μN",       "[ 'ROUND(CONVERT(Ⓒqe*Ⓒℏ/(2*Ⓒmp);1_J/T);XPON(UVAL(ⓇμN*Ⓒqe*Ⓒℏ/(2*Ⓒmp)))-XPON(UVAL(Ⓒqe*Ⓒℏ/(2*Ⓒmp)))-2)' "
+                "  'CONVERT(ROUND(UBASE(ⓇμN*ⒸμN);-2);1_J/T)' "
+                "  'Ⓡmp' ]",
     // *Electron gyromagnetic ratio - Calculation from measurement
     "γe",       "[ 'ROUND(CONVERT(2*ABS(Ⓒμe)/Ⓒℏ;1_(s*T)^-1);XPON(UVAL(Ⓡγe*2*ABS(Ⓒμe)/Ⓒℏ))-XPON(UVAL(2*ABS(Ⓒμe)/Ⓒℏ))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡγe*Ⓒγe);-2);1_(s*T)^-1)' "
@@ -664,25 +673,96 @@ static const cstring basic_constants[] =
     "γn",       "[ 'ROUND(CONVERT(2*ABS(Ⓒμn)/Ⓒℏ;1_(s*T)^-1);XPON(UVAL(Ⓡγn*2*ABS(Ⓒμn)/Ⓒℏ))-XPON(UVAL(2*ABS(Ⓒμn)/Ⓒℏ))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡγn*Ⓒγn);-2);1_(s*T)^-1)' "
                 "  'Ⓡμn' ]",
-    // *Quantum of circulation - Calculation from measurement
-    "Kc",       "[ 'ROUND(CONVERT(Ⓒπ*Ⓒℏ/Ⓒme;1_m²/s);XPON(UVAL(ⓇKc*Ⓒπ*Ⓒℏ/Ⓒme))-XPON(UVAL(Ⓒπ*Ⓒℏ/Ⓒme))-2)' "
-                "  'CONVERT(ROUND(UBASE(ⓇKc*ⒸKc);-2);1_m²/s)' "
-                "  'Ⓡme' ]",
-    // *Weak mixing angle - Measurement
-    "θw",       "[ 'ROUND(CONVERT(ASIN(√(0.22305));1_°);XPON(UVAL(Ⓡθw*ASIN(√(0.22305))))-XPON(UVAL(ASIN(√(0.22305))))-2)' "
-                   "'CONVERT(ROUND((ASIN(√(0.22305+0.00023))-ASIN(√(0.22305-0.00023)))/2;-2);1_°)' "
-                "  'ROUND(UBASE(ABS(Ⓢθw/CONVERT(ASIN(√(0.22305));1_°)));-2)' ]",
+
+    // ------------------------------------------------------------------------
+    // *Rydberg - Measurement
+    "R∞",       "[ 10973731.568157_m⁻¹ "
+                "  0.000012_m⁻¹ "
+                "  'ROUND(UBASE(ⓈR∞/ⒸR∞);-2)' ]",
+    // *von Klitzing constant - Exact calculation
+    "Rk",       "[ 'CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe²;1_Ω)' "
+                "  0_Ω "
+                "  0 ]",
+    // *Faraday - Exact calculation
+    "F",        "[ 'CONVERT(ⒸNA*Ⓒqe;1_C/mol)' "
+                "  0_C/mol "
+                "  0 ]",
+    // *Conductance quantum - Exact calculation
+    "G0",       "[ 'CONVERT(Ⓒqe²/(Ⓒπ*Ⓒℏ);1_S)' "
+                "  0_S "
+                "  0 ]",
     // *Fermi reduced coupling constant - Measurement
     "G0F",       "[ 1.1663787E-5_GeV^-2 "
                 "  0.0000006E-5_GeV^-2 "
                 "  'ROUND(UBASE(ABS(ⓈG0F/ⒸG0F));-2)' ]",
-    // *Cs hyperfine transition - Exact definition
-    "ΔfCs",     "[ 9192631770_Hz "
-                "  0_Hz "
+
+    // ------------------------------------------------------------------------
+    // *First radiation constant - Exact calculation
+    "c1",       "[ 'CONVERT(2*Ⓒπ*Ⓒh*Ⓒc²;1_(W*m²))' "
+                "  0_(W*m²) "
+                "  0 ]",
+    // *Second radiation constant - Exact calculation
+    "c2",       "[ 'CONVERT(Ⓒh*Ⓒc/Ⓒk;1_(m*K))' "
+                "  0_(m*K) "
+                "  0 ]",
+    // *Wien's constant - Theory approximation
+    "c3",       "[ 2.897771955185172661478605448092885_mm*K "
+                "  0_mm*K "
+                "  0 ]",
+    // *Wien's frequency constant - Theory approximation
+    "c3f",      "[ 0.05878925757646824946606130795309722_THz/K "
+                "  0_THz/K "
+                "  0 ]",
+    // *Magnetic flux quantum - Exact calculation
+    "ø",        "[ 'CONVERT(Ⓒπ*Ⓒℏ/Ⓒqe;1_Wb)' "
+                "  0_Wb "
                 "  0 ]",
 
     // ------------------------------------------------------------------------
-    //  Computing
+    // *Josephson constant - Exact calculation
+    "KJ",       "[ 'CONVERT(2*Ⓒqe/Ⓒh;1_Hz/V)' "
+                "  0_Hz/V "
+                "  0 ]",
+    // *Quantum of circulation - Calculation from measurement
+    "Kc",       "[ 'ROUND(CONVERT(Ⓒπ*Ⓒℏ/Ⓒme;1_m²/s);XPON(UVAL(ⓇKc*Ⓒπ*Ⓒℏ/Ⓒme))-XPON(UVAL(Ⓒπ*Ⓒℏ/Ⓒme))-2)' "
+                "  'CONVERT(ROUND(UBASE(ⓇKc*ⒸKc);-2);1_m²/s)' "
+                "  'Ⓡme' ]",
+
+    // ------------------------------------------------------------------------
+    //  Materials
+    // ------------------------------------------------------------------------
+
+    "Materials",     nullptr,
+
+    // * ε₀q ratio - Calculation from measurement
+    "ε₀q",      "[ 'ROUND(CONVERT(Ⓒε₀/Ⓒqe;1_F/(m*C));XPON(UVAL(Ⓡε₀q*Ⓒε₀/Ⓒqe))-XPON(UVAL(Ⓒε₀/Ⓒqe))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡε₀q*Ⓒε₀q);-2);1_F/(m*C))' "
+                "  'Ⓡε₀' ]",
+    // * qε₀ product - Calculation from measurement
+    "qε₀",      "[ 'ROUND(CONVERT(Ⓒqe*Ⓒε₀;1_F*C/m);XPON(UVAL(Ⓡqε₀*Ⓒqe*Ⓒε₀))-XPON(UVAL(Ⓒqe*Ⓒε₀))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡqε₀*Ⓒqε₀);-2);1_F*C/m)' "
+                "  'Ⓡε₀' ]",
+    // *Coulomb constant - Calculation from measurement
+    "ke",     "[ 'ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε₀);1_(N*(m/C)²));XPON(UVAL(Ⓡke/(4*Ⓒπ*Ⓒε₀)))-XPON(UVAL(1/(4*Ⓒπ*Ⓒε₀)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡke*Ⓒke);-2);1_(N*(m/C)²))' "
+                "  'Ⓡε₀' ]",
+    // *Dielectric constant - Definition convention
+    "εsi",      "[ 11.9 "
+                "  0 "
+                "  0 ]",
+    // *SiO2 dielectric constant - Definition convention
+    "εox",      "[ 3.9 "
+                "  0 "
+                "  0 ]",
+
+    // ------------------------------------------------------------------------
+    // *Ref intensity - Definition convention
+    "I₀",       "[ 0.000000000001_W/m² "
+                "  0_W/m² "
+                "  0 ]",
+
+    // ------------------------------------------------------------------------
+    //  Comp
     // ------------------------------------------------------------------------
     "Computing",   nullptr,
 
@@ -1378,9 +1458,10 @@ object_p constant::cache() const
         value = cst->do_value(constants);
         rt.constant(idx, value);
 
-        if (algebraic_g alg = value->as_extended_algebraic())
-            if (to_decimal(alg, true))
-                value = +alg;
+        if (value)
+            if (algebraic_g alg = value->as_extended_algebraic())
+                if (to_decimal(alg, true))
+                    value = +alg;
         if (!value)
         {
             if (!rt.error())

@@ -6169,6 +6169,20 @@ Its numerical value is an arbitrary large number that is not really infinite.
 
 The undefined constant is used to represent undefined values, such as the result of undefined operations.
 
+### rad constant
+
+This constant defines corresponds to one radian.
+
+
+### twoπ constant
+
+This constant holds the value of two times [π](#π-constant).
+
+### angl constant
+
+This constants holds one half-turn expressed in degrees.
+
+
 ## Chemistry constant
 
 ### NA constant
@@ -6190,6 +6204,17 @@ Molar volume of an ideal gas at 1 atmosphere of pressure and 0°C.
 The universal gas constant is the molar equivalent to the Boltzmann constant,
 expressed in units of energy per temperature increment per amount of substance,
 rather than energy per temperature increment per particle.
+
+### σ constant
+
+Stefan-Boltzmann constant, the factor of proportionality in the Stefan-Boltzmann
+law describing the intensity of the thermal radiation emitted by matter in terms
+of that matter's temperature.
+
+For an ideal absorber/emitter or black body, the Stefan–Boltzmann law states
+that the total energy radiated per unit surface area per unit time (also known
+as the radiant exitance) is directly proportional to the fourth power of the
+black body's temperature, T:`M°=σ·T⁴`
 
 ### StdT constant
 
@@ -6215,16 +6240,42 @@ Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
 definitions.
 
-### σ constant
+### Mu constant
 
-Stefan-Boltzmann constant, the factor of proportionality in the Stefan-Boltzmann
-law describing the intensity of the thermal radiation emitted by matter in terms
-of that matter's temperature.
+Molar mass constant, defined as one twelfth of the molar mass of carbon-12.
 
-For an ideal absorber/emitter or black body, the Stefan–Boltzmann law states
-that the total energy radiated per unit surface area per unit time (also known
-as the radiant exitance) is directly proportional to the fourth power of the
-black body's temperature, T:`M°=σ·T⁴`
+Following the 2019 revision of the SI system, the
+[Avogadro constant](#na-constant) became exact. As a result the molar mass
+constant is no longer exactly `1_g/mol`.
+
+### MC12 constant
+
+Molar mass of carbon-12
+
+### n0 constant
+
+Loschmidt constant
+
+Number of particles of an ideal gas per volume at standard temperature and
+pressure.
+
+### SoR constant
+
+Sakur-Tetrode constant
+
+This constant is used in the Sakur-Tetrode equation expression the entropy of a
+monoatomic ideal gas in terms of its thermodynamic state.
+
+### Da constant
+
+The Dalton constant is the unit mass defined as one twelfth the mass of an
+unbound neutral atom of carbon-12 in its nuclear and electronic ground state and
+at rest.
+
+
+### kq constant
+
+This constant expresses the ratio of Boltzmann constant by the electron charge.
 
 
 ## Physics constants
@@ -6251,29 +6302,6 @@ the thought experiment known (or not) as the *bat and the supersonic jet*.
 This little tidbit is only mentioned here because this particular theory was
 devised by the primary author of DB48X.
 
-
-### ε0 constant
-
-Vacuum permittivity, commonly denoted ε0 (pronounced "epsilon nought" or
-"epsilon zero"), is the value of the absolute dielectric permittivity of
-classical vacuum. It may also be referred to as the permittivity of free space,
-the electric constant, or the distributed capacitance of the vacuum. It is an
-ideal (baseline) physical constant. It is a measure of how dense of an electric
-field is "permitted" to form in response to electric charges and relates the
-units for electric charge to mechanical quantities such as length and force.
-
-### μ0 constant
-
-The vacuum magnetic permeability (variously vacuum permeability, permeability of
-free space, permeability of vacuum, magnetic constant) is the magnetic
-permeability in a classical vacuum. It is a physical constant, conventionally
-written as μ0 (pronounced "mu nought" or "mu zero"). It quantifies the strength
-of the magnetic field induced by an electric current.
-
-### g constant
-
-Acceleration of Earth gravity, equivalent to the free-fall acceleration.
-
 ### G constant
 
 The gravitational constant is an empirical physical constant involved in the
@@ -6288,6 +6316,67 @@ along the line connecting their centres of mass:
 
 ![Newton Gravitation](img/NewtonGravitation.bmp)
 
+### g constant
+
+Acceleration of Earth gravity, equivalent to the free-fall acceleration.
+
+### Z₀ constant
+
+Vaccuum characteristic impedance, also called impedance of free space.
+
+This constant relates the magnitudes of the electric and magnetic fields of
+electromagnetic radiation travelling through free space.
+
+### ε₀ constant
+
+Vacuum permittivity, commonly denoted ε₀ (pronounced "epsilon nought" or
+"epsilon zero"), is the value of the absolute dielectric permittivity of
+classical vacuum. It may also be referred to as the permittivity of free space,
+the electric constant, or the distributed capacitance of the vacuum. It is an
+ideal (baseline) physical constant. It is a measure of how dense of an electric
+field is "permitted" to form in response to electric charges and relates the
+units for electric charge to mechanical quantities such as length and force.
+
+### μ₀ constant
+
+The vacuum magnetic permeability (variously vacuum permeability, permeability of
+free space, permeability of vacuum, magnetic constant) is the magnetic
+permeability in a classical vacuum. It is a physical constant, conventionally
+written as μ₀ (pronounced "mu nought" or "mu zero"). It quantifies the strength
+of the magnetic field induced by an electric current.
+
+## Mass constants
+
+### me constant
+
+Electron mass. In particle physics, the electron mass is the mass of a
+stationary electron, also known as the invariant mass of the electron. It is one
+of the fundamental constants of physics. It has a value of about `9.109⁳⁻³¹`
+kilograms
+
+### mn constant
+
+Neutron mass measurement.
+
+
+### mp constant
+
+Proton mass measurement.
+
+### mH constant
+
+Hydrogen mass measurement.
+
+### u constant
+
+Unified atomic mass unit.
+
+A unit of mass defined as one twelfth of the mass of an unbound neutral atom of
+carbon-12 in its nuclear and electronic ground state and at rest. It is a non-SI
+unit accepted for use with SI. It is identical to the [Dalton](#dalton constant).
+
+## Quantum constants
+
 ### h constant
 
 The Planck constant is a fundamental physical constant that appears in quantum
@@ -6299,6 +6388,9 @@ divided by the associated particle momentum (`λ=h/p`).
 
 The reduced Planck constant, ℏ, also known as the Dirac Constant, is defined as
 `ℏ=h/2π`.
+
+
+## Electromagnetism constants
 
 ### qe constant
 
@@ -6313,13 +6405,6 @@ the seven SI base units are defined by seven fundamental physical constants, of
 which the elementary charge is one. As a consequence of this change, the value
 of that constant in DB48X differs from the value in the HP50G, which named it q,
 with value `1.60217733⁳⁻¹⁹` coulombs.
-
-### me constant
-
-Electron mass. In particle physics, the electron mass is the mass of a
-stationary electron, also known as the invariant mass of the electron. It is one
-of the fundamental constants of physics. It has a value of about `9.109⁳⁻³¹`
-kilograms
 
 ### qme constant
 
@@ -6364,11 +6449,17 @@ an empirical fitting parameter in the Rydberg formula for the hydrogen spectral
 series, but Niels Bohr later showed that its value could be calculated from more
 fundamental constants according to his model of the atom.
 
+
+## Size constants
+
 ### a0 constant
 
 Bohr radius. The Bohr radius is a physical constant, approximately equal to the
 most probable distance between the nucleus and the electron in a hydrogen atom
 in its ground state.
+
+
+## Magnetism constants
 
 ### μB constant
 
@@ -6397,6 +6488,9 @@ eV can be computed from wavelength `l` in nm as: `E=λ0/l`.
 
 Photon frequency. This is the frequency associated to the
 [photon wavelength λ0][#λ0-constant].
+
+
+## Scattering constants
 
 ### λc constant
 
@@ -6440,16 +6534,19 @@ wavelength `λpeak=c3/T` where `T` is absolute temperature.
 Ratio of the [Boltzman constant][#k-constant] by the
 [elementary charge](#qe-constant): `kq=k/qe`.
 
-### ε0q constant
 
-Ratio of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `ε0q=ε0/qe`.
+## Materials constants
+
+### ε₀q constant
+
+Ratio of the [vaccum permittivity](#ε₀-constant) by the
+[elementary charge](#qe-constant): `ε₀q=ε₀/qe`.
 
 
-### qε0 constant
+### qε₀ constant
 
-Product of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `qε0=ε0·qe`.
+Product of the [vaccum permittivity](#ε₀-constant) by the
+[elementary charge](#qe-constant): `qε₀=ε₀·qe`.
 
 ### εsi constant
 
@@ -6465,11 +6562,11 @@ permittivity), is a material property that measures how well an applied electric
 field can penetrate a dielectric medium compared to a vacuum. A higher value
 corresponds to a lower penetration.
 
-### I0 constant
+### I₀ constant
 
 Reference sound intensity. Sound intensity level or acoustic intensity level is
 the level of the intensity of a sound relative to a reference value. It is a
-logarithmic quantity, most often expressed in decibels dB. I0 is the sound
+logarithmic quantity, most often expressed in decibels dB. I₀ is the sound
 intensity used as a reference, corresponding to 0dB.
 
 
@@ -6686,12 +6783,12 @@ The 78 variables in the Electricity section are:
 * `∈r`: Relative permittivity
 * `μr`: Relative permeability
 * `ω`: Angular frequency (dim.: angle/time)
-* `ω0`: Resonant angular frequency (dim.: angle/time)
+* `ω₀`: Resonant angular frequency (dim.: angle/time)
 * `φ`: Phase angle
 * `φp`: Parallel phase angle
 * `φs`: Series phase angle
-* `θ1`: First subtended angle relative to the left end of the wire
-* `θ2`: Second subtended angle relative to the right end of the wire
+* `θ₁`: First subtended angle relative to the left end of the wire
+* `θ₂`: Second subtended angle relative to the right end of the wire
 * `ρ`: Resistivity (dim.: resistance·length; in SI: ohm·meter, Ω·m), or Volumic charge density ([Drift Speed & Current Density](#Drift Speed & Current Density)) (dim.: charge/volume, in SI: C/m^3)
 * `ρ0`: Resistivity at the reference temperature `T0` (dim.: resistance·length; in SI: ohm·meter, Ω·m)
 * `ΔI`: Current Change (dim.: charge/time; in SI: ampere, A)
@@ -6801,22 +6898,22 @@ Er0=Er
 
 ### E Field Finite Line
 
-The expression of the radial electric field at the distance `r` depends on the subtended angles `θ1` and `θ2` relative to the ends of the wire of finite length `L`.
+The expression of the radial electric field at the distance `r` depends on the subtended angles `θ₁` and `θ₂` relative to the ends of the wire of finite length `L`.
 
 ![E field finite line](img/EFieldFiniteLine.bmp)
 
-* **Example 1.** To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) from 6 known variables and also with the distance `r=(L/2)/tanθ1` and angle `θ2=360°-θ1` (see figure):
+* **Example 1.** To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) from 6 known variables and also with the distance `r=(L/2)/tanθ₁` and angle `θ₂=360°-θ₁` (see figure):
 ```rpl
-r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
-Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
+r='(3_m)/(2*tan 30_°)' θ₂='360_°-30_°'
+Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ₁=30_°
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=5 765.46436 894 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 @ Keep
 ```
 
-* **Example 2.** To show that the infinite line of the previous section can approximate the finite case (if `r << L` realised when `r < L/10`), we calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) with the angles `θ1=ATAN((L/2)/r)` and `θ2=360°-θ1` (see figure):
+* **Example 2.** To show that the infinite line of the previous section can approximate the finite case (if `r << L` realised when `r < L/10`), we calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field at position `r`) with the angles `θ₁=ATAN((L/2)/r)` and `θ₂=360°-θ₁` (see figure):
 ```rpl
-Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ1='atan(L/2/r)' θ2='360_°-θ1'
+Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ₁='atan(L/2/r)' θ₂='360_°-θ₁'
 if 'r < L/10' then
 @ Expecting [ λ=1.66666 66666 7⁳⁻⁶ C/m Er=598 837.52392 7 N/C ]
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
@@ -7018,11 +7115,11 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 
 ### Resonant Frequency
 
-* To calculate `[ω0;Qs;Qp;f0]` (Resonant angular velocity; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
+* To calculate `[ω₀;Qs;Qp;f0]` (Resonant angular velocity; Parallel & Series quality factors; Resonant frequency) from 3 known variables:
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
-@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
-'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
+@ Expecting [ ω₀=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
+'ROOT(ⒺResonant Frequency;[ω₀;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
 
 ### Plate Capacitor
@@ -7557,8 +7654,8 @@ The 28 variables in the Magnetism section are:
 
 * `α1`: Subtended internal left angle relative to the top ends of the solenoid
 * `α2`: Subtended internal right angle relative to the top ends of the solenoid
-* `θ1`: Subtended left angle relative to the top ends of the solenoid
-* `θ2`: Subtended right angle relative to the ends of the wire
+* `θ₁`: Subtended left angle relative to the top ends of the solenoid
+* `θ₂`: Subtended right angle relative to the ends of the wire
 * `θ`: Angle between the line of the magnetic field and the speed of the moving charge
 * `μr`: Relative permeability
 * `B`: Magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
@@ -7614,13 +7711,13 @@ B0=B
 
 #### Straight Wire Finite
 
-The expression for the magnetic field at the distance `r` depends on the subtended angles `θ1` and `θ2` relative to the ends of the wire of finite length `L`. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
+The expression for the magnetic field at the distance `r` depends on the subtended angles `θ₁` and `θ₂` relative to the ends of the wire of finite length `L`. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
 
 ![B Field From Finite Wire](img/B_Field_From_Finite_Wire.bmp)
 
 * **Example 1.** To calculate `[B_T]` (Magnetic field) from 6 known variables:
 ```rpl
-μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ1=30_°  θ2=150_°
+μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ₁=30_°  θ₂=150_°
 @ Expecting [ B=8.66025 40367⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
 @ Save for test below
@@ -7628,7 +7725,7 @@ The expression for the magnetic field at the distance `r` depends on the subtend
 
 * **Example 2.** When 'r << L' which means 'r < L/10', we can verify that the value of B for a infinite wire approximates the exact value calculated for a finite wire of length 'L'.
 ```rpl
-L=3_m  μr=1  rw=0.25_cm  r=5_cm  I=25_A  θ1='atan(r/L/2)'  θ2='180_°-θ1'
+L=3_m  μr=1  rw=0.25_cm  r=5_cm  I=25_A  θ₁='atan(r/L/2)'  θ₂='180_°-θ₁'
 if 'r < L/10' then
 @ Expecting [ B=9.99965 27945 4⁳⁻⁵ T ]
 'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
@@ -7773,7 +7870,7 @@ The 38 variables in the Motion section are:
 
 * `α`: Angular acceleration (dim.: angle/time^2, in SI: r/s^2)
 * `ω`: Angular velocity ([Circular Motion](#Circular Motion)), or Angular velocity at `t` ([Angular Motion](#Angular Motion)) (dim.: angle/time, in SI: r/s)
-* `ω0`: Initial angular velocity (dim.: angle/time, in SI: r/s)
+* `ω₀`: Initial angular velocity (dim.: angle/time, in SI: r/s)
 * `ρ`: Fluid density (dim.: mass/volume, in SI: kg/m^3)
 * `θ`: Angular position at `t` (dim.: angle)
 * `θ0`: Initial angular position ([Angular Motion](#Angular Motion)), or Initial vertical angle ([Projectile Motion](#Projectile Motion))
@@ -7847,7 +7944,7 @@ x0=0_ft  y0=0_ft  θ0=45_°  v0=200_ft/s  t=10_s
 
 * To calculate `[ω_r/min;Θ_°]` (Angular velocity at time `t`; Angular position at time `t`) from 4 known variables:
 ```rpl
-θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
+θ0=0_°  ω₀=0_r/min  α=1.5_r/min^2  t=30_s
 @ Expecting [ ω=0.75 r/min θ=10.74295 86587 ° ]
 'ROOT(ⒺAngular Motion;[ω;θ];[1_r/min;1_°])'
 ```
@@ -7920,19 +8017,19 @@ The 40 variables in the Optics section are:
 * `λ`: Light wavelength
 * `θ`: Angle between initial light polarisation direction and polarizer transmission axis ([Malus Law](#Malus Law)), or Angle subtended by two points separated by y on the screen and the middle of one slit ([2 Slits Young Interference](#2 Slits Young Interference)), or two slits ([One Slit Diffraction](#One Slit Diffraction))
 * `θ0`: Acceptance angle to enter an optical fiber in the outer medium of refraction index `n0f`
-* `θ1`: Angle of incidence in the medium of refraction index n1
-* `θ2`: Angle of refraction in the medium of refraction index n2
+* `θ₁`: Angle of incidence in the medium of refraction index n1
+* `θ₂`: Angle of refraction in the medium of refraction index n2
 * `θB`: Brewster angle
 * `θc`: Critical angle
 * `θr`: Rayleigh's criterion limiting
 * `a`: Width of a diffraction slit
 * `d`: Distance between two interference slits
-* `E0`: Incident light electrtc field
+* `E₀`: Incident light electrtc field
 * `f`: Focal length
-* `fx0`: Frequency of the incident X-ray (dim.: time^-1, in SI: hertz, Hz)
+* `fx₀`: Frequency of the incident X-ray (dim.: time^-1, in SI: hertz, Hz)
 * `fx`: Frequency of the transmitted X-ray (dim.: time^-1, in SI: hertz, Hz)
 * `I`: Transmitted irradiance or polarized light radiance flux (dim.: power/area, in SI: W/m^2)
-* `I0`: Incident irradiance or polarized light radiance flux (dim.: power/area, in SI: W/m^2)
+* `I₀`: Incident irradiance or polarized light radiance flux (dim.: power/area, in SI: W/m^2)
 * `Ix`: Transmitted irradiance or polarized X rays radiance flux (dim.: power/area, in SI: W/m^2)
 * `Ix0`: Incident irradiance or polarized X rayx radiance flux (dim.: power/area, in SI: W/m^2)
 * `m`: Magnification
@@ -7960,11 +8057,11 @@ For reflection and refraction problems, the focal length and radius of curvature
 
 ![Refraction Law](img/RefractionLaw.bmp)
 
-* To calculate `[θ2_°;v1_m/s;v2_m/s]` (Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 3 known variables:
+* To calculate `[θ₂_°;v1_m/s;v2_m/s]` (Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 3 known variables:
 ```rpl
-n1=1  n2=1.333  θ1=45_°
-@ Expecting [ θ2=32.03672 30399 ° v1=299 792 458 m/s v2=224 900 568.642 m/s ]
-'ROOT(ⒺRefraction Law;[θ2;v1;v2];[1_°;1_m/s;1_m/s])'
+n1=1  n2=1.333  θ₁=45_°
+@ Expecting [ θ₂=32.03672 30399 ° v1=299 792 458 m/s v2=224 900 568.642 m/s ]
+'ROOT(ⒺRefraction Law;[θ₂;v1;v2];[1_°;1_m/s;1_m/s])'
 ```
 
 #### Critical Angle
@@ -7995,12 +8092,12 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 
 ![Brewster’s Law](img/Brewster’sLaw.bmp)
 
-* To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle; Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
+* To calculate `[θB_°;θ₂_°;v1_m/s;v2_m/s]` (Brewster input angle; Refraction angle; Speed of light in media of refraction index `n1` & `n2`) from 2 known variables:
 ```rpl
 n1=1  n2=1.5
-@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ2=33.69006 7526 ° ]
-@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ2 alone fails for the eqn: 'θB+θ2=90'!!
-'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ2];[1_m/s;1_m/s;1_°;1_°])'
+@ Faiing [ v1=299 792 458 m/s v2=199 861 638.667 m/s θB=56.30993 2474 ° θ₂=33.69006 7526 ° ]
+@ C#10 NOT OK MSOLVER: "Inconsistent units". SOLVE computation of θ₂ alone fails for the eqn: 'θB+θ₂=90'!!
+'ROOT(ⒺBrewster’s Law;[v1;v2;θB;θ₂];[1_m/s;1_m/s;1_°;1_°])'
 ```
 
 #### Spherical Reflection
@@ -8049,15 +8146,15 @@ r1=5_cm  r2=20_cm  n=1.5  u=50_cm
 
 #### Malus Law
 
-If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle `θ` between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency (`fx < fx0`) and therefore in energy (`h·fx`) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton scattering).
+If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle `θ` between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency (`fx < fx₀`) and therefore in energy (`h·fx`) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton scattering).
 
 ![Malus Law](img/Malus Law BW.bmp)
 
-* To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
+* To calculate `[I_(W/m^2);Ix_(W/m^2),E₀_V/m]` (Polarized light radiance flux; Polarized radiance flux of emitted Xrays; Electric field) from 5 known variables:
 ```rpl
-θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
-@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88932 1⁳⁻² W/m↑2 E0=86.80210 98145 V/m ]
-'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
+θ=30_°  I₀=10_(W/m^2)  fx₀=3e17_Hz  fx=2.7e17_Hz  I₀x=0.1_(W/m^2)
+@ Expecting [ I=7.5 W/m↑2 Ix=6.75163 88932 1⁳⁻² W/m↑2 E₀=86.80210 98145 V/m ]
+'ROOT(ⒺMalus Law;[I;Ix;E₀];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
 #### 2 Slits Young Interference
@@ -8084,7 +8181,7 @@ L=3_m  a=1000._μm  λ=600_nm  θ='ASIN(0.3*(λ_nm)/(a_μm))'  Imax=10_(W/m^2)
 The 25 variables in the Oscillations section are:
 
 * `ω`: Angular frequency (dim.: angle/time, in SI: r!s)
-* `ω0`: Natural angular frequency (dim.: angle#time, in SI: r!s)
+* `ω₀`: Natural angular frequency (dim.: angle#time, in SI: r!s)
 * `ωu`: Underdamped angular frequency (dim.: angle/time, in SI: r!s)
 * `γ`: Reduced damping coefficient (dim.: angle/time, in SI: r/s)
 * `φ`: Phase angle
@@ -8163,18 +8260,18 @@ G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
 
 * To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement; Velocity & Acceleration at `t`; Mass; Total energy) from 5 known variables:
 ```rpl
-xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
+xm=10_cm  ω₀=15_r/s  φ=25_°  t=25_μs  k=10_N/m
 @ Expecting [ x=9.06149 24146 7 cm v=-63.44371 46156 cm/s a=-20.38835 7933 m/s↑2 m=4.44444 44444 4⁳⁻² kg E=0.05 J ]
 'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
 ```
 
 #### Underdamped Oscillations
 
-We are considering here a damped mass-spring oscillator having the natural angular frequency `ω0`. The corresponding differential equation : `−k*x − b*dx/dt = m*d^2x/dt^2` describes the underdamped oscillations.
+We are considering here a damped mass-spring oscillator having the natural angular frequency `ω₀`. The corresponding differential equation : `−k*x − b*dx/dt = m*d^2x/dt^2` describes the underdamped oscillations.
 
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
-xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
+xm=10_cm  ω₀=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
 @ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s x=9.06100 06640 3 cm v=-83.10906 53488 cm/s a=-16.64734 35534 m/s↑2 E=0.05640 00148 35 J Q=3.33333 33333 3 ]
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 @ Save E for later use
@@ -8183,19 +8280,19 @@ xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)
 The code below saves the reference value for comparison with the example in [Driven Damped Oscillations](#Driven Damped Oscillations):
 ```rpl
 @ Save the reference value for comparison below
-E0=E
-@ Save E0 for later
+E₀=E
+@ Save E₀ for later
 ```
 
 #### Driven Damped Oscillations
 
-We are considering here a damped mass-spring oscillator where the external driving force is of the form `Fdriving = Fd*cos(ω*t)` acting at the angular frequency `ω`. The corresponding differential equation : `−k*x − b*dx/dt + Fd*cos(ω*t) = m*d^2x/dt^2` describes the driven damped oscillations. When the driving frequency `ω` comes close to the natural frequency `ω0` this is the onset of resonance with amplitude increase and the total energy accumulates up to a possible catastrophy when the structure is overcome (see fig)
+We are considering here a damped mass-spring oscillator where the external driving force is of the form `Fdriving = Fd*cos(ω*t)` acting at the angular frequency `ω`. The corresponding differential equation : `−k*x − b*dx/dt + Fd*cos(ω*t) = m*d^2x/dt^2` describes the driven damped oscillations. When the driving frequency `ω` comes close to the natural frequency `ω₀` this is the onset of resonance with amplitude increase and the total energy accumulates up to a possible catastrophy when the structure is overcome (see fig)
 
 ![Driven Damped Oscillations](img/Driven Damped Oscillations2_BW.bmp)
 
 * To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Phase angle; Resulting amplitude; Displacement; Velocity & Acceleration at `t`; Total energy at `t`; Quality factor) from 9 known variables which correspond to the values of the previous section:
 ```rpl
-ω=14.99_r/s  ω0=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
+ω=14.99_r/s  ω₀=15_r/s  θ=25_°  t=500_s  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
 @ Expecting [ m=4.44444 44444 4⁳⁻² kg γ=4.5 r/s ωu=14.83028 995 r/s φ=-89.74526 88301 ° xp=0.30019 71665 48 m x=-22.26611 11734 cm v=301.81823 6224 cm/s a=50.03197 40728 m/s↑2 E=0.45032 15149 87 J Q=3.33333 33333 3 ]
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 @ Save E for comparison
@@ -8203,7 +8300,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 
 Verify relative difference with the total energy of the case [Underdamped Oscillations](#Underdamped Oscillations)
 ```rpl
-E0 E %Ch
+E₀ E %Ch
 @ Expecting
 @ % of relative augmentation which illustrates the huge energy gain due to the driving force acting very near the resonance frequency.
 ```
@@ -8755,7 +8852,7 @@ The 110 variables in the Relativity section are:
 * `Bpz`: Transformed z component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `E`: Total energy (dim.: force·length, in SI: joule, J) or, Norm of the Electric field ([E & B Fields Transformation](#E & B Fields Transformation)) (dim.: force/charge, in SI: N/C=V/m)
 * `Ep`: Transformed total energy (dim.: force·length, in SI: joule, J)
-* `E0`: Total energy associated to the rest mass (dim.: force·length, in SI: joule, J)
+* `E₀`: Total energy associated to the rest mass (dim.: force·length, in SI: joule, J)
 * `Ex`: X component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ey`: Y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ez`: Z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
@@ -8930,31 +9027,31 @@ v=298 293 495.71_m/s  f=2e3_Hz  α=20_°  θ=10_°
 
 #### Energy & Momentum
 
-The total relativistic energy `E` and the norm of the momentum `p` form the invariant `mo·c^2` which remains the same in all frames. The kinetic energy `K` is the difference between the total relativistic energy `E` and the rest energy `E0 = mo·c^2`.
+The total relativistic energy `E` and the norm of the momentum `p` form the invariant `mo·c^2` which remains the same in all frames. The kinetic energy `K` is the difference between the total relativistic energy `E` and the rest energy `E₀ = mo·c^2`.
 
 * To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
 ```rpl
 v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
-@ Expecting [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20 kg·m/s ppz=30 kg·m/s Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=4.73302 17960 1⁳¹⁰ kg·m/s K=1.33189 22556 7⁳¹⁹ J ]
-'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
+@ Expecting [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20 kg·m/s ppz=30 kg·m/s Ep=2.24913 70834 6⁳²⁰ J E₀=8.98755 17873 9⁳¹⁷ J m0=10. kg p=4.73302 17960 1⁳¹⁰ kg·m/s K=1.33189 22556 7⁳¹⁹ J ]
+'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E₀;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
 ```
 
 #### Ultrarelativistic Cases
 
-* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
+* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E₀_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
 ```rpl
 K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
-@ Expecting [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=1.24251 84420 6⁳⁻⁸ s Δxp=3.72497 65249 3 m ]
-'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
+@ Expecting [ E₀=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=1.24251 84420 6⁳⁻⁸ s Δxp=3.72497 65249 3 m ]
+'ROOT(ⒺUltrarelativistic Cases;[E₀;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
-* **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
+* **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E₀_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 4 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
 ```rpl
 Modes 'MyModes' STO
 32 Precision 28 Sig @ Need high precision for this one
 K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781 s
 781_s
-@ Expecting [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=3.41052 60362 9⁳¹¹ β=1. v=299 792 458 m/s Δt=9.78042 95187 6⁳⁻¹⁶ s Δxp=2.93209 90057 2⁳⁻⁷ m ]
-'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
+@ Expecting [ E₀=1.50327 76180 2⁳⁻¹⁰ J γ=3.41052 60362 9⁳¹¹ β=1. v=299 792 458 m/s Δt=9.78042 95187 6⁳⁻¹⁶ s Δxp=2.93209 90057 2⁳⁻⁷ m ]
+'ROOT(ⒺUltrarelativistic Cases;[E₀;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ResetModes MyModes @ Restore initial state
 ```
 

@@ -41,6 +41,20 @@ Its numerical value is an arbitrary large number that is not really infinite.
 
 The undefined constant is used to represent undefined values, such as the result of undefined operations.
 
+### rad constant
+
+This constant defines corresponds to one radian.
+
+
+### twoπ constant
+
+This constant holds the value of two times [π](#π-constant).
+
+### angl constant
+
+This constants holds one half-turn expressed in degrees.
+
+
 ## Chemistry constant
 
 ### NA constant
@@ -62,6 +76,17 @@ Molar volume of an ideal gas at 1 atmosphere of pressure and 0°C.
 The universal gas constant is the molar equivalent to the Boltzmann constant,
 expressed in units of energy per temperature increment per amount of substance,
 rather than energy per temperature increment per particle.
+
+### σ constant
+
+Stefan-Boltzmann constant, the factor of proportionality in the Stefan-Boltzmann
+law describing the intensity of the thermal radiation emitted by matter in terms
+of that matter's temperature.
+
+For an ideal absorber/emitter or black body, the Stefan–Boltzmann law states
+that the total energy radiated per unit surface area per unit time (also known
+as the radiant exitance) is directly proportional to the fourth power of the
+black body's temperature, T:`M°=σ·T⁴`
 
 ### StdT constant
 
@@ -87,16 +112,42 @@ Applied Chemistry (IUPAC, used by DB48X) and the National Institute of Standards
 and Technology (NIST). Other organizations have established a variety of other
 definitions.
 
-### σ constant
+### Mu constant
 
-Stefan-Boltzmann constant, the factor of proportionality in the Stefan-Boltzmann
-law describing the intensity of the thermal radiation emitted by matter in terms
-of that matter's temperature.
+Molar mass constant, defined as one twelfth of the molar mass of carbon-12.
 
-For an ideal absorber/emitter or black body, the Stefan–Boltzmann law states
-that the total energy radiated per unit surface area per unit time (also known
-as the radiant exitance) is directly proportional to the fourth power of the
-black body's temperature, T:`M°=σ·T⁴`
+Following the 2019 revision of the SI system, the
+[Avogadro constant](#na-constant) became exact. As a result the molar mass
+constant is no longer exactly `1_g/mol`.
+
+### MC12 constant
+
+Molar mass of carbon-12
+
+### n0 constant
+
+Loschmidt constant
+
+Number of particles of an ideal gas per volume at standard temperature and
+pressure.
+
+### SoR constant
+
+Sakur-Tetrode constant
+
+This constant is used in the Sakur-Tetrode equation expression the entropy of a
+monoatomic ideal gas in terms of its thermodynamic state.
+
+### Da constant
+
+The Dalton constant is the unit mass defined as one twelfth the mass of an
+unbound neutral atom of carbon-12 in its nuclear and electronic ground state and
+at rest.
+
+
+### kq constant
+
+This constant expresses the ratio of Boltzmann constant by the electron charge.
 
 
 ## Physics constants
@@ -123,29 +174,6 @@ the thought experiment known (or not) as the *bat and the supersonic jet*.
 This little tidbit is only mentioned here because this particular theory was
 devised by the primary author of DB48X.
 
-
-### ε0 constant
-
-Vacuum permittivity, commonly denoted ε0 (pronounced "epsilon nought" or
-"epsilon zero"), is the value of the absolute dielectric permittivity of
-classical vacuum. It may also be referred to as the permittivity of free space,
-the electric constant, or the distributed capacitance of the vacuum. It is an
-ideal (baseline) physical constant. It is a measure of how dense of an electric
-field is "permitted" to form in response to electric charges and relates the
-units for electric charge to mechanical quantities such as length and force.
-
-### μ0 constant
-
-The vacuum magnetic permeability (variously vacuum permeability, permeability of
-free space, permeability of vacuum, magnetic constant) is the magnetic
-permeability in a classical vacuum. It is a physical constant, conventionally
-written as μ0 (pronounced "mu nought" or "mu zero"). It quantifies the strength
-of the magnetic field induced by an electric current.
-
-### g constant
-
-Acceleration of Earth gravity, equivalent to the free-fall acceleration.
-
 ### G constant
 
 The gravitational constant is an empirical physical constant involved in the
@@ -160,6 +188,67 @@ along the line connecting their centres of mass:
 
 ![Newton Gravitation](img/NewtonGravitation.bmp)
 
+### g constant
+
+Acceleration of Earth gravity, equivalent to the free-fall acceleration.
+
+### Z₀ constant
+
+Vaccuum characteristic impedance, also called impedance of free space.
+
+This constant relates the magnitudes of the electric and magnetic fields of
+electromagnetic radiation travelling through free space.
+
+### ε₀ constant
+
+Vacuum permittivity, commonly denoted ε₀ (pronounced "epsilon nought" or
+"epsilon zero"), is the value of the absolute dielectric permittivity of
+classical vacuum. It may also be referred to as the permittivity of free space,
+the electric constant, or the distributed capacitance of the vacuum. It is an
+ideal (baseline) physical constant. It is a measure of how dense of an electric
+field is "permitted" to form in response to electric charges and relates the
+units for electric charge to mechanical quantities such as length and force.
+
+### μ₀ constant
+
+The vacuum magnetic permeability (variously vacuum permeability, permeability of
+free space, permeability of vacuum, magnetic constant) is the magnetic
+permeability in a classical vacuum. It is a physical constant, conventionally
+written as μ₀ (pronounced "mu nought" or "mu zero"). It quantifies the strength
+of the magnetic field induced by an electric current.
+
+## Mass constants
+
+### me constant
+
+Electron mass. In particle physics, the electron mass is the mass of a
+stationary electron, also known as the invariant mass of the electron. It is one
+of the fundamental constants of physics. It has a value of about `9.109⁳⁻³¹`
+kilograms
+
+### mn constant
+
+Neutron mass measurement.
+
+
+### mp constant
+
+Proton mass measurement.
+
+### mH constant
+
+Hydrogen mass measurement.
+
+### u constant
+
+Unified atomic mass unit.
+
+A unit of mass defined as one twelfth of the mass of an unbound neutral atom of
+carbon-12 in its nuclear and electronic ground state and at rest. It is a non-SI
+unit accepted for use with SI. It is identical to the [Dalton](#dalton constant).
+
+## Quantum constants
+
 ### h constant
 
 The Planck constant is a fundamental physical constant that appears in quantum
@@ -171,6 +260,9 @@ divided by the associated particle momentum (`λ=h/p`).
 
 The reduced Planck constant, ℏ, also known as the Dirac Constant, is defined as
 `ℏ=h/2π`.
+
+
+## Electromagnetism constants
 
 ### qe constant
 
@@ -185,13 +277,6 @@ the seven SI base units are defined by seven fundamental physical constants, of
 which the elementary charge is one. As a consequence of this change, the value
 of that constant in DB48X differs from the value in the HP50G, which named it q,
 with value `1.60217733⁳⁻¹⁹` coulombs.
-
-### me constant
-
-Electron mass. In particle physics, the electron mass is the mass of a
-stationary electron, also known as the invariant mass of the electron. It is one
-of the fundamental constants of physics. It has a value of about `9.109⁳⁻³¹`
-kilograms
 
 ### qme constant
 
@@ -236,11 +321,17 @@ an empirical fitting parameter in the Rydberg formula for the hydrogen spectral
 series, but Niels Bohr later showed that its value could be calculated from more
 fundamental constants according to his model of the atom.
 
+
+## Size constants
+
 ### a0 constant
 
 Bohr radius. The Bohr radius is a physical constant, approximately equal to the
 most probable distance between the nucleus and the electron in a hydrogen atom
 in its ground state.
+
+
+## Magnetism constants
 
 ### μB constant
 
@@ -269,6 +360,9 @@ eV can be computed from wavelength `l` in nm as: `E=λ0/l`.
 
 Photon frequency. This is the frequency associated to the
 [photon wavelength λ0][#λ0-constant].
+
+
+## Scattering constants
 
 ### λc constant
 
@@ -312,16 +406,19 @@ wavelength `λpeak=c3/T` where `T` is absolute temperature.
 Ratio of the [Boltzman constant][#k-constant] by the
 [elementary charge](#qe-constant): `kq=k/qe`.
 
-### ε0q constant
 
-Ratio of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `ε0q=ε0/qe`.
+## Materials constants
+
+### ε₀q constant
+
+Ratio of the [vaccum permittivity](#ε₀-constant) by the
+[elementary charge](#qe-constant): `ε₀q=ε₀/qe`.
 
 
-### qε0 constant
+### qε₀ constant
 
-Product of the [vaccum permittivity](#ε0-constant) by the
-[elementary charge](#qe-constant): `qε0=ε0·qe`.
+Product of the [vaccum permittivity](#ε₀-constant) by the
+[elementary charge](#qe-constant): `qε₀=ε₀·qe`.
 
 ### εsi constant
 
@@ -337,11 +434,11 @@ permittivity), is a material property that measures how well an applied electric
 field can penetrate a dielectric medium compared to a vacuum. A higher value
 corresponds to a lower penetration.
 
-### I0 constant
+### I₀ constant
 
 Reference sound intensity. Sound intensity level or acoustic intensity level is
 the level of the intensity of a sound relative to a reference value. It is a
-logarithmic quantity, most often expressed in decibels dB. I0 is the sound
+logarithmic quantity, most often expressed in decibels dB. I₀ is the sound
 intensity used as a reference, corresponding to 0dB.
 
 

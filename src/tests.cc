@@ -181,7 +181,11 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            constants_menu();
+        {
+            graphic_commands();
+            list_functions();
+            text_functions();
+        }
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -5614,6 +5618,74 @@ void tests::list_functions()
     step("DoSubs with bad arguments")
         .test(CLEAR, "{ A B 3 D 5 6 E 8 F }  « + »  DUP DOSUBS", ENTER)
         .error("Bad argument type");
+
+    step("Extract with integer range")
+        .test(CLEAR, "{ A B C D E } 2 4", ID_ListMenu, ID_Extract)
+        .expect("{ B C D }");
+    step("Extract with negative integer range")
+        .test(CLEAR, "{ A B C D E } -2 4", ID_ListMenu, ID_Extract)
+        .expect("{ A B C D }");
+    step("Extract with range outside of size")
+        .test(CLEAR, "{ A B C D E } 1 6", ID_ListMenu, ID_Extract)
+        .expect("{ A B C D E }");
+    step("Extract with one-element range")
+        .test(CLEAR, "{ A B C D E } 1 1", ID_ListMenu, ID_Extract)
+        .expect("{ A }");
+    step("Extract with empty range")
+        .test(CLEAR, "{ A B C D E } 2 1", ID_ListMenu, ID_Extract)
+        .expect("{ }");
+    step("Extract with one-level list range")
+        .test(CLEAR, "{ A B C D E } {3} {5}", ID_ListMenu, ID_Extract)
+        .expect("{ C D E }");
+    step("Extract with two level unexpected list range")
+        .test(CLEAR, "{ A B C D E } { 3 4 } { 5 5 }", ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
+    step("Extract with two level list range")
+        .test(CLEAR, "{ {A B} {C D} {E F} {G} } { 1 2 } { 4 3 }",
+              ID_ListMenu, ID_Extract)
+        .want("{ { B } { D } { F } { } }");
+    step("Extract with unexpected three level list range")
+        .test(CLEAR, "{ {A B} {C D} {E F} {G} } { 1 2 3 } { 3 3 5 }",
+              ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
+    step("Extract with inconsistent range size")
+        .test(CLEAR, "{ A B C D E } { 1 6 3 } { 2 4 }",
+              ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
+
+    step("Extract array with integer range")
+        .test(CLEAR, "[ A B C D E ] 2 4", ID_ListMenu, ID_Extract)
+        .expect("[ B C D ]");
+    step("Extract array with negative integer range")
+        .test(CLEAR, "[ A B C D E ] -2 4", ID_ListMenu, ID_Extract)
+        .expect("[ A B C D ]");
+    step("Extract array with range outside of size")
+        .test(CLEAR, "[ A B C D E ] 1 6", ID_ListMenu, ID_Extract)
+        .expect("[ A B C D E ]");
+    step("Extract array with one-element range")
+        .test(CLEAR, "[ A B C D E ] 1 1", ID_ListMenu, ID_Extract)
+        .expect("[ A ]");
+    step("Extract array with empty range")
+        .test(CLEAR, "[ A B C D E ] 2 1", ID_ListMenu, ID_Extract)
+        .expect("[ ]");
+    step("Extract array with one-level list range")
+        .test(CLEAR, "[ A B C D E ] [3] [5]", ID_ListMenu, ID_Extract)
+        .expect("[ C D E ]");
+    step("Extract array with two level unexpected list range")
+        .test(CLEAR, "[ A B C D E ] [ 3 4 ] [ 5 5 ]", ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
+    step("Extract array with two level list range")
+        .test(CLEAR, "[ [A B] [C D] [E F] [G] ] [ 1 2 ] [ 4 3 ]",
+              ID_ListMenu, ID_Extract)
+        .want("[[ B ] [ D ] [ F ] [ ]]");
+    step("Extract array with unexpected three level list range")
+        .test(CLEAR, "[ [A B] [C D] [E F] [G] ] [ 1 2 3 ] [ 3 3 5 ]",
+              ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
+    step("Extract array with inconsistent range size")
+        .test(CLEAR, "[ A B C D E ] [ 1 6 3 ] [ 2 4 ]",
+              ID_ListMenu, ID_Extract)
+        .error("Invalid dimension");
 }
 
 
@@ -5762,6 +5834,28 @@ void tests::text_functions()
         .expect("\"ello\"")
         .test(CLEAR, "\"À demain\" TAIL", ENTER)
         .expect("\" demain\"");
+
+    step("Extract text range")
+        .test(CLEAR, "\"Hello World\" 3 5 EXTRACT", ENTER)
+        .expect("\"llo\"");
+    step("Extract one-character text range")
+        .test(CLEAR, "\"Hello World\" 3 3", ID_TextMenu, ID_Extract)
+        .expect("\"l\"");
+    step("Extract empty text range")
+        .test(CLEAR, "\"Hello World\" 3 2", ID_TextMenu, ID_Extract)
+        .expect("\"\"");
+    step("Extract text range starting at 0")
+        .test(CLEAR, "\"Hello World\" 3 2", ID_TextMenu, ID_Extract)
+        .expect("\"\"");
+    step("Extract text range with negative value")
+        .test(CLEAR, "\"Hello World\" -3 2", ID_TextMenu, ID_Extract)
+        .expect("\"He\"");
+    step("Extract text range with end out of bounds")
+        .test(CLEAR, "\"Hello World\" 1 55", ID_TextMenu, ID_Extract)
+        .expect("\"Hello World\"");
+    step("Extract text range with range out of bounds")
+        .test(CLEAR, "\"Hello World\" 53 55 EXTRACT", ENTER)
+        .expect("\"\"");
 
     step("Ensure we can parse integer numbers with separators in them")
         .test(CLEAR, "100000", ENTER).expect("100 000")
@@ -11472,6 +11566,17 @@ void tests::graphic_commands()
 {
     BEGIN(graphics);
 
+    step("Extract graphic element")
+        .test(CLEAR, "123 0", ID_ObjectMenu, ID_ToGrob)
+        .image_noheader("num-grob")
+        .test("{ 10#5 10#3 } { 10#40 10#240 }", ID_GraphicsMenu, ID_Extract)
+        .image_noheader("num-grob-extracted");
+    step("Extract graphic element")
+        .test(CLEAR, "123 0", ID_ObjectMenu, ID_ToGrob)
+        .image_noheader("num-grob")
+        .test("{ 10#15 10#13 } { 10#70 10#24 }", ID_GraphicsMenu, ID_Extract)
+        .image_noheader("num-grob-extracted2");
+
     step("Clear LCD")
         .test(CLEAR, "ClearLCD", ENTER)
         .noerror()
@@ -11841,99 +11946,60 @@ void tests::graphic_commands()
         .noerror();
 
     step("GraphicAppend")
-        .test(CLEAR,
-              RSHIFT,
-              DOT,
-              "ABC 4",
-              LSHIFT,
-              F1,
-              "DEFGH 2",
-              LSHIFT,
-              F1,
-              F6,
-              RSHIFT,
-              F1,
-              EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 4", ID_ToGrob,
+              "DEFGH 2", ID_ToGrob,
+              ID_GraphicAppend, EXIT)
         .image_noheader("graph-append");
     step("GraphicStack")
-        .test(CLEAR,
-              RSHIFT,
-              DOT,
-              "ABC 2",
-              LSHIFT,
-              F1,
-              "DEFGH 4",
-              LSHIFT,
-              F1,
-              F6,
-              RSHIFT,
-              F2,
-              EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 2", ID_ToGrob,
+              "DEFGH 4", ID_ToGrob,
+              ID_GraphicStack, EXIT)
         .image_noheader("graph-stack");
     step("GraphicSubscript")
-        .test(CLEAR,
-              RSHIFT,
-              DOT,
-              "ABC 0",
-              LSHIFT,
-              F1,
-              "DEFGH 1",
-              LSHIFT,
-              F1,
-              F6,
-              RSHIFT,
-              F3,
-              EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 0", ID_ToGrob,
+              "DEFGH 1", ID_ToGrob,
+              ID_GraphicSubscript, EXIT)
         .image_noheader("graph-subscript");
     step("GraphicExponent")
-        .test(CLEAR,
-              RSHIFT,
-              DOT,
-              "ABC 4",
-              LSHIFT,
-              F1,
-              "DEFGH 3",
-              LSHIFT,
-              F1,
-              F6,
-              RSHIFT,
-              F3,
-              EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 4", ID_ToGrob,
+              "DEFGH 3", ID_ToGrob,
+              ID_GraphicExponent, EXIT)
         .image_noheader("graph-exponent");
     step("GraphicRatio")
-        .test(CLEAR,
-              RSHIFT,
-              DOT,
-              "ABC 3",
-              LSHIFT,
-              F1,
-              "DEFGH 0",
-              LSHIFT,
-              F1,
-              F6,
-              RSHIFT,
-              F4,
-              EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 3", ID_ToGrob,
+              "DEFGH 0", ID_ToGrob,
+              ID_GraphicRatio, EXIT)
         .image_noheader("graph-ratio");
 
     step("GraphicRoot")
-        .test(CLEAR, RSHIFT, DOT, "ABC 0", LSHIFT, F1, F6, F6, F1, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 0", ID_GraphicRoot, EXIT)
         .image_noheader("graph-root");
     step("GraphicParentheses")
-        .test(CLEAR, RSHIFT, DOT, "ABC 2.1", LSHIFT, F1, F6, F6, F2, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 2.1", ID_ToGrob, ID_GraphicParentheses, EXIT)
         .image_noheader("graph-paren");
     step("GraphicNorm")
-        .test(CLEAR, RSHIFT, DOT, "ABC 3.5", LSHIFT, F1, F6, F6, F3, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "ABC 3.5", ID_GraphicNorm, EXIT)
         .image_noheader("graph-norm");
 
     step("GraphicSum")
-        .test(CLEAR, RSHIFT, DOT, "123", F6, F6, LSHIFT, F1, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "123", ID_GraphicSum, EXIT)
         .image_noheader("graph-sum");
     step("GraphicProduct")
-        .test(CLEAR, RSHIFT, DOT, "123", F6, F6, LSHIFT, F2, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "123", ID_GraphicProduct, EXIT)
         .image_noheader("graph-product");
     step("GraphicIntegral")
-        .test(CLEAR, RSHIFT, DOT, "123", F6, F6, LSHIFT, F3, EXIT)
+        .test(CLEAR, ID_GraphicsMenu,
+              "123", ID_GraphicIntegral,EXIT)
         .image_noheader("graph-integral");
 }
 

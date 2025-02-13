@@ -412,6 +412,7 @@ NAMED(PercentTotal,     "%Total")               ALIAS(PercentChange, "%T")
 CMD(Min)
 CMD(Max)
 
+NAMED(Extract, "Sub")
 CMD(NSub)
 CMD(EndSub)
 

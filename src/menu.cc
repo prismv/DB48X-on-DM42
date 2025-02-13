@@ -1053,7 +1053,7 @@ MENU(ListMenu,
      "DoSubs",  ID_DoSubs,
      "NSub",    ID_NSub,
      "EndSub",  ID_EndSub,
-     "Loops",   ID_LoopsMenu,
+     "Extract", ID_Extract,
 
      "Obj→",    ID_Explode,
      "Find",    ID_Unimplemented,
@@ -1595,10 +1595,10 @@ MENU(GraphicsMenu,
      "Circle",  ID_Circle,
 
      "→Grob",   ID_ToGrob,
-     "ClLCD",   ID_ClLCD,
      "GOr",     ID_GOr,
      "GXor",    ID_GXor,
      "GAnd",    ID_GAnd,
+     "Extract", ID_Extract,
 
      "RGB",     ID_RGB,
      "LnWidth", ID_LineWidth,
@@ -1610,7 +1610,7 @@ MENU(GraphicsMenu,
      "Foregnd", ID_Foreground,
      "Bckgnd",  ID_Background,
      "Disp",    ID_Disp,
-     "DispXY",  ID_DispXY,
+     "ClLCD",   ID_ClLCD,
 
      "Show",    ID_Show,
      "PixOn",   ID_PixOn,
@@ -1618,21 +1618,22 @@ MENU(GraphicsMenu,
      "Pix?",    ID_PixTest,
      "PixCol?", ID_PixColor,
 
+     "DispXY",  ID_DispXY,
      "Append",  ID_GraphicAppend,
      "Stack",   ID_GraphicStack,
      "Sub",     ID_GraphicSubscript,
      "Sup",     ID_GraphicExponent,
-     "Ratio",   ID_GraphicRatio,
 
+     "Ratio",   ID_GraphicRatio,
      "Root",    ID_GraphicRoot,
      "Paren",   ID_GraphicParentheses,
      "Norm",    ID_GraphicNorm,
      "Freeze",  ID_Freeze,
-     "Plot",    ID_PlotMenu,
 
      "Sum",     ID_GraphicSum,
      "Product", ID_GraphicProduct,
-     "Integral",ID_GraphicIntegral);
+     "Integral",ID_GraphicIntegral,
+     "Plot",    ID_PlotMenu);
 
 
 MENU(MemoryMenu,
@@ -1749,11 +1750,12 @@ MENU(TextMenu,
 
      "T→Code",          ID_TextToUnicode,
      "Code→T",          ID_UnicodeToText,
+     "Extract",         ID_Extract,
      "T→Obj",           ID_CompileToObject,
      "T→Alg",           ID_CompileToAlgebraic,
      "T→Num",           ID_CompileToNumber,
-     "T→Real",          ID_CompileToReal,
 
+     "T→Real",          ID_CompileToReal,
      "T→Expr",          ID_CompileToExpression,
      "T→Int",           ID_CompileToInteger,
      "T→Pos",           ID_CompileToPositive);

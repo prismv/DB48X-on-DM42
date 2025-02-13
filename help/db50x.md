@@ -2209,11 +2209,11 @@ values below 16.. This setting is the opposite of `HardwareFloatingPoint`.
 
 Based numbers are used to perform computations in any base. The most common
 bases used in computer science, 2, 8, 10 and 16, have special shortcuts.
-The [Bases Menu](#bases-menu) list operations on based numbers.
+The `BasesMenu` list operations on based numbers.
 
 Like integers, based numbers can be [arbitrary large](#big-integers).
 However, operations on based numbers can be truncated to a specific number of
-bits using the [WordSize](#wordsize) setting. This makes it possible to perform
+bits using the `WordSize` setting. This makes it possible to perform
 computations simulating a 16-bit or 256-bit processor.
 
 
@@ -2237,8 +2237,8 @@ typically selects the most efficient form for a given operation.
 
 Available operations on complex numbers include basic arithmetic, trigonometric,
 logarithms, exponential and hyperbolic functions, as well as a few specific
-functions such as [conj](#conj) or [arg](#arg). These functions are available in
-the [Complex Menu](#complex-menu).
+functions such as `conj` or `arg`. These functions are available in
+the `ComplexMenu`.
 
 
 ## Expressions

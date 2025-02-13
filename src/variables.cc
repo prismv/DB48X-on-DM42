@@ -851,9 +851,9 @@ static object::result store_op(object::id op)
 
 
 COMMAND_BODY(StoreAdd)          { return store_op(ID_add); }
-COMMAND_BODY(StoreSub)          { return store_op(ID_sub); }
-COMMAND_BODY(StoreMul)          { return store_op(ID_mul); }
-COMMAND_BODY(StoreDiv)          { return store_op(ID_div); }
+COMMAND_BODY(StoreSub)          { return store_op(ID_subtract); }
+COMMAND_BODY(StoreMul)          { return store_op(ID_multiply); }
+COMMAND_BODY(StoreDiv)          { return store_op(ID_divide); }
 
 
 static object::result store_op(object::id op, object_p cstval)
@@ -894,7 +894,7 @@ COMMAND_BODY(Decrement)
 //   Decrement the given variable
 // ----------------------------------------------------------------------------
 {
-    return store_op(ID_sub, integer::make(1));
+    return store_op(ID_subtract, integer::make(1));
 }
 
 
@@ -915,9 +915,9 @@ static object::result recall_op(object::id op)
 
 
 COMMAND_BODY(RecallAdd)         { return recall_op(ID_add); }
-COMMAND_BODY(RecallSub)         { return recall_op(ID_sub); }
-COMMAND_BODY(RecallMul)         { return recall_op(ID_mul); }
-COMMAND_BODY(RecallDiv)         { return recall_op(ID_div); }
+COMMAND_BODY(RecallSub)         { return recall_op(ID_subtract); }
+COMMAND_BODY(RecallMul)         { return recall_op(ID_multiply); }
+COMMAND_BODY(RecallDiv)         { return recall_op(ID_divide); }
 
 
 COMMAND_BODY(Purge)

@@ -1381,7 +1381,7 @@ static algebraic_p sum_product(object::id op,
         large            b    = last->as_int64(0, false);
         save<symbol_g *> iref(expression::independent, &name);
 
-        if (op == object::ID_mul)
+        if (op == object::ID_multiply)
         {
             init = integer::make(1);
             for (large i = a; i <= b && init; i++)
@@ -1411,7 +1411,7 @@ static algebraic_p sum_product(object::id op,
     {
         program_g        prg  = program_p(+expr);
         save<symbol_g *> iref(expression::independent, &name);
-        bool             product = op == object::ID_mul;
+        bool             product = op == object::ID_multiply;
         algebraic_g      result  = integer::make(product ? 1 : 0);
         algebraic_g      one     = integer::make(1);
         while (!program::interrupted())
@@ -1450,7 +1450,7 @@ NFUNCTION_BODY(Product)
 //   Product operation
 // ----------------------------------------------------------------------------
 {
-    return sum_product(ID_mul, args, arity);
+    return sum_product(ID_multiply, args, arity);
 }
 
 

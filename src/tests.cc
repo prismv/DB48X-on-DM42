@@ -378,12 +378,12 @@ void tests::demo_ui()
               WLABEL, ENTER, KDELAY(20),
               ID_ModesMenu, F2,
               KDELAY(0),
-              F, 3, MUL, J,  3, ID_mul, ALPHA, X, DOWN,
+              F, 3, MUL, J,  3, ID_multiply, ALPHA, X, DOWN,
               NOSHIFT, ADD, 4, ENTER,
               F,
-              K, "4.47", ID_mul, ALPHA, X, NOSHIFT, DOWN, MUL,
+              K, "4.47", ID_multiply, ALPHA, X, NOSHIFT, DOWN, MUL,
               J, ALPHA, X, NOSHIFT, DOWN, MUL,
-              L, "2.13", ID_mul, ALPHA, X, ENTER,
+              L, "2.13", ID_multiply, ALPHA, X, ENTER,
               WSHOW,
               KDELAY(0),
               RSHIFT, O, LSHIFT, RUNSTOP,
@@ -586,14 +586,14 @@ void tests::demo_pgm()
               "1 1000 ", F3, "i ", W3,
               "i ", NOSHIFT, J, ID_sq,
               " i ", NOSHIFT, K, ID_sq,
-              " i 0.321", ID_mul, K, ID_sq,
+              " i 0.321", ID_multiply, K, ID_sq,
               RSHIFT, DOT, RSHIFT, F1, F6, F2, 3, F6, RSHIFT, F2,
               RSHIFT, RUNSTOP, DOWN,
-              "i", NOSHIFT, J, 8, ID_mul, ADD,
-              "i 3.214", ID_mul, NOSHIFT, K, 4, ID_mul, ADD,
+              "i", NOSHIFT, J, 8, ID_multiply, ADD,
+              "i 3.214", ID_multiply, NOSHIFT, K, 4, ID_multiply, ADD,
               RSHIFT, RUNSTOP, DOWN,
-              "i 5.234", ID_mul, NOSHIFT, J, 4, ID_mul, ADD,
-              "i 8.214", ID_mul, NOSHIFT, K, 2, ID_mul, ADD,
+              "i 5.234", ID_multiply, NOSHIFT, J, 4, ID_multiply, ADD,
+              "i 8.214", ID_multiply, NOSHIFT, K, 2, ID_multiply, ADD,
               RSHIFT, DOT, F1, ENTER, WSHOW,
               LENGTHY(2000), RUNSTOP, WSHOW, ENTER);
 
@@ -1314,7 +1314,7 @@ void tests::interactive_stack_operations()
         .test(CLEAR, EXIT, EXIT, EXIT,
               "111 222 333 444 555 666 'inv(sqrt((2+3*6)*X))' 888 999",
               ENTER,
-              "X 2", ID_mul, C, B, ENTER, UP)
+              "X 2", ID_multiply, C, B, ENTER, UP)
         .image_noheader("istack-1");
     step("Interactive stack level 2")
         .test(UP)
@@ -3232,32 +3232,32 @@ void tests::decimal_numerical_functions()
         .test(CLEAR, "-1.23 TAN 2.34", ID_add).expect("2.31852 91517 78239 80211 40912 32514 08406")
         .test(CLEAR, "-1.23 TANH -2.34", ID_add).expect("-3.18257 93256 58929 54289 07208 91501 6509");
     step("Subtraction")
-        .test(CLEAR, "1.23 2.34", ID_sub).expect("-1.11")
-        .test(CLEAR, "1.23 -2.34", ID_sub).expect("3.57")
-        .test(CLEAR, "-1.23 2.34", ID_sub).expect("-3.57")
-        .test(CLEAR, "-1.23 -2.34", ID_sub).expect("1.11")
-        .test(CLEAR, "1.234 SIN 2.34", ID_sub).expect("-2.31846 43020 38138 43148 37899 51665 08279")
-        .test(CLEAR, "1.23 COS -2.34", ID_sub).expect("3.33976 95810 02165 19469 27543 75622 13147")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_sub).expect("-2.36147 08482 21760 19788 59087 67485 91594")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_sub).expect("1.49742 06743 41070 45710 92791 08498 3491");
+        .test(CLEAR, "1.23 2.34", ID_subtract).expect("-1.11")
+        .test(CLEAR, "1.23 -2.34", ID_subtract).expect("3.57")
+        .test(CLEAR, "-1.23 2.34", ID_subtract).expect("-3.57")
+        .test(CLEAR, "-1.23 -2.34", ID_subtract).expect("1.11")
+        .test(CLEAR, "1.234 SIN 2.34", ID_subtract).expect("-2.31846 43020 38138 43148 37899 51665 08279")
+        .test(CLEAR, "1.23 COS -2.34", ID_subtract).expect("3.33976 95810 02165 19469 27543 75622 13147")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_subtract).expect("-2.36147 08482 21760 19788 59087 67485 91594")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_subtract).expect("1.49742 06743 41070 45710 92791 08498 3491");
     step("Multiplication")
-        .test(CLEAR, "1.23 2.34", ID_mul).expect("2.8782")
-        .test(CLEAR, "1.23 -2.34", ID_mul).expect("-2.8782")
-        .test(CLEAR, "-1.23 2.34", ID_mul).expect("-2.8782")
-        .test(CLEAR, "-1.23 -2.34", ID_mul).expect("2.8782")
-        .test(CLEAR, "1.234 SIN 2.34", ID_mul).expect("0.05039 35332 30756 07032 79315 13103 70629 5")
-        .test(CLEAR, "1.23 COS -2.34", ID_mul).expect("-2.33946 08195 45066 55558 10452 38955 78766")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_mul).expect("-0.05024 17848 38918 86305 30265 15917 04330 3")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_mul).expect("1.97163 56220 41895 13036 42868 86113 86312");
+        .test(CLEAR, "1.23 2.34", ID_multiply).expect("2.8782")
+        .test(CLEAR, "1.23 -2.34", ID_multiply).expect("-2.8782")
+        .test(CLEAR, "-1.23 2.34", ID_multiply).expect("-2.8782")
+        .test(CLEAR, "-1.23 -2.34", ID_multiply).expect("2.8782")
+        .test(CLEAR, "1.234 SIN 2.34", ID_multiply).expect("0.05039 35332 30756 07032 79315 13103 70629 5")
+        .test(CLEAR, "1.23 COS -2.34", ID_multiply).expect("-2.33946 08195 45066 55558 10452 38955 78766")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_multiply).expect("-0.05024 17848 38918 86305 30265 15917 04330 3")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_multiply).expect("1.97163 56220 41895 13036 42868 86113 86312");
     step("Division")
-        .test(CLEAR, "1.23 2.34", ID_div).expect("0.52564 10256 41025 64102 56410 25641 02564 1")
-        .test(CLEAR, "1.23 -2.34", ID_div).expect("-0.52564 10256 41025 64102 56410 25641 02564 1")
-        .test(CLEAR, "-1.23 2.34", ID_div).expect("-0.52564 10256 41025 64102 56410 25641 02564 1")
-        .test(CLEAR, "-1.23 -2.34", ID_div).expect("0.52564 10256 41025 64102 56410 25641 02564 1")
-        .test(CLEAR, "1.234 SIN 2.34", ID_div).expect("0.00920 32897 27291 26859 66709 60826 88770 081")
-        .test(CLEAR, "1.23 COS -2.34", ID_div).expect("-0.42725 19576 93232 98918 49377 67359 88524 7")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_div).expect("-0.00917 55761 63145 38371 19268 23711 92988 948")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_div).expect("0.36007 66348 96978 43713 27867 05769 93628 4");
+        .test(CLEAR, "1.23 2.34", ID_divide).expect("0.52564 10256 41025 64102 56410 25641 02564 1")
+        .test(CLEAR, "1.23 -2.34", ID_divide).expect("-0.52564 10256 41025 64102 56410 25641 02564 1")
+        .test(CLEAR, "-1.23 2.34", ID_divide).expect("-0.52564 10256 41025 64102 56410 25641 02564 1")
+        .test(CLEAR, "-1.23 -2.34", ID_divide).expect("0.52564 10256 41025 64102 56410 25641 02564 1")
+        .test(CLEAR, "1.234 SIN 2.34", ID_divide).expect("0.00920 32897 27291 26859 66709 60826 88770 081")
+        .test(CLEAR, "1.23 COS -2.34", ID_divide).expect("-0.42725 19576 93232 98918 49377 67359 88524 7")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_divide).expect("-0.00917 55761 63145 38371 19268 23711 92988 948")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_divide).expect("0.36007 66348 96978 43713 27867 05769 93628 4");
     step("Power")
         .test(CLEAR, "1.23 2.34", ID_pow).expect("1.62322 21516 85370 76170 21776 74374 04099")
         .test(CLEAR, "1.23 -2.34", ID_pow).expect("0.61605 86207 88111 35803 50956 46724 98593")
@@ -3441,32 +3441,32 @@ void tests::float_numerical_functions()
         .test(CLEAR, "-1.23 TAN 2.34", ID_add).expect("-0.47981 6F")
         .test(CLEAR, "-1.23 TANH -2.34", ID_add).expect("-3.18258F");
     step("Subtraction")
-        .test(CLEAR, "1.23 2.34", ID_sub).expect("-1.11F")
-        .test(CLEAR, "1.23 -2.34", ID_sub).expect("3.57F")
-        .test(CLEAR, "-1.23 2.34", ID_sub).expect("-3.57F")
-        .test(CLEAR, "-1.23 -2.34", ID_sub).expect("1.11F")
-        .test(CLEAR, "1.234 SIN 2.34", ID_sub).expect("-1.39618F")
-        .test(CLEAR, "1.23 COS -2.34", ID_sub).expect("2.67424F")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_sub).expect("-5.15982F")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_sub).expect("1.49742F");
+        .test(CLEAR, "1.23 2.34", ID_subtract).expect("-1.11F")
+        .test(CLEAR, "1.23 -2.34", ID_subtract).expect("3.57F")
+        .test(CLEAR, "-1.23 2.34", ID_subtract).expect("-3.57F")
+        .test(CLEAR, "-1.23 -2.34", ID_subtract).expect("1.11F")
+        .test(CLEAR, "1.234 SIN 2.34", ID_subtract).expect("-1.39618F")
+        .test(CLEAR, "1.23 COS -2.34", ID_subtract).expect("2.67424F")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_subtract).expect("-5.15982F")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_subtract).expect("1.49742F");
     step("Multiplication")
-        .test(CLEAR, "1.23 2.34", ID_mul).expect("2.8782F")
-        .test(CLEAR, "1.23 -2.34", ID_mul).expect("-2.8782F")
-        .test(CLEAR, "-1.23 2.34", ID_mul).expect("-2.8782F")
-        .test(CLEAR, "-1.23 -2.34", ID_mul).expect("2.8782F")
-        .test(CLEAR, "1.234 SIN 2.34", ID_mul).expect("2.20853F")
-        .test(CLEAR, "1.23 COS -2.34", ID_mul).expect("-0.78211 6F")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_mul).expect("-6.59837F")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_mul).expect("1.97164F");
+        .test(CLEAR, "1.23 2.34", ID_multiply).expect("2.8782F")
+        .test(CLEAR, "1.23 -2.34", ID_multiply).expect("-2.8782F")
+        .test(CLEAR, "-1.23 2.34", ID_multiply).expect("-2.8782F")
+        .test(CLEAR, "-1.23 -2.34", ID_multiply).expect("2.8782F")
+        .test(CLEAR, "1.234 SIN 2.34", ID_multiply).expect("2.20853F")
+        .test(CLEAR, "1.23 COS -2.34", ID_multiply).expect("-0.78211 6F")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_multiply).expect("-6.59837F")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_multiply).expect("1.97164F");
     step("Division")
-        .test(CLEAR, "1.23 2.34", ID_div).expect("0.52564 1F")
-        .test(CLEAR, "1.23 -2.34", ID_div).expect("-0.52564 1F")
-        .test(CLEAR, "-1.23 2.34", ID_div).expect("-0.52564 1F")
-        .test(CLEAR, "-1.23 -2.34", ID_div).expect("0.52564 1F")
-        .test(CLEAR, "1.234 SIN 2.34", ID_div).expect("0.40334 1F")
-        .test(CLEAR, "1.23 COS -2.34", ID_div).expect("-0.14283 7F")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_div).expect("-1.20505F")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_div).expect("0.36007 7F");
+        .test(CLEAR, "1.23 2.34", ID_divide).expect("0.52564 1F")
+        .test(CLEAR, "1.23 -2.34", ID_divide).expect("-0.52564 1F")
+        .test(CLEAR, "-1.23 2.34", ID_divide).expect("-0.52564 1F")
+        .test(CLEAR, "-1.23 -2.34", ID_divide).expect("0.52564 1F")
+        .test(CLEAR, "1.234 SIN 2.34", ID_divide).expect("0.40334 1F")
+        .test(CLEAR, "1.23 COS -2.34", ID_divide).expect("-0.14283 7F")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_divide).expect("-1.20505F")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_divide).expect("0.36007 7F");
     step("Power")
         .test(CLEAR, "1.23 2.34", ID_pow).expect("1.62322F")
         .test(CLEAR, "1.23 -2.34", ID_pow).expect("0.61605 9F")
@@ -3624,32 +3624,32 @@ void tests::double_numerical_functions()
         .test(CLEAR, "-1.23 TAN 2.34", ID_add).expect("-0.47981 57342 68152D")
         .test(CLEAR, "-1.23 TANH -2.34", ID_add).expect("-3.18257 93256 5893D");
     step("Subtraction")
-        .test(CLEAR, "1.23 2.34", ID_sub).expect("-1.11D")
-        .test(CLEAR, "1.23 -2.34", ID_sub).expect("3.57D")
-        .test(CLEAR, "-1.23 2.34", ID_sub).expect("-3.57D")
-        .test(CLEAR, "-1.23 -2.34", ID_sub).expect("1.11D")
-        .test(CLEAR, "1.234 SIN 2.34", ID_sub).expect("-1.39618 17906 2537D")
-        .test(CLEAR, "1.23 COS -2.34", ID_sub).expect("2.67423 77271 245D")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_sub).expect("-5.15981 57342 6815D")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_sub).expect("1.49742 06743 4107D");
+        .test(CLEAR, "1.23 2.34", ID_subtract).expect("-1.11D")
+        .test(CLEAR, "1.23 -2.34", ID_subtract).expect("3.57D")
+        .test(CLEAR, "-1.23 2.34", ID_subtract).expect("-3.57D")
+        .test(CLEAR, "-1.23 -2.34", ID_subtract).expect("1.11D")
+        .test(CLEAR, "1.234 SIN 2.34", ID_subtract).expect("-1.39618 17906 2537D")
+        .test(CLEAR, "1.23 COS -2.34", ID_subtract).expect("2.67423 77271 245D")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_subtract).expect("-5.15981 57342 6815D")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_subtract).expect("1.49742 06743 4107D");
     step("Multiplication")
-        .test(CLEAR, "1.23 2.34", ID_mul).expect("2.8782D")
-        .test(CLEAR, "1.23 -2.34", ID_mul).expect("-2.8782D")
-        .test(CLEAR, "-1.23 2.34", ID_mul).expect("-2.8782D")
-        .test(CLEAR, "-1.23 -2.34", ID_mul).expect("2.8782D")
-        .test(CLEAR, "1.234 SIN 2.34", ID_mul).expect("2.20853 46099 3664D")
-        .test(CLEAR, "1.23 COS -2.34", ID_mul).expect("-0.78211 62814 71336D")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_mul).expect("-6.59836 88181 8747D")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_mul).expect("1.97163 56220 419D");
+        .test(CLEAR, "1.23 2.34", ID_multiply).expect("2.8782D")
+        .test(CLEAR, "1.23 -2.34", ID_multiply).expect("-2.8782D")
+        .test(CLEAR, "-1.23 2.34", ID_multiply).expect("-2.8782D")
+        .test(CLEAR, "-1.23 -2.34", ID_multiply).expect("2.8782D")
+        .test(CLEAR, "1.234 SIN 2.34", ID_multiply).expect("2.20853 46099 3664D")
+        .test(CLEAR, "1.23 COS -2.34", ID_multiply).expect("-0.78211 62814 71336D")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_multiply).expect("-6.59836 88181 8747D")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_multiply).expect("1.97163 56220 419D");
     step("Division")
-        .test(CLEAR, "1.23 2.34", ID_div).expect("0.52564 10256 41026D")
-        .test(CLEAR, "1.23 -2.34", ID_div).expect("-0.52564 10256 41026D")
-        .test(CLEAR, "-1.23 2.34", ID_div).expect("-0.52564 10256 41026D")
-        .test(CLEAR, "-1.23 -2.34", ID_div).expect("0.52564 10256 41026D")
-        .test(CLEAR, "1.234 SIN 2.34", ID_div).expect("0.40334 11151 17365D")
-        .test(CLEAR, "1.23 COS -2.34", ID_div).expect("-0.14283 66355 23292D")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_div).expect("-1.20504 94590 8895D")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_div).expect("0.36007 66348 96978D");
+        .test(CLEAR, "1.23 2.34", ID_divide).expect("0.52564 10256 41026D")
+        .test(CLEAR, "1.23 -2.34", ID_divide).expect("-0.52564 10256 41026D")
+        .test(CLEAR, "-1.23 2.34", ID_divide).expect("-0.52564 10256 41026D")
+        .test(CLEAR, "-1.23 -2.34", ID_divide).expect("0.52564 10256 41026D")
+        .test(CLEAR, "1.234 SIN 2.34", ID_divide).expect("0.40334 11151 17365D")
+        .test(CLEAR, "1.23 COS -2.34", ID_divide).expect("-0.14283 66355 23292D")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_divide).expect("-1.20504 94590 8895D")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_divide).expect("0.36007 66348 96978D");
     step("Power")
         .test(CLEAR, "1.23 2.34", ID_pow).expect("1.62322 21516 8537D")
         .test(CLEAR, "1.23 -2.34", ID_pow).expect("0.61605 86207 88111D")
@@ -3802,32 +3802,32 @@ void tests::high_precision_numerical_functions()
         .test(CLEAR, "-1.23 TAN 2.34", ID_add).expect("-0.47981 57342 68151 97480 88818 34909 67267 63017 29576 63870 87847 72873 08737 86224 89502 16556 77388 45242 02685 46713 25008 91512 90180 8172")
         .test(CLEAR, "-1.23 TANH -2.34", ID_add).expect("-3.18257 93256 58929 54289 07208 91501 65091 42132 21054 06082 52654 90143 67515 93012 41309 88423 04706 28583 94673 60063 58625 76729 87437 236");
     step("Subtraction")
-        .test(CLEAR, "1.23 2.34", ID_sub).expect("-1.11")
-        .test(CLEAR, "1.23 -2.34", ID_sub).expect("3.57")
-        .test(CLEAR, "-1.23 2.34", ID_sub).expect("-3.57")
-        .test(CLEAR, "-1.23 -2.34", ID_sub).expect("1.11")
-        .test(CLEAR, "1.234 SIN 2.34", ID_sub).expect("-1.39618 17906 25366 29513 82489 93843 17241 04827 85727 92342 39252 77908 82181 28600 09303 19005 16987 40113 49443 72141 55649 20044 81261 234")
-        .test(CLEAR, "1.23 COS -2.34", ID_sub).expect("2.67423 77271 24502 59823 95472 45497 66445 37577 79639 04487 83258 90283 65018 12333 72446 24616 76720 76048 88497 93223 10395 21843 73655 029")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_sub).expect("-5.15981 57342 68151 97480 88818 34909 67267 63017 29576 63870 87847 72873 08737 86224 89502 16556 77388 45242 02685 46713 25008 91512 90180 817")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_sub).expect("1.49742 06743 41070 45710 92791 08498 34908 57867 78945 93917 47345 09856 32484 06987 58690 11576 95293 71416 05326 39936 41374 23270 12562 764");
+        .test(CLEAR, "1.23 2.34", ID_subtract).expect("-1.11")
+        .test(CLEAR, "1.23 -2.34", ID_subtract).expect("3.57")
+        .test(CLEAR, "-1.23 2.34", ID_subtract).expect("-3.57")
+        .test(CLEAR, "-1.23 -2.34", ID_subtract).expect("1.11")
+        .test(CLEAR, "1.234 SIN 2.34", ID_subtract).expect("-1.39618 17906 25366 29513 82489 93843 17241 04827 85727 92342 39252 77908 82181 28600 09303 19005 16987 40113 49443 72141 55649 20044 81261 234")
+        .test(CLEAR, "1.23 COS -2.34", ID_subtract).expect("2.67423 77271 24502 59823 95472 45497 66445 37577 79639 04487 83258 90283 65018 12333 72446 24616 76720 76048 88497 93223 10395 21843 73655 029")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_subtract).expect("-5.15981 57342 68151 97480 88818 34909 67267 63017 29576 63870 87847 72873 08737 86224 89502 16556 77388 45242 02685 46713 25008 91512 90180 817")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_subtract).expect("1.49742 06743 41070 45710 92791 08498 34908 57867 78945 93917 47345 09856 32484 06987 58690 11576 95293 71416 05326 39936 41374 23270 12562 764");
     step("Multiplication")
-        .test(CLEAR, "1.23 2.34", ID_mul).expect("2.8782")
-        .test(CLEAR, "1.23 -2.34", ID_mul).expect("-2.8782")
-        .test(CLEAR, "-1.23 2.34", ID_mul).expect("-2.8782")
-        .test(CLEAR, "-1.23 -2.34", ID_mul).expect("2.8782")
-        .test(CLEAR, "1.234 SIN 2.34", ID_mul).expect("2.20853 46099 36642 86937 64973 54406 97655 94702 81396 65918 80148 49693 35695 79075 78230 53527 90249 48134 42301 69188 75780 87095 13848 714")
-        .test(CLEAR, "1.23 COS -2.34", ID_mul).expect("-0.78211 62814 71336 07988 05405 54464 53482 17932 04355 36501 52825 83263 74142 40860 91524 21603 23526 57954 39085 16142 06324 81114 34352 7674")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_mul).expect("-6.59836 88181 87475 62105 27834 93688 63406 25460 47209 33457 85563 68523 02446 59766 25435 06742 85088 97866 34283 99309 00520 86140 19023 112")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_mul).expect("1.97163 56220 41895 13036 42868 86113 86313 92589 37266 50233 11212 46936 19987 27649 04665 12909 93012 70886 43536 22548 79184 29547 90603 133");
+        .test(CLEAR, "1.23 2.34", ID_multiply).expect("2.8782")
+        .test(CLEAR, "1.23 -2.34", ID_multiply).expect("-2.8782")
+        .test(CLEAR, "-1.23 2.34", ID_multiply).expect("-2.8782")
+        .test(CLEAR, "-1.23 -2.34", ID_multiply).expect("2.8782")
+        .test(CLEAR, "1.234 SIN 2.34", ID_multiply).expect("2.20853 46099 36642 86937 64973 54406 97655 94702 81396 65918 80148 49693 35695 79075 78230 53527 90249 48134 42301 69188 75780 87095 13848 714")
+        .test(CLEAR, "1.23 COS -2.34", ID_multiply).expect("-0.78211 62814 71336 07988 05405 54464 53482 17932 04355 36501 52825 83263 74142 40860 91524 21603 23526 57954 39085 16142 06324 81114 34352 7674")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_multiply).expect("-6.59836 88181 87475 62105 27834 93688 63406 25460 47209 33457 85563 68523 02446 59766 25435 06742 85088 97866 34283 99309 00520 86140 19023 112")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_multiply).expect("1.97163 56220 41895 13036 42868 86113 86313 92589 37266 50233 11212 46936 19987 27649 04665 12909 93012 70886 43536 22548 79184 29547 90603 133");
     step("Division")
-        .test(CLEAR, "1.23 2.34", ID_div).expect("0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
-        .test(CLEAR, "1.23 -2.34", ID_div).expect("-0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
-        .test(CLEAR, "-1.23 2.34", ID_div).expect("-0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
-        .test(CLEAR, "-1.23 -2.34", ID_div).expect("0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
-        .test(CLEAR, "1.234 SIN 2.34", ID_div).expect("0.40334 11151 17364 83113 75004 29981 55025 19304 33449 60537 43909 06876 57187 48461 49870 43160 18381 45250 64340 28999 33483 24767 17409 7293")
-        .test(CLEAR, "1.23 COS -2.34", ID_div).expect("-0.14283 66355 23291 70864 93791 64742 59164 69050 34033 77986 25324 31745 14965 00997 31814 63511 43897 76089 26708 51804 74527 87112 70792 7473")
-        .test(CLEAR, "-1.23 TAN 2.34", ID_div).expect("-1.20504 94590 88953 83538 84110 40559 68917 79067 22041 29859 34977 66185 08007 63343 97223 14767 85208 74035 05421 13980 02140 56202 09478 982")
-        .test(CLEAR, "-1.23 TANH -2.34", ID_div).expect("0.36007 66348 96978 43713 27867 05769 93628 81253 08142 76103 64382 43651 14323 04706 15944 39497 02865 93411 94304 95753 66934 08858 92067 195");
+        .test(CLEAR, "1.23 2.34", ID_divide).expect("0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
+        .test(CLEAR, "1.23 -2.34", ID_divide).expect("-0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
+        .test(CLEAR, "-1.23 2.34", ID_divide).expect("-0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
+        .test(CLEAR, "-1.23 -2.34", ID_divide).expect("0.52564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 25641 02564 10256 41025 64102 56410 2564")
+        .test(CLEAR, "1.234 SIN 2.34", ID_divide).expect("0.40334 11151 17364 83113 75004 29981 55025 19304 33449 60537 43909 06876 57187 48461 49870 43160 18381 45250 64340 28999 33483 24767 17409 7293")
+        .test(CLEAR, "1.23 COS -2.34", ID_divide).expect("-0.14283 66355 23291 70864 93791 64742 59164 69050 34033 77986 25324 31745 14965 00997 31814 63511 43897 76089 26708 51804 74527 87112 70792 7473")
+        .test(CLEAR, "-1.23 TAN 2.34", ID_divide).expect("-1.20504 94590 88953 83538 84110 40559 68917 79067 22041 29859 34977 66185 08007 63343 97223 14767 85208 74035 05421 13980 02140 56202 09478 982")
+        .test(CLEAR, "-1.23 TANH -2.34", ID_divide).expect("0.36007 66348 96978 43713 27867 05769 93628 81253 08142 76103 64382 43651 14323 04706 15944 39497 02865 93411 94304 95753 66934 08858 92067 195");
     step("Power")
         .test(CLEAR, "1.23 2.34", ID_pow).expect("1.62322 21516 85370 76170 21776 74374 04103 27090 58024 62880 50736 29360 27592 07917 75146 99083 57726 38100 05735 87359 05132 61280 29729 273")
         .test(CLEAR, "1.23 -2.34", ID_pow).expect("0.61605 86207 88111 35803 50956 46724 98591 90279 99659 77958 49978 01436 78988 97209 72893 73693 48233 61309 17629 97957 78283 38559 84827 6569")
@@ -5220,11 +5220,11 @@ void tests::units_and_conversions()
         .noerror()
         .expect("0 s");
     step("No auto-simplification for unit multiplication")
-        .test(CLEAR, "1_s", ENTER, "1", ID_mul)
+        .test(CLEAR, "1_s", ENTER, "1", ID_multiply)
         .noerror()
         .expect("1 s");
     step("No auto-simplification for unit division")
-        .test(CLEAR, "1_s", ENTER, "1", ID_div)
+        .test(CLEAR, "1_s", ENTER, "1", ID_divide)
         .noerror()
         .expect("1 s");
 
@@ -6025,7 +6025,7 @@ void tests::vector_functions()
         .error("Bad argument type");
 
    step("Error in in vector operation")
-       .test(CLEAR, "[1][0]", ID_div)
+       .test(CLEAR, "[1][0]", ID_divide)
        .error("Divide by zero");
 
 }
@@ -6159,7 +6159,7 @@ void tests::matrix_functions()
         .want("[[ -3 ] [ -3 -3 ]]");
     step("Matrix of matrices")
         .test(CLEAR, "[[[ 1 2 ][3 4]][[ 1 2 ][3 4]]]", ENTER,
-              ENTER, 3, ID_mul, ID_mul)
+              ENTER, 3, ID_multiply, ID_multiply)
         .want("[[[ 12 24 ] [ 54 72 ]] [[ 12 24 ] [ 54 72 ]]]");
 
     step("Min and max")
@@ -6806,7 +6806,7 @@ void tests::numerical_integration_testing()
     step("Integrate with expression")
         .test(CLEAR, "1 2 '1/X' 'X' INTEGRATE", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, ID_log, ID_sub).expect("-3.9⁳⁻²³");
+        .test(KEY2, ID_log, ID_subtract).expect("-3.9⁳⁻²³");
     step("Integration through menu")
         .test(CLEAR, 2, ENTER).expect("2")
         .test(3, ENTER).expect("3")
@@ -6824,7 +6824,7 @@ void tests::numerical_integration_testing()
         .test(CLEAR, "18 IntegrationImprecision", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .noerror().expect("0.69314 71819 17")
-        .test(KEY2, ID_log, ID_sub).expect("0.00000 00013 57");
+        .test(KEY2, ID_log, ID_subtract).expect("0.00000 00013 57");
     step("Integrate with high precision")
         .test(CLEAR, "1 IntegrationImprecision", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
@@ -6833,7 +6833,7 @@ void tests::numerical_integration_testing()
         .test(CLEAR, "15 IntegrationImprecision", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, ID_log, ID_sub).expect("1.44607 9304⁳⁻¹⁵")
+        .test(KEY2, ID_log, ID_subtract).expect("1.44607 9304⁳⁻¹⁵")
         .test("5 IntegrationIterations", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .error("Numerical precision lost");
@@ -6842,7 +6842,7 @@ void tests::numerical_integration_testing()
               ENTER).noerror()
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, ID_log, ID_sub).expect("-3.9⁳⁻²³");
+        .test(KEY2, ID_log, ID_subtract).expect("-3.9⁳⁻²³");
 
     step("Integration with error on low bound")
         .test(CLEAR, "0 1 'sin(x)/x' 'x'", ENTER)
@@ -6922,7 +6922,7 @@ void tests::auto_simplification()
     test(CLEAR, "AutoSimplify", ENTER).noerror();
 
     step("Limit number of iterations in polynomials (bug #1047)")
-        .test(CLEAR, "X 3", ID_pow, KEY4, DIV, "X", ID_sub, KEY1, ADD)
+        .test(CLEAR, "X 3", ID_pow, KEY4, DIV, "X", ID_subtract, KEY1, ADD)
         .expect("'X³÷4-X+1'");
 
     step("X + 0 = X");
@@ -8856,10 +8856,10 @@ void tests::date_operations()
         .test("42", ID_add)
         .expect("Sat 30/Mar/2024");
     step("Subtracting days to a date")
-        .test("116", ID_sub)
+        .test("116", ID_subtract)
         .expect("Tue 5/Dec/2023");
     step("Subtracting days to a date (with day unit)")
-        .test("112_d", ID_sub)
+        .test("112_d", ID_subtract)
         .expect("Tue 15/Aug/2023");
     step("Adding days to a date (with time unit)")
         .test("112_h", ID_add)
@@ -8980,16 +8980,16 @@ void tests::infinity_and_undefined()
     BEGIN(infinity);
 
     step("Divide by zero error (integer)")
-        .test(CLEAR, "1 0", ENTER, ID_div)
+        .test(CLEAR, "1 0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (decimal)")
-        .test(CLEAR, "1.0 0.0", ENTER, ID_div)
+        .test(CLEAR, "1.0 0.0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (bignum)")
-        .test(CLEAR, "2 100 ^ 0", ENTER, ID_div)
+        .test(CLEAR, "2 100 ^ 0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (fractions)")
-        .test(CLEAR, "1/3 0", ENTER, ID_div)
+        .test(CLEAR, "1/3 0", ENTER, ID_divide)
         .error("Divide by zero");
 
     step("Setting infinity flag")
@@ -9003,43 +9003,43 @@ void tests::infinity_and_undefined()
 
     step("Divide by zero as symbolic infinity (integer)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1 0", ENTER, ID_div)
+        .test("1 0", ENTER, ID_divide)
         .expect("∞")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (decimal)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1.0 0.0", ENTER, ID_div)
+        .test("1.0 0.0", ENTER, ID_divide)
         .expect("∞")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (bignum)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("2 100 ^ 0", ENTER, ID_div)
+        .test("2 100 ^ 0", ENTER, ID_divide)
         .expect("∞")
         .test("'InfiniteResultIndicator' FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (fractions)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1/3 0", ENTER, ID_div)
+        .test("1/3 0", ENTER, ID_divide)
         .expect("∞")
         .test("'InfiniteResultIndicator' FS?C", ENTER).expect("True");
 
     step("Divide by zero as symbolic infinity (negative integer)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1 0", ENTER, ID_div)
+        .test("-1 0", ENTER, ID_divide)
         .expect("'-∞'")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (decimal)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1.0 0.0", ENTER, ID_div)
+        .test("-1.0 0.0", ENTER, ID_divide)
         .expect("'-∞'")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (bignum)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("2 100 ^ NEG 0", ENTER, ID_div)
+        .test("2 100 ^ NEG 0", ENTER, ID_divide)
         .expect("'-∞'")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as symbolic infinity (fractions)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1/3 0", ENTER, ID_div)
+        .test("-1/3 0", ENTER, ID_divide)
         .expect("'-∞'")
         .test("-26 FS?C", ENTER).expect("True");
 
@@ -9050,43 +9050,43 @@ void tests::infinity_and_undefined()
 
     step("Divide by zero as numeric infinity (integer)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1 0", ENTER, ID_div)
+        .test("1 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (decimal)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1.0 0.0", ENTER, ID_div)
+        .test("1.0 0.0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (bignum)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("2 100 ^ 0", ENTER, ID_div)
+        .test("2 100 ^ 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (fractions)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("1/3 0", ENTER, ID_div)
+        .test("1/3 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
 
     step("Divide by zero as numeric infinity (negative integer)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1 0", ENTER, ID_div)
+        .test("-1 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (decimal)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1.0 0.0", ENTER, ID_div)
+        .test("-1.0 0.0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (bignum)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("2 100 ^ NEG 0", ENTER, ID_div)
+        .test("2 100 ^ NEG 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
     step("Divide by zero as numeric infinity (fractions)")
         .test(CLEAR, "-26 FS?", ENTER).expect("False")
-        .test("-1/3 0", ENTER, ID_div)
+        .test("-1/3 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹")
         .test("-26 FS?C", ENTER).expect("True");
 
@@ -9100,29 +9100,29 @@ void tests::infinity_and_undefined()
         .test("'NumericalResults' FS?", ENTER).expect("True");
 
     step("Divide by zero as numeric infinity (integer)")
-        .test(CLEAR, "1 0", ENTER, ID_div)
+        .test(CLEAR, "1 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (decimal)")
-        .test(CLEAR, "1.0 0.0", ENTER, ID_div)
+        .test(CLEAR, "1.0 0.0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (bignum)")
-        .test(CLEAR, "2 100 ^ 0", ENTER, ID_div)
+        .test(CLEAR, "2 100 ^ 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (fractions)")
-        .test(CLEAR, "1/3 0", ENTER, ID_div)
+        .test(CLEAR, "1/3 0", ENTER, ID_divide)
         .expect("9.99999⁳⁹⁹⁹⁹⁹⁹");
 
     step("Divide by zero as numeric infinity (negative integer)")
-        .test(CLEAR, "-1 0", ENTER, ID_div)
+        .test(CLEAR, "-1 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (decimal)")
-        .test(CLEAR, "-1.0 0.0", ENTER, ID_div)
+        .test(CLEAR, "-1.0 0.0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (bignum)")
-        .test(CLEAR, "2 100 ^ NEG 0", ENTER, ID_div)
+        .test(CLEAR, "2 100 ^ NEG 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹");
     step("Divide by zero as numeric infinity (fractions)")
-        .test(CLEAR, "-1/3 0", ENTER, ID_div)
+        .test(CLEAR, "-1/3 0", ENTER, ID_divide)
         .expect("-9.99999⁳⁹⁹⁹⁹⁹⁹");
 
     step("Clear numerical results flag")
@@ -9131,16 +9131,16 @@ void tests::infinity_and_undefined()
         .test("'NumericalResults' FS?", ENTER).expect("False");
 
     step("Divide by zero as symbolic infinity (integer)")
-        .test(CLEAR, "1 0", ENTER, ID_div)
+        .test(CLEAR, "1 0", ENTER, ID_divide)
         .expect("∞");
     step("Divide by zero as symbolic infinity (decimal)")
-        .test(CLEAR, "1.0 0.0", ENTER, ID_div)
+        .test(CLEAR, "1.0 0.0", ENTER, ID_divide)
         .expect("∞");
     step("Divide by zero as symbolic infinity (bignum)")
-        .test(CLEAR, "2 100 ^ 0", ENTER, ID_div)
+        .test(CLEAR, "2 100 ^ 0", ENTER, ID_divide)
         .expect("∞");
     step("Divide by zero as symbolic infinity (fractions)")
-        .test(CLEAR, "1/3 0", ENTER, ID_div)
+        .test(CLEAR, "1/3 0", ENTER, ID_divide)
         .expect("∞");
 
     step("Clear infinity value flag")
@@ -9149,16 +9149,16 @@ void tests::infinity_and_undefined()
         .test("'InfinityError' FS?", ENTER).expect("True");
 
     step("Divide by zero error (integer)")
-        .test(CLEAR, "1 0", ENTER, ID_div)
+        .test(CLEAR, "1 0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (decimal)")
-        .test(CLEAR, "1.0 0.0", ENTER, ID_div)
+        .test(CLEAR, "1.0 0.0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (bignum)")
-        .test(CLEAR, "2 100 ^ 0", ENTER, ID_div)
+        .test(CLEAR, "2 100 ^ 0", ENTER, ID_divide)
         .error("Divide by zero");
     step("Divide by zero error (fractions)")
-        .test(CLEAR, "1/3 0", ENTER, ID_div)
+        .test(CLEAR, "1/3 0", ENTER, ID_divide)
         .error("Divide by zero");
 
     test(CLEAR);
@@ -9295,21 +9295,21 @@ void tests::graphic_stack_rendering()
     step("Draw expression")
         .test(CLEAR, EXIT, EXIT)
         .test("1 'X' +", ENTER, ID_inv, ID_sqrt, ID_log,
-              "3 X 3", ID_pow, ID_mul, ID_add)
+              "3 X 3", ID_pow, ID_multiply, ID_add)
         .test(ALPHA, X, NOSHIFT, ID_sin, ID_cos, ID_tan, ID_add)
         .image_noheader("expression");
 
     step("Two levels of stack")
         .test(CLEAR, EXIT, EXIT)
         .test("1 'X' +", ENTER, ID_inv, ID_sqrt, ID_log,
-              "3 X 3", ID_pow, ID_mul, ID_add)
+              "3 X 3", ID_pow, ID_multiply, ID_add)
         .test(ALPHA, X, NOSHIFT, ID_sin, ID_cos, ID_tan)
         .image_noheader("two-levels");
 
     step("Automatic reduction of size")
         .test(CLEAR, EXIT, EXIT)
         .test("1 'X' +", ENTER, ID_inv, ID_sqrt, ID_log,
-              "3 X 3", ID_pow, ID_mul, ID_add)
+              "3 X 3", ID_pow, ID_multiply, ID_add)
         .test(ALPHA, X, NOSHIFT, ID_sin, ID_cos, ID_tan, ID_add,
               ID_sqrt, ID_inv, ID_sqrt, ID_inv)
         .image_noheader("reduced");
@@ -10433,7 +10433,7 @@ void tests::polynomials()
         .expect("Ⓟ2·X↑3+3·Y↑2+3·Y+Z↑3");
     step("Adding polynomials").test(ADD).expect("ⓅX+2·Y+2·X↑3+3·Y↑2+Z↑3");
     step("Cancelling out terms")
-        .test(F1, KEY2, ID_mul, "Y", NOSHIFT, ENTER, ID_sub)
+        .test(F1, KEY2, ID_multiply, "Y", NOSHIFT, ENTER, ID_subtract)
         .expect("ⓅX+2·X↑3+3·Y↑2+Z↑3");
     step("Adding an expression to a polynomial")
         .test("'Y-X'", ENTER, ID_add)
@@ -10442,25 +10442,25 @@ void tests::polynomials()
         .test("'Y-X'", ENTER, ID_Swap, ID_add)
         .expect("Ⓟ2·Y-X+2·X↑3+3·Y↑2+Z↑3");
     step("Multiplying a polynomial by an expression")
-        .test("'Y-X'", ENTER, ID_Swap, ID_mul)
+        .test("'Y-X'", ENTER, ID_Swap, ID_multiply)
         .expect("Ⓟ2·Y↑2+2·X↑3·Y+3·Y↑3+Y·Z↑3-3·X·Y+X↑2-2·X↑4-3·X·Y↑2-X·Z↑3");
     step("Adding/subtracting expressions to cancel out terms")
-        .test("'X*Y*X*X*2'", ID_sub)
+        .test("'X*Y*X*X*2'", ID_subtract)
         .expect("Ⓟ2·Y↑2+3·Y↑3+Y·Z↑3-3·X·Y+X↑2-2·X↑4-3·X·Y↑2-X·Z↑3");
     step("... step 2")
-        .test("'Y*Y*3*Y'", ID_sub)
+        .test("'Y*Y*3*Y'", ID_subtract)
         .expect("Ⓟ2·Y↑2+Y·Z↑3-3·X·Y+X↑2-2·X↑4-3·X·Y↑2-X·Z↑3");
     step("... step 3")
         .test("'Y*3*X*Y'", ID_add)
         .expect("Ⓟ2·Y↑2+Y·Z↑3-3·X·Y+X↑2-2·X↑4-X·Z↑3");
     step("... step 4")
-        .test("'Z^3*(-X-Y)'", ENTER, ID_sub)
+        .test("'Z^3*(-X-Y)'", ENTER, ID_subtract)
         .expect("Ⓟ2·Y↑2+2·Y·Z↑3-3·X·Y+X↑2-2·X↑4");
     step("... step 5")
-        .test("'(Y+Y)*(Y+Z*sq(Z))'", ENTER, ID_sub)
+        .test("'(Y+Y)*(Y+Z*sq(Z))'", ENTER, ID_subtract)
         .expect("Ⓟ-3·X·Y+X↑2-2·X↑4");
     step("... step 6")
-        .test("'X'", ENTER, ID_sq, ENTER, ID_sq, ENTER, ID_add, ID_sub, ID_sub)
+        .test("'X'", ENTER, ID_sq, ENTER, ID_sq, ENTER, ID_add, ID_subtract, ID_subtract)
         .expect("Ⓟ-3·X·Y");
     step("... step 7").test("'Y*X'", ENTER, ID_add).expect("Ⓟ-2·X·Y");
     step("... step 8").test("'X*Y'", ENTER, ID_add).expect("Ⓟ-X·Y");
@@ -10471,20 +10471,20 @@ void tests::polynomials()
         .test("'X'", ENTER, ID_add)
         .expect("ⓅX");
     step("Multiplication of simple polynomials")
-        .test(NOSHIFT, F1, "X-Y", ENTER, NOSHIFT, F1, "X+Y", ENTER, ID_mul)
+        .test(NOSHIFT, F1, "X-Y", ENTER, NOSHIFT, F1, "X+Y", ENTER, ID_multiply)
         .expect("ⓅX↑2-Y↑2");
     step("Polynomial euclidean division")
-        .test(NOSHIFT, F1, "X-Y", ENTER, ID_div)
+        .test(NOSHIFT, F1, "X-Y", ENTER, ID_divide)
         .expect("ⓅX+Y");
     step("Polynomial exponentiation")
         .test("3", ID_pow)
         .expect("ⓅX↑3+3·X↑2·Y+3·X·Y↑2+Y↑3");
     step("Polynomial division with remainder")
-        .test(NOSHIFT, F1, "X-Y", ENTER, ID_div)
+        .test(NOSHIFT, F1, "X-Y", ENTER, ID_divide)
         .expect("ⓅX↑2+4·X·Y+7·Y↑2");
     step("Polynomial remainder").test(LSHIFT, M, "rem", ENTER).expect("Ⓟ8·Y↑3");
     step("Checking result")
-        .test(ID_Swap, F1, "X-Y", ENTER, ID_mul, ID_add)
+        .test(ID_Swap, F1, "X-Y", ENTER, ID_multiply, ID_add)
         .expect("ⓅY↑3+X↑3+3·X↑2·Y+3·X·Y↑2");
 
     step("Polynomial negation")
@@ -11172,7 +11172,7 @@ void tests::regression_checks()
 
     step("Bug 1110: Test computation of c from epsilon0 and mu0")
         .test(CLEAR, ID_ConstantsMenu, F4, F6, F1, F2,
-              ID_mul, ID_sqrt, ID_inv, ID_ToDecimal)
+              ID_multiply, ID_sqrt, ID_inv, ID_ToDecimal)
         .expect("299 792 458. m/(F↑(¹/₂)·H↑(¹/₂))");
 
     step("Checking parsing of unary -")
@@ -11223,8 +11223,8 @@ void tests::plotting()
 
     step("Function plot: Equation");
     test(CLEAR,
-         ALPHA, X, ENTER, ENTER, ID_sin, 3, ID_mul,
-         ID_Swap, 21, ID_mul, ID_cos, 2, ID_mul, ID_add, ENTER,
+         ALPHA, X, ENTER, ENTER, ID_sin, 3, ID_multiply,
+         ID_Swap, 21, ID_multiply, ID_cos, 2, ID_multiply, ID_add, ENTER,
          ID_PlotMenu, LENGTHY(200), ID_Function)
         .noerror()
         .image("plot-eq");
@@ -11232,7 +11232,7 @@ void tests::plotting()
     test(CLEAR,
          LSHIFT, RUNSTOP,
          ID_StackMenu, ID_Dup, ID_tan, ID_Swap,
-         41, ID_mul, ID_sin, ID_mul, ENTER,
+         41, ID_multiply, ID_sin, ID_multiply, ENTER,
          ID_PlotMenu, LENGTHY(200), ID_Function)
         .noerror()
         .image("plot-pgm");
@@ -11254,7 +11254,7 @@ void tests::plotting()
     step("Polar plot: Program");
     test(CLEAR,
          LSHIFT, RUNSTOP,
-         61, ID_mul,
+         61, ID_multiply,
          ID_tan, ID_sq,
          2, ID_add,
          ENTER,
@@ -11265,7 +11265,7 @@ void tests::plotting()
     test(CLEAR,
          ID_NoCurveFilling,
          SHIFT, RUNSTOP,
-         61, ID_mul,
+         61, ID_multiply,
          ID_tan, ID_sq, 2, ID_add, ENTER,
          ID_PlotMenu, LENGTHY(200), ID_Polar)
         .noerror()
@@ -11274,7 +11274,7 @@ void tests::plotting()
     test(CLEAR,
          ID_CurveFilling,
          LSHIFT, RUNSTOP,
-         61, ID_mul,
+         61, ID_multiply,
          ID_tan, ID_sq, 2, ID_add, ENTER,
          ID_PlotMenu, LENGTHY(200), ID_Polar)
         .noerror()

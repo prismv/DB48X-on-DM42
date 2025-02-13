@@ -9614,7 +9614,7 @@ Add two values.
 
 
 
-## Sub
+## Subtract
 
 Subtract two values
 
@@ -9626,7 +9626,7 @@ Subtract two values
   [autosimplify](#autosimplify) is active.
 
 
-## Mul
+## Multiply
 
 Multiply two values.
 
@@ -9646,7 +9646,7 @@ Multiply two values.
   gives `"XXX"`.
 
 
-## Div
+## Divide
 
 Divide two values two values
 

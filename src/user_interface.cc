@@ -5230,21 +5230,21 @@ static const byte defaultUnshiftedCommand[2*user_interface::NUM_KEYS] =
     OP2BYTES(KEY_7,     0),
     OP2BYTES(KEY_8,     0),
     OP2BYTES(KEY_9,     0),
-    OP2BYTES(KEY_DIV,   arithmetic::ID_div),
+    OP2BYTES(KEY_DIV,   arithmetic::ID_divide),
     OP2BYTES(KEY_DOWN,  0),
     OP2BYTES(KEY_4,     0),
     OP2BYTES(KEY_5,     0),
     OP2BYTES(KEY_6,     0),
-    OP2BYTES(KEY_MUL,   arithmetic::ID_mul),
+    OP2BYTES(KEY_MUL,   arithmetic::ID_multiply),
     OP2BYTES(KEY_SHIFT, 0),
     OP2BYTES(KEY_1,     0),
     OP2BYTES(KEY_2,     0),
     OP2BYTES(KEY_3,     0),
-    OP2BYTES(KEY_SUB,   command::ID_sub),
+    OP2BYTES(KEY_SUB,   command::ID_subtract),
     OP2BYTES(KEY_EXIT,  0),
     OP2BYTES(KEY_0,     0),
     OP2BYTES(KEY_DOT,   0),
-    OP2BYTES(KEY_RUN,   command::ID_Eval),
+    OP2BYTES(KEY_RUN,   command::ID_Run),
     OP2BYTES(KEY_ADD,   command::ID_add),
 
     OP2BYTES(KEY_F1,    0),
@@ -5620,8 +5620,8 @@ bool user_interface::handle_functions(int key, object_p objp, bool user)
             break;
 
         case UNIT:
-            if (ty == object::ID_mul ||
-                ty == object::ID_div ||
+            if (ty == object::ID_multiply ||
+                ty == object::ID_divide   ||
                 ty == object::ID_pow)
                 goto insert_object;
             [[fallthrough]];

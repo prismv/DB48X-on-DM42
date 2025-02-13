@@ -957,7 +957,7 @@ COMMAND_BODY(EvalEq)
                 if (d && !d->is_zero(false))
                 {
                     if (d->is_negative(false))
-                        rv = expression::make(ID_sub, rv, -d);
+                        rv = expression::make(ID_subtract, rv, -d);
                     else
                         rv = expression::make(ID_add, rv, d);
                 }

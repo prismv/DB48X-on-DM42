@@ -1744,7 +1744,7 @@ MENU(TextMenu,
      "Text→",           ID_Compile,
      "Length",          ID_Size,
      "Append",          ID_add,
-     "Repeat",          ID_mul,
+     "Repeat",          ID_multiply,
      "C→Code",          ID_CharToUnicode,
 
      "T→Code",          ID_TextToUnicode,

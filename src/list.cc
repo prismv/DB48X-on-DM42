@@ -361,7 +361,7 @@ object::result list::list_parse(id      type,
                 else if (!infix)
                 {
                     // Implicit multiplication
-                    infix = static_object(ID_mul);
+                    infix = static_object(ID_multiply);
                 }
             }
             else
@@ -1374,7 +1374,7 @@ COMMAND_BODY(ListProduct)
 //   Return the product of a list or array
 // ----------------------------------------------------------------------------
 {
-    return list_reduce(ID_mul);
+    return list_reduce(ID_multiply);
 }
 
 
@@ -1383,7 +1383,7 @@ COMMAND_BODY(ListDifferences)
 //   Return the product of a list or array
 // ----------------------------------------------------------------------------
 {
-    return list_pair_map(ID_sub);
+    return list_pair_map(ID_subtract);
 }
 
 

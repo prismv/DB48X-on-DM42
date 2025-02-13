@@ -249,9 +249,9 @@ NAMED(ToText, "→Text") ALIAS(ToText, "ToStr")           ALIAS(ToText, "→Str"
 
 // Arithmetic and basic operations
 OP(add, "+")                    ALIAS(add, "+")
-OP(sub, "-")                    ALIAS(sub, "-")
-OP(mul, "×")                    ALIAS(mul, "·")         ALIAS(mul, "*")
-OP(div, "÷")                    ALIAS(div, "/")
+OP(subtract, "-")               ALIAS(subtract, "-")
+OP(multiply, "×")               ALIAS(multiply, "·")    ALIAS(multiply, "*")
+OP(divide, "÷")                 ALIAS(divide, "/")
 CMD(mod)
 CMD(rem)
 OP(pow, "↑")                    ALIAS(pow, "Power")     ALIAS(pow, "^")

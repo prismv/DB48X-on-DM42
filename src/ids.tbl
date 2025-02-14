@@ -855,6 +855,18 @@ CMD(Random)
 
 // ============================================================================
 //
+//    Finance (Time value of money)
+//
+// ============================================================================
+
+NAMED(TVMAmort, "TVMAmortize")          ALIAS(TVMAmort, "Amort")
+CMD(TVMRoot)
+CMD(TVMEquation)
+
+
+
+// ============================================================================
+//
 //   Settings
 //
 // ============================================================================
@@ -951,12 +963,14 @@ FLAG(RunStatsClearAfterRead,    RunStatsKeepAfterRead)
 FLAG(GCTemporariesCleanup,      AutomaticTemporariesCleanup)
 FLAG(SoftwareDisplayRefresh,    DMCPDisplayRefresh)
 FLAG(SolveNumericallyOnly,      SolveSymbolicallyThenNumerically)
-
+FLAG(TVMBeginningOfPeriod,      TVMEndOfPeriod)
 
 ALIAS(HardwareFloatingPoint,    "HFP")
 ALIAS(HardwareFloatingPoint,    "HardFP")
 ALIAS(SoftwareFloatingPoint,    "SFP")
 ALIAS(SoftwareFloatingPoint,    "SoftFP")
+ALIAS(TVMBeginningOfPeriod,     "TVMBeg")
+ALIAS(TVMEndOfPeriod,           "TVMEnd")
 
 SETTING_ENUM(Std, "StandardDisplay",    DisplayMode)
 SETTING_ENUM(Sig, "SignificantDisplay", DisplayMode)
@@ -1230,7 +1244,6 @@ MENU(SymbolicSolverMenu)
 MENU(PolynomialSolverMenu)
 MENU(LinearSolverMenu)
 MENU(MultiSolverMenu)
-MENU(FinanceSolverMenu)
 
 MENU(ProgramMenu)
 MENU(TestsMenu)
@@ -1265,6 +1278,7 @@ CMD(VariablesMenu)
 CMD(CustomMenu)                 ALIAS(CustomMenu, "Cst")
 CMD(ToggleCustomMenu)
 CMD(SolvingMenu)
+CMD(FinanceSolverMenu)          ALIAS(FinanceSolverMenu, "TVM")
 CMD(ToolsMenu)
 CMD(Catalog)
 

@@ -1282,16 +1282,6 @@ MENU(LinearSolverMenu,
 
      ID_SolverMenu);
 
-MENU(FinanceSolverMenu,
-// ----------------------------------------------------------------------------
-//   Menu for finance time value of money solving
-// ----------------------------------------------------------------------------
-     "TVMR",    ID_Unimplemented,
-     "Amort",   ID_Unimplemented,
-     "Begin",   ID_Unimplemented,
-
-     ID_SolverMenu);
-
 MENU(MultiSolverMenu,
 // ----------------------------------------------------------------------------
 //   Menu for linear system solving

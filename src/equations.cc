@@ -1403,6 +1403,15 @@ static const cstring basic_equations[] =
     "'(ZX)=(ZY1)+(ZY2)' "
     "}",
 
+
+    "Finance", nullptr,
+    "TVMBeg", "{"
+    " '(1+I%Yr/(100*PYr))*(100*PYr)/I%Yr*Pmt*(1-(1+I%Yr/(100*PYr))^(-n))+FV*(1+I%Yr/(100*PYr))^(-n)+PV'"
+    "}",
+    "TVMEnd", "{"
+    " '(100*PYr)/I%Yr*Pmt*(1-(1+I%Yr/(100*PYr))^(-n))+FV*(1+I%Yr/(100*PYr))^(-n)+PV'"
+    "}",
+
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
     // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)

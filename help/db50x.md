@@ -6626,7 +6626,7 @@ for performance reason, many modern computers now support multiple page sizes.
 
 A constant often used in computer programs to denote joy, happiness and the
 emergence into the world of some new computer language.
-#Equations library
+# Equations library
 
 The DB50X calculator features a library of equations covering mathematics,
 physics, chemistry and computer science. The built-in equations can be extended
@@ -9479,6 +9479,45 @@ A=239  Z=94  AX=239  ZX=94  AY2=103  ZY2=40  mX=239.052157_u  mY1=133.90539466_u
 @ Expecting [ N=145 Δm=0.20283 55078 88 u Q=188.93999 7545 MeV ΔKtot=188.93999 7545 MeV AY1=134 ZY1=54 ]
 'ROOT(ⒺFission Reaction;[N;Δm;Q;ΔKtot;AY1;ZY1];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
+
+
+## Finance
+
+The `Finance` section contains equations to compute time value of money (TVM).
+The variables in the Finance section include:
+
+* `n`: The number of compounding periods. For example, a 30 years loan with
+       monthly payments has 360 compounding periods.
+* `I%Yr`: Interest rate per year in percent
+* `PYr`: Payments per year.
+* `Pmt`: The periodic payment amount.
+* `PV`: The present value of a series of future cash flows,
+        or the initial cash flow.
+* `FV`: The future value, that is the final cash flow
+        (balloon payment or remaining balance),
+        or the compounded value of a series of prior cash flows.
+
+### TVMBeg
+
+Time value of money equation when payments are made at the beginning of the
+period.
+
+```rpl
+n='9*12' I%Yr=5.75 PV=-155 Pmt=0 PYr=12
+@ Expecting FV=259.74210 1025
+'ROOT(ⒺTVMBeg;FV;0)'
+```
+
+### TVMEnd
+
+Time value of money equation when payments are made at the end of the period.
+
+```rpl
+n='5*12' I%Yr=13 PV=-63000 FV=10000 PYr=12
+@ Expecting Pmt=1 314.24620 468
+'ROOT(ⒺTVMEnd;Pmt;0)'
+```
+
 # Menus
 
 Menus display at the bottom of the screen, and can be activated using the keys

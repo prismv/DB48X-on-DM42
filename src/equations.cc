@@ -618,7 +618,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(kg/m^3))*(Ah_cm²)))' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/(vt_(m/s)))' "
-    "'xfr_ft=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/(vt_(m/s))*(1_s));t)*(1_s)' "
+    "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH(t*Ⓒg/(vt_(m/s)));t)' "
 //  This last integration shall work since it is stripped of units but it doesn't
 //  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral with units
 //  "'xfr_ft=(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -631,7 +631,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=IFTE((ρ_(kg/m^3))<(ρf_(kg/m^3));-1;1)*√(2*(Vol_m^3)/(Ah_m²)*ABS((ρ_(kg/m^3))/(ρf_(kg/m^3))-1)*Ⓒg/Cd)' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/ABS(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/ABS(vt_(m/s)))' "
-    "'xfr_m=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s));t)*(1_s)' "
+    "'xfr_m=(vt_(m/s))*∫(0_s;tfr_s;TANH(t*Ⓒg/(vt_(m/s)));t)' "
 //  This last integration shall work since it is stripped of units (but I tried and it also failed)
 //  "'xfr_m=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
 //  "'xfr_ft=? (175.74722 3631_ft/s)*∫(0;10.00590 25332;t*TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -1250,7 +1250,7 @@ static const cstring basic_equations[] =
     //T#*: 43 vars 56 eqns 7 sims 6 secs
     "Planck & Wien Comparison",  "{ "
     // Eqns order change. Modifications to eqns 5, 6, 9, 11 & 12
-    "'(fpeak_THz)=Ⓒc*UBASE(T_K)/Ⓒc3' "
+    "'(fpeak_THz)=UBASE(T_K)*Ⓒc3f' "
     "'(f1_THz)=Ⓒk*4*UBASE(T_K)/Ⓒh' "
     "'(f2_THz)=Ⓒk*9*UBASE(T_K)/Ⓒh' "
     "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);x)' "
@@ -1269,7 +1269,7 @@ static const cstring basic_equations[] =
 
     "Planck & Rayleigh‐Jeans Comparison",  "{ "
     // Eqns order change. Modifications to eqns 6, 9, 11 & 12
-    "'(fpeak_THz)=Ⓒc*UBASE(T_K)/Ⓒc3' "
+    "'(fpeak_THz)=UBASE(T_K)*Ⓒc3f' "
     "'(f1_THz)=Ⓒk*1.7*UBASE(T_K)/Ⓒh' "
     "'(f2_THz)=Ⓒk*3.7*UBASE(T_K)/Ⓒh' "
     "'FrPl12=15/Ⓒπ^4*∫(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*UBASE(T_K)));UBASE(Ⓒh*(f2_Hz)/(Ⓒk*UBASE(T_K)));x^3/expm1(x);x)' "

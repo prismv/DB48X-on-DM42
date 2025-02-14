@@ -5927,7 +5927,7 @@ bool user_interface::do_delete(bool forward)
         utf8 ed = rt.editor();
         if (cursor > select)
             cursor = utf8_previous(ed, cursor);
-        else
+        else if (~select)
             select = utf8_previous(ed, select);
         if (cursor == select)
             cursor = select = searching;

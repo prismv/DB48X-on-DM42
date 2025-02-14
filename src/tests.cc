@@ -9759,23 +9759,23 @@ void tests::constants_menu()
 
     step("Insert constant standard uncertainty from command line")
         .test(CLEAR, "Ⓢc", ENTER)
-        .expect("c")
+        .expect("Ⓢc")
         .test(ID_ToDecimal)
         .expect("0 m/s");
     step("Insert constant standard uncertainty from constants menu")
         .test(CLEAR, ID_ConstantsMenu, RSHIFT, F3, "c", ENTER)
-        .expect("c")
+        .expect("Ⓢc")
         .test(ID_ToDecimal)
         .expect("0 m/s");
 
     step("Insert constant relative uncertainty from command line")
         .test(CLEAR, "Ⓡc", ENTER)
-        .expect("c")
+        .expect("Ⓡc")
         .test(ID_ToDecimal)
         .expect("0");
     step("Insert constant relative uncertainty from constants menu")
         .test(CLEAR, ID_ConstantsMenu, RSHIFT, F5, "c", ENTER)
-        .expect("c")
+        .expect("Ⓡc")
         .test(ID_ToDecimal)
         .expect("0");
 

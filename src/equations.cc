@@ -1466,7 +1466,8 @@ const equation::config equation::equations =
     .nbuiltins      = sizeof(basic_equations) / sizeof(*basic_equations),
     .error          = invalid_equation_error,
     .label          = equation_label,
-    .show_builtins  = show_builtin_equations
+    .show_builtins  = show_builtin_equations,
+    .stack_prefix   = false,
 };
 
 

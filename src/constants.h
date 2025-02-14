@@ -80,6 +80,7 @@ struct constant : algebraic
         runtime &  (*error)();  // Emit error message
         symbol_p   (*label)(symbol_r); // Menu label adustment
         bool       (*show_builtins)(); // How to check if we show builtins
+        bool       stack_prefix;       // Show prefix on the stack
     };
     typedef const config &config_r;
 

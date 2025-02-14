@@ -805,22 +805,23 @@ const constant::config constant::constants =
 //  Define the configuration for the constants
 // ----------------------------------------------------------------------------
 {
-    .menu_help      = " Constants",
-    .help           = " Constant",
-    .prefix         = L'Ⓒ',
-    .type           = ID_constant,
-    .first_menu     = ID_ConstantsMenu00,
-    .last_menu      = ID_ConstantsMenu99,
-    .name           = ID_ConstantName,
-    .value          = ID_ConstantValue,
-    .command        = ID_object,
-    .file           = "config/constants.csv",
-    .library        = "library",
-    .builtins       = basic_constants,
-    .nbuiltins      = sizeof(basic_constants) / sizeof(*basic_constants),
-    .error          = invalid_constant_error,
-    .label          = nullptr,
-    .show_builtins  = show_builtin_constants,
+    .menu_help     = " Constants",
+    .help          = " Constant",
+    .prefix        = L'Ⓒ',
+    .type          = ID_constant,
+    .first_menu    = ID_ConstantsMenu00,
+    .last_menu     = ID_ConstantsMenu99,
+    .name          = ID_ConstantName,
+    .value         = ID_ConstantValue,
+    .command       = ID_object,
+    .file          = "config/constants.csv",
+    .library       = "library",
+    .builtins      = basic_constants,
+    .nbuiltins     = sizeof(basic_constants) / sizeof(*basic_constants),
+    .error         = invalid_constant_error,
+    .label         = nullptr,
+    .show_builtins = show_builtin_constants,
+    .stack_prefix  = false,
 };
 
 
@@ -863,7 +864,7 @@ size_t constant::do_rendering(config_r cfg, constant_p o, renderer &r)
     size_t     len = 0;
     utf8       txt = nullptr;
     txt = cst->do_name(cfg, &len);
-    if (r.editing())
+    if (r.editing() || cfg.stack_prefix)
         r.put(cfg.prefix);
     r.put(txt, len);
     return r.size();
@@ -1523,6 +1524,7 @@ const constant::config standard_uncertainty::standard =
     .error          = invalid_constant_error,
     .label          = nullptr,
     .show_builtins  = show_builtin_constants,
+    .stack_prefix  = true,
 };
 
 
@@ -1576,6 +1578,7 @@ const constant::config relative_uncertainty::relative =
     .error          = invalid_constant_error,
     .label          = nullptr,
     .show_builtins  = show_builtin_constants,
+    .stack_prefix   = true,
 };
 
 

@@ -5574,14 +5574,27 @@ bool user_interface::handle_functions(int key, object_p objp, bool user)
         if (key == KEY_ENTER || key == KEY_BSP)
             return false;
 
-        if (ac && key >= KEY_F1 && key <= KEY_F6)
+        if (key >= KEY_F1 && key <= KEY_F6)
         {
-            size_t start = 0;
-            size_t size  = 0;
-            if (current_word(start, size))
-                remove(start, size);
-            menu_refresh(menu::ID_Catalog, true);
-            ac = false;
+            if (ac)
+            {
+                size_t start = 0;
+                size_t size  = 0;
+                if (current_word(start, size))
+                    remove(start, size);
+                menu_refresh(menu::ID_Catalog, true);
+                ac = false;
+            }
+            else if (ty == object::ID_ConstantName)
+            {
+                unicode lc = character_left_of_cursor();
+                if (lc == L'Ⓒ' || lc == L'Ⓡ' || lc == L'Ⓢ')
+                {
+                    dirtyEditor = true;
+                    edRows = 0;
+                    return obj->insert() != object::ERROR;
+                }
+            }
         }
 
         if ((ty >= object::ID_Deg && ty <= object::ID_PiRadians) &&

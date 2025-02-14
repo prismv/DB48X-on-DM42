@@ -188,7 +188,11 @@ COMMAND_BODY(ConstantName)
 // ----------------------------------------------------------------------------
 {
     int key = ui.evaluating;
-    if (object_p cstobj = constant::do_key(constant::constants, key))
+    unicode pfx = ui.character_left_of_cursor();
+    const constant::config &cfg = pfx == L'Ⓡ' ? relative_uncertainty::relative
+                                : pfx == L'Ⓢ' ? standard_uncertainty::standard
+                                              : constant::constants;
+    if (object_p cstobj = constant::do_key(cfg, key))
         if (constant_p cst = cstobj->as<constant>())
             if (rt.push(cst))
                 return OK;
@@ -204,7 +208,9 @@ INSERT_BODY(ConstantName)
 // ----------------------------------------------------------------------------
 {
     int key = ui.evaluating;
-    return ui.insert_softkey(key, " Ⓒ", " ", false);
+    unicode prefix = ui.character_left_of_cursor();
+    bool noprefix = prefix == L'Ⓒ' || prefix == L'Ⓡ' || prefix == L'Ⓢ';
+    return ui.insert_softkey(key, noprefix ? "" : " Ⓒ", " ", false);
 }
 
 

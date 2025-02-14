@@ -1332,7 +1332,7 @@ object::result constant::lookup_command(config_r cfg, bool numerical)
 // ----------------------------------------------------------------------------
 {
     object_p name = rt.top();
-    if (object_p sym = name->as_quoted())
+    if (object_p sym = name->as_quoted(ID_object))
         name = sym;
 
     size_t len = 0;

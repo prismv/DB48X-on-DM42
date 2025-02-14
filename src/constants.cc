@@ -1373,6 +1373,7 @@ object::result constant::lookup_command(config_r cfg, bool numerical)
 
                 if (expression_p expr = value->as<expression>())
                 {
+                    settings::SaveNumericalResults snr(true);
                     value = expr->evaluate();
                 }
                 else if (unit_p u = unit::get(value))

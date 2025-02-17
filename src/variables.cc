@@ -1547,7 +1547,7 @@ static flag_conversion flag_conversions[] =
     {   -2,     object::ID_NumericalConstants           },
     {   -3,     object::ID_NumericalResults             },
     {   -4,     object::ID_CarefulEvaluation            },
-    {  -14,     object::ID_TVMBeginningOfPeriod         },
+    {  -14,     object::ID_TVMPayAtBeginningOfPeriod    },
     {  -20,     object::ID_UnderflowError               },
     {  -21,     object::ID_OverflowError                },
     {  -22,     object::ID_InfinityValue                },

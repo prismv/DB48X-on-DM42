@@ -30,6 +30,7 @@
 // ****************************************************************************
 
 #include "algebraic.h"
+#include "expression.h"
 #include "menu.h"
 
 COMMAND_DECLARE(TVMAmort, 1);
@@ -43,6 +44,9 @@ struct FinanceSolverMenu : menu
 // ----------------------------------------------------------------------------
 {
     FinanceSolverMenu(id type = ID_FinanceSolverMenu) : menu(type) {}
+
+    static expression_p equation();
+    static bool active();
 
 public:
     OBJECT_DECL(FinanceSolverMenu);

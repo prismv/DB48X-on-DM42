@@ -32,6 +32,7 @@
 #include "algebraic.h"
 #include "arithmetic.h"
 #include "equations.h"
+#include "finance.h"
 #include "functions.h"
 #include "grob.h"
 #include "integer.h"
@@ -2531,7 +2532,9 @@ list_p expression::current_equation(bool all, bool error)
 //   Return content of EQ variable
 // ----------------------------------------------------------------------------
 {
-    object_p obj = directory::recall_all(static_object(ID_Equation), false);
+    object_p obj  = FinanceSolverMenu::active()
+        ? FinanceSolverMenu::equation()
+        : directory::recall_all(static_object(ID_Equation), false);
     bool more = true;
     while (more)
     {

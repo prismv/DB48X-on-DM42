@@ -5270,7 +5270,7 @@ static const byte defaultShiftedCommand[2*user_interface::NUM_KEYS] =
     OP2BYTES(KEY_INV,   arithmetic::ID_exp),
     OP2BYTES(KEY_SQRT,  arithmetic::ID_sq),
     OP2BYTES(KEY_LOG,   function::ID_abs),
-    OP2BYTES(KEY_LN,    function::ID_ExpLogMenu),
+    OP2BYTES(KEY_LN,    function::ID_PowersMenu),
     OP2BYTES(KEY_XEQ,   menu::ID_EquationsMenu),
     OP2BYTES(KEY_STO,   menu::ID_ComplexMenu),
     OP2BYTES(KEY_RCL,   menu::ID_MemoryMenu),

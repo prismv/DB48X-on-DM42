@@ -355,7 +355,7 @@ MENU(MathMenu,
      "Real",    ID_RealMenu,
      "Cmplx",   ID_ComplexMenu,
      "Trig",    ID_CircularMenu,
-     "Vector",  ID_VectorMenu,
+     "Powers",  ID_PowersMenu,
      "Matrix",  ID_MatrixMenu,
      "Const",   ID_ConstantsMenu,
 
@@ -363,14 +363,14 @@ MENU(MathMenu,
      "Proba",   ID_ProbabilitiesMenu,
      "Stats",   ID_StatisticsMenu,
      "Solver",  ID_SolverMenu,
-     "Symb",    ID_SymbolicMenu,
+     "Vector",  ID_VectorMenu,
      "Eqns",    ID_EquationsMenu,
 
      "Signal",  ID_SignalProcessingMenu,
      "Bases",   ID_BasesMenu,
-     "Powers",  ID_PowersMenu,
      "Angles",  ID_AnglesMenu,
      "Poly",    ID_PolynomialsMenu,
+     "Symb",    ID_SymbolicMenu,
      "Frac",    ID_FractionsMenu);
 
 
@@ -394,7 +394,7 @@ MENU(RealMenu,
 
      "Trig",    ID_CircularMenu,
      "Hyper",   ID_HyperbolicMenu,
-     "Exp/Log", ID_ExpLogMenu,
+     "Powers",  ID_PowersMenu,
      "Prob",    ID_ProbabilitiesMenu,
      "Angles",  ID_AnglesMenu,
      "Parts",   ID_PartsMenu);
@@ -586,20 +586,8 @@ MENU(HyperbolicMenu,
 //   Hyperbolic operations
 // ----------------------------------------------------------------------------
      ID_sinh,   ID_cosh,        ID_tanh,
-     ID_asinh,  ID_acosh,       ID_atanh);
-
-MENU(ExpLogMenu,
-// ----------------------------------------------------------------------------
-//   Exp and log operations
-// ----------------------------------------------------------------------------
-     ID_exp,    ID_log,
-     ID_exp10,  ID_log10,
-     ID_expm1,  ID_log1p,
-     ID_exp2,
-     ID_log2,
-     "fhbs",    ID_Unimplemented,
-     "flbsc",   ID_Unimplemented,
-     "popcnt",  ID_Unimplemented);
+     ID_asinh,  ID_acosh,       ID_atanh,
+     "Powers", ID_PowersMenu);
 
 MENU(CircularMenu,
 // ----------------------------------------------------------------------------
@@ -1296,13 +1284,19 @@ MENU(PowersMenu,
 // ----------------------------------------------------------------------------
 //   Menu with the common powers
 // ----------------------------------------------------------------------------
-     ID_sq,
-     ID_cubed,
-     ID_pow,
-     ID_sqrt,
-     ID_cbrt,
-     ID_xroot);
+     ID_exp,    ID_log,
+     ID_exp10,  ID_log10,
+     ID_sq,     ID_sqrt,
 
+     ID_exp2,   ID_log2,
+     ID_expm1,  ID_log1p,
+     ID_cubed,  ID_cbrt,
+
+     ID_pow, ID_xroot,
+     "FstSet",  ID_Unimplemented,
+     "LstSet",  ID_Unimplemented,
+     "popcnt",  ID_Unimplemented,
+     "Hyper",   ID_HyperbolicMenu);
 
 MENU(FractionsMenu,
 // ----------------------------------------------------------------------------

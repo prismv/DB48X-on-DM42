@@ -34,6 +34,7 @@
 #include "menu.h"
 
 COMMAND_DECLARE(TVMAmort, 1);
+COMMAND_DECLARE(TVMAmortTable, 1);
 COMMAND_DECLARE(TVMRoot, 1);
 COMMAND_DECLARE(TVMEquation, 0);
 

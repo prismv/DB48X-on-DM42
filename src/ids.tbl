@@ -859,7 +859,11 @@ CMD(Random)
 //
 // ============================================================================
 
-NAMED(TVMAmort, "TVMAmortize")          ALIAS(TVMAmort, "Amort")
+NAMED(TVMAmort, "TVMAmortize")
+ALIAS(TVMAmort, "Amort")
+NAMED(TVMAmortTable, "TVMAmortizationTable")
+ALIAS(TVMAmortTable, "AmortTable")
+ALIAS(TVMAmortTable, "AmortizationSchedule")
 CMD(TVMRoot)
 CMD(TVMEquation)
 

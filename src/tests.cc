@@ -10907,9 +10907,29 @@ void tests::financial_functions()
         .got("Balance:199.38", "Interest:-3 999.38", "Principal:-19 800.62")
         .test(CLEAR, "120 AMORT", ENTER)
         .got("Balance:0.", "Interest:-4 000.", "Principal:-20 000.");
+    step("Amortization table (payment at end)")
+        .test(CLEAR, "5 AMORTTABLE", ENTER)
+        .want("[[ -62.28 -137.72 19 862.28 ]"
+              " [ -61.85 -138.15 19 724.14 ]"
+              " [ -61.42 -138.58 19 585.56 ]"
+              " [ -60.99 -139.01 19 446.56 ]"
+              " [ -60.56 -139.44 19 307.12 ]]");
+    step("Amortization table with first (payment at end)")
+        .test(CLEAR, "{ 5 } AMORTTABLE", ENTER)
+        .want("[[ -307.12 -692.88 19 307.12 ]]");
+    step("Amortization table with first and count (payment at end)")
+        .test(CLEAR, "{ 5 2 } AMORTTABLE", ENTER)
+        .want("[[ -307.12 -692.88 19 307.12 ]"
+              " [ -60.13 -139.87 19 167.24 ]]");
+    step("Amortization table with first, count and step (payment at end)")
+        .test(CLEAR, "{ 5 7 2 } AMORTTABLE", ENTER)
+        .want("[[ -367.24 -832.76 19 167.24 ]"
+              " [ -118.94 -281.06 18 886.19 ]"
+              " [ -117.19 -282.81 18 603.38 ]]");
     step("TVM equation (payment at end)")
         .test(CLEAR, "TVMEquation", ENTER)
-        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))"
+                "+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
 
     step("Switching to payment at beginning")
         .test(CLEAR, "TVMBEG", ENTER).noerror();
@@ -10933,16 +10953,37 @@ void tests::financial_functions()
         .got("Balance:248.17", "Interest:-9 998.17", "Principal:-19 751.83")
         .test(CLEAR, "120 AMORT", ENTER)
         .got("Balance:0.", "Interest:-10 000.", "Principal:-20 000.");
-    step("TVM equation (payment at end)")
+    step("Amortization table (payment at beginning)")
+        .test(CLEAR, "5 AMORTTABLE", ENTER)
+        .want("[[ -147.68 -102.32 19 897.68 ]"
+              " [ -146.92 -103.08 19 794.6 ]"
+              " [ -146.16 -103.84 19 690.76 ]"
+              " [ -145.39 -104.61 19 586.16 ]"
+              " [ -144.62 -105.38 19 480.78 ]]");
+    step("Amortization table with first (payment at beginning)")
+        .test(CLEAR, "{ 5 } AMORTTABLE", ENTER)
+        .want("[[ -730.78 -519.22 19 480.78 ]]");
+    step("Amortization table with first and count (payment at beginning)")
+        .test(CLEAR, "{ 5 2 } AMORTTABLE", ENTER)
+        .want("[[ -730.78 -519.22 19 480.78 ]"
+              " [ -143.84 -106.16 19 374.62 ]]");
+    step("Amortization table with first, count and step (payment at beginning)")
+        .test(CLEAR, "{ 5 7 2 } AMORTTABLE", ENTER)
+        .want("[[ -874.62 -625.38 19 374.62 ]"
+              " [ -285.33 -214.67 19 159.95 ]"
+              " [ -282.15 -217.85 18 942.1 ]]");
+    step("TVM equation (payment at beginning)")
         .test(CLEAR, "TVMEquation", ENTER)
-        .expect("'(1+I%Yr÷(100·PYr))·(100·PYr)÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+        .expect("'(1+I%Yr÷(100·PYr))·(100·PYr)÷I%Yr·Pmt·"
+                "(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
 
     step("Clear payment settings")
         .test(CLEAR, "'TVMBEG' PURGE", ENTER).noerror();
 
     step("TVM equation (restored)")
         .test(CLEAR, "TVMEquation", ENTER)
-        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))"
+                "+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
     step("Cleanup")
         .test(CLEAR, "{ PYr n I%Yr Pmt FV PV } PURGE", ENTER).noerror();
 }

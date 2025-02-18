@@ -10981,6 +10981,40 @@ I%Yr=10 PV=15000 PYr=12 FV=0 n=120 TVMEnd
 ```
 
 
+## AmortTable
+
+Build an amortization table based on the current amortization settings.
+Values must be stored in the TVM variables (`I%Yr`, `PV`, `Pmt`, and `PYr`). The
+number of payments `n` is taken from the input together with flag –14
+(`TVMPayAtBeginningOfPeriod` / `TVMPayAtEndOfPeriod`).
+
+Given the number of payments `n`, the command deposits the amortization table
+for the first `n` periods on the stack. If `n` is negative, then its value is
+read from the `n` variable.
+
+If the first level of the stack is a list, it can contain up to three values:
+
+* The first period for which amortization is computed
+* The number of amortization periods
+* The step interval between amortization periods
+
+All three values default to 1.
+
+For example, to compute the amortization table of a home loan for $250,000 with
+a downpayment of $62,500, an interest rate of 5.25% for 30 years, use the
+following code:
+
+```rpl
+@ Set loan initial conditions
+I%Yr=5.25 n='30*12' PYr=12 FV=0 PV='250000-62500'
+
+@ Compute payment
+'Pmt' TVMRoot
+
+@ Compute amortization table
+25 AmortTable
+```
+
 
 ## TVMPayAtBeginningOfPeriod
 

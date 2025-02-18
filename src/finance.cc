@@ -129,8 +129,8 @@ COMMAND_BODY(TVMAmort)
         if (!rt.error())
         {
             algebraic_g principal = integer::make(0);
-            algebraic_g interest = integer::make(0);
-            algebraic_g balance = pv;
+            algebraic_g interest  = integer::make(0);
+            algebraic_g balance   = pv;
 
             algebraic_g mi, mp;
 
@@ -158,6 +158,107 @@ COMMAND_BODY(TVMAmort)
             if (ptag && itag && btag)
                 if (rt.top(+ptag) && rt.push(+itag) && rt.push(+btag))
                     return OK;
+        }
+    }
+
+    return ERROR;
+}
+
+
+COMMAND_BODY(TVMAmortTable)
+// ----------------------------------------------------------------------------
+//   Amortize payments table
+// ----------------------------------------------------------------------------
+{
+    object_p num = rt.top();
+    int first = 1, count = 1, step = 1;
+    if (list_g args = num->as_array_or_list())
+    {
+        list::iterator it  = args->begin();
+        list::iterator end = args->end();
+        if (it != end)
+        {
+            if (algebraic_g fst = (*it++)->as_algebraic())
+                first = fst->as_int32(1, false);
+            if (it != end && !rt.error())
+            {
+                if (algebraic_g cnt = (*it++)->as_algebraic())
+                    count = cnt->as_int32(1, false);
+                if (it != end && !rt.error())
+                {
+                    if (algebraic_g stp = (*it++)->as_algebraic())
+                        step = stp->as_int32(1, false);
+                }
+            }
+
+        }
+    }
+    else
+    {
+        count = num->as_uint32(1, true);
+    }
+
+    // If the last is zero, use the value of the `n` variabe
+    if (count < 0 && !rt.error())
+    {
+        if (algebraic_p nval = tvm_variable("n"))
+            count = nval->as_int32(1, true);
+    }
+    if (!rt.error())
+    {
+        algebraic_g iyr = tvm_variable("I%Yr");
+        algebraic_g pyr = tvm_variable("PYr");
+        algebraic_g pmt = tvm_variable("Pmt");
+        algebraic_g pv  = tvm_variable("PV");
+        algebraic_g ipp = integer::make(100);
+        ipp = iyr / pyr / ipp;
+
+        if (!rt.error())
+        {
+            algebraic_g principal = integer::make(0);
+            algebraic_g interest  = integer::make(0);
+            algebraic_g balance   = pv;
+
+            algebraic_g mi, mp;
+            scribble    ascr;
+
+            int         last = first + count;
+            int         s    = 1;
+            for (int i = 1; i < last; i++)
+            {
+                if (i || Settings.TVMPayAtEndOfPeriod())
+                    mi = -balance * ipp; // Monthly interest
+                else
+                    mi = integer::make(0);
+                mp = pmt - mi;
+
+                interest = interest + mi;
+                principal = principal + mp;
+                balance = balance + mp;
+
+                if (i >= first)
+                {
+                    if (++s > step)
+                    {
+                        algebraic_g p = principal;
+                        algebraic_g i = interest;
+                        algebraic_g b = balance;
+                        FinanceSolverMenu::round(p);
+                        FinanceSolverMenu::round(i);
+                        FinanceSolverMenu::round(b);
+                        array_p row = array_p(list::make(ID_array, i, p, b));
+                        rt.append(row);
+                        s = 1;
+                        interest = integer::make(0);
+                        principal = integer::make(0);
+                    }
+                }
+            }
+
+            array_p result = array_p(list::make(ID_array,
+                                                ascr.scratch(), ascr.growth()));
+            if (result && rt.top(result))
+                return OK;
         }
     }
 

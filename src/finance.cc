@@ -67,6 +67,7 @@ bool FinanceSolverMenu::active()
 
 
 static cstring tvm_vars[] = { "PYr", "n", "I%Yr", "Pmt", "FV", "PV" };
+static uint tvm_value[] = { 12, 12, 3, 0, 0, 0 };
 
 
 static void tvm_init()
@@ -75,16 +76,10 @@ static void tvm_init()
 // ----------------------------------------------------------------------------
 {
     for (uint i = 0; i < sizeof(tvm_vars)/sizeof(tvm_vars[0]); i++)
-    {
         if (symbol_g sym = symbol::make(tvm_vars[i]))
-        {
             if (!directory::recall_all(sym, false))
-            {
-                if (integer_g ival = integer::make(i < 2 ? 12 : 0))
+                if (integer_g ival = integer::make(tvm_value[i]))
                     directory::store_here(sym, ival);
-            }
-        }
-    }
 }
 
 

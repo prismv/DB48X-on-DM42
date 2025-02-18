@@ -596,6 +596,8 @@ algebraic_p Root::solve(algebraic_g &eq,
         // Actual solving
         if (algebraic_g x = solve(pgm, var, guess))
         {
+            if (FinanceSolverMenu::active())
+                FinanceSolverMenu::round(x);
             if (symbol_p name = var->as_quoted<symbol>())
                 x = assignment::make(name, x);
             if (x && !rt.error())

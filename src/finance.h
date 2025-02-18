@@ -47,6 +47,7 @@ struct FinanceSolverMenu : menu
 
     static expression_p equation();
     static bool active();
+    static bool round(algebraic_g &value);
 
 public:
     OBJECT_DECL(FinanceSolverMenu);

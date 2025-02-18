@@ -10910,6 +10910,22 @@ equation-related features such as `NxEq` or `EvalEq`.
 TVM
 ```
 
+## FinanceRounding
+
+This setting defines the number of digits values returned by finance values will be rounded two. The default avalue is `2`.
+
+```rpl
+@ Set finance rounding to 10 digits
+10 FinanceRounding
+
+@ Reset finance rounding to default
+'FinanceRounding' Purge
+
+@ Check current value for finance rounding
+'FinanceRounding' RCL
+@ Expecting 2
+```
+
 ## TVMRoot
 
 Solves for the specified TVM variable using values from the remaining TVM
@@ -10953,7 +10969,7 @@ I%Yr=10 PV=15000 PYr=12 FV=0 n=120 TVMEnd
 @ Compute amortization data after 6 months and put it in a vector
 6 Amort →V3
 
-@ Expecting [ -448.61223 579 -740.74439 6146 14 551.38776 42 ]
+@ Expecting [ -448.61 -740.74 14 551.39 ]
 ```
 
 
@@ -10976,7 +10992,7 @@ I%Yr=1.5 Pmt=-200 PYr=12 FV=0 n=24 TVMBeg
 @ Compute amortization data after 24 months and put it in a vector
 n Amort →V3
 
-@ Expecting [ -4 731.71294 935 -68.28705 06536 -1.45928⁳⁻¹⁶ ]
+@ Expecting [ -4 731.71 -68.29 0. ]
 ```
 
 
@@ -11001,7 +11017,7 @@ I%Yr=1.5 Pmt=-200 PYr=12 FV=0 n=60 TVMEnd
 @ Compute amortization data after 60 months and put it in a vector
 n Amort →V3
 
-@ Expecting [ -11 554.08974 14 -445.91025 8561 -3.94073⁳⁻¹⁶ ]
+@ Expecting [ -11 554.09 -445.91 0. ]
 ```
 # Flags
 

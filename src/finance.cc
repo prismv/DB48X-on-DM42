@@ -66,6 +66,20 @@ bool FinanceSolverMenu::active()
 }
 
 
+bool FinanceSolverMenu::round(algebraic_g &value)
+// ----------------------------------------------------------------------------
+//   Apply finance rounding to TVM values
+// ----------------------------------------------------------------------------
+{
+    if (value && value->is_decimal())
+    {
+        value = decimal_p(+value)->round(-large(Settings.FinanceRounding()));
+        return value;
+    }
+    return false;
+}
+
+
 static cstring tvm_vars[] = { "PYr", "n", "I%Yr", "Pmt", "FV", "PV" };
 static uint tvm_value[] = { 12, 12, 3, 0, 0, 0 };
 
@@ -133,6 +147,10 @@ COMMAND_BODY(TVMAmort)
                 balance = balance + mp;
             }
 
+            FinanceSolverMenu::round(principal);
+            FinanceSolverMenu::round(interest);
+            FinanceSolverMenu::round(balance);
+
             tag_g ptag = tag::make("Principal", +principal);
             tag_g itag = tag::make("Interest", +interest);
             tag_g btag = tag::make("Balance", +balance);
@@ -174,8 +192,9 @@ COMMAND_BODY(TVMRoot)
                 if (!value)
                     value = integer::make(0);
                 value = Root::solve(eq, name, value);
+                FinanceSolverMenu::round(value);
                 value = assignment::make(name, value);
-               return value && rt.top(value) ? OK : ERROR;
+                return value && rt.top(value) ? OK : ERROR;
             }
         }
     }

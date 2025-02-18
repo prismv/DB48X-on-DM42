@@ -134,6 +134,7 @@ TESTS(cycle,            "Cycle command for quick conversions");
 TESTS(rotate,           "Shift and rotate instructions");
 TESTS(flags,            "User flags");
 TESTS(explode,          "Extracting object structure");
+TESTS(finance,          "Financial functions and solver");
 TESTS(regressions,      "Regression checks");
 TESTS(plotting,         "Plotting, graphing and charting");
 TESTS(graphics,         "Graphic commands");
@@ -181,17 +182,15 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-        {
-            graphic_commands();
-            list_functions();
-            text_functions();
-        }
+            financial_functions();
+#if 0
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
             demo_math();
         if (onlyCurrent & 8)
             demo_pgm();
+#endif
     }
     else
     {
@@ -268,6 +267,7 @@ void tests::run(uint onlyCurrent)
         expression_operations();
         random_number_generation();
         object_structure();
+        financial_functions();
         library();
         check_help_examples();
         regression_checks();
@@ -10873,6 +10873,78 @@ void tests::object_structure()
     step("Obj→ on tags")
         .test(CLEAR, ":abc:1.5", ENTER, ID_ObjectMenu, ID_Explode)
         .got("\"abc\"", "1.5");
+}
+
+
+void tests::financial_functions()
+// ----------------------------------------------------------------------------
+//   Test financial functions
+// ----------------------------------------------------------------------------
+{
+    BEGIN(finance);
+
+    step("Show TVM Menu")
+        .test(CLEAR, "TVM", ENTER)
+        .image_noheader("tvm-menu");
+
+    step("Solve for present value")
+        .test(CLEAR, "-200", F2).expect("Pmt=-200")
+        .test(LSHIFT, F5).expect("PV=2 361.45");
+    step("Solve for payment")
+        .test(CLEAR, "24", F6).expect("n=24")
+        .test(LSHIFT, F2).expect("Pmt=-101.5");
+    step("Solve for interest rate")
+        .test(CLEAR, "120", F6).expect("n=120")
+        .test("20000", F5).expect("PV=20 000")
+        .test("-200", F2).expect("Pmt=-200")
+        .test(LSHIFT, F1).expect("I%Yr=3.74");
+    step("Amortization (payment at end)")
+        .test(CLEAR, "0 AMORT", ENTER)
+        .got("Balance:20 000", "Interest:0", "Principal:0")
+        .test(CLEAR, "1 AMORT", ENTER)
+        .got("Balance:19 862.28", "Interest:-62.28", "Principal:-137.72")
+        .test(CLEAR, "119 AMORT", ENTER)
+        .got("Balance:199.38", "Interest:-3 999.38", "Principal:-19 800.62")
+        .test(CLEAR, "120 AMORT", ENTER)
+        .got("Balance:0.", "Interest:-4 000.", "Principal:-20 000.");
+    step("TVM equation (payment at end)")
+        .test(CLEAR, "TVMEquation", ENTER)
+        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+
+    step("Switching to payment at beginning")
+        .test(CLEAR, "TVMBEG", ENTER).noerror();
+    step("Solve for present value")
+        .test(CLEAR, "-200", F2).expect("Pmt=-200")
+        .test(LSHIFT, F5).expect("PV=20 062.28");
+    step("Solve for payment")
+        .test(CLEAR, "24", F6).expect("n=24")
+        .test(LSHIFT, F2).expect("Pmt=-866.16");
+    step("Solve for interest rate")
+        .test(CLEAR, "120", F6).expect("n=120")
+        .test("20000", F5).expect("PV=20 000")
+        .test("-250", F2).expect("Pmt=-250")
+        .test(LSHIFT, F1).expect("I%Yr=8.86");
+    step("Amortization (payment at beginning)")
+        .test(CLEAR, "0 AMORT", ENTER)
+        .got("Balance:20 000", "Interest:0", "Principal:0")
+        .test(CLEAR, "1 AMORT", ENTER)
+        .got("Balance:19 750", "Interest:0", "Principal:-250")
+        .test(CLEAR, "119 AMORT", ENTER)
+        .got("Balance:248.17", "Interest:-9 998.17", "Principal:-19 751.83")
+        .test(CLEAR, "120 AMORT", ENTER)
+        .got("Balance:0.", "Interest:-10 000.", "Principal:-20 000.");
+    step("TVM equation (payment at end)")
+        .test(CLEAR, "TVMEquation", ENTER)
+        .expect("'(1+I%Yr÷(100·PYr))·(100·PYr)÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+
+    step("Clear payment settings")
+        .test(CLEAR, "'TVMBEG' PURGE", ENTER).noerror();
+
+    step("TVM equation (restored)")
+        .test(CLEAR, "TVMEquation", ENTER)
+        .expect("'100·PYr÷I%Yr·Pmt·(1-(1+I%Yr÷(100·PYr))↑(-n))+FV·(1+I%Yr÷(100·PYr))↑(-n)+PV'");
+    step("Cleanup")
+        .test(CLEAR, "{ PYr n I%Yr Pmt FV PV } PURGE", ENTER).noerror();
 }
 
 

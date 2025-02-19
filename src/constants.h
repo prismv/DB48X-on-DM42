@@ -268,4 +268,5 @@ public:
     static const config relative;
 };
 
+
 #endif // CONSTANT_H

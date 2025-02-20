@@ -9930,6 +9930,9 @@ void tests::constants_menu()
     step("Vaccuum permeability")
         .test(CLEAR, NOSHIFT, F2).expect("μ₀")
         .test(LSHIFT, F2).expect("0.00000 12566 37 H/m");
+    step("Coulomb constant")
+        .test(CLEAR, NOSHIFT, F3).expect("ke")
+        .test(LSHIFT, F3).expect("8.98755 17862⁳⁹ N·m↑2/C↑2");
 
     // ------------------------------------------------------------------------
     step("Mass constants")
@@ -10126,19 +10129,15 @@ void tests::constants_menu()
     step(" qε₀ product")
         .test(CLEAR, NOSHIFT, F2).expect("qε₀")
         .test(LSHIFT, F2).expect("1.41859 72836 3⁳⁻³⁰ F·C/m");
-    step("Coulomb constant")
-        .test(CLEAR, NOSHIFT, F3).expect("ke")
-        .test(LSHIFT, F3).expect("8.98755 17862⁳⁹ N·m↑2/C↑2");
     step("Dielectric constant")
-        .test(CLEAR, NOSHIFT, F4).expect("εsi")
-        .test(LSHIFT, F4).expect("11.9");
+        .test(CLEAR, NOSHIFT, F3).expect("εsi")
+        .test(LSHIFT, F3).expect("11.9");
     step("SiO2 dielectric constant")
-        .test(CLEAR, NOSHIFT, F5).expect("εox")
-        .test(LSHIFT, F5).expect("3.9");
+        .test(CLEAR, NOSHIFT, F4).expect("εox")
+        .test(LSHIFT, F4).expect("3.9");
     step("Sound reference intensity")
-        .test(NOSHIFT, F6)
-        .test(CLEAR, NOSHIFT, F1).expect("ε₀q")
-        .test(LSHIFT, F1).expect("55 263 493.618 F/(m·C)");
+        .test(CLEAR, NOSHIFT, F5).expect("I₀")
+        .test(LSHIFT, F5).expect("1.⁳⁻¹² W/m↑2");
 
 
     // ------------------------------------------------------------------------

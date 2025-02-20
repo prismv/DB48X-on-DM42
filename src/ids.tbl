@@ -725,6 +725,9 @@ NAMED(ASRC, "ArithmeticShiftRightCount")
 CMD(SetBit)
 CMD(ClearBit)
 CMD(FlipBit)
+CMD(FirstBitSet)
+CMD(LastBitSet)
+CMD(CountBits)
 
 // Binary operations
 OP(NAnd,        "nand")

@@ -182,7 +182,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            financial_functions();
+            logical_operations();
 #if 0
         if (onlyCurrent & 2)
             demo_ui();
@@ -2682,6 +2682,38 @@ void tests::logical_operations()
     step("Check that deal with logical")
         .test(CLEAR, "100. #45 AND", ENTER).expect("True")
         .test(CLEAR, "#45 100. AND", ENTER).expect("True");
+
+
+    step("Use large word size")
+        .test(CLEAR, "1024 STWS", ENTER).noerror();
+
+    step("First bit set (integer)")
+        .test(CLEAR, "16#147800 FirstBitSet", ENTER)
+        .expect("11");
+    step("First bit set (zero)")
+        .test(CLEAR, "16#0 FirstBitSet", ENTER)
+        .expect("-1");
+    step("First bit set (bignum)")
+        .test(CLEAR, "16#147800 75 SLC FirstBitSet", ENTER)
+        .expect("86");
+    step("Last bit set (integer)")
+        .test(CLEAR, "16#147800 LastBitSet", ENTER)
+        .expect("21");
+    step("Last bit set (zero)")
+        .test(CLEAR, "16#0 LastBitSet", ENTER)
+        .expect("-1");
+    step("Last bit set (bignum)")
+        .test(CLEAR, "16#147800 75 SLC LastBitSet", ENTER)
+        .expect("96");
+    step("Count bits set (integer)")
+        .test(CLEAR, "16#147800 CountBits", ENTER)
+        .expect("6");
+    step("Count bits set (bignum)")
+        .test(CLEAR, "16#147800 75 SLC CountBits", ENTER)
+        .expect("6");
+
+    step("Restore word size")
+        .test(CLEAR, "'WordSize' PURGE", ENTER).noerror();
 }
 
 

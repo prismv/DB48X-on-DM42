@@ -652,10 +652,10 @@ MENU(BasesMenu,
      "SetBit",  ID_SetBit,
      "ClrBit",  ID_ClearBit,
      "FlipBit", ID_FlipBit,
-     "FstSet",  ID_Unimplemented,
-     "LstSet",  ID_Unimplemented,
+     "FstSet",  ID_FirstBitSet,
+     "LstSet",  ID_LastBitSet,
 
-     "PopCnt",  ID_Unimplemented,
+     "CntBits", ID_CountBits,
      "1-comp",  ID_OnesComplement,
      "2-comp",  ID_TwosComplement,
      "Modern",  ID_ModernBasedNumbers);

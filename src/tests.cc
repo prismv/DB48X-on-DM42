@@ -6932,7 +6932,7 @@ void tests::numerical_integration_testing()
     step("Integrate with expression")
         .test(CLEAR, "1 2 '1/X' 'X' INTEGRATE", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, ID_log, ID_subtract).expect("-3.15⁳⁻²²");
+        .test(KEY2, ID_log, ID_subtract).expect("1.55318⁳⁻¹⁸");
     step("Integration through menu")
         .test(CLEAR, 2, ENTER).expect("2")
         .test(3, ENTER).expect("3")
@@ -6952,23 +6952,31 @@ void tests::numerical_integration_testing()
         .noerror().expect("0.69314 71805 63")
         .test(KEY2, ID_log, ID_subtract).expect("3.25558 45962 2⁳⁻¹²");
     step("Integrate with high precision")
-        .test(CLEAR, "1 IntegrationImprecision", ENTER)
+        .test(CLEAR, "1 IntegrationImprecision  24 Sig", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .error("Numerical precision lost");
     step("Integrate with limited loops")
         .test(CLEAR, "15 IntegrationImprecision", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
-        .noerror().expect("0.69314 71805 6")
+        .noerror().expect("0.69314 71805 59937 67585 3282")
         .test(KEY2, ID_log, ID_subtract).expect("-7.63356 3958⁳⁻¹⁵")
         .test("5 IntegrationIterations", ENTER)
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .error("Numerical precision lost");
     step("Integrate with restored settings")
-        .test(CLEAR, "{ IntegrationImprecision IntegrationIterations } Purge",
+        .test(CLEAR,
+              "{ IntegrationImprecision IntegrationIterations } Purge Std",
               ENTER).noerror()
         .test("1 2 '1/X' 'X' ∫", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, ID_log, ID_subtract).expect("-3.15⁳⁻²²");
+        .test(KEY2, ID_log, ID_subtract).expect("1.55318⁳⁻¹⁸");
+
+    step("Integrate with display-induced imprecision")
+        .test(CLEAR, "3 FIX", ENTER).noerror()
+        .test("1 2 '1/X' 'X' ∫", ENTER).expect("6.931⁳⁻¹")
+        .test(ID_DisplayModesMenu, ID_Std).expect("0.69314 56549 79")
+        .test(KEY2, ID_log, ID_subtract).expect("-0.00000 15255 81");
+
 
     step("Integration with error on low bound")
         .test(CLEAR, "0 1 'sin(x)/x' 'x'", ENTER)

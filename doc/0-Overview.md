@@ -16,6 +16,7 @@ You can also [try it in your browser](http://48calc.org).
 
 * [Using the on-line help](#help)
 * [Quickstart guide](#quickstart-guide)
+* [Programming examples](#rpl-programming-examples)
 * [State of the project](#state-of-the-project)
 * [Design overview](#design-overview)
 * [Keyboard interaction](#keyboard-interaction)

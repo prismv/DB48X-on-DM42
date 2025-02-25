@@ -2251,6 +2251,19 @@ An expression that contains an equal sign, e.g. `sin X + 1 = cos X`, is called
 an *equation*. It can be given as an argument to the solver.
 
 
+## Symbols
+
+A symbol is a sequence of characters such as `Hello` or `A→B` that can be used
+ot identify variables. Evaluating a symbol evaluates the underlying variable if
+it exists, or evaluates as itself otherwise.
+
+## Programs
+
+Programs are represented as RPL objects enclosed between the `«` and `»`
+delimiters, and containing a sequence of RPL objects. Running (or evaluating) a
+program is done using the `Run` or `Eval` commands, which evaluate each RPL
+object in the program in turn.
+
 ## Lists
 
 Lists are sequence of items between curly braces, such as `{ 1 'A' "Hello" }`.
